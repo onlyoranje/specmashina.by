@@ -117,8 +117,9 @@
                                 $(".cl_" + model + "_" + i).remove();
                             }
                             //alert(level)
-                            var sel = $('<select class="form-select" required="required" name="' + model + '_id" onchange="newSelect(\'' + model + '\',this,' + level + ')">');
 
+                            var sel = $('<select class="form-select" required="required" name="' + model + '_id" onchange="newSelect(\'' + model + '\',this,' + level + ')">');
+                            $("#container_" + model).append($(sel))
                             sel.append($("<option disabled selected>- выбрать -</option>"))
                             $(json).each(function () {
                                 if (this.parent_id == pid) {
