@@ -18,6 +18,10 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignId('bb_id')->constrained()->onDelete ('cascade');
             $table->string('url');
+            $table->unsignedBigInteger('sort')->default(500);
+            $table->unsignedBigInteger('size')->nullable();
+            $table->string('original_name')->nullable();
+            $table->string('type')->nullable();
 
         });
     }

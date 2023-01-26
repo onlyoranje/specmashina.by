@@ -1,5 +1,5 @@
-@extends('layouts.layout')
-@section('main_section')
+@extends('layouts.dashboard')
+@section('main')
     <div class="breadcrumbs overlay">
         <div class="container">
             <div class="row">

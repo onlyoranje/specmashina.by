@@ -54,6 +54,7 @@
 .image-uploader .uploaded {
     padding: .5rem;
     line-height: 0;
+    display: block;
 }
 
 .image-uploader .uploaded .uploaded-image {
@@ -63,7 +64,7 @@
     height: 0;
     position: relative;
     margin: .5rem;
-    background: #f3f3f3;
+    /*background: #f3f3f3;*/
     cursor: default;
 }
 
@@ -87,7 +88,18 @@
     -webkit-appearance: none;
     border: none;
 }
+.image-uploader .uploaded .uploaded-image .main-image {
 
+    cursor: pointer;
+    position: absolute;
+    top: .2rem;
+    left: .2rem;
+    border-radius: 50%;
+    padding: .3rem;
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-appearance: none;
+    border: none;
+}
 .image-uploader .uploaded .uploaded-image:hover .delete-image {
     display: block;
 }

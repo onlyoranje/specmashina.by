@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rubric;
 use Illuminate\Http\Request;
 
 class RubricsController extends Controller
@@ -29,6 +30,7 @@ class RubricsController extends Controller
 
     }
     public function rubrics(){
+
         $rubrics = Rubric::orderBy('sort')->get()->toTree();
         return view('rubric_dashboard',compact('rubrics'));
 

@@ -1,9 +1,8 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.dashboard')
+@section('title', 'Главная')
+
+@section('main')
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -14,7 +13,8 @@
                     <ul>
                         <li><a href="{{route('mybb')}}"> Мои объявления</a></li>
                         <li>Моя организация</li>
-                        <li>Список городов</li>
+                        <li><a href="{{route('location_dashboard')}}">Список городов</a></li>
+                        <li><a href="{{route('rubric_dashboard')}}"> Список категорий</a></li>
                     </ul>
                 </div>
             </div>
@@ -22,4 +22,4 @@
     </div>
 
 
-</x-app-layout>
+@endsection

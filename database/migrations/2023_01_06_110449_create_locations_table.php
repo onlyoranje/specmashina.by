@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('title',100);
 
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->foreign('parent_id')->references('id')->on('locations')->onDelete('restrict');
+            //$table->unsignedBigInteger('parent_id')->nullable();
+            //$table->foreign('parent_id')->references('id')->on('locations')->onDelete('restrict');
             $table->unsignedBigInteger('sort')->default(500);
-            //$table->nestedSet();
+            $table->nestedSet();
             $table->unsignedBigInteger('level')->nullable();
             $table->timestamps();
         });

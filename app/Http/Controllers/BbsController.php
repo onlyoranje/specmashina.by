@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bb;
+use App\Models\Rubric;
 use Illuminate\Http\Request;
 
 class BbsController extends Controller
@@ -13,6 +14,7 @@ class BbsController extends Controller
         return view('welcome', $context);
     }
     public function detail(Bb $bb) {
+       // $rubric = $bb->rubric();
         return view('detail', ['bb' => $bb]);
     }
 }

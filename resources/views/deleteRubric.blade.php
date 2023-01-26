@@ -1,6 +1,6 @@
-@extends('layouts.layout')
+@extends('layouts.dashboard')
 @section('title',' Удаление раздела')
-@section('main_section')
+@section('main')
     <section class="add-resume section">
         <div class="container">
             <div class="row">

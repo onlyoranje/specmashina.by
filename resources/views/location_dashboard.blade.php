@@ -16,21 +16,21 @@
                                 </div>
                             @endif
 
-                            <a href="{{route('rubric_dashboard_add')}}">Добавить Категорию</a>
+                            <a href="{{route('location_dashboard_add')}}">Добавить Регион/Город</a>
                             <br>
-                                @if (count($rubrics)>0)
+                                @if (count($locations)>0)
                                 <?
-                                $traverse = function ($rubrics, $prefix = '-') use (&$traverse) {
-                                    foreach ($rubrics as $rubric) {
+                                $traverse = function ($locations, $prefix = '-') use (&$traverse) {
+                                    foreach ($locations as $location) {
 
-                                        echo "<a href='".route('rubric_dashboard_edit' , ['rubric'=>$rubric->id]) ."'>".PHP_EOL.$prefix.' '.$rubric->title."</a>  <a href='".route('rubric_dashboard_edit' , ['rubric'=>$rubric->id]) ."'>Редактировать </a> <a href='".route('rubric_dashboard_delete', ['rubric'=>$rubric->id])."'>Удалить</a><br>";
+                                        echo "<a href='".route('location_dashboard_edit' , ['location'=>$location->id]) ."'>".PHP_EOL.$prefix.' '.$location->title."</a>  <a href='".route('location_dashboard_edit' , ['location'=>$location->id]) ."'>Редактировать </a> <a href='".route('location_dashboard_delete', ['location'=>$location->id])."'>Удалить</a><br>";
 
 
-                                        $traverse($rubric->children, $prefix.'-');
+                                        $traverse($location->children, $prefix.'-');
                                     }
                                 };
 
-                                $traverse($rubrics);
+                                $traverse($locations);
                                 ?>
 
 

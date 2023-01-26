@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title', 50);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('rubric_id')->constrained()->cascadeOnDelete();
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->float('price');
             $table->timestamps();
             $table->index('created_at');

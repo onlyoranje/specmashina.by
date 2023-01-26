@@ -4,12 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+
+use Intervention\Image\Facades\Image;
 
 class UserFile extends Model
 {
     use HasFactory;
-    protected $fillable=['url','bb_id'];
-    public function Bb(){
+    protected $fillable=['url','bb_id','size','sort','type','original_name'];
+
+
+
+    public function bb(){
         return $this->belongsTo(Bb::class);
     }
     public function resize($w,$h)
@@ -36,5 +42,6 @@ class UserFile extends Model
         }
         return 'thumbnails/'.$w.'x'.$h.'/'.$this->url;
     }
+
 }
 

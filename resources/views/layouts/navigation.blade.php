@@ -38,10 +38,11 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
+                            <a href="{{route('mybb')}}">Dashboard</a>
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">

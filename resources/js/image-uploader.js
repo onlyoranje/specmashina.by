@@ -76,7 +76,7 @@
                 }).appendTo($container),
 
                 // Create the uploaded images container and append it to the container
-                $uploadedContainer = $('<div>', {class: 'uploaded'}).appendTo($container),
+                $uploadedContainer = $('<div>', {class: 'row uploaded',id :'sortable'}).appendTo($container),
 
                 // Create the text container and append it to the container
                 $textContainer = $('<div>', {
@@ -84,7 +84,7 @@
                 }).appendTo($container),
 
                 // Create the icon and append it to the text container
-                $i = $('<i>', {class: 'material-icons', text: 'cloud_upload'}).appendTo($textContainer),
+                $i = $('<i>', {class: 'bi bi-x-square-fill', text: 'cloud_upload'}).appendTo($textContainer),
 
                 // Create the text and append it to the text container
                 $span = $('<span>', {text: plugin.settings.label}).appendTo($textContainer);
@@ -117,19 +117,20 @@
             e.stopPropagation();
         };
 
-        let createImg = function (src, id) {
+        let createImg = function (src, id,old=false) {
 
-            // Create the upladed image container
-            let $container = $('<div>', {class: 'uploaded-image'}),
+            // Create the uploaded image container
+            let $container = $('<div>', {class: 'uploaded-image col-4'}),
 
                 // Create the img tag
-                $img = $('<img>', {src: src}).appendTo($container),
+                $img = $('<img>', {src: src, class:'img-thumbnail'}).appendTo($container),
 
                 // Create the delete button
                 $button = $('<button>', {class: 'delete-image'}).appendTo($container),
 
                 // Create the delete icon
-                $i = $('<i>', {class: 'material-icons', text: 'clear'}).appendTo($button);
+                $i = $('<i>', {class: 'bi bi-x', text: ''}).appendTo($button);
+
 
             // If the images are preloaded
             if (plugin.settings.preloaded.length) {
@@ -137,13 +138,16 @@
                 // Set a identifier
                 $container.attr('data-preloaded', true);
 
+
                 // Create the preloaded input and append it to the container
+if (old){
                 let $preloaded = $('<input>', {
                     type: 'hidden',
                     name: plugin.settings.preloadedInputName + '[]',
-                    value: id
+                    value: id,
+                    class: 'old_img'
                 }).appendTo($container)
-
+ImgSort();}
             } else {
 
                 // Set the identifier
@@ -172,6 +176,7 @@
                     $container.find('.uploaded-image[data-index]').each(function (i, cont) {
                         if (i > index) {
                             $(cont).attr('data-index', i - 1);
+
                         }
                     });
 
@@ -262,6 +267,7 @@
 
         // Return the instance
         return this;
+
     };
 
 }(jQuery));
