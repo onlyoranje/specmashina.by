@@ -38,8 +38,8 @@
 </span>
                                                 @enderror
                                                 Рубрика:
-                                                <div class="col-lg-12 col-md-6" id="container_rubric"></div>
-                                                <div class="col-lg-12 col-md-6" id="container_location"></div>
+                                                <div class="col-lg-12 col-md-6" id="container_rubric_0"></div>
+                                                <div class="col-lg-12 col-md-6" id="container_location_0"></div>
                                                 @error('rubric_id')
                                                 <span class="invalid-feedback">
 <strong>{{ $message }}</strong>
@@ -86,89 +86,44 @@
                         </div>
                     </section>
                     <script>
-                        function newSelect(model, pid = null, level = 0) {
+                        function NewSelect(model, parent_id = null, level = 0, id = null) {
                             var json;
-                            var cc = 0;
-                            var max_level = 0;
-                            //model = $.trim(model)
-                            if (pid) {
-                                pids = parseInt(pid.value)
-
-                                pid = pids
-                                var pidp = pids
-                                var qwe = 1;
-                            } else {
-                                pids = ''
-                            }
+                            var child_cat = 0;
                             if (model === 'rubric')  json =  @json($rubrics);
                             if (model === 'location')  json =  @json($locations);
-
-
-                            $(json).each(function () {
-                                if (pid == this.id) {
-                                    level = this.level
-                                    console.log(this.title + " id:" + this.id + " level:" + level)
-                                    var new_level = level + 1;
-                                }
-                                if (this.level > max_level) max_level = this.level;
-                            });
-                            new_level = level + 1;
-                            for (var i = new_level; i <= max_level; i++) {
-                                $(".cl_" + model + "_" + i).remove();
-                            }
-                            //alert(level)
-
-                            var sel = $('<select class="form-select" required="required" name="' + model + '_id" onchange="newSelect(\'' + model + '\',this,' + level + ')">');
-                            $("#container_" + model).append($(sel))
-                            sel.append($("<option disabled selected>- выбрать -</option>"))
-                            $(json).each(function () {
-                                if (this.parent_id == pid) {
-                                    sel.append($("<option>").attr('value', this.id).text(this.title));
-                                    cc++;
-                                    level = this.level
-                                }
-
-                            });
-
-                            if (!pid) {
-                                for (var i = level; i <= max_level; i++) {
-                                    $(".cl_" + model + "_" + i).remove();
+                            $.each(json, function(key, data)
+                                {
+                                    if (parent_id==data['parent_id']) {
+                                        child_cat++
+                                    }
 
                                 }
+                            )
+                            $('#log').text("child_cat:"+child_cat+" parent_id:"+parent_id+" level:"+level)
+                            if(level>0 && child_cat===0) {$("#"+model+"_level_"+level).remove()}
+                            if (child_cat>0){
+                                var sel = $("#container_"+model+"_"+(level)).html("<select class=\"form-select\" name='"+model+"_id' id='"+model+"_level_"+level+"' onchange=\"NewSelect('"+model+"', this.value,"+(level+1)+","+parent_id+")\"></select>");
+                                $("#"+model+"_level_"+level).append(new Option("- выбрать -"));
+                                $("#"+model+"_level_"+(level-1)).removeAttr('name')
+                                $.each(json, function(key, data)
+                                    {
+                                        if (parent_id==data['parent_id']) {
+                                            $("#"+model+"_level_"+level).append(new Option(data['title'], data['id']));
+                                        }    }
+                                );
+                                $("#container_"+model+"_"+(level)).append($("<div id='container_"+model+"_"+(level+1)+"'></div>"))
 
-                                $(".cl_" + model + "_0").html(sel)
                             }
 
-                            for (var i = new_level; i < max_level; i++) {
 
-                            }
-                            if (cc > 0) {
-
-
-                                $("#container_" + model).append('<div id="" class="col cl_' + model + '_' + (level) + '></div>');
-                                $(".cl_" + model + "_" + (level)).find(".form-select").attr('name', model + '_id')
-                                $(".cl_" + model + "_" + (level)).html(sel)
-                                var level_rr = level - 1;
-                                $(".cl_" + model + "_" + level_rr).find(".form-select").removeAttr("required");
-                                $(".cl_" + model + "_" + level_rr).find(".form-select").removeAttr('name');
-                            } else {
-                                for (var i = 0; i < level; i++) {
-                                    $(".cl_" + model + "_" + i).find(".form-select").removeAttr('name');
-                                    $(".cl_" + model + "_" + i).find(".form-select").removeAttr('required');
-                                }
-                                $(".cl_" + model + "_" + (level)).find(".form-select").attr('name', model + '_id')
-                                /*alert(level) */
-                            }
                         }
-
-                        newSelect('rubric');
-                        newSelect('location');
-                        $(document).ready(function () {
-
+                        $(document).ready(function() {
+                            NewSelect('rubric');
+                            NewSelect('location');
                             $('.input-images').imageUploader();
-
-                        });
+                        })
                     </script>
+
 
                 </div>
             </div>
