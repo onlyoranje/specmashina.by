@@ -27,7 +27,7 @@
                                     <a href="{{route('bb_edit', ['bb'=>$bb->id]) }}">Изменить</a>
                                 </td>
                                 <td>
-                                    <a href="">Удалить</a>
+                                    <a href="{{route('bb_delete', ['bb'=>$bb->id]) }}">Удалить</a>
                                 </td>
                             </tr>
                         @endforeach

@@ -25,6 +25,7 @@ class ProfileController extends Controller
         'title' => 'required|max:50',
 
         'rubric_id' => 'required',
+        'location_id' => 'required',
         'price' => 'required|numeric'
     ];
 
@@ -87,39 +88,36 @@ class ProfileController extends Controller
         return view('bb_add',['rubrics'=>$rubrics,'locations'=>$locations]);
     }
     public function addBb(Request $request){
-
+        //dd($request);
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
-        $id = Auth::user()->bbs()->create(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description,'rubric_id'=>$validated['rubric_id']]);
-        if ($request->images) {
-
-
-            if (is_array($request->images)){
-                foreach ($request->images as $file_upload){
-
-                    $filename = $file_upload->store('public');
-                    $file_name= explode('/',$filename);
-                    UserFile::create(['bb_id'=>$id->id,'url'=>$file_name[1]]);
+        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'location_id'=>$validated['location_id']]);
+        if ($request->file) {
+            if (is_array($request->file) ) {
+                foreach ($request->file as $file_upload) {
+                    if (!is_null($file_upload)) {
+                        $filename = $file_upload->store('public');
+                        $file_name = explode('/', $filename);
+                        UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
+                    }
                 }
-            }
-            else
-            {
+            } else {
 
-                $filename = $request->images->store('public');
-                $file_name= explode('/',$filename);
-                UserFile::create(['bb_id'=>$id->id,'url'=>$file_name[1]]);
-            }
+                $filename = $request->file->store('public');
+                $file_name = explode('/', $filename);
+                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
 
-
-        }
+            }}
         return redirect()->route('dashboard');
     }
     public function editBb(Bb $bb){
 
-        $rubrics = Rubric::whereAncestorOrSelf($bb->rubric_id)->get();
-        $all_rubrics = Rubric::all();
+        $all_rubrics = Rubric::whereAncestorOrSelf($bb->rubric_id)->pluck('id');
+        $rubrics = Rubric::all();
+        $all_locations = Location::whereAncestorOrSelf($bb->location_id)->pluck('id');
+        $locations= Location::all();
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
-        return view('bb_edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'images'=>$images]);
+        return view('bb_edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'images'=>$images]);
     }
     public function updateBb(Request $request,Bb $bb){
 
@@ -129,6 +127,10 @@ class ProfileController extends Controller
         $bb->save();
         if ($request->rubric_id) {
             $bb->fill(['rubric_id'=>$request->rubric_id]);
+            $bb->save();
+        }
+        if ($request->location_id) {
+            $bb->fill(['location_id'=>$request->location_id]);
             $bb->save();
         }
         //dd($request);
@@ -146,7 +148,7 @@ class ProfileController extends Controller
 
                 $filename = $request->file->store('public');
                 $file_name = explode('/', $filename);
-                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
+                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
 
         }}
         $files_before_edit=UserFile::where('bb_id',$bb->id)->pluck('id');
@@ -186,6 +188,13 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             }
         }
 
+        return redirect()->route('mybb');
+    }
+    public function deleteBb(Bb $bb){
+        return view('bb_delete', ['bb'=>$bb]);
+    }
+    public function destroyBb(Bb $bb){
+        $bb->delete();
         return redirect()->route('mybb');
     }
 }

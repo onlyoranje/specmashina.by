@@ -5,6 +5,7 @@
         <h1 class="my-3 text-center">Объявления</h1>
         <h2>{{ $bb->title }}</h2>
         <h4>{{ $bb->rubric->title }}</h4>
+        <h4>{{ $bb->location->title }}</h4>
         <p>Автор: {{  $bb->user->name }}</p>
         <p><?= nl2br($bb->content) ?> </p>
         <p>{{ $bb->price }} руб.</p>

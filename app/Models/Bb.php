@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 class Bb extends Model
 {
-    protected $fillable = ['title', 'content', 'price','rubric_id'];
+    protected $fillable = ['title', 'content', 'price','rubric_id','location_id'];
     public function user() {
         return $this->belongsTo(User::class);
     }

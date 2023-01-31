@@ -37,8 +37,10 @@
 <strong>{{ $message }}</strong>
 </span>
                                                 @enderror
+
                                                 Рубрика:
                                                 <div class="col-lg-12 col-md-6" id="container_rubric_0"></div>
+                                                Город:
                                                 <div class="col-lg-12 col-md-6" id="container_location_0"></div>
                                                 @error('rubric_id')
                                                 <span class="invalid-feedback">
@@ -86,38 +88,10 @@
                         </div>
                     </section>
                     <script>
-                        function NewSelect(model, parent_id = null, level = 0, id = null) {
-                            var json;
-                            var child_cat = 0;
-                            if (model === 'rubric')  json =  @json($rubrics);
-                            if (model === 'location')  json =  @json($locations);
-                            $.each(json, function(key, data)
-                                {
-                                    if (parent_id==data['parent_id']) {
-                                        child_cat++
-                                    }
 
-                                }
-                            )
-                            $('#log').text("child_cat:"+child_cat+" parent_id:"+parent_id+" level:"+level)
-                            if(level>0 && child_cat===0) {$("#"+model+"_level_"+level).remove()}
-                            if (child_cat>0){
-                                var sel = $("#container_"+model+"_"+(level)).html("<select class=\"form-select\" name='"+model+"_id' id='"+model+"_level_"+level+"' onchange=\"NewSelect('"+model+"', this.value,"+(level+1)+","+parent_id+")\"></select>");
-                                $("#"+model+"_level_"+level).append(new Option("- выбрать -"));
-                                $("#"+model+"_level_"+(level-1)).removeAttr('name')
-                                $.each(json, function(key, data)
-                                    {
-                                        if (parent_id==data['parent_id']) {
-                                            $("#"+model+"_level_"+level).append(new Option(data['title'], data['id']));
-                                        }    }
-                                );
-                                $("#container_"+model+"_"+(level)).append($("<div id='container_"+model+"_"+(level+1)+"'></div>"))
-
-                            }
-
-
-                        }
                         $(document).ready(function() {
+                            window.json_rubric = @json($rubrics);
+                            window.json_location = @json($locations);
                             NewSelect('rubric');
                             NewSelect('location');
                             $('.input-images').imageUploader();
