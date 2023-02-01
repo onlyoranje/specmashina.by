@@ -147,7 +147,7 @@ if (old){
                     value: id,
                     class: 'old_img'
                 }).appendTo($container)
-ImgSort();}
+}
             } else {
 
                 // Set the identifier

@@ -80,6 +80,7 @@
             <a class="nav-link">Моя организация</a>
             <a href="{{route('location_dashboard')}}" class="nav-link">Список городов</a>
             <a href="{{route('rubric_dashboard')}}" class="nav-link"> Список категорий</a>
+            <a href="{{route('parameter_dashboard')}}" class="nav-link"> Список параметров</a>
         </nav>
         @yield('main')
     </main>
@@ -96,9 +97,9 @@
             changeInput: '<div class="fileuploader-input">' +
                 '<div class="fileuploader-input-inner">' +
                 '<div class="fileuploader-icon-main"></div>' +
-                '<h3 class="fileuploader-input-caption"><span>1</span></h3>' +
-                '<p>2</p>' +
-                '<button type="button" class="fileuploader-input-button"><span>3</span></button>' +
+                '<h3 class="fileuploader-input-caption"><span>Нет фото</span></h3>' +
+                '<p>Перетащите фото сюда</p>' +
+                '<button type="button" class="fileuploader-input-button"><span>загрузить фото</span></button>' +
                 '</div>' +
                 '</div>',
             theme: 'thumbnails',

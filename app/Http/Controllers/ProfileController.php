@@ -112,9 +112,9 @@ class ProfileController extends Controller
     }
     public function editBb(Bb $bb){
 
-        $all_rubrics = Rubric::whereAncestorOrSelf($bb->rubric_id)->pluck('id');
+        $all_rubrics = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get();
         $rubrics = Rubric::all();
-        $all_locations = Location::whereAncestorOrSelf($bb->location_id)->pluck('id');
+        $all_locations = Location::whereAncestorOrSelf($bb->location_id)->orderBy('level')->get();
         $locations= Location::all();
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
         return view('bb_edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'images'=>$images]);

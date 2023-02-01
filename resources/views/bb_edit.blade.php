@@ -48,20 +48,20 @@
                             @enderror
 
 
-
-
-                            Рубрика:
-
                             @error('rubric_id')
                             <span class="invalid-feedback">
 <strong>{{ $message }}</strong>
 </span>
                             @enderror
 
-
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Рубрика</label>
                             <div class="col-lg-12 col-md-6" id="container_rubric_0"></div>
-                            Город:
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Город:</label>
                             <div class="col-lg-12 col-md-6" id="container_location_0"></div>
+                            </div>
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">price</label>
@@ -106,13 +106,26 @@
         </div>
     </div>
 </section>
+
                     <script>
 
                         $(document).ready(function() {
                             window.json_rubric = @json($rubrics);
                             window.json_location = @json($locations);
-                            NewSelect('rubric',null,0,null,@json($all_rubrics));
-                            NewSelect('location',null,0,null,@json($all_locations));
+                            @foreach($all_rubrics as $rubric_)
+
+                            NewSelect('rubric',<?php if (!$rubric_->parent_id) {echo 'null';} else {echo $rubric_->parent_id;}  ?>,{{$rubric_->level}},{{$rubric_->id}},@json($all_rubrics));
+                            $('#rubric_level_{{$rubric_->level}} option[value={{$rubric_->id}}]').prop('selected', true);
+
+                            @endforeach
+
+                            @foreach($all_locations as $location_)
+
+                            NewSelect('location',<?php if (!$location_->parent_id) {echo 'null';} else {echo $location_->parent_id;}  ?>,{{$location_->level}},{{$location_->id}},@json($all_rubrics));
+                            $('#location_level_{{$location_->level}} option[value={{$location_->id}}]').prop('selected', true);
+
+
+                            @endforeach
                             $('.input-images').imageUploader();
                         })
                     </script>
