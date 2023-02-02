@@ -12,20 +12,25 @@
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">Name</label>
-                                    <input type="text" value="{{old('name')}}" name="name" class="form-control" placeholder="Name">
+                                    <input type="text" value="{{old('name')}}" name="name" class="form-control" placeholder="Name" required>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">Мера</label>
-                                    <input type="text" value="{{old('measure',500)}}" name="measure" class="form-control" placeholder="сортировка">
+                                    <input type="text" value="{{old('measure')}}" name="measure" class="form-control" placeholder="сортировка" required>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
-                                    <label class="control-label">Мера</label>
-                                    <input type="text" value="{{old('measure',500)}}" name="measure" class="form-control" placeholder="сортировка">
+                                    <label class="control-label">Вид данных</label>
+                                    <select class="form-select" name='type' aria-label="Default select example"required>
+                                        <option selected disabled>- выбрать -</option>
+                                        @foreach($types as $type)
+                                        <option value="{{$type->type}}">{{$type->type_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
@@ -35,7 +40,38 @@
                                 </div>
                             </div>
 
+<div class="col-lg-6 col-12">
+    <div class="form-group">
+        <label class="control-label">Рубрики</label>
 
+
+                @if (count($rubrics)>0)
+                    <?php
+
+                    $traverse = function ($rubrics, $prefix = '<ul>',$postfix= '</ul>') use (&$traverse) {
+                        if (count($rubrics)>0) echo '<ul>';
+                        foreach ($rubrics as $rubric) {
+                            $parent_id=$rubric->parent_id;
+                                if (!is_numeric($rubric->parent_id)) $parent_id=0;
+                            echo "<li>
+
+<input  type=\"checkbox\" id=\"checkbox".$rubric->id."\" name=\"rubrics[]\" value=\"".$rubric->id."\" >
+<label  for=\"checkbox".$rubric->id."\">".$rubric->title.'</label>
+';
+
+if (count($rubric->children)==0) echo "</li>";
+                            $traverse($rubric->children);
+                        }
+                        if (count($rubrics)>0) echo "</ul>";
+                    };
+
+                    $traverse($rubrics);
+
+                    ?>
+@endif
+
+    </div>
+</div>
 
                             <div class="row align-items-center justify-content-center">
                                 <div class="col-lg-6 col-md-5 col-12">

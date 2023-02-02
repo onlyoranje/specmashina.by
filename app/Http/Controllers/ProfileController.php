@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Location;
+use App\Models\Parameter;
 use App\Models\Rubric;
 use App\Models\Bb;
 use App\Models\UserFile;
@@ -85,7 +86,8 @@ class ProfileController extends Controller
     public function addForm(){
         $rubrics = Rubric::all();
         $locations = Location::all();
-        return view('bb_add',['rubrics'=>$rubrics,'locations'=>$locations]);
+        $parameters = Parameter::all();
+        return view('bb_add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters]);
     }
     public function addBb(Request $request){
         //dd($request);

@@ -23,4 +23,7 @@ class Rubric extends Model
     public function level(){
         return $this->belongsTo(self::class,'level');
     }
+    public function parameter(){
+        return $this->belongsToMany(Parameter::class);
+    }
 }

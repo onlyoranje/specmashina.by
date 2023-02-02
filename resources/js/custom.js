@@ -36,3 +36,82 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null,selec
         $("#"+model+"_level_"+(level)).attr('required',"required")
     }
 }
+
+$(document).ready(function(){
+    $('input[type="checkbox"]').change(function(e) {
+
+        var checked = $(this).prop("checked"),
+            container = $(this).parent(),
+            siblings = container.siblings();
+
+        container.find('input[type="checkbox"]').prop({
+            indeterminate: false,
+            checked: checked
+        });
+
+        function checkSiblings(el) {
+
+            var parent = el.parent().parent(),
+                all = true;
+
+            el.siblings().each(function() {
+                let returnValue = all = ($(this).children('input[type="checkbox"]').prop("checked") === checked);
+                return returnValue;
+            });
+
+            if (all && checked) {
+
+                parent.children('input[type="checkbox"]').prop({
+                    indeterminate: false,
+                    checked: checked
+                });
+
+                checkSiblings(parent);
+
+            } else if (all && !checked) {
+
+                parent.children('input[type="checkbox"]').prop("checked", checked);
+                parent.children('input[type="checkbox"]').prop("indeterminate", (parent.find('input[type="checkbox"]:checked').length > 0));
+                checkSiblings(parent);
+
+            } else {
+
+                el.parents("li").children('input[type="checkbox"]').prop({
+                    indeterminate: true,
+                    checked: false
+                });
+
+            }
+
+        }
+
+        checkSiblings(container);
+        console.log('test')
+    });
+
+})
+
+window.CheckRubrics = function (parent_id,id) {
+    console.log(id)
+    var child_cat = $('.parent'+parent_id).length
+    var child_cat_checked = $('.parent'+parent_id+':checked').length;
+
+    if (child_cat>child_cat_checked) {
+        $('#checkbox'+parent_id).prop({ indeterminate: true});
+
+    }
+    if (child_cat===child_cat_checked) {
+        $('#checkbox'+parent_id).prop({ indeterminate: false,checked: true});
+
+    }
+    if (child_cat_checked===0) {
+        $('#checkbox'+parent_id).prop({ indeterminate: false,checked: false});
+
+    }
+    if ($('.parent'+id).length>0){
+        $(".parent"+id).each(function (){
+            $(".parent"+$(this).val()).prop('checked', true);
+            CheckRubrics(id,$(this).val());
+        })
+    }
+}

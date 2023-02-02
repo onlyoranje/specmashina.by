@@ -38,27 +38,42 @@
 </span>
                                                 @enderror
 
-                                                Рубрика:
-                                                <div class="col-lg-12 col-md-6" id="container_rubric_0"></div>
-                                                Город:
-                                                <div class="col-lg-12 col-md-6" id="container_location_0"></div>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputEmail1" class="form-label">Рубрика</label>
+                                                    <div class="col-lg-12 col-md-6" id="container_rubric_0"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="exampleInputEmail1" class="form-label">Город:</label>
+                                                    <div class="col-lg-12 col-md-6" id="container_location_0"></div>
+                                                </div>
                                                 @error('rubric_id')
                                                 <span class="invalid-feedback">
 <strong>{{ $message }}</strong>
 </span>
                                                 @enderror
-                                                <div class="col-lg-6 col-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">price</label>
+                                                @if (count($parameters)>0)
+                                                    @foreach($parameters as $parameter)
+                                                        <div class="mb-3 rubric-{{$parameter->rubrics}}" id="parameter_{{$parameter->id}}">
+                                                            <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                            </label>
+                                                            <input type="{{$parameter->type}}" class="form-control" id="exampleFormControlInput1">
+                                                        </div>
+                                                    @endforeach
+                                                    @endif
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Цена</label>
                                                         <input type="number" value="{{old('price')}}" name="price"
-                                                               class="form-control" required placeholder="Name">
+                                                               class="form-control" required >
                                                     </div>
-                                                </div>
+
                                                 @error('price')
                                                 <span class="invalid-feedback">
 <strong>{{ $message }}</strong>
 </span>
                                                 @enderror
+
+
                                                 <input type="file" name="file">
 
 

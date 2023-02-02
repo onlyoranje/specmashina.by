@@ -9,4 +9,7 @@ class Parameter extends Model
 {
     protected $fillable=['name','type','measure', 'sort'];
     use HasFactory;
+    public function rubrics() {
+        return $this->belongsToMany(Rubric::class);
+    }
 }

@@ -23,7 +23,7 @@
 
                                     foreach ($parameters as $parameter) {
 
-                                        echo "<a href='".route('parameter_dashboard_edit' , ['parameter'=>$parameter->id]) ."'>".$parameter->name."</a>  <a href='".route('parameter_dashboard_edit' , ['parameter'=>$parameter->id]) ."'>Редактировать </a> <a href='".route('parameter_dashboard_delete', ['parameter'=>$parameter->id])."'>Удалить</a><br>";
+                                        echo $parameter->name."  <a href='".route('parameter_dashboard_edit' , ['parameter'=>$parameter->id]) ."'>Редактировать </a> <a href='".route('parameter_dashboard_delete', ['parameter'=>$parameter->id])."'>Удалить</a><br>";
 
 
 
