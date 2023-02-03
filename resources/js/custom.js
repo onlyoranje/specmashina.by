@@ -24,7 +24,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null,selec
         }
 
         $("#"+model+"_level_"+(level-1)).removeAttr('name')
-        console.log("#"+model+"_level_"+(level-1))
+
         $.each(json, function(key, data)
             {
                 if (parent_id==data['parent_id']) {
@@ -34,6 +34,11 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null,selec
         );
         $("#"+model+"_level_"+(level)).attr('name',model+"_id")
         $("#"+model+"_level_"+(level)).attr('required',"required")
+
+    }
+    if (model === 'rubric') {
+
+        Parameter_Rubric($("#"+model+"_level_"+(level)).val());
     }
 }
 
@@ -86,7 +91,7 @@ $(document).ready(function(){
         }
 
         checkSiblings(container);
-        console.log('test')
+
     });
 
 })
@@ -114,4 +119,17 @@ window.CheckRubrics = function (parent_id,id) {
             CheckRubrics(id,$(this).val());
         })
     }
+}
+
+window.Parameter_Rubric = function(rubric_id){
+    $(".input-parameter").hide();
+    //
+    console.log($("input[name='rubric_id']").val())
+    $.each(json_parameter_rubric, function(key, data)
+    {
+       // console.log(rubric_id)
+        if (rubric_id==data['rubric_id']) {
+            $('#parameter'+data['id']).show()
+        }
+    })
 }

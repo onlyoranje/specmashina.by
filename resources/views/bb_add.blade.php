@@ -53,7 +53,7 @@
                                                 @enderror
                                                 @if (count($parameters)>0)
                                                     @foreach($parameters as $parameter)
-                                                        <div class="mb-3 rubric-{{$parameter->rubrics}}" id="parameter_{{$parameter->id}}">
+                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                             <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                             </label>
                                                             <input type="{{$parameter->type}}" class="form-control" id="exampleFormControlInput1">
@@ -107,9 +107,11 @@
                         $(document).ready(function() {
                             window.json_rubric = @json($rubrics);
                             window.json_location = @json($locations);
+                            window.json_parameter_rubric = @json($parameter_rubric);
                             NewSelect('rubric');
                             NewSelect('location');
                             $('.input-images').imageUploader();
+
                         })
                     </script>
 

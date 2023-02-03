@@ -11,6 +11,7 @@ use App\Models\UserFile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -87,7 +88,9 @@ class ProfileController extends Controller
         $rubrics = Rubric::all();
         $locations = Location::all();
         $parameters = Parameter::all();
-        return view('bb_add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters]);
+        $parameter_rubric = DB::table('parameter_rubric')->get();
+        //dd($parameter_rubric);
+        return view('bb_add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric]);
     }
     public function addBb(Request $request){
         //dd($request);
