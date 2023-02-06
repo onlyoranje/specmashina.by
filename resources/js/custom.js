@@ -32,14 +32,17 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null,selec
                 }
             }
         );
-        $("#"+model+"_level_"+(level)).attr('name',model+"_id")
-        $("#"+model+"_level_"+(level)).attr('required',"required")
 
-    }
-    if (model === 'rubric') {
 
-        Parameter_Rubric($("#"+model+"_level_"+(level)).val());
+
+
+
+    } else {
+        if (model === 'rubric') {Parameter_Rubric($("select[name='rubric_id']").val());}
+        $("#"+model+"_level_"+(level-1)).attr('name',model+"_id")
+        $("#"+model+"_level_"+(level-1)).attr('required',"required")
     }
+
 }
 
 $(document).ready(function(){
@@ -123,13 +126,15 @@ window.CheckRubrics = function (parent_id,id) {
 
 window.Parameter_Rubric = function(rubric_id){
     $(".input-parameter").hide();
-    //
-    console.log($("input[name='rubric_id']").val())
+
+
     $.each(json_parameter_rubric, function(key, data)
     {
-       // console.log(rubric_id)
+        //console.log(rubric_id+' '+data['id'])
+
         if (rubric_id==data['rubric_id']) {
-            $('#parameter'+data['id']).show()
+
+            $('#parameter_'+data['id']).show()
         }
     })
 }

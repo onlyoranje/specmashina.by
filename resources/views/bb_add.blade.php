@@ -101,6 +101,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="log"></div>
                     </section>
                     <script>
 

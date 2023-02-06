@@ -42,7 +42,20 @@ class ParametersController extends Controller
         $parameter     = Parameter::find($id);
         $types = TypeParameter::get();
         $rubrics = Rubric::orderBy('sort')->get()->toTree();
+        //$parameter_rubric = $parameter->rubrics->pluck('id');
         return view('parameter_edit', ['parameter'=>$parameter,'rubrics'=>$rubrics,'types'=>$types]);
 
+    }
+    public function editParameter(Request $request, Parameter $parameter){
+        $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
+
+        $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort]);
+        $parameter->save();
+        $parameter_rubric = $parameter->rubrics->pluck('id');
+
+        foreach ($parameter_rubric as $pr){
+
+        }
+        return redirect()->route('parameter_dashboard');
     }
 }
