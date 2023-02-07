@@ -19,7 +19,7 @@
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">Мера</label>
-                                    <input type="text" value="{{old('measure')}}" name="measure" class="form-control" placeholder="сортировка" required>
+                                    <input type="text" value="{{old('measure')}}" name="measure" class="form-control" >
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">

@@ -38,7 +38,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null,selec
 
 
     } else {
-        if (model === 'rubric') {Parameter_Rubric($("select[name='rubric_id']").val());}
+        if (model === 'rubric') Parameter_Rubric($("select[name='rubric_id']").val());
         $("#"+model+"_level_"+(level-1)).attr('name',model+"_id")
         $("#"+model+"_level_"+(level-1)).attr('required',"required")
     }
@@ -130,11 +130,11 @@ window.Parameter_Rubric = function(rubric_id){
 
     $.each(json_parameter_rubric, function(key, data)
     {
-        //console.log(rubric_id+' '+data['id'])
+        console.log(rubric_id+' '+data['parameter_id'])
 
         if (rubric_id==data['rubric_id']) {
 
-            $('#parameter_'+data['id']).show()
+            $('#parameter_'+data['parameter_id']).show()
         }
     })
 }

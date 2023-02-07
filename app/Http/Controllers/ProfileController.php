@@ -121,8 +121,10 @@ class ProfileController extends Controller
         $rubrics = Rubric::all();
         $all_locations = Location::whereAncestorOrSelf($bb->location_id)->orderBy('level')->get();
         $locations= Location::all();
+        $parameters = Parameter::all();
+        $parameter_rubric = DB::table('parameter_rubric')->get();
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
-        return view('bb_edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'images'=>$images]);
+        return view('bb_edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'parameters'=>$parameters,'images'=>$images,'parameter_rubric'=>$parameter_rubric]);
     }
     public function updateBb(Request $request,Bb $bb){
 

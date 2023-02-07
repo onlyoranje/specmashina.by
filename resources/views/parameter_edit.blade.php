@@ -7,6 +7,7 @@
                 <div class="p-6 text-gray-900">
                     <form class="form-ad" action="{{route('editParameterToDB',['parameter'=>$parameter->id])}}" method="post">
                         @csrf
+                        @method('PATCH')
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
@@ -18,7 +19,7 @@
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">Мера</label>
-                                    <input type="text" value="{{old('measure',$parameter->measure)}}" name="measure" class="form-control" placeholder="сортировка" required>
+                                    <input type="text" value="{{old('measure',$parameter->measure)}}" name="measure" class="form-control" >
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parameter;
+use App\Models\ParameterRubric;
 use App\Models\Rubric;
 use App\Models\TypeParameter;
 use Illuminate\Http\Request;
@@ -52,10 +53,24 @@ class ParametersController extends Controller
         $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort]);
         $parameter->save();
         $parameter_rubric = $parameter->rubrics->pluck('id');
+        $parameter_rubric_update = $request->rubrics;
 
-        foreach ($parameter_rubric as $pr){
+        foreach ($parameter_rubric as $rubric_id){
 
+            if (!in_array($rubric_id,$parameter_rubric_update)) ParameterRubric::where('rubric_id', $rubric_id)->where('parameter_id', $parameter->id)->delete();
         }
+        $parameter_rubric = $parameter->rubrics->toArray();
+        foreach ($parameter_rubric_update as $pr){
+            if (!in_array($pr,$parameter_rubric)) ParameterRubric::updateOrCreate(['rubric_id'=>$pr,'parameter_id'=>$parameter->id]);
+        }
+        return redirect()->route('parameter_dashboard');
+    }
+    public function delete(Parameter $parameter){
+        return view('deleteParameter', ['parameter'=>$parameter]);
+    }
+    public function destroyParameter(Parameter $parameter){
+        ParameterRubric::where('parameter_id', $parameter->id)->delete();
+        $parameter->delete();
         return redirect()->route('parameter_dashboard');
     }
 }

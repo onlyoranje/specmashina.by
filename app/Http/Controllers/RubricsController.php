@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ParameterRubric;
 use App\Models\Rubric;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class RubricsController extends Controller
     ];
     public function detail($id){
         $rubric     = Rubric::find($id);
-        $rubrics    = Rubric::orderBy('sort')->get()->toTree();
+        $rubrics    = Rubric::orderBy('sort')->orderBy('title')->get()->toTree();
         $depth      = Rubric::descendantsAndSelf($id)->toFlatTree();
 
         return view('rubric_edit', ['rubric'=>$rubric,'rubrics'=>$rubrics,'depth'=>$depth]);
@@ -31,12 +32,12 @@ class RubricsController extends Controller
     }
     public function rubrics(){
 
-        $rubrics = Rubric::orderBy('sort')->get()->toTree();
+        $rubrics = Rubric::orderBy('sort')->orderBy('title')->get()->toTree();
         return view('rubric_dashboard',compact('rubrics'));
 
     }
     public function addRubricForm(){
-        $rubrics = Rubric::orderBy('sort')->get()->toTree();
+        $rubrics = Rubric::orderBy('sort')->orderBy('title')->get()->toTree();
 
         return view('rubric_add',compact('rubrics'));
     }
@@ -64,6 +65,8 @@ class RubricsController extends Controller
         return view('deleteRubric', ['rubric'=>$rubric]);
     }
     public function destroyRubric(Rubric $rubric){
+
+        ParameterRubric::where('rubric_id', $rubric->id)->delete();
         $rubric->delete();
         return redirect()->route('rubric_dashboard');
     }

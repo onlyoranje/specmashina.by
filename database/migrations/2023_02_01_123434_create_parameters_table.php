@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("type");
-            $table->string("measure");
+            $table->string("measure")->nullable();
             $table->unsignedBigInteger("sort");
             $table->timestamps();
         });

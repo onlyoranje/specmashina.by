@@ -62,6 +62,17 @@
                                 <label for="exampleInputEmail1" class="form-label">Город:</label>
                             <div class="col-lg-12 col-md-6" id="container_location_0"></div>
                             </div>
+
+                            @if (count($parameters)>0)
+                                @foreach($parameters as $parameter)
+                                    <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                        <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                        </label>
+                                        <input type="{{$parameter->type}}" class="form-control" id="exampleFormControlInput1">
+                                    </div>
+                                @endforeach
+                            @endif
+
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">price</label>
@@ -112,6 +123,7 @@
                         $(document).ready(function() {
                             window.json_rubric = @json($rubrics);
                             window.json_location = @json($locations);
+                            window.json_parameter_rubric = @json($parameter_rubric);
                             @foreach($all_rubrics as $rubric_)
 
                             NewSelect('rubric',<?php if (!$rubric_->parent_id) {echo 'null';} else {echo $rubric_->parent_id;}  ?>,{{$rubric_->level}},{{$rubric_->id}},@json($all_rubrics));
