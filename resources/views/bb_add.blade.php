@@ -113,6 +113,7 @@
                             NewSelect('location');
                             $('.input-images').imageUploader();
 
+
                         })
                     </script>
 

@@ -81,6 +81,7 @@
             <a href="{{route('location_dashboard')}}" class="nav-link">Список городов</a>
             <a href="{{route('rubric_dashboard')}}" class="nav-link"> Список категорий</a>
             <a href="{{route('parameter_dashboard')}}" class="nav-link"> Список параметров</a>
+            <a href="{{route('vendor_dashboard')}}" class="nav-link"> Список производителей</a>
         </nav>
         @yield('main')
     </main>

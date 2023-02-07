@@ -64,6 +64,16 @@ Route::patch('/dashboard/parameter/{parameter}', [App\Http\Controllers\Parameter
 Route::get('/dashboard/parameter/{parameter}/delete', [App\Http\Controllers\ParametersController::class, 'delete'])->name('parameter_dashboard_delete')->middleware('auth');
 Route::delete('/dashboard/parameter/{parameter}', [App\Http\Controllers\ParametersController::class, 'destroyParameter'])->name('parameter_dashboard_destroy')->middleware('auth');
 
+Route::get('/vendor', [App\Http\Controllers\VendorsController::class, 'vendor'])->name('vendors');
+Route::get('/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'vendor'])->name('vendor');
+Route::get('/dashboard/vendor', [App\Http\Controllers\VendorsController::class, 'vendors'])->name('vendor_dashboard')->middleware('auth');
+Route::post('/dashboard/vendor', [App\Http\Controllers\VendorsController::class, 'addVendor'])->name('addVendorToDB')->middleware('auth');
+Route::get('/dashboard/vendor/add', [App\Http\Controllers\VendorsController::class, 'addVendorForm'])->name('vendor_dashboard_add')->middleware('auth');
+Route::get('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'detail'])->name('vendor_dashboard_edit')->middleware('auth');
+Route::patch('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'editVendor'])->name('editVendorToDB')->middleware('auth');
+Route::get('/dashboard/vendor/{vendor}/delete', [App\Http\Controllers\VendorsController::class, 'delete'])->name('vendor_dashboard_delete')->middleware('auth');
+Route::delete('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'destroyVendor'])->name('vendor_dashboard_destroy')->middleware('auth');
+
 
 Route::get('image', 'ImageController@index');
 Route::post('store', 'ImageController@store');

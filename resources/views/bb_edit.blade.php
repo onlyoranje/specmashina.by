@@ -139,6 +139,7 @@
 
                             @endforeach
                             $('.input-images').imageUploader();
+                            Parameter_Rubric($("select[name='rubric_id']").val())
                         })
                     </script>
 

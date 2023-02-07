@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('rubric_id')->constrained()->cascadeOnDelete();
             $table->foreignId('location_id')->constrained();
+            $table->foreignId('vendor_id')->constrained();
             $table->text('content')->nullable();
             $table->float('price');
             $table->timestamps();

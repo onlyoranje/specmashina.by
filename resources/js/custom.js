@@ -127,7 +127,7 @@ window.CheckRubrics = function (parent_id,id) {
 window.Parameter_Rubric = function(rubric_id){
     $(".input-parameter").hide();
 
-
+    console.log(rubric_id)
     $.each(json_parameter_rubric, function(key, data)
     {
         console.log(rubric_id+' '+data['parameter_id'])
