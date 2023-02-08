@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->string("logo");
+            $table->string("logo")->nullable();
             $table->timestamps();
         });
     }
