@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\BbParameters;
 use App\Models\Location;
 use App\Models\Parameter;
 use App\Models\Rubric;
@@ -96,7 +97,7 @@ class ProfileController extends Controller
         //dd($request);
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
-        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'location_id'=>$validated['location_id']]);
+        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'vendor_id'=>$request->vendor_id,'location_id'=>$validated['location_id']]);
         if ($request->file) {
             if (is_array($request->file) ) {
                 foreach ($request->file as $file_upload) {
@@ -113,6 +114,9 @@ class ProfileController extends Controller
                 UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
 
             }}
+        foreach ($request->parameter as $parameter_id=>$value){
+            if (!is_null($value))  BbParameters::create(['bb_id' => $bb->id,'value'=>$value, 'parameter_id'=>$parameter_id]);
+        }
         return redirect()->route('dashboard');
     }
     public function editBb(Bb $bb){
@@ -123,14 +127,18 @@ class ProfileController extends Controller
         $locations= Location::all();
         $parameters = Parameter::all();
         $parameter_rubric = DB::table('parameter_rubric')->get();
+        $parameter_values = BbParameters::where('bb_id',$bb->id)->get();
+        foreach ($parameter_values as $pv){
+            $parameter_value[$pv->parameter_id]=$pv->value;
+        }
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
-        return view('bb_edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'parameters'=>$parameters,'images'=>$images,'parameter_rubric'=>$parameter_rubric]);
+        return view('bb_edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'parameters'=>$parameters,'images'=>$images,'parameter_rubric'=>$parameter_rubric,'parameter_value'=>$parameter_value]);
     }
     public function updateBb(Request $request,Bb $bb){
 
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
-        $bb->fill(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description]);
+        $bb->fill(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description,'vendor_id'=>$request->vendor_id]);
         $bb->save();
         if ($request->rubric_id) {
             $bb->fill(['rubric_id'=>$request->rubric_id]);
@@ -194,7 +202,16 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
 
             }
         }
-
+        foreach ($request->parameter as $parameter_id=>$value){
+            if (!is_null($value))
+            {
+                BbParameters::create(['bb_id' => $bb->id,'value'=>$value, 'parameter_id'=>$parameter_id]);
+            }
+            else
+            {
+            BbParameters::where('bb_id',$bb->id)->where('parameter_id',$parameter_id)->delete();
+            }
+        }
         return redirect()->route('mybb');
     }
     public function deleteBb(Bb $bb){

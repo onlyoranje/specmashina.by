@@ -41,6 +41,16 @@
                                     <input type="text" name="title" value="{{ old('title',$bb->title)}}" class="form-control" placeholder="Name">
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="exampleInputEmail1" class="form-label">Производитель</label>
+                            <select class="form-select" name="vendor_id" required>
+                                <option   disabled>- выбрать -</option>
+                                <?php use App\Models\BbParameters;$vendors = App\Models\Vendor::get();?>
+                                @foreach($vendors as $vendor)
+                                <option value="{{$vendor->id}}" <?php if ($vendor->id==$bb->vendor_id) echo "selected"?>>{{$vendor->name}}</option>
+                                @endforeach
+                            </select>
+                            </div>
                             @error('title')
                             <span class="invalid-feedback">
 <strong>{{ $message }}</strong>
@@ -65,11 +75,16 @@
 
                             @if (count($parameters)>0)
                                 @foreach($parameters as $parameter)
+<?
+                                    $pv = null;
+if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->id];
+?>
                                     <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                        <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                        <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<?php if ($parameter->measure) echo', '.$parameter->measure?>
                                         </label>
-                                        <input type="{{$parameter->type}}" class="form-control" id="exampleFormControlInput1">
+                                        <input type="{{$parameter->type}}" class="form-control" id="exampleFormControlInput1" name="parameter[{{$parameter->id}}]" value="{{$pv}}">
                                     </div>
+                                    @unset($pv)
                                 @endforeach
                             @endif
 

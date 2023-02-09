@@ -7,17 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 class Bb extends Model
 {
-    protected $fillable = ['title', 'content', 'price','rubric_id','location_id'];
+    protected $fillable = ['title', 'content', 'price','rubric_id','location_id', 'vendor_id'];
     public function user() {
         return $this->belongsTo(User::class);
     }
     public function rubric() {
         return $this->belongsTo(Rubric::class);
     }
+    public function vendor() {
+        return $this->belongsTo(Vendor::class);
+    }
     public function location() {
         return $this->belongsTo(Location::class);
     }
     public function userfile() {
+        return $this->hasMany(UserFile::class);
+    }
+    public function bb_parameter(){
         return $this->hasMany(UserFile::class);
     }
 }

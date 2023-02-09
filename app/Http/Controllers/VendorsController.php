@@ -38,5 +38,26 @@ class VendorsController extends Controller
             }
         return redirect()->route('vendor_dashboard');
     }
+    public function editvendor(Request $request, Vendor $vendor){
+//dd($request);
+
+        $old_files = json_decode($request['fileuploader-list-file'],true);
+        $vendor->fill(['name'=>$request->name]);
+        $vendor->save();
+        if ($request->file) {
+
+            $filename = $request->file->store('public');
+            $file_name = explode('/', $filename);
+            $vendor->fill(['logo'=> $file_name[1]]);
+            $vendor->save();
+
+        }
+        if (!is_array($old_files))
+        {
+            $vendor->fill(['logo'=> null]);
+            $vendor->save();
+        }
+        return redirect()->route('vendor_dashboard');
+    }
 
 }

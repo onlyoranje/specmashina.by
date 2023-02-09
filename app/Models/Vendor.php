@@ -12,4 +12,5 @@ class Vendor extends Model
     public function bbs() {
         return $this->hasMany(Bb::class);
     }
+
 }

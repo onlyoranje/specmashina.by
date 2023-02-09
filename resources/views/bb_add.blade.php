@@ -37,7 +37,16 @@
 <strong>{{ $message }}</strong>
 </span>
                                                 @enderror
-
+                                                <div class="mb-3">
+                                                    <label for="exampleInputEmail1" class="form-label">Производитель</label>
+                                                    <select class="form-select" name="vendor_id" required>
+                                                        <option  selected disabled>- выбрать -</option>
+                                                        <?php $vendors = App\Models\Vendor::get();?>
+                                                        @foreach($vendors as $vendor)
+                                                            <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                                 <div class="mb-3">
                                                     <label for="exampleInputEmail1" class="form-label">Рубрика</label>
                                                     <div class="col-lg-12 col-md-6" id="container_rubric_0"></div>
@@ -56,7 +65,7 @@
                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                             <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                             </label>
-                                                            <input type="{{$parameter->type}}" class="form-control" id="exampleFormControlInput1">
+                                                            <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
                                                         </div>
                                                     @endforeach
                                                     @endif
