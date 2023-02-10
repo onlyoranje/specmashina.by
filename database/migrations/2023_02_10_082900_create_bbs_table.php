@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('rubric_id')->constrained()->cascadeOnDelete();
             $table->foreignId('location_id')->constrained();
             $table->foreignId('vendor_id')->constrained();
+            $table->foreignId('organization_id')->constrained();
             $table->text('content')->nullable();
             $table->float('price');
             $table->timestamps();

@@ -13,8 +13,8 @@
                     <ul>
                         <li><a href="{{route('mybb')}}"> Мои объявления</a></li>
                         <li>Моя организация</li>
-                        <li><a href="{{route('location_dashboard')}}">Список городов</a></li>
-                        <li><a href="{{route('rubric_dashboard')}}"> Список категорий</a></li>
+                        <li><a href="{{route('location_dashboard')}}">Регионы/Города</a></li>
+                        <li><a href="{{route('rubric_dashboard')}}"> Категории</a></li>
                     </ul>
                 </div>
             </div>

@@ -82,7 +82,7 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
     public function mybb() {
-        return view('mybb',
+        return view('bb.mybb',
             ['bbs' => Auth::user()->bbs()->latest()->get()]);
     }
     public function addForm(){
@@ -91,7 +91,7 @@ class ProfileController extends Controller
         $parameters = Parameter::all();
         $parameter_rubric = DB::table('parameter_rubric')->get();
         //dd($parameter_rubric);
-        return view('bb_add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric]);
+        return view('bb.bb_add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric]);
     }
     public function addBb(Request $request){
         //dd($request);
@@ -132,7 +132,7 @@ class ProfileController extends Controller
             $parameter_value[$pv->parameter_id]=$pv->value;
         }
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
-        return view('bb_edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'parameters'=>$parameters,'images'=>$images,'parameter_rubric'=>$parameter_rubric,'parameter_value'=>$parameter_value]);
+        return view('bb.edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'parameters'=>$parameters,'images'=>$images,'parameter_rubric'=>$parameter_rubric,'parameter_value'=>$parameter_value]);
     }
     public function updateBb(Request $request,Bb $bb){
 
@@ -212,13 +212,13 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             BbParameters::where('bb_id',$bb->id)->where('parameter_id',$parameter_id)->delete();
             }
         }
-        return redirect()->route('mybb');
+        return redirect()->route('bb.mybb');
     }
     public function deleteBb(Bb $bb){
-        return view('bb_delete', ['bb'=>$bb]);
+        return view('bb.delete', ['bb'=>$bb]);
     }
     public function destroyBb(Bb $bb){
         $bb->delete();
-        return redirect()->route('mybb');
+        return redirect()->route('bb.mybb');
     }
 }

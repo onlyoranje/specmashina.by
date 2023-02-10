@@ -18,7 +18,7 @@ class LocationsController extends Controller
         $locations    = Location::orderBy('sort')->get()->toTree();
         $depth      = Location::descendantsAndSelf($id)->toFlatTree();
 
-        return view('location_edit', ['location'=>$location,'locations'=>$locations,'depth'=>$depth]);
+        return view('location.location_edit', ['location'=>$location,'locations'=>$locations,'depth'=>$depth]);
 
     }
     public function location($id){
@@ -26,19 +26,19 @@ class LocationsController extends Controller
         $locations    = Location::descendantsAndSelf($id)->pluck('id');
         $announcements    = Bb::whereIn('location_id',$locations)->get();
         $breadcrumbs= Location::ancestorsAndSelf($id);
-        return view('location', ['location'=>$location,'Locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'announcements'=>$announcements]);
+        return view('location.location', ['location'=>$location,'Locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'announcements'=>$announcements]);
 
     }
     public function locations(){
 
         $locations = Location::orderBy('sort')->get()->toTree();
-        return view('location_dashboard',compact('locations'));
+        return view('location.dashboard',compact('locations'));
 
     }
     public function addLocationForm(){
         $locations = Location::orderBy('sort')->get()->toTree();
 
-        return view('location_add',compact('locations'));
+        return view('location.add',compact('locations'));
     }
     public function addLocation(Request $request){
         $validated = $request->validate(self::LOC_VALIDATOR,self::LOC_ERROR_MESSAGES);
@@ -47,7 +47,7 @@ class LocationsController extends Controller
         else
             $level=0;
         Location::create(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
-        return redirect()->route('location_dashboard');
+        return redirect()->route('location.dashboard');
     }
     public function editLocation(Request $request, Location $location){
         $validated = $request->validate(self::LOC_VALIDATOR,self::LOC_ERROR_MESSAGES);
@@ -57,14 +57,14 @@ class LocationsController extends Controller
             $level=0;
         $location->fill(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
         $location->save();
-        return redirect()->route('location_dashboard');
+        return redirect()->route('location.dashboard');
     }
 
     public function delete(Location $location){
-        return view('deleteLocation', ['location'=>$location]);
+        return view('delete', ['location'=>$location]);
     }
     public function destroyLocation(Location $location){
         $location->delete();
-        return redirect()->route('location_dashboard');
+        return redirect()->route('location.dashboard');
     }
 }

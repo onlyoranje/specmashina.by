@@ -15,15 +15,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('type_parameters', function (Blueprint $table) {
+        Schema::create('parameter_types', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->unique();
+            $table->string('type');
             $table->string('type_name')->nullable();
             $table->timestamps();
         });
-        TypeParameter::updateOrCreate(['type'=>'number','type_name'=>"Число"]);
-        TypeParameter::updateOrCreate(['type'=>'string','type_name'=>"Число"]);
-        TypeParameter::updateOrCreate(['type'=>'boolean','type_name'=>"Да/Нет"]);
+       /* TypeParameter::updateOrCreate(['type'=>'number','type_name'=>"Число"]);
+        TypeParameter::updateOrCreate(['type'=>'string','type_name'=>"Текст"]);
+        TypeParameter::updateOrCreate(['type'=>'phone','type_name'=>"Телефон"]);
+        TypeParameter::updateOrCreate(['type'=>'boolean','type_name'=>"Да/Нет"]);*/
     }
 
     /**

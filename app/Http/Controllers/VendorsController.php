@@ -10,18 +10,18 @@ class VendorsController extends Controller
     //
     public function detail($id){
         $vendor     = Vendor::find($id);
-        return view('vendor.vendor_edit', compact('vendor'));
+        return view('vendor.edit', compact('vendor'));
 
     }
     public function vendors(){
 
         $vendors = Vendor::orderBy('name')->get();
-        return view('vendor.vendor_dashboard',compact('vendors'));
+        return view('vendor.dashboard',compact('vendors'));
 
     }
     public function addVendorForm(){
 
-        return view('vendor.vendor_add');
+        return view('vendor.add');
     }
     public function addVendor(Request $request){
 

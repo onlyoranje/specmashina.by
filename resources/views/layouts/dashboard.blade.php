@@ -77,10 +77,11 @@
     <main class="py-4">
         <nav class="nav">
             <a class="nav-link" href="{{route('mybb')}}"> Мои объявления</a>
-            <a class="nav-link">Моя организация</a>
+            <a class="nav-link"  >Моя организация</a>
             <a href="{{route('location_dashboard')}}" class="nav-link">Список городов</a>
             <a href="{{route('rubric_dashboard')}}" class="nav-link"> Список категорий</a>
-            <a href="{{route('parameter_dashboard')}}" class="nav-link"> Список параметров</a>
+            <a href="{{route('parameter_dashboard')}}" class="nav-link"> Параметры</a>
+            <a href="{{route('vendor_dashboard')}}" class="nav-link"> Список производителей</a>
             <a href="{{route('vendor_dashboard')}}" class="nav-link"> Список производителей</a>
         </nav>
         @yield('main')

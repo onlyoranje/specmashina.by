@@ -24,27 +24,27 @@ class ParametersController extends Controller
     public function parameters(){
 
         $parameters = Parameter::orderBy('sort')->get();
-        return view('parameter_dashboard',compact('parameters'));
+        return view('parameter.dashboard',compact('parameters'));
 
     }
     public function addParameterForm($id=false){
         $types = TypeParameter::get();
         $rubrics = Rubric::orderBy('sort')->get()->toTree();
-        return view('parameter_add',[ 'types'=>$types,'rubrics'=>$rubrics]);
+        return view('parameter.add',[ 'types'=>$types,'rubrics'=>$rubrics]);
     }
     public function addParameter(Request $request){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
         //dd($request);
         $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort]);
         $parameter->rubrics()->attach($request->rubrics);
-        return redirect()->route('parameter_dashboard');
+        return redirect()->route('parameter.dashboard');
     }
     public function detail($id){
         $parameter     = Parameter::find($id);
         $types = TypeParameter::get();
         $rubrics = Rubric::orderBy('sort')->get()->toTree();
         //$parameter_rubric = $parameter->rubrics->pluck('id');
-        return view('parameter_edit', ['parameter'=>$parameter,'rubrics'=>$rubrics,'types'=>$types]);
+        return view('parameter.edit', ['parameter'=>$parameter,'rubrics'=>$rubrics,'types'=>$types]);
 
     }
     public function editParameter(Request $request, Parameter $parameter){
@@ -63,14 +63,14 @@ class ParametersController extends Controller
         foreach ($parameter_rubric_update as $pr){
             if (!in_array($pr,$parameter_rubric)) ParameterRubric::updateOrCreate(['rubric_id'=>$pr,'parameter_id'=>$parameter->id]);
         }
-        return redirect()->route('parameter_dashboard');
+        return redirect()->route('parameter.dashboard');
     }
     public function delete(Parameter $parameter){
-        return view('deleteParameter', ['parameter'=>$parameter]);
+        return view('parameter.delete', ['parameter'=>$parameter]);
     }
     public function destroyParameter(Parameter $parameter){
         ParameterRubric::where('parameter_id', $parameter->id)->delete();
         $parameter->delete();
-        return redirect()->route('parameter_dashboard');
+        return redirect()->route('parameter.dashboard');
     }
 }
