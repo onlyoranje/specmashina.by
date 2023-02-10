@@ -75,8 +75,6 @@ Route::get('/dashboard/vendor/{vendor}/delete', [App\Http\Controllers\VendorsCon
 Route::delete('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'destroyVendor'])->name('vendor_dashboard_destroy')->middleware('auth');
 
 
-Route::get('image', 'ImageController@index');
-Route::post('store', 'ImageController@store');
 
 
 require __DIR__.'/auth.php';
