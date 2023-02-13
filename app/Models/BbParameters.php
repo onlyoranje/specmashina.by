@@ -13,4 +13,7 @@ class BbParameters extends Model
     {
         return $this->belongsTo(Bb::class);
     }
+    public function parameters(){
+        return $this->belongsTo(Parameter::class,'parameter_id');
+    }
 }

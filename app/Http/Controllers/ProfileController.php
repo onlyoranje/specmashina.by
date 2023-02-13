@@ -91,7 +91,7 @@ class ProfileController extends Controller
         $parameters = Parameter::all();
         $parameter_rubric = DB::table('parameter_rubric')->get();
         //dd($parameter_rubric);
-        return view('bb.bb_add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric]);
+        return view('bb.add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric]);
     }
     public function addBb(Request $request){
         //dd($request);
@@ -205,20 +205,27 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         foreach ($request->parameter as $parameter_id=>$value){
             if (!is_null($value))
             {
-                BbParameters::create(['bb_id' => $bb->id,'value'=>$value, 'parameter_id'=>$parameter_id]);
+                BbParameters::updateOrCreate(['bb_id' => $bb->id, 'parameter_id'=>$parameter_id],['value'=>$value]);
             }
             else
             {
             BbParameters::where('bb_id',$bb->id)->where('parameter_id',$parameter_id)->delete();
             }
         }
-        return redirect()->route('bb.mybb');
+        return redirect()->route('mybb');
     }
     public function deleteBb(Bb $bb){
         return view('bb.delete', ['bb'=>$bb]);
     }
     public function destroyBb(Bb $bb){
         $bb->delete();
-        return redirect()->route('bb.mybb');
+        return redirect()->route('mybb');
     }
+    public function MyOrganization(){
+        return view('organization.my_organization',['organization' => Auth::user()->organization()->get()]);
+    }
+    public function addOrganization(){
+        return view('organization.add');
+    }
+
 }

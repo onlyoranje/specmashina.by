@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('type_name')->nullable();
+            $table->json('properties')->nullable();
             $table->timestamps();
         });
        /* TypeParameter::updateOrCreate(['type'=>'number','type_name'=>"Число"]);

@@ -12,4 +12,8 @@ class Parameter extends Model
     public function rubrics() {
         return $this->belongsToMany(Rubric::class);
     }
+    public function parametertypes(){
+        return $this->belongsTo(ParameterType::class);
+    }
+
 }

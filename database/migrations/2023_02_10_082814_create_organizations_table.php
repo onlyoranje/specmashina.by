@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('site');
             $table->string('email');
             $table->string('logo');
-
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

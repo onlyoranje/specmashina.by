@@ -62,11 +62,26 @@
                                                 @enderror
                                                 @if (count($parameters)>0)
                                                     @foreach($parameters as $parameter)
+                                                        @if ($parameter->type == 'year')
+                                                            <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                </label>
+                                                                <select class="form-select" name="parameter[{{$parameter->id}}]" >
+                                                                    <option disabled selected>- выбрать -</option>
+                                                                    @for($year=date('Y');$year>=1950;$year--)
+                                                                    <option value="{{$year}}">{{$year}}</option>
+                                                                    @endfor
+                                                                </select>
+
+                                                            </div>
+                                                            @else
+
                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                             <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                             </label>
                                                             <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
                                                         </div>
+                                                        @endif
                                                     @endforeach
                                                     @endif
 

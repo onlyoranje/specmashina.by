@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Parameter;
 use App\Models\ParameterRubric;
+use App\Models\ParameterType;
 use App\Models\Rubric;
 use App\Models\TypeParameter;
 use Illuminate\Http\Request;
@@ -24,11 +25,12 @@ class ParametersController extends Controller
     public function parameters(){
 
         $parameters = Parameter::orderBy('sort')->get();
-        return view('parameter.dashboard',compact('parameters'));
+        $types = ParameterType::orderBy('type_name')->get();
+        return view('parameter.dashboard',['parameters'=>$parameters,'types'=>$types]);
 
     }
     public function addParameterForm($id=false){
-        $types = TypeParameter::get();
+        $types = ParameterType::get();
         $rubrics = Rubric::orderBy('sort')->get()->toTree();
         return view('parameter.add',[ 'types'=>$types,'rubrics'=>$rubrics]);
     }
@@ -37,11 +39,11 @@ class ParametersController extends Controller
         //dd($request);
         $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort]);
         $parameter->rubrics()->attach($request->rubrics);
-        return redirect()->route('parameter.dashboard');
+        return redirect()->route('parameter_dashboard');
     }
     public function detail($id){
         $parameter     = Parameter::find($id);
-        $types = TypeParameter::get();
+        $types = ParameterType::get();
         $rubrics = Rubric::orderBy('sort')->get()->toTree();
         //$parameter_rubric = $parameter->rubrics->pluck('id');
         return view('parameter.edit', ['parameter'=>$parameter,'rubrics'=>$rubrics,'types'=>$types]);
@@ -63,7 +65,7 @@ class ParametersController extends Controller
         foreach ($parameter_rubric_update as $pr){
             if (!in_array($pr,$parameter_rubric)) ParameterRubric::updateOrCreate(['rubric_id'=>$pr,'parameter_id'=>$parameter->id]);
         }
-        return redirect()->route('parameter.dashboard');
+        return redirect()->route('parameter_dashboard');
     }
     public function delete(Parameter $parameter){
         return view('parameter.delete', ['parameter'=>$parameter]);
@@ -71,6 +73,6 @@ class ParametersController extends Controller
     public function destroyParameter(Parameter $parameter){
         ParameterRubric::where('parameter_id', $parameter->id)->delete();
         $parameter->delete();
-        return redirect()->route('parameter.dashboard');
+        return redirect()->route('parameter_dashboard');
     }
 }

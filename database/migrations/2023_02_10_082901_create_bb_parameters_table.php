@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('bb_id')->references('id')->on('bbs');
             $table->string('value')->nullable();
             $table->timestamps();
+            $table->unique('parameter_id', 'bb_id');
         });
     }
 

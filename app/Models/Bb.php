@@ -23,7 +23,7 @@ class Bb extends Model
     public function userfile() {
         return $this->hasMany(UserFile::class);
     }
-    public function bb_parameter(){
-        return $this->hasMany(UserFile::class);
+    public function BbParameters(){
+        return $this->hasMany(BbParameters::class);
     }
 }

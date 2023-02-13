@@ -17,6 +17,7 @@
                             @endif
 
                             <a href="{{route('parameter_dashboard_add')}}">Добавить Параметр</a>
+                            <a href="{{route('parameter_type_add')}}">Добавить Тип Параметра</a>
                             <br>
                                 @if (count($parameters)>0)
                                 <?php
@@ -36,6 +37,25 @@
 
                                 @endif
                         </div>
+                        <hr>
+                        <h3> Типы параметров</h3>
+                        @if (count($types)>0)
+                            <?php
+
+                            foreach ($types as $type) {
+
+                                echo $type->type_name."  <a href='".route('parameter_type_edit' , ['type'=>$type->id]) ."'>Редактировать </a> <a href='".route('parameter_type_delete', ['type'=>$type->id])."'>Удалить</a><br>";
+
+
+
+                            }
+
+
+                            ;
+                            ?>
+
+
+                        @endif
                     </div>
                 </div>
             </div>
