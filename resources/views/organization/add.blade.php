@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Лого</label>
-                                    <input type="text" class="form-control" name="logo">
+                                    <input type="file" class="form-control" name="file">
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Submit</button>
