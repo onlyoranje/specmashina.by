@@ -25,9 +25,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/dashboard/mybb',
-    [App\Http\Controllers\ProfileController::class, 'mybb'])
-    ->name('mybb');
+
+Route::get('/dashboard/organization', [App\Http\Controllers\ProfileController::class, 'MyOrganization'])->name('my_organization')->middleware('auth');
+Route::get('/dashboard/organization/add', [App\Http\Controllers\ProfileController::class, 'addOrganization'])->name('organization_add')->middleware('auth');
+Route::get('/dashboard/organization/edit', [App\Http\Controllers\ProfileController::class, 'editOrganization'])->name('organization_edit')->middleware('auth');
+Route::post('/dashboard/organization', [App\Http\Controllers\ProfileController::class, 'addOrganizationToDB'])->name('addOrganizationToDB')->middleware('auth');
+Route::patch('/dashboard/organization/{organization}',[App\Http\Controllers\ProfileController::class, 'updateOrganization'])->name('organization_update')->middleware('auth');
+
+
+Route::get('/dashboard/mybb',[App\Http\Controllers\ProfileController::class, 'mybb'])->name('mybb');
 Route::get('/dashboard/add', [App\Http\Controllers\ProfileController::class, 'addForm'])->name('addForm');
 Route::post('/dashboard', [App\Http\Controllers\ProfileController::class, 'addBb'])->name('addBbToDB');
 Route::get('/dashboard/{bb}/edit',[App\Http\Controllers\ProfileController::class, 'editBb'])->name('bb_edit')->middleware('can:update,bb');
@@ -84,8 +90,6 @@ Route::get('/dashboard/vendor/{vendor}/delete', [App\Http\Controllers\VendorsCon
 Route::delete('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'destroyVendor'])->name('vendor_dashboard_destroy')->middleware('auth');
 
 
-Route::get('/dashboard/organization', [App\Http\Controllers\ProfileController::class, 'MyOrganization'])->name('my_organization')->middleware('auth');
-Route::get('/dashboard/organization/add', [App\Http\Controllers\ProfileController::class, 'addOrganization'])->name('organization_add')->middleware('auth');
 
 require __DIR__.'/auth.php';
 Route::get('/{bb}', [BbsController::class, 'detail'])->name('bb');

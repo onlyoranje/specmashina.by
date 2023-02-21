@@ -12,7 +12,9 @@
                                 <div class="row">
                                     <div class="col-lg-10 offset-lg-1 col-12">
                                         <div class="add-resume-inner box">
-
+<form class="form-ad" action="{{route('addOrganizationToDB')}}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
                         <div class="card-body">
                             @if (session('status'))
                                 <div class="alert alert-success" role="alert">
@@ -28,12 +30,12 @@
                                     <input type="text" class="form-control" name="address">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Адрес организации</label>
+                                    <label for="exampleInputEmail1" class="form-label">email</label>
                                     <input type="email" class="form-control" name="email">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">УНП</label>
-                                    <input type="text" class="form-control" name="unp">
+                                    <input type="number" min="100000000" max="799999999"  class="form-control" name="unp">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Сайт</label>
@@ -46,7 +48,8 @@
 
                                 <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
-                        </div>
+</form>
+                                        </div>
                         </div>
                         </div>
                         </div>

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        User::create(['name' => 'admin', 'email' => 'admin@bboard.ru','password' => Hash::make('12345678')]);
+        User::create(['name' => 'admin', 'email' => '47@terwa.by','password' => Hash::make('12345678')]);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\BbParameters;
 use App\Models\Location;
+use App\Models\Organization;
 use App\Models\Parameter;
 use App\Models\Rubric;
 use App\Models\Bb;
@@ -37,7 +38,17 @@ class ProfileController extends Controller
         'max' => 'Значение не должно быть длиннее :max символов',
         'numeric' => 'Введите число'
     ];
+    private const ORG_VALIDATOR = [
+        'title' => 'required',
+        'unp' => 'required',
+        'address' => 'required'
+    ];
 
+    private const ORG_ERROR_MESSAGES = [
+        'required' => 'Заполните это поле',
+        'max' => 'Значение не должно быть длиннее :max символов',
+        'numeric' => 'Введите число'
+    ];
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -222,10 +233,64 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return redirect()->route('mybb');
     }
     public function MyOrganization(){
-        return view('organization.my_organization',['organization' => Auth::user()->organization()->get()]);
+        return view('organization.my_organization',['organization' => Organization::where('user_id',Auth::user()->id)->first()]);
     }
     public function addOrganization(){
         return view('organization.add');
     }
+    public function addOrganizationToDB(Request $request){
+        //dd($request->file);
+        $old_files = json_decode($request['fileuploader-list-file'],true);
+        $validated = $request->validate(self::ORG_VALIDATOR,self::ORG_ERROR_MESSAGES);
+        $org = new Organization([
+            'title'=>$validated['title'],
+            'address'=>$validated['address'],
+            'unp'=>$validated['unp'],
+            'site'=>$request->site,
+            'email'=>$request->email
+        ]);
+        $org->user()->associate(Auth::user());
+        $org->save();
+        if ($request->file[0]) {
 
+            $filename = $request->file[0]->store('public');
+            $file_name = explode('/', $filename);
+            $org->fill(['logo'=> $file_name[1]]);
+            $org->save();
+
+        }
+
+        return redirect()->route('dashboard');
+    }
+    public function editOrganization(Organization $organization){
+        return view('organization.edit',['organization' => Organization::where('user_id',Auth::user()->id)->first()]);
+    }
+    public function  updateOrganization(Request $request, Organization $organization){
+//dd($request);
+
+        $old_files = json_decode($request['fileuploader-list-file'],true);
+        $validated = $request->validate(self::ORG_VALIDATOR,self::ORG_ERROR_MESSAGES);
+        $organization->fill([
+            'title'=>$validated['title'],
+            'address'=>$validated['address'],
+            'unp'=>$validated['unp'],
+            'site'=>$request->site,
+            'email'=>$request->email
+        ]);
+        $organization->save();
+        if ($request->file) {
+
+            $filename = $request->file->store('public');
+            $file_name = explode('/', $filename);
+            $organization->fill(['logo'=> $file_name[1]]);
+            $organization->save();
+
+        }
+        if (!is_array($old_files))
+        {
+            $organization->fill(['logo'=> null]);
+            $organization->save();
+        }
+        return redirect()->route('my_organization');
+    }
 }

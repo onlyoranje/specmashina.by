@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('address');
             $table->string('unp');
-            $table->string('site');
-            $table->string('email');
-            $table->string('logo');
+            $table->string('site')->nullable();
+            $table->string('email')->nullable();
+            $table->string('logo')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
