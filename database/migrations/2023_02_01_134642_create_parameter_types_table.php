@@ -22,7 +22,7 @@ return new class extends Migration
             $table->json('properties')->nullable();
             $table->timestamps();
         });
-       /* TypeParameter::updateOrCreate(['type'=>'number','type_name'=>"Число"]);
+        /*TypeParameter::updateOrCreate(['type'=>'number','type_name'=>"Число"]);
         TypeParameter::updateOrCreate(['type'=>'string','type_name'=>"Текст"]);
         TypeParameter::updateOrCreate(['type'=>'phone','type_name'=>"Телефон"]);
         TypeParameter::updateOrCreate(['type'=>'boolean','type_name'=>"Да/Нет"]);*/
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_parameters');
+        Schema::dropIfExists('parameter_types');
     }
 };
