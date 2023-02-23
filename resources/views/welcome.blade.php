@@ -1,4 +1,4 @@
-@extends('layouts.base')
+@extends('uikit.front')
 @section('title', 'Главная')
 @section('main')
     @if (count($bbs) > 0)
