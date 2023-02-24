@@ -78,6 +78,14 @@ Route::patch('/dashboard/parameter_type/{type}', [App\Http\Controllers\Parameter
 Route::get('/dashboard/parameter_type/{type}/delete', [App\Http\Controllers\ParameterTypesController::class, 'delete'])->name('parameter_type_delete')->middleware('auth');
 Route::delete('/dashboard/parameter_type/{type}', [App\Http\Controllers\ParameterTypesController::class, 'destroy'])->name('parameter_type_destroy')->middleware('auth');
 
+Route::get('/dashboard/price_type', [App\Http\Controllers\PriceTypesController::class, 'types'])->name('price_type_dashboard')->middleware('auth');
+Route::post('/dashboard/price_type', [App\Http\Controllers\PriceTypesController::class, 'addTypetoDB'])->name('addPriceTypeToDB')->middleware('auth');
+Route::get('/dashboard/price_type/add', [App\Http\Controllers\PriceTypesController::class, 'addTypeForm'])->name('price_type_add')->middleware('auth');
+Route::get('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'detail'])->name('price_type_edit')->middleware('auth');
+Route::patch('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'editType'])->name('editPriceTypetoDB')->middleware('auth');
+Route::get('/dashboard/price_type/{type}/delete', [App\Http\Controllers\PriceTypesController::class, 'delete'])->name('price_type_delete')->middleware('auth');
+Route::delete('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'destroy'])->name('price_type_destroy')->middleware('auth');
+
 
 Route::get('/vendor', [App\Http\Controllers\VendorsController::class, 'vendor'])->name('vendors');
 Route::get('/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'vendor'])->name('vendor');
