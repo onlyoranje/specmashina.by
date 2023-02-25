@@ -47,7 +47,7 @@ class LocationsController extends Controller
         else
             $level=0;
         Location::create(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
-        return redirect()->route('location.dashboard');
+        return redirect()->route('location_dashboard');
     }
     public function editLocation(Request $request, Location $location){
         $validated = $request->validate(self::LOC_VALIDATOR,self::LOC_ERROR_MESSAGES);
@@ -57,7 +57,7 @@ class LocationsController extends Controller
             $level=0;
         $location->fill(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
         $location->save();
-        return redirect()->route('location.dashboard');
+        return redirect()->route('location_dashboard');
     }
 
     public function delete(Location $location){
@@ -65,6 +65,6 @@ class LocationsController extends Controller
     }
     public function destroyLocation(Location $location){
         $location->delete();
-        return redirect()->route('location.dashboard');
+        return redirect()->route('location_dashboard');
     }
 }
