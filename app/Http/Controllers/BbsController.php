@@ -14,6 +14,7 @@ class BbsController extends Controller
         return view('welcome', $context);
     }
     public function detail(Bb $bb) {
+        //test
        // $rubric = $bb->rubric();
         return view('detail', ['bb' => $bb]);
     }
