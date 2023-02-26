@@ -291,6 +291,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             $organization->fill(['logo'=> null]);
             $organization->save();
         }
+        //test comment
         return redirect()->route('my_organization');
     }
 }
