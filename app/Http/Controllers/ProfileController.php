@@ -31,6 +31,7 @@ class ProfileController extends Controller
         'title' => 'required|max:50',
 
         'rubric_id' => 'required',
+        'type_price' => 'required',
         'location_id' => 'required',
         'price' => 'required|numeric'
     ];
@@ -109,7 +110,7 @@ class ProfileController extends Controller
         return view('bb.add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric,'price_types'=>$price_types, 'price_type_rubric'=>$price_type_rubric]);
     }
     public function addBb(Request $request){
-        dd($request);
+        //dd($request);
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
         $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'vendor_id'=>$request->vendor_id,'location_id'=>$validated['location_id']]);
@@ -132,7 +133,7 @@ class ProfileController extends Controller
         foreach ($request->parameter as $parameter_id=>$value){
             if (!is_null($value))  BbParameters::create(['bb_id' => $bb->id,'value'=>$value, 'parameter_id'=>$parameter_id]);
         }
-        BbPrice::create(['bb_id' => $bb->id,'price'=>$request->price, 'price_type_id'=>$request->price_type]);
+        BbPrice::create(['bb_id' => $bb->id,'price'=>$request->price, 'price_type_id'=>$validated['price_type']]);
         return redirect()->route('dashboard');
     }
     public function editBb(Bb $bb){
