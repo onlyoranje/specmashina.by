@@ -31,7 +31,7 @@ class ProfileController extends Controller
         'title' => 'required|max:50',
 
         'rubric_id' => 'required',
-        'type_price' => 'required',
+        'price_type' => 'required',
         'location_id' => 'required',
         'price' => 'required|numeric'
     ];
