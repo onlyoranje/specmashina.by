@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PriceType;
+use App\Models\PriceTypeRubric;
+use App\Models\Rubric;
 use Illuminate\Http\Request;
 
 class PriceTypesController extends Controller
@@ -16,18 +18,19 @@ class PriceTypesController extends Controller
 
     }
     public function addTypeForm($id=false){
-
-        return view('price_type.add');
+        $rubrics = Rubric::orderBy('sort')->get()->toTree();
+        return view('price_type.add',[ 'rubrics'=>$rubrics]);
     }
     public function addTypetoDB(Request $request){
-//dd($request);
-        PriceType::create(['type'=>$request->type]);
 
+        $pricetype = PriceType::create(['type'=>$request->type]);
+        $pricetype->rubrics()->attach($request->rubrics);
         return redirect()->route('price_type_dashboard');
     }
     public function detail($id){
         $type     = PriceType::find($id);
-        return view('price_type.edit', ['type'=>$type]);
+        $rubrics = Rubric::orderBy('sort')->get()->toTree();
+        return view('price_type.edit', ['rubrics'=>$rubrics,'type'=>$type]);
 
     }
     public function editType(Request $request, PriceType $type){
@@ -35,6 +38,17 @@ class PriceTypesController extends Controller
 
         $type->fill(['type'=>$request->type]);
         $type->save();
+        $type_rubric = $type->rubrics->pluck('id');
+        $type_rubric_update = $request->rubrics;
+
+        foreach ($type_rubric as $rubric_id){
+
+            if (!in_array($rubric_id,$type_rubric_update)) PriceTypeRubric::where('rubric_id', $rubric_id)->where('price_type_id', $type->id)->delete();
+        }
+        $type_rubric = $type->rubrics->toArray();
+        foreach ($type_rubric_update as $pr){
+            if (!in_array($pr,$type_rubric)) PriceTypeRubric::updateOrCreate(['rubric_id'=>$pr,'price_type_id'=>$type->id]);
+        }
 
         return redirect()->route('price_type_dashboard');
     }

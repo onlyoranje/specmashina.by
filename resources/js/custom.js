@@ -39,6 +39,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null,selec
 
     } else {
         if (model === 'rubric') Parameter_Rubric($("select[name='rubric_id']").val());
+        if (model === 'rubric') PriceType_Rubric($("select[name='rubric_id']").val());
         $("#"+model+"_level_"+(level-1)).attr('name',model+"_id")
         $("#"+model+"_level_"+(level-1)).attr('required',"required")
     }
@@ -127,14 +128,28 @@ window.CheckRubrics = function (parent_id,id) {
 window.Parameter_Rubric = function(rubric_id){
     $(".input-parameter").hide();
 
-    console.log(rubric_id)
+
     $.each(json_parameter_rubric, function(key, data)
     {
-        console.log(rubric_id+' '+data['parameter_id'])
+
 
         if (rubric_id==data['rubric_id']) {
 
             $('#parameter_'+data['parameter_id']).show()
+        }
+    })
+}
+window.PriceType_Rubric = function(rubric_id){
+    $(".input-pricetype").hide();
+
+    console.log(rubric_id)
+    $.each(json_pricetype_rubric, function(key, data)
+    {
+        console.log(rubric_id+' '+data['price_type_id'])
+
+        if (rubric_id==data['rubric_id']) {
+
+            $('#pricetype_'+data['price_type_id']).show()
         }
     })
 }

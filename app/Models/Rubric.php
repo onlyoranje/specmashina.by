@@ -26,4 +26,7 @@ class Rubric extends Model
     public function parameter(){
         return $this->belongsToMany(Parameter::class);
     }
+    public function priceType(){
+        return $this->belongsToMany(PriceTypeRubric::class);
+    }
 }

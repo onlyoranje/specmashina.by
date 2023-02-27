@@ -15,7 +15,7 @@
                     <form class="form-ad" action="{{route('addPriceTypeToDB')}}" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-lg-6 col-12">
+                            <div class="col-lg-12 col-12">
                                 <div class="form-group">
                                     <label class="control-label">Тип</label>
                                     <input type="text" value="{{old('type')}}" name="type" class="form-control" required>
@@ -23,15 +23,46 @@
                             </div>
 
 
+                            <div class="col-lg-6 col-12">
+                                <div class="form-group">
+                                    <label class="control-label">Рубрики</label>
 
-                            <div class="row align-items-center justify-content-center">
+
+                                    @if (count($rubrics)>0)
+                                        <?php
+
+                                        $traverse = function ($rubrics, $prefix = '<ul>',$postfix= '</ul>') use (&$traverse) {
+                                            if (count($rubrics)>0) echo '<ul>';
+                                            foreach ($rubrics as $rubric) {
+                                                $parent_id=$rubric->parent_id;
+                                                if (!is_numeric($rubric->parent_id)) $parent_id=0;
+                                                echo "<li>
+
+<input  type=\"checkbox\" id=\"checkbox".$rubric->id."\" name=\"rubrics[]\" value=\"".$rubric->id."\" >
+<label  for=\"checkbox".$rubric->id."\">".$rubric->title.'</label>
+';
+
+                                                if (count($rubric->children)==0) echo "</li>";
+                                                $traverse($rubric->children);
+                                            }
+                                            if (count($rubrics)>0) echo "</ul>";
+                                        };
+
+                                        $traverse($rubrics);
+
+                                        ?>
+                                    @endif
+
+                                </div>
+                            </div>
+
                                 <div class="col-lg-6 col-md-5 col-12">
                                     <div class="button">
                                         <button type="submit" class="btn">Save</button>
                                     </div>
                                 </div>
 
-                            </div>
+
 
 
 

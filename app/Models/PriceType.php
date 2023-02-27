@@ -9,4 +9,7 @@ class PriceType extends Model
 {
     use HasFactory;
     protected $fillable=['type'];
+    public function rubrics() {
+        return $this->belongsToMany(Rubric::class);
+    }
 }

@@ -48,7 +48,7 @@ class RubricsController extends Controller
         else
             $level=0;
         Rubric::create(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description]);
-        return redirect()->route('rubric.dashboard');
+        return redirect()->route('rubric_dashboard');
     }
     public function editRubric(Request $request, Rubric $rubric){
         $validated = $request->validate(self::RUB_VALIDATOR,self::RUB_ERROR_MESSAGES);
@@ -58,7 +58,7 @@ class RubricsController extends Controller
             $level=0;
         $rubric->fill(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description,'sort'=>$request->sort]);
         $rubric->save();
-        return redirect()->route('rubric.dashboard');
+        return redirect()->route('rubric_dashboard');
     }
 
     public function delete(Rubric $rubric){
@@ -68,6 +68,6 @@ class RubricsController extends Controller
 
         ParameterRubric::where('rubric_id', $rubric->id)->delete();
         $rubric->delete();
-        return redirect()->route('rubric.dashboard');
+        return redirect()->route('rubric_dashboard');
     }
 }

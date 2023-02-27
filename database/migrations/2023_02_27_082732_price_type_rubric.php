@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('parameter_rubric', function (Blueprint $table) {
-           //$table->id();
+        Schema::create('price_type_rubric', function (Blueprint $table) {
+            $table->id();
 
             $table->unsignedBigInteger('rubric_id');
-            $table->unsignedBigInteger('parameter_id');
+            $table->unsignedBigInteger('price_type_id');
             $table->foreign('rubric_id')->references('id')->on('rubrics')->cascadeOnDelete();
-            $table->foreign('parameter_id')->references('id')->on('parameters')->cascadeOnDelete();
+            $table->foreign('price_type_id')->references('id')->on('price_types')->cascadeOnDelete();
         });
     }
 
@@ -30,6 +30,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parameter_rubric');
+        Schema::dropIfExists('price_type_rubric');
     }
+
 };

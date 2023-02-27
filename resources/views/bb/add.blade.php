@@ -85,11 +85,25 @@
                                                     @endforeach
                                                     @endif
 
-                                                    <div class="mb-3">
+                                                    <div class="mb-3 col-6">
                                                         <label class="form-label">Цена</label>
                                                         <input type="number" value="{{old('price')}}" name="price"
                                                                class="form-control" required >
                                                     </div>
+
+                                                <div class="mb-3 col-6">
+                                                    <label class="form-label">Цена</label>
+                                                    @if (count($price_types)>0)
+                                                        @foreach($price_types as $price_type)
+                                                    <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
+                                                        <input class="form-check-input" type="radio" name="price_type" id="flexRadioDefault1" value="{{$price_type->id}}">
+                                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                            {{$price_type->type}}
+                                                        </label>
+                                                    </div>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
 
                                                 @error('price')
                                                 <span class="invalid-feedback">
@@ -133,6 +147,7 @@
                             window.json_rubric = @json($rubrics);
                             window.json_location = @json($locations);
                             window.json_parameter_rubric = @json($parameter_rubric);
+                            window.json_pricetype_rubric = @json($price_type_rubric);
                             NewSelect('rubric');
                             NewSelect('location');
                             $('.input-images').imageUploader();
@@ -147,3 +162,4 @@
         </div>
     </div>
 @endsection
+

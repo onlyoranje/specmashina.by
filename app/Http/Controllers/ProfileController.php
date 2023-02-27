@@ -7,6 +7,7 @@ use App\Models\BbParameters;
 use App\Models\Location;
 use App\Models\Organization;
 use App\Models\Parameter;
+use App\Models\PriceType;
 use App\Models\Rubric;
 use App\Models\Bb;
 use App\Models\UserFile;
@@ -100,9 +101,11 @@ class ProfileController extends Controller
         $rubrics = Rubric::all();
         $locations = Location::all();
         $parameters = Parameter::all();
+        $price_types = PriceType::all();
         $parameter_rubric = DB::table('parameter_rubric')->get();
+        $price_type_rubric = DB::table('price_type_rubric')->get();
         //dd($parameter_rubric);
-        return view('bb.add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric]);
+        return view('bb.add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric,'price_types'=>$price_types, 'price_type_rubric'=>$price_type_rubric]);
     }
     public function addBb(Request $request){
         //dd($request);
