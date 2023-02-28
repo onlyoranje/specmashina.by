@@ -130,9 +130,12 @@ class ProfileController extends Controller
                 UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
 
             }}
-        foreach ($request->parameter as $parameter_id=>$value){
-            if (!is_null($value))  BbParameters::create(['bb_id' => $bb->id,'value'=>$value, 'parameter_id'=>$parameter_id]);
+        if ($request->parameter){
+            foreach ($request->parameter as $parameter_id=>$value){
+                if (!is_null($value))  BbParameters::create(['bb_id' => $bb->id,'value'=>$value, 'parameter_id'=>$parameter_id]);
+            }
         }
+
         BbPrice::create(['bb_id' => $bb->id,'price'=>$request->price, 'price_type_id'=>$validated['price_type']]);
         return redirect()->route('dashboard');
     }

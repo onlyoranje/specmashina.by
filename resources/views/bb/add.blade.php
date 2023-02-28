@@ -41,7 +41,7 @@
                                                     <label for="exampleInputEmail1" class="form-label">Производитель</label>
                                                     <select class="form-select" name="vendor_id" required>
                                                         <option  selected disabled>- выбрать -</option>
-                                                        <?php $vendors = App\Models\Vendor::get();?>
+                                                        <?php use App\Models\Location;use App\Models\Rubric;$vendors = App\Models\Vendor::get();?>
                                                         @foreach($vendors as $vendor)
                                                             <option value="{{$vendor->id}}">{{$vendor->name}}</option>
                                                         @endforeach
@@ -141,6 +141,8 @@
                         </div>
                         <div id="log"></div>
                     </section>
+                    Отладка:{{old('rubric_id')}}
+                    Отладка:{{old('location_id')}}
                     <script>
 
                         $(document).ready(function() {
@@ -148,8 +150,42 @@
                             window.json_location = @json($locations);
                             window.json_parameter_rubric = @json($parameter_rubric);
                             window.json_pricetype_rubric = @json($price_type_rubric);
-                            NewSelect('rubric');
+<?php
+//рубрики
+    if (old('rubric_id')){
+    $all_rubrics = Rubric::whereAncestorOrSelf(old('rubric_id'))->orderBy('level')->get();?>
+@foreach($all_rubrics as $rubric_)
+
+NewSelect('rubric',<?php if (!$rubric_->parent_id) {echo 'null';} else {echo $rubric_->parent_id;}  ?>,{{$rubric_->level}},{{$rubric_->id}},@json($all_rubrics));
+                            $('#rubric_level_{{$rubric_->level}} option[value={{$rubric_->id}}]').prop('selected', true);
+
+                            @endforeach
+<?php
+        }else {
+        ?>
+NewSelect('rubric');
+<?php
+    }
+
+//локации
+    if (old('location_id')){
+$all_locations = Location::whereAncestorOrSelf(old('location_id'))->orderBy('level')->get();?>
+@foreach($all_locations as $location_)
+
+NewSelect('location',<?php if (!$location_->parent_id) {echo 'null';} else {echo $location_->parent_id;}  ?>,{{$location_->level}},{{$location_->id}},@json($all_locations));
+                            $('#location_level_{{$location_->level}} option[value={{$location_->id}}]').prop('selected', true);
+
+                            @endforeach
+                            <?php
+                            }else {
+                            ?>
                             NewSelect('location');
+                            <?php
+                            }
+
+                            ?>
+
+
                             $('.input-images').imageUploader();
 
 

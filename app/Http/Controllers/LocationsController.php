@@ -18,7 +18,7 @@ class LocationsController extends Controller
         $locations    = Location::orderBy('sort')->get()->toTree();
         $depth      = Location::descendantsAndSelf($id)->toFlatTree();
 
-        return view('location.location_edit', ['location'=>$location,'locations'=>$locations,'depth'=>$depth]);
+        return view('location.edit', ['location'=>$location,'locations'=>$locations,'depth'=>$depth]);
 
     }
     public function location($id){
