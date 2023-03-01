@@ -91,7 +91,7 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">price</label>
-                                    <input type="number" value="{{old('price',$bb->price)}}" name="price" class="form-control"  required placeholder="Name">
+                                    <input type="number" value="{{old('price',$bb->bbprice->price)}}" name="price" class="form-control"  required placeholder="Name">
                                 </div>
                             </div>
                             @error('price')

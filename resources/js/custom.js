@@ -1,10 +1,10 @@
 window.NewSelect = function (model, parent_id = null, level = 0, id = null, selected = false) {
-    console.log('model:'+model);
+    /*console.log('model:'+model);
     console.log('parent_id:'+parent_id);
     console.log('level:'+level);
     console.log('id:'+id);
     console.log('selected:'+selected);
-    console.log('-----');
+    console.log('-----');*/
     var json
 
     var child_cat = 0;
@@ -22,7 +22,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
         $("#" + model + "_level_" + level).remove()
     }
     if (child_cat > 0) {
-        var sel = $("#container_" + model + "_" + (level)).html("<select class=\"form-select\" name='" + model + "_id' id='" + model + "_level_" + level + "' onchange=\"NewSelect('" + model + "',this.value," + (level + 1) + ")\"></select>");
+        var sel = $("#container_" + model + "_" + (level)).html("<select class=\"form-select\" name='" + model + "_id' id='" + model + "_level_" + level + "' onclick= \"NewSelect('" + model + "',this.value," + (level + 1) + ")\"></select>");
         $("#container_" + model + "_" + (level)).append($("<div id='container_" + model + "_" + (level + 1) + "'></div>"))
         if (id) {
             $("#" + model + "_level_" + level).append('<option disabled>- выбрать -</option>');
@@ -42,7 +42,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
 
     } else {
         if (model === 'rubric') Parameter_Rubric($("select[name='rubric_id']").val());
-        if (model === 'rubric') PriceType_Rubric($("select[name='rubric_id']").val());
+        /*if (model === 'rubric') PriceType_Rubric($("select[name='rubric_id']").val());*/
         $("#" + model + "_level_" + (level - 1)).attr('name', model + "_id")
         $("#" + model + "_level_" + (level - 1)).attr('required', "required")
     }
@@ -141,14 +141,18 @@ window.Parameter_Rubric = function (rubric_id) {
         }
     })
 }
-window.PriceType_Rubric = function (rubric_id) {
+/*window.PriceType_Rubric = function (rubric_id) {
     $(".input-pricetype").hide();
 
     $.each(json_pricetype_rubric, function (key, data) {
 
         if (rubric_id == data['rubric_id']) {
 
-            $('#pricetype_' + data['price_type_id']).show()
+            $('#pricetype_' + data['price_type_id']).show();
+            $('#input_pricetype_' + data['price_type_id']).trigger('click');
+
         }
+        console.log(rubric_id +' - ' + data['rubric_id'])
     })
-}
+
+}*/

@@ -96,7 +96,7 @@
                                                     @if (count($price_types)>0)
                                                         @foreach($price_types as $price_type)
                                                     <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
-                                                        <input class="form-check-input" type="radio" name="price_type"  value="{{$price_type->id}}">
+                                                        <input class="form-check-input" type="radio" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required  >
                                                         <label class="form-check-label" >
                                                             {{$price_type->type}}
                                                         </label>

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->float('price',12,2);
             $table->unsignedBigInteger('price_type_id');
             $table->foreign('price_type_id')->references('id')->on('price_types');
-            $table->unsignedBigInteger('bb_id');
-            $table->foreign('bb_id')->references('id')->on('bbs');
+            $table->foreignId('bb_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+
         });
     }
 
