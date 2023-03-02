@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('bb_prices', function (Blueprint $table) {
             $table->id();
-            $table->float('price',12,2);
+            $table->float('price',12,2)->nullable();
             $table->unsignedBigInteger('price_type_id');
             $table->foreign('price_type_id')->references('id')->on('price_types');
             $table->foreignId('bb_id')->constrained()->onDelete('cascade');

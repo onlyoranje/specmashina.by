@@ -17,7 +17,20 @@
                                         <input type="text" value="{{old('type',$type->type)}}"  name="type" class="form-control" required>
                                     </div>
                                 </div>
-
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label class="control-label">Сортировка</label>
+                                        <input type="text" value="{{old('sort',$type->sort)}}" name="sort" class="form-control"  required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <input class="form-check-input" type="checkbox" value="Y" name="has_value" <?php if ($type->has_value == 'Y') echo 'checked'?>>
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            Указывать цену
+                                        </label>
+                                    </div>
+                                </div>
 
                                 <div class="col-lg-6 col-md-5 col-12">
                                     <div class="button">

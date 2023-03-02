@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PriceType extends Model
 {
     use HasFactory;
-    protected $fillable=['type'];
+    protected $fillable=['type','has_value','sort'];
     public function rubrics() {
         return $this->belongsToMany(Rubric::class);
     }

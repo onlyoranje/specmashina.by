@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('vendor_id')->constrained();
             $table->foreignId('organization_id')->nullable();
             $table->text('content')->nullable();
-            $table->float('price');
+
             $table->timestamps();
             $table->index('created_at');
         });

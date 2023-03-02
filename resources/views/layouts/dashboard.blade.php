@@ -83,6 +83,7 @@
             <a href="{{route('parameter_dashboard')}}" class="nav-link"> Параметры</a>
             <a href="{{route('vendor_dashboard')}}" class="nav-link"> Список производителей</a>
             <a href="{{route('price_type_dashboard')}}" class="nav-link"> Виды цен</a>
+            <a href="{{route('contact_type_dashboard')}}" class="nav-link"> Типы контатков</a>
         </nav>
         @yield('main')
     </main>

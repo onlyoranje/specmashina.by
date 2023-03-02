@@ -88,7 +88,7 @@
                                                     <div class="mb-3 col-6">
                                                         <label class="form-label">Цена</label>
                                                         <input type="number" value="{{old('price')}}" name="price"
-                                                               class="form-control" required >
+                                                               class="form-control" id="price">
                                                     </div>
 
                                                 <div class="mb-3 col-6">
@@ -96,7 +96,7 @@
                                                     @if (count($price_types)>0)
                                                         @foreach($price_types as $price_type)
                                                     <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
-                                                        <input class="form-check-input" type="radio" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required  >
+                                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required  >
                                                         <label class="form-check-label" >
                                                             {{$price_type->type}}
                                                         </label>
@@ -125,6 +125,15 @@
 <strong>{{ $message }}</strong>
 </span>
                                                 @enderror
+
+                                                @foreach($contacts as $contact)
+                                                    <div class="mb-3 col-6">
+                                                        <label class="form-label">{{$contact->name}}</label>
+                                                        <input type="text" value="{{old('contact',$contact[$contact->id])}}" name="contact[{{$contact->id}}]"
+                                                               class="form-control">
+                                                    </div>
+                                                @endforeach
+
                                                 <div class="row align-items-center justify-content-center">
                                                     <div class="col-lg-6 col-md-5 col-12">
                                                         <div class="button">

@@ -22,7 +22,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
         $("#" + model + "_level_" + level).remove()
     }
     if (child_cat > 0) {
-        var sel = $("#container_" + model + "_" + (level)).html("<select class=\"form-select\" name='" + model + "_id' id='" + model + "_level_" + level + "' onclick= \"NewSelect('" + model + "',this.value," + (level + 1) + ")\"></select>");
+        var sel = $("#container_" + model + "_" + (level)).html("<select class=\"form-select\" name='" + model + "_id' id='" + model + "_level_" + level + "' onchange= \"NewSelect('" + model + "',this.value," + (level + 1) + ")\"></select>");
         $("#container_" + model + "_" + (level)).append($("<div id='container_" + model + "_" + (level + 1) + "'></div>"))
         if (id) {
             $("#" + model + "_level_" + level).append('<option disabled>- выбрать -</option>');
@@ -42,7 +42,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
 
     } else {
         if (model === 'rubric') Parameter_Rubric($("select[name='rubric_id']").val());
-        /*if (model === 'rubric') PriceType_Rubric($("select[name='rubric_id']").val());*/
+        if (model === 'rubric') PriceType_Rubric($("select[name='rubric_id']").val());
         $("#" + model + "_level_" + (level - 1)).attr('name', model + "_id")
         $("#" + model + "_level_" + (level - 1)).attr('required', "required")
     }
@@ -141,7 +141,7 @@ window.Parameter_Rubric = function (rubric_id) {
         }
     })
 }
-/*window.PriceType_Rubric = function (rubric_id) {
+window.PriceType_Rubric = function (rubric_id) {
     $(".input-pricetype").hide();
 
     $.each(json_pricetype_rubric, function (key, data) {
@@ -149,10 +149,24 @@ window.Parameter_Rubric = function (rubric_id) {
         if (rubric_id == data['rubric_id']) {
 
             $('#pricetype_' + data['price_type_id']).show();
-            $('#input_pricetype_' + data['price_type_id']).trigger('click');
+            $('#input_pricetype_' + data['price_type_id']).prop('checked', false);
+            ;
 
         }
-        console.log(rubric_id +' - ' + data['rubric_id'])
+        //console.log(rubric_id +' - ' + data['rubric_id'])
     })
 
-}*/
+}
+$(document).ready(function () {
+    $('input[name="price_type"]').change(function (e) {
+        if ($(this).data('hasvalue')==='Y'){
+            $('#price').attr('required','required')
+            $('#price').removeAttr('disabled')
+        } else {
+            $('#price').removeAttr('required')
+            $('#price').attr('disabled','disabled')
+
+        }
+        console.log($(this).data('hasvalue'))
+    })
+})

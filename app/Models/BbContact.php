@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class BbContact extends Model
 {
     use HasFactory;
+    protected $fillable=['value','bb_id','contact_type_id'];
 }

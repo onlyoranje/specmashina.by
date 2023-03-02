@@ -22,8 +22,8 @@ class PriceTypesController extends Controller
         return view('price_type.add',[ 'rubrics'=>$rubrics]);
     }
     public function addTypetoDB(Request $request){
-
-        $pricetype = PriceType::create(['type'=>$request->type]);
+        if ($request->has_value) {$has_value=$request->has_value;} else {$has_value='N';}
+        $pricetype = PriceType::create(['type'=>$request->type,'has_value'=>$has_value,'sort'=>$request->sort]);
         $pricetype->rubrics()->attach($request->rubrics);
         return redirect()->route('price_type_dashboard');
     }
@@ -35,8 +35,8 @@ class PriceTypesController extends Controller
     }
     public function editType(Request $request, PriceType $type){
 
-
-        $type->fill(['type'=>$request->type]);
+        if ($request->has_value) {$has_value=$request->has_value;} else {$has_value='N';}
+        $type->fill(['type'=>$request->type,'has_value'=>$has_value,'sort'=>$request->sort]);
         $type->save();
         $type_rubric = $type->rubrics->pluck('id');
         $type_rubric_update = $request->rubrics;

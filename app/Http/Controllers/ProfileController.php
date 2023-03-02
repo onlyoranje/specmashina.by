@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\BbContact;
 use App\Models\BbParameters;
 use App\Models\BbPrice;
+use App\Models\ContactType;
 use App\Models\Location;
 use App\Models\Organization;
 use App\Models\Parameter;
 use App\Models\PriceType;
+use App\Models\PriceTypeRubric;
 use App\Models\Rubric;
 use App\Models\Bb;
 use App\Models\UserFile;
@@ -32,8 +35,7 @@ class ProfileController extends Controller
 
         'rubric_id' => 'required',
         'price_type' => 'required',
-        'location_id' => 'required',
-        'price' => 'required|numeric'
+        'location_id' => 'required'
     ];
 
     private const BB_ERROR_MESSAGES = [
@@ -103,17 +105,26 @@ class ProfileController extends Controller
         $rubrics = Rubric::all();
         $locations = Location::all();
         $parameters = Parameter::all();
-        $price_types = PriceType::all();
+        $price_types = PriceType::orderBy('sort')->get();
+        $contact_types = ContactType::orderBy('sort')->get();
         $parameter_rubric = DB::table('parameter_rubric')->get();
-        $price_type_rubric = DB::table('price_type_rubric')->get();
-        //dd($parameter_rubric);
-        return view('bb.add',['rubrics'=>$rubrics,'locations'=>$locations,'parameters'=>$parameters,'parameter_rubric'=>$parameter_rubric,'price_types'=>$price_types, 'price_type_rubric'=>$price_type_rubric]);
+        $price_type_rubric = PriceTypeRubric::select('*','price_types.sort as sort')->join('price_types','price_type_rubric.price_type_id','=','price_types.id')->orderBy('sort')->get();
+        //dd($price_type_rubric);
+        return view('bb.add',[
+            'rubrics'=>$rubrics,
+            'locations'=>$locations,
+            'parameters'=>$parameters,
+            'parameter_rubric'=>$parameter_rubric,
+            'contacts'=>$contact_types,
+            'price_types'=>$price_types,
+            'price_type_rubric'=>$price_type_rubric
+        ]);
     }
     public function addBb(Request $request){
         //dd($request);
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
-        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'vendor_id'=>$request->vendor_id,'location_id'=>$validated['location_id']]);
+        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'vendor_id'=>$request->vendor_id,'location_id'=>$validated['location_id']]);
         if ($request->file) {
             if (is_array($request->file) ) {
                 foreach ($request->file as $file_upload) {
@@ -136,7 +147,12 @@ class ProfileController extends Controller
             }
         }
 
-        BbPrice::create(['bb_id' => $bb->id,'price'=>$request->price, 'price_type_id'=>$validated['price_type']]);
+        $bbprice = BbPrice::create(['bb_id' => $bb->id, 'price_type_id'=>$validated['price_type']]);
+        if ($bbprice->pricetype->has_value =='Y'){
+            $bbprice->fill(['price'=>$request->price]);
+            $bbprice->save();
+        }
+        BbContact::create([])
         return redirect()->route('dashboard');
     }
     public function editBb(Bb $bb){
@@ -158,7 +174,7 @@ class ProfileController extends Controller
 
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
-        $bb->fill(['title'=>$validated['title'],'price'=>$validated['price'],'content'=>$description,'vendor_id'=>$request->vendor_id]);
+        $bb->fill(['title'=>$validated['title'],'content'=>$description,'vendor_id'=>$request->vendor_id]);
         $bb->save();
         if ($request->rubric_id) {
             $bb->fill(['rubric_id'=>$request->rubric_id]);

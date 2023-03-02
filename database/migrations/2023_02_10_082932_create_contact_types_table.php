@@ -16,9 +16,14 @@ return new class extends Migration
         Schema::create('contact_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type');
+
+            $table->string('mask')->nullable();
+            $table->string('icon')->nullable();
+            $table->bigInteger('sort')->default(500);
             $table->timestamps();
         });
+        \App\Models\ContactType::create(['name' => 'Телефон']);
+        \App\Models\ContactType::create(['name' => 'Viber']);
     }
 
     /**

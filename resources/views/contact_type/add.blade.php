@@ -12,59 +12,31 @@
                                 <div class="col-lg-10 offset-lg-1 col-12">
                                     <div class="add-resume-inner box">
 
-                    <form class="form-ad" action="{{route('addPriceTypeToDB')}}" method="post">
+                    <form class="form-ad" action="{{route('addContactTypeToDB')}}" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">Тип</label>
-                                    <input type="text" value="{{old('type')}}" name="type" class="form-control" required>
+                                    <input type="text" value="{{old('name')}}" name="name" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">Сортировка</label>
-                                    <input type="text" value="{{old('sort',500)}}" name="sort" class="form-control"  required>
+                                    <input type="number" value="{{old('sort',500)}}" name="sort" class="form-control">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
-                                    <input class="form-check-input" type="checkbox" value="Y" name="has_value" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Указывать цену
-                                    </label>
+                                    <label class="control-label">Иконка</label>
+                                    <input type="text" value="{{old('icon')}}" name="icon" class="form-control" >
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
-                                    <label class="control-label">Рубрики</label>
-
-
-                                    @if (count($rubrics)>0)
-                                        <?php
-
-                                        $traverse = function ($rubrics, $prefix = '<ul>',$postfix= '</ul>') use (&$traverse) {
-                                            if (count($rubrics)>0) echo '<ul>';
-                                            foreach ($rubrics as $rubric) {
-                                                $parent_id=$rubric->parent_id;
-                                                if (!is_numeric($rubric->parent_id)) $parent_id=0;
-                                                echo "<li>
-
-<input  type=\"checkbox\" id=\"checkbox".$rubric->id."\" name=\"rubrics[]\" value=\"".$rubric->id."\" >
-<label  for=\"checkbox".$rubric->id."\">".$rubric->title.'</label>
-';
-
-                                                if (count($rubric->children)==0) echo "</li>";
-                                                $traverse($rubric->children);
-                                            }
-                                            if (count($rubrics)>0) echo "</ul>";
-                                        };
-
-                                        $traverse($rubrics);
-
-                                        ?>
-                                    @endif
-
+                                    <label class="control-label">Маска</label>
+                                    <input type="text" value="{{old('mask')}}" name="mask" class="form-control" >
                                 </div>
                             </div>
 

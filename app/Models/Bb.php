@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 class Bb extends Model
 {
-    protected $fillable = ['title', 'content', 'price','rubric_id','location_id', 'vendor_id'];
+    protected $fillable = ['title', 'content', 'rubric_id','location_id', 'vendor_id'];
     public function user() {
         return $this->belongsTo(User::class);
     }
@@ -28,6 +28,9 @@ class Bb extends Model
     }
     public function BbParameters(){
         return $this->hasMany(BbParameters::class);
+    }
+    public function bbcontact(){
+        return $this->hasMany(BbContact::class);
     }
 
 }
