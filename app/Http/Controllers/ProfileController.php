@@ -152,7 +152,7 @@ class ProfileController extends Controller
             $bbprice->fill(['price'=>$request->price]);
             $bbprice->save();
         }
-        BbContact::create([])
+        //BbContact::create([])
         return redirect()->route('dashboard');
     }
     public function editBb(Bb $bb){
