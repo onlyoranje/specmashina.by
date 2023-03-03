@@ -46,7 +46,7 @@ class User extends Authenticatable
         return $this->hasMany(Bb::class);
     }
     public function organization(){
-        return $this->belongsTo(Organization::class);
+        return $this->hasOne(Organization::class);
     }
 
 }

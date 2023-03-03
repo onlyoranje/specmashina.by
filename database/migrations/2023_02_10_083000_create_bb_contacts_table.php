@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('bb_contacts', function (Blueprint $table) {
             $table->id();
             $table->string('value');
-            $table->unsignedBigInteger('bb_id');
-            $table->foreign('bb_id')->references('id')->on('bbs');
+            //$table->unsignedBigInteger('bb_id');
+            $table->foreignId('bb_id')->constrained()->onDelete ('cascade');
             $table->unsignedBigInteger('contact_type_id');
             $table->foreign('contact_type_id')->references('id')->on('contact_types');
             $table->timestamps();

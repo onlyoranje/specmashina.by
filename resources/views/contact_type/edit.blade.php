@@ -35,7 +35,18 @@
                                         <input type="text" value="{{old('mask',$type->mask)}}" name="mask" class="form-control" >
                                     </div>
                                 </div>
-
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name='contact_required' value="Y" id="flexCheckChecked"
+                                        @if ($type->required=='Y')
+                                           checked
+                                            @endif
+                                        >
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            Обязательное
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6 col-md-5 col-12">
                                     <div class="button">
                                         <button type="submit" class="btn">Save</button>

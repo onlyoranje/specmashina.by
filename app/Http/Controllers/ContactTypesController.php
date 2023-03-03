@@ -19,7 +19,7 @@ class ContactTypesController extends Controller
     }
     public function addTypetoDB(Request $request){
 
-        ContactType::create(['name'=>$request->name,'sort'=>$request->sort,'icon'=>$request->icon,'mask'=>$request->mask]);
+        ContactType::create(['name'=>$request->name,'sort'=>$request->sort,'icon'=>$request->icon,'mask'=>$request->mask,'required'=>$request->contact_required]);
 
         return redirect()->route('contact_type_dashboard');
     }
@@ -31,9 +31,12 @@ class ContactTypesController extends Controller
     }
     public function editType(Request $request, ContactType $type){
 
+        $contact_required = 'N';
+        if ($request->contact_required) $contact_required =  $request->contact_required;
 
-        $type->fill(['name'=>$request->name,'sort'=>$request->sort,'icon'=>$request->icon,'mask'=>$request->mask]);
+        $type->fill(['name'=>$request->name,'sort'=>$request->sort,'icon'=>$request->icon,'mask'=>$request->mask,'required'=>$contact_required]);
         $type->save();
+       // dd($contact_required);
         return redirect()->route('contact_type_dashboard');
     }
     public function delete(ContactType $type){

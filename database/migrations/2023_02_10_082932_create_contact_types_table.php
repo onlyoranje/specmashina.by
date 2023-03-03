@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('mask')->nullable();
             $table->string('icon')->nullable();
             $table->bigInteger('sort')->default(500);
+            $table->string('required')->nullable();
             $table->timestamps();
         });
         \App\Models\ContactType::create(['name' => 'Телефон']);

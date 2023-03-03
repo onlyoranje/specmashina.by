@@ -102,6 +102,7 @@ class ProfileController extends Controller
             ['bbs' => Auth::user()->bbs()->latest()->get()]);
     }
     public function addForm(){
+        $user = Auth::user();
         $rubrics = Rubric::all();
         $locations = Location::all();
         $parameters = Parameter::all();
@@ -111,6 +112,7 @@ class ProfileController extends Controller
         $price_type_rubric = PriceTypeRubric::select('*','price_types.sort as sort')->join('price_types','price_type_rubric.price_type_id','=','price_types.id')->orderBy('sort')->get();
         //dd($price_type_rubric);
         return view('bb.add',[
+            'user'=>$user,
             'rubrics'=>$rubrics,
             'locations'=>$locations,
             'parameters'=>$parameters,
@@ -152,7 +154,17 @@ class ProfileController extends Controller
             $bbprice->fill(['price'=>$request->price]);
             $bbprice->save();
         }
-        //BbContact::create([])
+        if (is_array($request->contact)) {
+            foreach ($request->contact as $contact_type_id=>$contact_value) {
+                if ($contact_value)  BbContact::create(['value'=>$contact_value,'bb_id'=>$bb->id,'contact_type_id'=>$contact_type_id]);
+            }
+
+        }
+        if ($request->organization){
+            $bb->fill(['organization_id'=>Auth::user()->organization->id]);
+            $bb->save();
+        }
+
         return redirect()->route('dashboard');
     }
     public function editBb(Bb $bb){

@@ -130,10 +130,26 @@
                                                     <div class="mb-3 col-6">
                                                         <label class="form-label">{{$contact->name}}</label>
                                                         <input type="text" value="{{old('contact',$contact[$contact->id])}}" name="contact[{{$contact->id}}]"
-                                                               class="form-control">
+                                                               class="form-control"
+                                                        @if ($contact->required == 'Y')
+                                                            required
+                                                        @endif
+
+                                                        >
                                                     </div>
                                                 @endforeach
 
+
+                                                @if ($user->organization)
+                                                    <div class="mb-3 col-6">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckChecked" checked>
+                                                        <label class="form-check-label" for="flexCheckChecked">
+Подать объявление от {{$user->organization->title}}
+                                                        </label>
+                                                    </div>
+                                                    </div>
+                                                    @endif
                                                 <div class="row align-items-center justify-content-center">
                                                     <div class="col-lg-6 col-md-5 col-12">
                                                         <div class="button">
