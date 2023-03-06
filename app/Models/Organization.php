@@ -9,7 +9,7 @@ class Organization extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $fillable = ['title', 'address', 'unp','site','email', 'logo','user_id'];
+    protected $fillable = ['title', 'address', 'unp','site','email', 'logo','user_id','phone'];
     public function user() {
         return $this->belongsTo(User::class);
     }

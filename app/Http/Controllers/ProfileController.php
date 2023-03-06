@@ -276,19 +276,20 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return view('organization.add');
     }
     public function addOrganizationToDB(Request $request){
-        //dd($request->file);
+
         $old_files = json_decode($request['fileuploader-list-file'],true);
         $validated = $request->validate(self::ORG_VALIDATOR,self::ORG_ERROR_MESSAGES);
         $org = new Organization([
             'title'=>$validated['title'],
             'address'=>$validated['address'],
             'unp'=>$validated['unp'],
+            'phone'=>$request->phone,
             'site'=>$request->site,
             'email'=>$request->email
         ]);
         $org->user()->associate(Auth::user());
         $org->save();
-        if ($request->file[0]) {
+        if ($request->file) {
 
             $filename = $request->file[0]->store('public');
             $file_name = explode('/', $filename);
@@ -311,6 +312,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             'title'=>$validated['title'],
             'address'=>$validated['address'],
             'unp'=>$validated['unp'],
+            'phone'=>$request->phone,
             'site'=>$request->site,
             'email'=>$request->email
         ]);

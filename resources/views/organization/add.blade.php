@@ -21,6 +21,12 @@
                                     {{ session('status') }}
                                 </div>
                             @endif
+                                <script>
+                                    $(function() {
+                                        $("#phone").mask("+375 (99) 999-99-99")
+                                        $("#unp").mask("999999999")
+                                    });
+                                </script>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Название организации</label>
                                     <input type="text" class="form-control" name="title">
@@ -35,11 +41,15 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">УНП</label>
-                                    <input type="number" min="100000000" max="799999999"  class="form-control" name="unp">
+                                    <input type="text" id="unp"  class="form-control" name="unp">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Сайт</label>
                                     <input type="text" class="form-control" name="site">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Телефон</label>
+                                    <input type="text" class="form-control" id="phone" name="phone">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Лого</label>
