@@ -41,7 +41,10 @@
                                                     <label for="exampleInputEmail1" class="form-label">Производитель</label>
                                                     <select class="form-select" name="vendor_id" required>
                                                         <option  selected disabled>- выбрать -</option>
-                                                        <?php use App\Models\Location;use App\Models\Rubric;$vendors = App\Models\Vendor::get();?>
+                                                        <?php
+                                                        use App\Models\Location;
+                                                        use App\Models\Rubric;
+                                                        $vendors = App\Models\Vendor::get();?>
                                                         @foreach($vendors as $vendor)
                                                             <option value="{{$vendor->id}}">{{$vendor->name}}</option>
                                                         @endforeach
@@ -127,10 +130,18 @@
                                                 @enderror
 
                                                 @foreach($contacts as $contact)
+                                                    @if ($contact->mask)
+                                                        <script>
+                                                            $(function() {
+                                                             $("#contact_{{$contact->id}}").mask("{{$contact->mask}}")
+                                                            });
+                                                        </script>
+
+                                                    @endif
                                                     <div class="mb-3 col-6">
                                                         <label class="form-label">{{$contact->name}}</label>
                                                         <input type="text" value="{{old('contact',$contact[$contact->id])}}" name="contact[{{$contact->id}}]"
-                                                               class="form-control"
+                                                               class="form-control" id="contact_{{$contact->id}}"
                                                         @if ($contact->required == 'Y')
                                                             required
                                                         @endif
@@ -215,6 +226,10 @@ NewSelect('location',<?php if (!$location_->parent_id) {echo 'null';} else {echo
 
 
                         })
+                        @foreach($contacts as $contact)
+
+                        @endforeach
+
                     </script>
 
 
