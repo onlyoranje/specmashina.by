@@ -45,6 +45,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
         if (model === 'rubric') PriceType_Rubric($("select[name='rubric_id']").val());
         $("#" + model + "_level_" + (level - 1)).attr('name', model + "_id")
         $("#" + model + "_level_" + (level - 1)).attr('required', "required")
+
     }
 
 }
@@ -161,10 +162,10 @@ $(document).ready(function () {
     $('input[name="price_type"]').change(function (e) {
         if ($(this).data('hasvalue')==='Y'){
             $('#price').attr('required','required')
-            $('#price').removeAttr('disabled')
+            $('#price').show()
         } else {
             $('#price').removeAttr('required')
-            $('#price').attr('disabled','disabled')
+            $('#price').hide()
 
         }
         console.log($(this).data('hasvalue'))

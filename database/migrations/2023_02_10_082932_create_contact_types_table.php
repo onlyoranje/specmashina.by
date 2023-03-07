@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('required')->nullable();
             $table->timestamps();
         });
-        \App\Models\ContactType::create(['name' => 'Телефон']);
+        \App\Models\ContactType::create(['name' => 'Телефон','mask'=>'+375 99 999-99-99']);
         \App\Models\ContactType::create(['name' => 'Viber']);
     }
 

@@ -45,7 +45,8 @@
                                 <label for="exampleInputEmail1" class="form-label">Производитель</label>
                             <select class="form-select" name="vendor_id" required>
                                 <option   disabled>- выбрать -</option>
-                                <?php use App\Models\BbParameters;$vendors = App\Models\Vendor::get();?>
+                                <?php use App\Models\BbParameters;
+                                $vendors = App\Models\Vendor::get();?>
                                 @foreach($vendors as $vendor)
                                 <option value="{{$vendor->id}}" <?php if ($vendor->id==$bb->vendor_id) echo "selected"?>>{{$vendor->name}}</option>
                                 @endforeach
@@ -91,8 +92,21 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     <label class="control-label">price</label>
-                                    <input type="number" value="{{old('price',$bb->bbprice->price)}}" name="price" class="form-control"  required placeholder="Name">
+                                    <input type="number"  id="price" value="{{old('price',$bb->bbprice->price)}}" name="price" class="form-control"  required placeholder="Name">
                                 </div>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label class="form-label">Цена</label>
+                                @if (count($price_types)>0)
+                                    @foreach($price_types as $price_type)
+                                        <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
+                                            <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required  >
+                                            <label class="form-check-label" >
+                                                {{$price_type->type}}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                             @error('price')
                             <span class="invalid-feedback">
@@ -116,7 +130,40 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
                                 <label class="control-label">Description</label>
                                 <textarea class="form-control" name="description" rows="7">{{old('description',$bb->content)}}</textarea>
                             </div>
+                            @foreach($contact_types as $contact_type)
+                                @if ($contact_type->mask)
+                                    <script>
+                                        $(function() {
+                                            $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
+                                        });
+                                    </script>
 
+                                @endif
+
+                                <div class="mb-3 col-6">
+                                    <label class="form-label">{{$contact_type->name}}</label>
+                                    <input type="text" value="{{old('contact',$contacts[$contact_type->id])}}" name="contact[{{$contact_type->id}}]"
+                                           class="form-control" id="contact_{{$contact_type->id}}"
+                                           @if ($contact_type->required == 'Y')
+                                           required
+                                        @endif
+
+                                    >
+                                </div>
+                            @endforeach
+                            @if ($user->organization)
+                                <div class="mb-3 col-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckChecked"
+                                               @if($bb->organization_id)
+                                               checked
+                                               @endif>
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            Подать объявление от {{$user->organization->title}}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="row align-items-center justify-content-center">
                                 <div class="col-lg-6 col-md-5 col-12">
                                     <div class="button">
@@ -139,6 +186,7 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
                             window.json_rubric = @json($rubrics);
                             window.json_location = @json($locations);
                             window.json_parameter_rubric = @json($parameter_rubric);
+                            window.json_pricetype_rubric = @json($price_type_rubric);
                             @foreach($all_rubrics as $rubric_)
 
                             NewSelect('rubric',<?php if (!$rubric_->parent_id) {echo 'null';} else {echo $rubric_->parent_id;}  ?>,{{$rubric_->level}},{{$rubric_->id}},@json($all_rubrics));
@@ -155,6 +203,11 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
                             @endforeach
                             $('.input-images').imageUploader();
                             Parameter_Rubric($("select[name='rubric_id']").val())
+                            PriceType_Rubric($("select[name='rubric_id']").val())
+                            $("#input_pricetype_{{$bb->bbprice->price_type_id}}").prop('checked', true)
+                            if ($("#input_pricetype_{{$bb->bbprice->price_type_id}}").data('hasvalue')==='N'){
+                                $('#price').hide()
+                            }
                         })
                     </script>
 

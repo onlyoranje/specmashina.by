@@ -36,6 +36,7 @@
                                                     @if ($organization->url) <p class="card-text">{{$organization->url}}</p> @endif
                                                     @if ($organization->email) <p class="card-text">{{$organization->email}}</p> @endif
                                                     <a  href={{route('organization_edit')}} class="card-text"><small class="text-muted">редактировать</small></a>
+                                                    <a  href={{route('organization_delete')}} class="card-text"><small class="text-muted">Удалить</small></a>
                                                 </div>
                                             </div>
                                         </div>

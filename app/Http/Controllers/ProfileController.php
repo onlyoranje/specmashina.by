@@ -117,7 +117,7 @@ class ProfileController extends Controller
             'locations'=>$locations,
             'parameters'=>$parameters,
             'parameter_rubric'=>$parameter_rubric,
-            'contacts'=>$contact_types,
+            'contact_types'=>$contact_types,
             'price_types'=>$price_types,
             'price_type_rubric'=>$price_type_rubric
         ]);
@@ -168,19 +168,43 @@ class ProfileController extends Controller
         return redirect()->route('dashboard');
     }
     public function editBb(Bb $bb){
-
+        $user = Auth::user();
+        $parameter_value = Array();
         $all_rubrics = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get();
         $rubrics = Rubric::all();
         $all_locations = Location::whereAncestorOrSelf($bb->location_id)->orderBy('level')->get();
-        $locations= Location::all();
+        $locations = Location::all();
         $parameters = Parameter::all();
+        $price_types = PriceType::orderBy('sort')->get();
+        $contact_types = ContactType::orderBy('sort')->get();
         $parameter_rubric = DB::table('parameter_rubric')->get();
+        $price_type_rubric = PriceTypeRubric::select('*','price_types.sort as sort')->join('price_types','price_type_rubric.price_type_id','=','price_types.id')->orderBy('sort')->get();
+
         $parameter_values = BbParameters::where('bb_id',$bb->id)->get();
+
         foreach ($parameter_values as $pv){
             $parameter_value[$pv->parameter_id]=$pv->value;
         }
+        $contacts = BbContact::where('bb_id',$bb->id)->get();
+        foreach ($contacts as $contact){
+            $contact_value[$contact->contact_type_id]=$contact->value;
+        }
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
-        return view('bb.edit',['bb'=>$bb,'rubrics'=>$rubrics,'all_rubrics'=>$all_rubrics,'locations'=>$locations,'all_locations'=>$all_locations,'parameters'=>$parameters,'images'=>$images,'parameter_rubric'=>$parameter_rubric,'parameter_value'=>$parameter_value]);
+        return view('bb.edit',[
+            'user'=>$user,
+            'bb'=>$bb,
+            'rubrics'=>$rubrics,
+            'all_rubrics'=>$all_rubrics,
+            'locations'=>$locations,
+            'all_locations'=>$all_locations,
+            'parameters'=>$parameters,
+            'images'=>$images,
+            'parameter_rubric'=>$parameter_rubric,
+            'parameter_value'=>$parameter_value,
+            'contact_types'=>$contact_types,
+            'contacts'=>$contact_value,
+            'price_types'=>$price_types,
+            'price_type_rubric'=>$price_type_rubric]);
     }
     public function updateBb(Request $request,Bb $bb){
 
@@ -196,7 +220,7 @@ class ProfileController extends Controller
             $bb->fill(['location_id'=>$request->location_id]);
             $bb->save();
         }
-        //dd($request);
+
 
         if ($request->file) {
             if (is_array($request->file) ) {
@@ -260,6 +284,15 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             BbParameters::where('bb_id',$bb->id)->where('parameter_id',$parameter_id)->delete();
             }
         }
+        if ($request->organization=='Y'){
+            $bb->fill(['organization_id'=>Auth::user()->organization->id]);
+            $bb->save();
+        } else {
+            $bb->fill(['organization_id'=>null]);
+            $bb->save();
+        }
+        $bb->bbprice->fill(['price'=>$request->price,'price_type_id'=>$request->price_type]);
+        $bb->bbprice->save();
         return redirect()->route('mybb');
     }
     public function deleteBb(Bb $bb){
@@ -277,7 +310,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
     }
     public function addOrganizationToDB(Request $request){
 
-        $old_files = json_decode($request['fileuploader-list-file'],true);
+        //$old_files = json_decode($request['fileuploader-list-file'],true);
         $validated = $request->validate(self::ORG_VALIDATOR,self::ORG_ERROR_MESSAGES);
         $org = new Organization([
             'title'=>$validated['title'],
@@ -300,10 +333,17 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
 
         return redirect()->route('dashboard');
     }
-    public function editOrganization(Organization $organization){
+    public function editOrganization(){
         return view('organization.edit',['organization' => Organization::where('user_id',Auth::user()->id)->first()]);
     }
-    public function  updateOrganization(Request $request, Organization $organization){
+    public function deleteOrganization(Organization $organization){
+        return view('organization.delete', ['organization'=>$organization]);
+    }
+    public function destroyOrganization(){
+        Organization::where('user_id',Auth::user()->id)->delete();
+        return redirect()->route('my_organization');
+    }
+    public function updateOrganization(Request $request, Organization $organization){
 //dd($request);
 
         $old_files = json_decode($request['fileuploader-list-file'],true);

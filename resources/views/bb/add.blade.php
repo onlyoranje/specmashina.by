@@ -129,20 +129,20 @@
 </span>
                                                 @enderror
 
-                                                @foreach($contacts as $contact)
-                                                    @if ($contact->mask)
+                                                @foreach($contact_types as $contact_type)
+                                                    @if ($contact_type->mask)
                                                         <script>
                                                             $(function() {
-                                                             $("#contact_{{$contact->id}}").mask("{{$contact->mask}}")
+                                                             $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
                                                             });
                                                         </script>
 
                                                     @endif
                                                     <div class="mb-3 col-6">
-                                                        <label class="form-label">{{$contact->name}}</label>
-                                                        <input type="text" value="{{old('contact',$contact[$contact->id])}}" name="contact[{{$contact->id}}]"
-                                                               class="form-control" id="contact_{{$contact->id}}"
-                                                        @if ($contact->required == 'Y')
+                                                        <label class="form-label">{{$contact_type->name}}</label>
+                                                        <input type="text" value="{{old('contact',$contact_type[$contact_type->id])}}" name="contact[{{$contact_type->id}}]"
+                                                               class="form-control" id="contact_{{$contact_type->id}}"
+                                                        @if ($contact_type->required == 'Y')
                                                             required
                                                         @endif
 
@@ -226,9 +226,7 @@ NewSelect('location',<?php if (!$location_->parent_id) {echo 'null';} else {echo
 
 
                         })
-                        @foreach($contacts as $contact)
 
-                        @endforeach
 
                     </script>
 
