@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BbsController;
 /*
@@ -13,7 +14,7 @@ use App\Http\Controllers\BbsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Auth::routes();
 Route::get('/', [BbsController::class, 'index']);
 
 Route::get('/dashboard', function () {
@@ -45,66 +46,66 @@ Route::delete('/dashboard/{bb}',[App\Http\Controllers\ProfileController::class, 
 
 Route::get('/rubric', [App\Http\Controllers\RubricsController::class, 'rubric'])->name('rubrics');
 Route::get('/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'rubric'])->name('rubric');
-Route::get('/dashboard/rubric', [App\Http\Controllers\RubricsController::class, 'rubrics'])->name('rubric_dashboard')->middleware('auth');
-Route::post('/dashboard/rubric', [App\Http\Controllers\RubricsController::class, 'addRubric'])->name('addRubricToDB')->middleware('auth');
-Route::get('/dashboard/rubric/add', [App\Http\Controllers\RubricsController::class, 'addRubricForm'])->name('rubric_dashboard_add')->middleware('auth');
-Route::get('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'detail'])->name('rubric_dashboard_edit')->middleware('auth');
-Route::patch('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'editRubric'])->name('editRubricToDB')->middleware('auth');
-Route::get('/dashboard/rubric/{rubric}/delete', [App\Http\Controllers\RubricsController::class, 'delete'])->name('rubric_dashboard_delete')->middleware('auth');
-Route::delete('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'destroyRubric'])->name('rubric_dashboard_destroy')->middleware('auth');
+Route::get('/dashboard/rubric', [App\Http\Controllers\RubricsController::class, 'rubrics'])->name('rubric_dashboard')->middleware('isadmin');
+Route::post('/dashboard/rubric', [App\Http\Controllers\RubricsController::class, 'addRubric'])->name('addRubricToDB')->middleware('isadmin');
+Route::get('/dashboard/rubric/add', [App\Http\Controllers\RubricsController::class, 'addRubricForm'])->name('rubric_dashboard_add')->middleware('isadmin');
+Route::get('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'detail'])->name('rubric_dashboard_edit')->middleware('isadmin');
+Route::patch('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'editRubric'])->name('editRubricToDB')->middleware('isadmin');
+Route::get('/dashboard/rubric/{rubric}/delete', [App\Http\Controllers\RubricsController::class, 'delete'])->name('rubric_dashboard_delete')->middleware('isadmin');
+Route::delete('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'destroyRubric'])->name('rubric_dashboard_destroy')->middleware('isadmin');
 
 Route::get('/location', [App\Http\Controllers\LocationsController::class, 'location'])->name('locations');
 Route::get('/location/{location}', [App\Http\Controllers\LocationsController::class, 'location'])->name('location');
-Route::get('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'locations'])->name('location_dashboard')->middleware('auth');
-Route::post('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'addLocation'])->name('addLocationToDB')->middleware('auth');
-Route::get('/dashboard/location/add', [App\Http\Controllers\LocationsController::class, 'addLocationForm'])->name('location_dashboard_add')->middleware('auth');
-Route::get('/dashboard/location/{location}', [App\Http\Controllers\LocationsController::class, 'detail'])->name('location_dashboard_edit')->middleware('auth');
-Route::patch('/dashboard/location/{location}', [App\Http\Controllers\LocationsController::class, 'editLocation'])->name('editLocationToDB')->middleware('auth');
-Route::get('/dashboard/location/{location}/delete', [App\Http\Controllers\LocationsController::class, 'delete'])->name('location_dashboard_delete')->middleware('auth');
-Route::delete('/dashboard/location/{location}', [App\Http\Controllers\LocationsController::class, 'destroyLocation'])->name('location_dashboard_destroy')->middleware('auth');
+Route::get('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'locations'])->name('location_dashboard')->middleware('isadmin');
+Route::post('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'addLocation'])->name('addLocationToDB')->middleware('isadmin');
+Route::get('/dashboard/location/add', [App\Http\Controllers\LocationsController::class, 'addLocationForm'])->name('location_dashboard_add')->middleware('isadmin');
+Route::get('/dashboard/location/{location}', [App\Http\Controllers\LocationsController::class, 'detail'])->name('location_dashboard_edit')->middleware('isadmin');
+Route::patch('/dashboard/location/{location}', [App\Http\Controllers\LocationsController::class, 'editLocation'])->name('editLocationToDB')->middleware('isadmin');
+Route::get('/dashboard/location/{location}/delete', [App\Http\Controllers\LocationsController::class, 'delete'])->name('location_dashboard_delete')->middleware('isadmin');
+Route::delete('/dashboard/location/{location}', [App\Http\Controllers\LocationsController::class, 'destroyLocation'])->name('location_dashboard_destroy')->middleware('isadmin');
 
-Route::get('/dashboard/parameter', [App\Http\Controllers\ParametersController::class, 'parameters'])->name('parameter_dashboard')->middleware('auth');
-Route::post('/dashboard/parameter', [App\Http\Controllers\ParametersController::class, 'addParameter'])->name('addParameterToDB')->middleware('auth');
-Route::get('/dashboard/parameter/add', [App\Http\Controllers\ParametersController::class, 'addParameterForm'])->name('parameter_dashboard_add')->middleware('auth');
-Route::get('/dashboard/parameter/{parameter}', [App\Http\Controllers\ParametersController::class, 'detail'])->name('parameter_dashboard_edit')->middleware('auth');
-Route::patch('/dashboard/parameter/{parameter}', [App\Http\Controllers\ParametersController::class, 'editParameter'])->name('editParameterToDB')->middleware('auth');
-Route::get('/dashboard/parameter/{parameter}/delete', [App\Http\Controllers\ParametersController::class, 'delete'])->name('parameter_dashboard_delete')->middleware('auth');
-Route::delete('/dashboard/parameter/{parameter}', [App\Http\Controllers\ParametersController::class, 'destroyParameter'])->name('parameter_dashboard_destroy')->middleware('auth');
+Route::get('/dashboard/parameter', [App\Http\Controllers\ParametersController::class, 'parameters'])->name('parameter_dashboard')->middleware('isadmin');
+Route::post('/dashboard/parameter', [App\Http\Controllers\ParametersController::class, 'addParameter'])->name('addParameterToDB')->middleware('isadmin');
+Route::get('/dashboard/parameter/add', [App\Http\Controllers\ParametersController::class, 'addParameterForm'])->name('parameter_dashboard_add')->middleware('isadmin');
+Route::get('/dashboard/parameter/{parameter}', [App\Http\Controllers\ParametersController::class, 'detail'])->name('parameter_dashboard_edit')->middleware('isadmin');
+Route::patch('/dashboard/parameter/{parameter}', [App\Http\Controllers\ParametersController::class, 'editParameter'])->name('editParameterToDB')->middleware('isadmin');
+Route::get('/dashboard/parameter/{parameter}/delete', [App\Http\Controllers\ParametersController::class, 'delete'])->name('parameter_dashboard_delete')->middleware('isadmin');
+Route::delete('/dashboard/parameter/{parameter}', [App\Http\Controllers\ParametersController::class, 'destroyParameter'])->name('parameter_dashboard_destroy')->middleware('isadmin');
 
-Route::get('/dashboard/parameter_type', [App\Http\Controllers\ParameterTypesController::class, 'types'])->name('parameter_type_dashboard')->middleware('auth');
-Route::post('/dashboard/parameter_type', [App\Http\Controllers\ParameterTypesController::class, 'addTypetoDB'])->name('addTypeToDB')->middleware('auth');
-Route::get('/dashboard/parameter_type/add', [App\Http\Controllers\ParameterTypesController::class, 'addTypeForm'])->name('parameter_type_add')->middleware('auth');
-Route::get('/dashboard/parameter_type/{type}', [App\Http\Controllers\ParameterTypesController::class, 'detail'])->name('parameter_type_edit')->middleware('auth');
-Route::patch('/dashboard/parameter_type/{type}', [App\Http\Controllers\ParameterTypesController::class, 'editType'])->name('editTypetoDB')->middleware('auth');
-Route::get('/dashboard/parameter_type/{type}/delete', [App\Http\Controllers\ParameterTypesController::class, 'delete'])->name('parameter_type_delete')->middleware('auth');
-Route::delete('/dashboard/parameter_type/{type}', [App\Http\Controllers\ParameterTypesController::class, 'destroy'])->name('parameter_type_destroy')->middleware('auth');
+Route::get('/dashboard/parameter_type', [App\Http\Controllers\ParameterTypesController::class, 'types'])->name('parameter_type_dashboard')->middleware('isadmin');
+Route::post('/dashboard/parameter_type', [App\Http\Controllers\ParameterTypesController::class, 'addTypetoDB'])->name('addTypeToDB')->middleware('isadmin');
+Route::get('/dashboard/parameter_type/add', [App\Http\Controllers\ParameterTypesController::class, 'addTypeForm'])->name('parameter_type_add')->middleware('isadmin');
+Route::get('/dashboard/parameter_type/{type}', [App\Http\Controllers\ParameterTypesController::class, 'detail'])->name('parameter_type_edit')->middleware('isadmin');
+Route::patch('/dashboard/parameter_type/{type}', [App\Http\Controllers\ParameterTypesController::class, 'editType'])->name('editTypetoDB')->middleware('isadmin');
+Route::get('/dashboard/parameter_type/{type}/delete', [App\Http\Controllers\ParameterTypesController::class, 'delete'])->name('parameter_type_delete')->middleware('isadmin');
+Route::delete('/dashboard/parameter_type/{type}', [App\Http\Controllers\ParameterTypesController::class, 'destroy'])->name('parameter_type_destroy')->middleware('isadmin');
 
-Route::get('/dashboard/price_type', [App\Http\Controllers\PriceTypesController::class, 'types'])->name('price_type_dashboard')->middleware('auth');
-Route::post('/dashboard/price_type', [App\Http\Controllers\PriceTypesController::class, 'addTypetoDB'])->name('addPriceTypeToDB')->middleware('auth');
-Route::get('/dashboard/price_type/add', [App\Http\Controllers\PriceTypesController::class, 'addTypeForm'])->name('price_type_add')->middleware('auth');
-Route::get('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'detail'])->name('price_type_edit')->middleware('auth');
-Route::patch('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'editType'])->name('editPriceTypetoDB')->middleware('auth');
-Route::get('/dashboard/price_type/{type}/delete', [App\Http\Controllers\PriceTypesController::class, 'delete'])->name('price_type_delete')->middleware('auth');
-Route::delete('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'destroy'])->name('price_type_destroy')->middleware('auth');
+Route::get('/dashboard/price_type', [App\Http\Controllers\PriceTypesController::class, 'types'])->name('price_type_dashboard')->middleware('isadmin');
+Route::post('/dashboard/price_type', [App\Http\Controllers\PriceTypesController::class, 'addTypetoDB'])->name('addPriceTypeToDB')->middleware('isadmin');
+Route::get('/dashboard/price_type/add', [App\Http\Controllers\PriceTypesController::class, 'addTypeForm'])->name('price_type_add')->middleware('isadmin');
+Route::get('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'detail'])->name('price_type_edit')->middleware('isadmin');
+Route::patch('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'editType'])->name('editPriceTypetoDB')->middleware('isadmin');
+Route::get('/dashboard/price_type/{type}/delete', [App\Http\Controllers\PriceTypesController::class, 'delete'])->name('price_type_delete')->middleware('isadmin');
+Route::delete('/dashboard/price_type/{type}', [App\Http\Controllers\PriceTypesController::class, 'destroy'])->name('price_type_destroy')->middleware('isadmin');
 
-Route::get('/dashboard/contact_type', [App\Http\Controllers\ContactTypesController::class, 'types'])->name('contact_type_dashboard')->middleware('auth');
-Route::post('/dashboard/contact_type', [App\Http\Controllers\ContactTypesController::class, 'addTypetoDB'])->name('addContactTypeToDB')->middleware('auth');
-Route::get('/dashboard/v_type/add', [App\Http\Controllers\ContactTypesController::class, 'addTypeForm'])->name('contact_type_add')->middleware('auth');
-Route::get('/dashboard/contact_type/{type}', [App\Http\Controllers\ContactTypesController::class, 'detail'])->name('contact_type_edit')->middleware('auth');
-Route::patch('/dashboard/contact_type/{type}', [App\Http\Controllers\ContactTypesController::class, 'editType'])->name('editContactTypetoDB')->middleware('auth');
-Route::get('/dashboard/contact_type/{type}/delete', [App\Http\Controllers\ContactTypesController::class, 'delete'])->name('contact_type_delete')->middleware('auth');
-Route::delete('/dashboard/contact_type/{type}', [App\Http\Controllers\ContactTypesController::class, 'destroy'])->name('contact_type_destroy')->middleware('auth');
+Route::get('/dashboard/contact_type', [App\Http\Controllers\ContactTypesController::class, 'types'])->name('contact_type_dashboard')->middleware('isadmin');
+Route::post('/dashboard/contact_type', [App\Http\Controllers\ContactTypesController::class, 'addTypetoDB'])->name('addContactTypeToDB')->middleware('isadmin');
+Route::get('/dashboard/v_type/add', [App\Http\Controllers\ContactTypesController::class, 'addTypeForm'])->name('contact_type_add')->middleware('isadmin');
+Route::get('/dashboard/contact_type/{type}', [App\Http\Controllers\ContactTypesController::class, 'detail'])->name('contact_type_edit')->middleware('isadmin');
+Route::patch('/dashboard/contact_type/{type}', [App\Http\Controllers\ContactTypesController::class, 'editType'])->name('editContactTypetoDB')->middleware('isadmin');
+Route::get('/dashboard/contact_type/{type}/delete', [App\Http\Controllers\ContactTypesController::class, 'delete'])->name('contact_type_delete')->middleware('isadmin');
+Route::delete('/dashboard/contact_type/{type}', [App\Http\Controllers\ContactTypesController::class, 'destroy'])->name('contact_type_destroy')->middleware('isadmin');
 
 
 Route::get('/vendor', [App\Http\Controllers\VendorsController::class, 'vendor'])->name('vendors');
 Route::get('/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'vendor'])->name('vendor');
-Route::get('/dashboard/vendor', [App\Http\Controllers\VendorsController::class, 'vendors'])->name('vendor_dashboard')->middleware('auth');
-Route::post('/dashboard/vendor', [App\Http\Controllers\VendorsController::class, 'addVendor'])->name('addVendorToDB')->middleware('auth');
-Route::get('/dashboard/vendor/add', [App\Http\Controllers\VendorsController::class, 'addVendorForm'])->name('vendor_dashboard_add')->middleware('auth');
-Route::get('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'detail'])->name('vendor_dashboard_edit')->middleware('auth');
-Route::patch('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'editVendor'])->name('editVendorToDB')->middleware('auth');
-Route::get('/dashboard/vendor/{vendor}/delete', [App\Http\Controllers\VendorsController::class, 'delete'])->name('vendor_dashboard_delete')->middleware('auth');
-Route::delete('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'destroyVendor'])->name('vendor_dashboard_destroy')->middleware('auth');
+Route::get('/dashboard/vendor', [App\Http\Controllers\VendorsController::class, 'vendors'])->name('vendor_dashboard')->middleware('isadmin');
+Route::post('/dashboard/vendor', [App\Http\Controllers\VendorsController::class, 'addVendor'])->name('addVendorToDB')->middleware('isadmin');
+Route::get('/dashboard/vendor/add', [App\Http\Controllers\VendorsController::class, 'addVendorForm'])->name('vendor_dashboard_add')->middleware('isadmin');
+Route::get('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'detail'])->name('vendor_dashboard_edit')->middleware('isadmin');
+Route::patch('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'editVendor'])->name('editVendorToDB')->middleware('isadmin');
+Route::get('/dashboard/vendor/{vendor}/delete', [App\Http\Controllers\VendorsController::class, 'delete'])->name('vendor_dashboard_delete')->middleware('isadmin');
+Route::delete('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'destroyVendor'])->name('vendor_dashboard_destroy')->middleware('isadmin');
 
 
 

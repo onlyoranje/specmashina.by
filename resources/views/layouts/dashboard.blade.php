@@ -78,12 +78,14 @@
         <nav class="nav">
             <a class="nav-link" href="{{route('mybb')}}"> Мои объявления</a>
             <a href="{{route('my_organization')}}"  class="nav-link" >Моя организация</a>
+            @if(Auth::user()->isAdmin())
             <a href="{{route('location_dashboard')}}" class="nav-link">Список городов</a>
             <a href="{{route('rubric_dashboard')}}" class="nav-link"> Список категорий</a>
             <a href="{{route('parameter_dashboard')}}" class="nav-link"> Параметры</a>
             <a href="{{route('vendor_dashboard')}}" class="nav-link"> Список производителей</a>
             <a href="{{route('price_type_dashboard')}}" class="nav-link"> Виды цен</a>
             <a href="{{route('contact_type_dashboard')}}" class="nav-link"> Типы контатков</a>
+                @endif
         </nav>
         @yield('main')
     </main>
