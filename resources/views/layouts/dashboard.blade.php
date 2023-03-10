@@ -87,6 +87,7 @@
             <a href="{{route('contact_type_dashboard')}}" class="nav-link"> Типы контатков</a>
                 @endif
         </nav>
+
         @yield('main')
     </main>
 </div>

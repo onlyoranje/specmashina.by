@@ -9,7 +9,7 @@
                     <td><h3>{{ $bb->title }}</h3></td>
                     <td>{{ $bb->price }}</td>
                     <td>
-                        <a href="/{{ $bb->id }}">Подробнее...</a>
+                        <a href="/{{ $bb->id }}">Подробнее...11</a>
                     </td>
                 </tr>
             @endforeach
