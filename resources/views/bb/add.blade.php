@@ -2,6 +2,44 @@
 @section('title', 'Главная')
 @section('main')
 
+
+    <section class="section section-md pb-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 text-center">
+
+                    <form class="form-ad" action="{{route('addBbToDB')}}" method="post"
+                          enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="my-1 me-2" for="inlineFormCustomSelectPref">Рубрика</label>
+                            <div id="container_rubric_0"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Производитель</label>
+                            <select class="form-select" name="vendor_id" required>
+                                <option  selected disabled>- выбрать -</option>
+                                <?php
+                                use App\Models\Location;
+                                use App\Models\Rubric;
+                                $vendors = App\Models\Vendor::get();?>
+                                @foreach($vendors as $vendor)
+                                    <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Модель</label>
+                            <input type="text" value="{{old('title')}}" name="title"
+                                   required class="form-control" placeholder="Name">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -26,33 +64,17 @@
                                             @csrf
                                             <div class="row">
                                                 <div class="col-lg-6 col-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Name</label>
-                                                        <input type="text" value="{{old('title')}}" name="title"
-                                                               required class="form-control" placeholder="Name">
-                                                    </div>
+
                                                 </div>
                                                 @error('title')
                                                 <span class="invalid-feedback">
 <strong>{{ $message }}</strong>
 </span>
                                                 @enderror
-                                                <div class="mb-3">
-                                                    <label for="exampleInputEmail1" class="form-label">Производитель</label>
-                                                    <select class="form-select" name="vendor_id" required>
-                                                        <option  selected disabled>- выбрать -</option>
-                                                        <?php
-                                                        use App\Models\Location;
-                                                        use App\Models\Rubric;
-                                                        $vendors = App\Models\Vendor::get();?>
-                                                        @foreach($vendors as $vendor)
-                                                            <option value="{{$vendor->id}}">{{$vendor->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+
                                                 <div class="mb-3">
                                                     <label for="exampleInputEmail1" class="form-label">Рубрика</label>
-                                                    <div class="col-lg-12 col-md-6" id="container_rubric_0"></div>
+
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="exampleInputEmail1" class="form-label">Город:</label>
