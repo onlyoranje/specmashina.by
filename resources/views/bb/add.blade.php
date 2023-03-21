@@ -33,6 +33,117 @@
                             <input type="text" value="{{old('title')}}" name="title"
                                    required class="form-control" placeholder="Name">
                         </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Город:</label>
+                            <div class="col-lg-12 col-md-6" id="container_location_0"></div>
+                        </div>
+                        @error('rubric_id')
+                        <span class="invalid-feedback">
+<strong>{{ $message }}</strong>
+</span>
+                        @enderror
+                        @if (count($parameters)>0)
+                            @foreach($parameters as $parameter)
+                                @if ($parameter->type == 'year')
+                                    <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                        <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                        </label>
+                                        <select class="form-select" name="parameter[{{$parameter->id}}]" >
+                                            <option disabled selected>- выбрать -</option>
+                                            @for($year=date('Y');$year>=1950;$year--)
+                                                <option value="{{$year}}">{{$year}}</option>
+                                            @endfor
+                                        </select>
+
+                                    </div>
+                                @else
+
+                                    <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                        <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                        </label>
+                                        <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
+
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Цена</label>
+                            <input type="number" value="{{old('price')}}" name="price"
+                                   class="form-control" id="price">
+                        </div>
+
+                        <div class="mb-3 col-6">
+                            <label class="form-label">Цена</label>
+                            @if (count($price_types)>0)
+                                @foreach($price_types as $price_type)
+                                    <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
+                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required  >
+                                        <label class="form-check-label" >
+                                            {{$price_type->type}}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+
+                        @error('price')
+                        <span class="invalid-feedback">
+<strong>{{ $message }}</strong>
+</span>
+                        @enderror
+
+
+                        <input type="file" name="file">
+
+
+                        <div class="form-group">
+                            <label class="control-label">Description</label>
+                            <textarea class="form-control" name="description"
+                                      rows="7">{{old('description')}}</textarea>
+                        </div>
+                        @error('description')
+                        <span class="invalid-feedback">
+<strong>{{ $message }}</strong>
+</span>
+                        @enderror
+
+                        @foreach($contact_types as $contact_type)
+                            @if ($contact_type->mask)
+                                <script>
+                                    $(function() {
+                                        $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
+                                    });
+                                </script>
+
+                            @endif
+                            <div class="mb-3 col-6">
+                                <label class="form-label">{{$contact_type->name}}</label>
+                                <input type="text" value="{{old('contact',$contact_type[$contact_type->id])}}" name="contact[{{$contact_type->id}}]"
+                                       class="form-control" id="contact_{{$contact_type->id}}"
+                                       @if ($contact_type->required == 'Y')
+                                       required
+                                    @endif
+
+
+                            </div>
+                        @endforeach
+
+
+                        @if ($user->organization)
+                            <div class="mb-3 col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckChecked" checked>
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Подать объявление от {{$user->organization->title}}
+                                    </label>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="button">
+                            <button type="submit" class="btn">Save</button>
+                        </div>
                     </form>
 
                 </div>
@@ -76,118 +187,10 @@
                                                     <label for="exampleInputEmail1" class="form-label">Рубрика</label>
 
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="exampleInputEmail1" class="form-label">Город:</label>
-                                                    <div class="col-lg-12 col-md-6" id="container_location_0"></div>
-                                                </div>
-                                                @error('rubric_id')
-                                                <span class="invalid-feedback">
-<strong>{{ $message }}</strong>
-</span>
-                                                @enderror
-                                                @if (count($parameters)>0)
-                                                    @foreach($parameters as $parameter)
-                                                        @if ($parameter->type == 'year')
-                                                            <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
-                                                                </label>
-                                                                <select class="form-select" name="parameter[{{$parameter->id}}]" >
-                                                                    <option disabled selected>- выбрать -</option>
-                                                                    @for($year=date('Y');$year>=1950;$year--)
-                                                                    <option value="{{$year}}">{{$year}}</option>
-                                                                    @endfor
-                                                                </select>
 
-                                                            </div>
-                                                            @else
-
-                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                            <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
-                                                            </label>
-                                                            <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
-                                                        </div>
-                                                        @endif
-                                                    @endforeach
-                                                    @endif
-
-                                                    <div class="mb-3 col-6">
-                                                        <label class="form-label">Цена</label>
-                                                        <input type="number" value="{{old('price')}}" name="price"
-                                                               class="form-control" id="price">
-                                                    </div>
-
-                                                <div class="mb-3 col-6">
-                                                    <label class="form-label">Цена</label>
-                                                    @if (count($price_types)>0)
-                                                        @foreach($price_types as $price_type)
-                                                    <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
-                                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required  >
-                                                        <label class="form-check-label" >
-                                                            {{$price_type->type}}
-                                                        </label>
-                                                    </div>
-                                                        @endforeach
-                                                    @endif
-                                                </div>
-
-                                                @error('price')
-                                                <span class="invalid-feedback">
-<strong>{{ $message }}</strong>
-</span>
-                                                @enderror
-
-
-                                                <input type="file" name="file">
-
-
-                                                <div class="form-group">
-                                                    <label class="control-label">Description</label>
-                                                    <textarea class="form-control" name="description"
-                                                              rows="7">{{old('description')}}</textarea>
-                                                </div>
-                                                @error('description')
-                                                <span class="invalid-feedback">
-<strong>{{ $message }}</strong>
-</span>
-                                                @enderror
-
-                                                @foreach($contact_types as $contact_type)
-                                                    @if ($contact_type->mask)
-                                                        <script>
-                                                            $(function() {
-                                                             $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
-                                                            });
-                                                        </script>
-
-                                                    @endif
-                                                    <div class="mb-3 col-6">
-                                                        <label class="form-label">{{$contact_type->name}}</label>
-                                                        <input type="text" value="{{old('contact',$contact_type[$contact_type->id])}}" name="contact[{{$contact_type->id}}]"
-                                                               class="form-control" id="contact_{{$contact_type->id}}"
-                                                        @if ($contact_type->required == 'Y')
-                                                            required
-                                                        @endif
-
-                                                        >
-                                                    </div>
-                                                @endforeach
-
-
-                                                @if ($user->organization)
-                                                    <div class="mb-3 col-6">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckChecked" checked>
-                                                        <label class="form-check-label" for="flexCheckChecked">
-Подать объявление от {{$user->organization->title}}
-                                                        </label>
-                                                    </div>
-                                                    </div>
-                                                    @endif
                                                 <div class="row align-items-center justify-content-center">
                                                     <div class="col-lg-6 col-md-5 col-12">
-                                                        <div class="button">
-                                                            <button type="submit" class="btn">Save</button>
-                                                        </div>
+
                                                     </div>
 
                                                 </div>
