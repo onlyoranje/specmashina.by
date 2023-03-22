@@ -2,16 +2,17 @@
 @section('title', 'Главная')
 
 @section('main')
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="card">
-                        <div class="add-resume section">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-10 offset-lg-1 col-12">
-                                        <div class="add-resume-inner box">
+
+
+    <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
+        <div class="container">
+            <div class="row pt-5 pt-md-0">
+                @include('layouts.dashboard_profile')
+
+                <div class="col-12 col-lg-8">
+                    <div class="row justify-content-center">
+
+
 <form class="form-ad" action="{{route('addOrganizationToDB')}}" method="post"
                                             enctype="multipart/form-data">
                                             @csrf
@@ -60,15 +61,10 @@
                         </div>
 </form>
                                         </div>
-                        </div>
-                        </div>
-                        </div>
-                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
