@@ -170,6 +170,7 @@ class ProfileController extends Controller
     public function editBb(Bb $bb){
         $user = Auth::user();
         $parameter_value = Array();
+        $contact_value = Array();
         $all_rubrics = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get();
         $rubrics = Rubric::all();
         $all_locations = Location::whereAncestorOrSelf($bb->location_id)->orderBy('level')->get();
@@ -190,6 +191,7 @@ class ProfileController extends Controller
             $contact_value[$contact->contact_type_id]=$contact->value;
         }
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
+
         return view('bb.edit',[
             'user'=>$user,
             'bb'=>$bb,
@@ -221,6 +223,13 @@ class ProfileController extends Controller
             $bb->save();
         }
 
+
+        if (is_array($request->contact)) {
+            foreach ($request->contact as $contact_type_id=>$contact_value) {
+                if ($contact_value)  BbContact::updateOrCreate(['value'=>$contact_value,'bb_id'=>$bb->id,'contact_type_id'=>$contact_type_id]);
+            }
+
+        }
 
         if ($request->file) {
             if (is_array($request->file) ) {
@@ -274,14 +283,13 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
 
             }
         }
-        foreach ($request->parameter as $parameter_id=>$value){
-            if (!is_null($value))
-            {
-                BbParameters::updateOrCreate(['bb_id' => $bb->id, 'parameter_id'=>$parameter_id],['value'=>$value]);
-            }
-            else
-            {
-            BbParameters::where('bb_id',$bb->id)->where('parameter_id',$parameter_id)->delete();
+        if ($request->parameter) {
+            foreach ($request->parameter as $parameter_id => $value) {
+                if (!is_null($value)) {
+                    BbParameters::updateOrCreate(['bb_id' => $bb->id, 'parameter_id' => $parameter_id], ['value' => $value]);
+                } else {
+                    BbParameters::where('bb_id', $bb->id)->where('parameter_id', $parameter_id)->delete();
+                }
             }
         }
         if ($request->organization=='Y'){

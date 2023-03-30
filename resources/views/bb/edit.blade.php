@@ -142,7 +142,13 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
 
                                 <div class="mb-3 col-6">
                                     <label class="form-label">{{$contact_type->name}}</label>
-                                    <input type="text" value="{{old('contact',$contacts[$contact_type->id])}}" name="contact[{{$contact_type->id}}]"
+                                    <input type="text"
+                                @if (array_key_exists($contact_type->id,$contacts))
+                                   value="{{old('contact',$contacts[$contact_type->id])}}"
+                                           @else
+                                               value=""
+                                           @endif
+                                           name="contact[{{$contact_type->id}}]"
                                            class="form-control" id="contact_{{$contact_type->id}}"
                                            @if ($contact_type->required == 'Y')
                                            required

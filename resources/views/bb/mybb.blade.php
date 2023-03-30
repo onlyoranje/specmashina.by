@@ -16,7 +16,7 @@
                         <div class="col-12">
                             <div class="d-grid"><a href="{{route('addForm')}}"
                                                    class="btn btn-outline-secondary mb-4 py-3"><span class="me-2"><span
-                                            class="fas fa-plus"></span></span>Submit New Item</a></div>
+                                            class="fas fa-plus"></span></span>Добавить объявление</a></div>
                         </div>
                         @if (count($bbs) > 0)
                             @foreach ($bbs as $bb)
