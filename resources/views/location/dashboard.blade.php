@@ -8,6 +8,7 @@
             <div class="row pt-5 pt-md-0">
                 @include('layouts.dashboard_profile')
                 <div class="col-12 col-lg-8">
+                    <div class="card p-0 p-md-4 mb-4"><div class="card-header bg-white border-0">
                     <div class="row justify-content-center">
                         <div class="col-12">
                             <div class="d-grid"><a href="{{route('location_dashboard_add')}}"
@@ -18,26 +19,57 @@
                         @if (count($locations)>0)
                             <?
                             $traverse = function ($locations, $prefix = '-') use (&$traverse) {
-                                foreach ($locations as $location) {
-
-                                    echo "
-                                    <div>
-                                    <a href='".route('location_dashboard_edit' , ['location'=>$location->id]) ."'>".PHP_EOL.$prefix.' '.$location->title."</a>
-</div>
-<div class=\"btn-group\"><button class=\"btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0\" data-bs-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\"><span class=\"icon icon-sm\"><span class=\"fas fa-ellipsis-h icon-secondary\"></span> </span><span class=\"sr-only\">Toggle Dropdown</span></button><div class=\"dropdown-menu py-0\"><a class=\"dropdown-item text-success rounded-top\" href=\"#\"><span class=\"fas fa-plus me-2\" aria-hidden=\"true\"></span> Publish</a> <a class=\"dropdown-item\" href=\"./edit-item.html\"><span class=\"fas fa-edit me-2\"></span>Edit Item</a> <a class=\"dropdown-item rounded-bottom\"><span class=\"fas fa-chart-line me-2\"></span>Statistics</a></div></div>
-<a href='".route('location_dashboard_edit' , ['location'=>$location->id]) ."'>Редактировать </a>
-<a href='".route('location_dashboard_delete', ['location'=>$location->id])."'>Удалить</a><br>";
+                            foreach ($locations as $location) {
+                            ?>
+                            <ul class="list-group list-group-flush">
 
 
-                                    $traverse($location->children, $prefix.'-');
-                                }
+                                <li class="list-group-item py-3">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            {{--<span class="icon icon-md"><span  class="fas fa-sms"></span></span>--}}
+                                        </div>
+                                        <div class="col ms-n2"><h6 class="text-sm mb-0">{{PHP_EOL . $prefix . ' ' . $location->title}}</h6></div>
+                                       {{-- <div class="col d-none d-md-block"><span class="text-muted">Added:</span>
+                                            2021-02-12 14:34:12
+                                        </div>--}}
+                                        <div class="col-auto">
+                                            <div class="btn-group">
+                                                <button
+                                                    class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false"><span class="icon icon-sm"><span
+                                                            class="fas fa-ellipsis-v icon-dark"></span> </span><span
+                                                        class="sr-only">Toggle Dropdown</span></button>
+                                                <div class="dropdown-menu py-0" style=""><a
+                                                        class="dropdown-item rounded-top" href="{{route('location_dashboard_edit', ['location' => $location->id])}}"><span
+                                                            class="fas fa-edit me-2"></span>Edit post</a> <a
+                                                        class="dropdown-item text-danger rounded-bottom" href="{{route('location_dashboard_delete', ['location' => $location->id])}}"><span
+                                                            class="fa fa-trash me-2"
+                                                            aria-hidden="true"></span>Disable</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+
+
+                            <?
+
+
+
+                            $traverse($location->children, $prefix . '-');
+                            }
                             };
 
                             $traverse($locations);
                             ?>
-                  @endif
+                        @endif
                     </div>
 
+                </div>
+                </div>
                 </div>
             </div>
         </div>
