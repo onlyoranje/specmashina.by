@@ -156,6 +156,18 @@
         </div>
     </section>
 
+    <script>
 
+        $(document).ready(function() {
+            window.json_rubric = @json($rubrics);
+            window.json_location = @json($locations);
+            window.json_parameter_rubric = @json($parameter_rubric);
+            NewSelect('rubric');
+            NewSelect('location');
+            $('.input-images').imageUploader();
+
+
+        })
+    </script>
 @endsection
 
