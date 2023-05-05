@@ -17,6 +17,7 @@
                     <a href="{{route('location_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action ">Список городов</a>
                     <a href="{{route('rubric_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Список категорий</a>
                     <a href="{{route('parameter_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Параметры</a>
+                    <a href="{{route('parameter_type_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action ">Типы Параметров</a>
                     <a href="{{route('vendor_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Список производителей</a>
                     <a href="{{route('price_type_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Виды цен</a>
                     <a href="{{route('contact_type_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Типы контатков</a>

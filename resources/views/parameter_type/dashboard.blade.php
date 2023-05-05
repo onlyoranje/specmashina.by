@@ -16,9 +16,10 @@
                                 </div>
                             @endif
 
-                            <a href="{{route('parameter_dashboard_add')}}">Добавить Параметр</a>
-                            <a href="{{route('parameter_type_dashboard_add')}}">Добавить Тип Параметра</a>
+
+                            <a href="{{route('parameter_type_add')}}">Добавить Тип Параметра</a>
                             <br>
+
                                 @if (count($types)>0)
                                 <?php
 
