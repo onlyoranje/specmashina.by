@@ -27,9 +27,9 @@
                                 <div class="row align-items-center">
                                     <div class="col-auto"><span class="icon icon-md"><span
                                                 class="fas fa-sms"></span></span></div>
-                                    <div class="col ms-n2"><h6 class="text-sm mb-0">{{route('parameter_dashboard_edit', ['parameter' => $parameter->id])}}</h6></div>
-                                    <div class="col d-none d-md-block"><span class="text-muted">Added:</span> 2021-02-12
-                                        14:34:12
+                                    <div class="col ms-n2"><a href="{{route('parameter_dashboard_edit', ['parameter' => $parameter->id])}}"><h6  class="text-sm mb-0">{{$parameter->name}}</h6></a></div>
+                                    <div class="col d-none d-md-block">{{--<span class="text-muted">Added:</span> 2021-02-12
+                                        14:34:12--}}
                                     </div>
                                     <div class="col-auto">
                                         <div class="btn-group">
@@ -41,9 +41,9 @@
                                                     class="sr-only">Toggle Dropdown</span></button>
                                             <div class="dropdown-menu py-0"><a class="dropdown-item rounded-top"
                                                                                href="{{route('parameter_dashboard_edit', ['parameter' => $parameter->id])}}"><span
-                                                        class="fas fa-edit me-2"></span>Edit post</a> <a
+                                                        class="fas fa-edit me-2"></span>Редактировать</a> <a
                                                     class="dropdown-item text-danger rounded-bottom" href="{{route('parameter_dashboard_delete', ['parameter' => $parameter->id])}}"><span
-                                                        class="fa fa-trash me-2" aria-hidden="true"></span>Disable</a>
+                                                        class="fa fa-trash me-2" aria-hidden="true"></span>Удалить</a>
                                             </div>
                                         </div>
                                     </div>

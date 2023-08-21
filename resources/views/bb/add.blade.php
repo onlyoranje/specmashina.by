@@ -130,7 +130,7 @@
                                        @if ($contact_type->required == 'Y')
                                        required
                                     @endif
-
+>
 
                             </div>
                         @endforeach
