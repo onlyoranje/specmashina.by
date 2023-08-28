@@ -23,8 +23,11 @@
                                 foreach ($vendors as $vendor) {?>
                                 <li class="list-group-item py-3">
                                     <div class="row align-items-center">
-                                        <div class="col-auto"><span class="icon icon-md"><span
-                                                    class="fas fa-sms"></span></span></div>
+                                        <div class="col-auto">
+                                            @if ($vendor->logo)
+                                            <img class="avatar-sm me-2 img-fluid rounded-circle" src="/storage/{{$vendor->logo}}">
+                                        @endif
+                                        </div>
                                         <div class="col ms-n2"><a href="{{route('vendor_dashboard_edit' ,  ['vendor'=>$vendor->id])}}"><h6  class="text-sm mb-0">{{$vendor->name}}</h6></a></div>
                                         <div class="col d-none d-md-block">{{--<span class="text-muted">Added:</span> 2021-02-12
                                         14:34:12--}}
