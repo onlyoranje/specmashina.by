@@ -21,6 +21,7 @@
                     <a href="{{route('vendor_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Список производителей</a>
                     <a href="{{route('price_type_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Виды цен</a>
                     <a href="{{route('contact_type_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Типы контатков</a>
+                    <a href="{{route('status_dashboard')}}" class="nav-link d-flex list-group-item border-0 list-group-item-action "> Статусы объявлений</a>
                 @endif
 
             </div>

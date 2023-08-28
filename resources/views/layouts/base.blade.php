@@ -20,7 +20,9 @@
 <body>
 @include('layouts.header')
 <main>
-@yield('main')
+
+
+    @yield('main')
 </main>
 <footer class="footer pt-6 pb-5 bg-dark text-white">
     <div class="container">
@@ -28,7 +30,8 @@
             <div class="col-md-4">
                 <img class="navbar-brand-dark mb-4" height="35" src="../../assets/img/brand/light.svg"
                      alt="Logo light">
-                <p>Pixel is a free and open source Bootstrap 5 UI Kit that will help you prototype and build beautiful website pages and applications.</p>
+                <p>Pixel is a free and open source Bootstrap 5 UI Kit that will help you prototype and build beautiful
+                    website pages and applications.</p>
                 <ul class="social-buttons mb-5 mb-lg-0">
                     <li>
                         <a href="https://twitter.com/themesberg" aria-label="twitter social link"
@@ -95,7 +98,8 @@
                     </div>
                 </form>
                 <p class="text-muted font-small m-0">We’ll never share your details. See our <a class="text-white"
-                                                                                                href="#">Privacy Policy</a></p>
+                                                                                                href="#">Privacy
+                        Policy</a></p>
             </div>
         </div>
         <hr class="bg-secondary my-3 my-lg-5">
@@ -114,7 +118,7 @@
     </div>
 </footer>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         // enable fileuploader plugin
         $('input[name="file"]').fileuploader({
@@ -234,16 +238,16 @@
                 beforeShow: null,
 
                 // Callback fired after adding the item element
-                onItemShow: function(item) {
+                onItemShow: function (item) {
                     // add sorter button to the item html
                     item.html.find('.fileuploader-action-remove').before('<div class="fileuploader-action fileuploader-action-sort" title="Sort"><i class="fileuploader-icon-sort"></i></div>');
                 },
                 // Callback fired after removing the item element
                 // by default we will animate the removing action
-                onItemRemove: function(html) {
-                    html.children().animate({'opacity': 0}, 200, function() {
-                        setTimeout(function() {
-                            html.slideUp(200, function() {
+                onItemRemove: function (html) {
+                    html.children().animate({'opacity': 0}, 200, function () {
+                        setTimeout(function () {
+                            html.slideUp(200, function () {
                                 html.remove();
                             });
                         }, 100);
@@ -252,7 +256,7 @@
 
                 // Callback fired after the item image was loaded or a image file is invalid
                 // default - null
-                onImageLoaded: function(item, listEl, parentEl, newInputEl, inputEl) {
+                onImageLoaded: function (item, listEl, parentEl, newInputEl, inputEl) {
                     // invalid image?
                     if (item.image.hasClass('fileuploader-no-thumbnail')) {
                         // callback goes here
@@ -276,91 +280,93 @@
                     loop: true,
 
                     // popup HTML {String, Function}
-                    template: function(data) { return '<div class="fileuploader-popup-preview">' +
-                        '<div class="fileuploader-popup-move" data-action="prev"><i class="fileuploader-icon-arrow-left"></i></div>' +
-                        '<div class="fileuploader-popup-node ${format}">' +
-                        '${reader.node}' +
-                        '</div>' +
-                        '<div class="fileuploader-popup-content">' +
-                        '<div class="fileuploader-popup-footer">' +
-                        '<ul class="fileuploader-popup-tools">' +
-                        (data.format == 'image' && data.reader.node && data.editor ? (data.editor.cropper ? '<li>' +
-                                '<div data-action="crop">' +
-                                '<i class="fileuploader-icon-crop"></i> ${captions.crop}' +
-                                '</div>' +
-                                '</li>' : '') +
-                                (data.editor.rotate ? '<li>' +
-                                    '<div data-action="rotate-cw">' +
-                                    '<i class="fileuploader-icon-rotate"></i> ${captions.rotate}' +
+                    template: function (data) {
+                        return '<div class="fileuploader-popup-preview">' +
+                            '<div class="fileuploader-popup-move" data-action="prev"><i class="fileuploader-icon-arrow-left"></i></div>' +
+                            '<div class="fileuploader-popup-node ${format}">' +
+                            '${reader.node}' +
+                            '</div>' +
+                            '<div class="fileuploader-popup-content">' +
+                            '<div class="fileuploader-popup-footer">' +
+                            '<ul class="fileuploader-popup-tools">' +
+                            (data.format == 'image' && data.reader.node && data.editor ? (data.editor.cropper ? '<li>' +
+                                    '<div data-action="crop">' +
+                                    '<i class="fileuploader-icon-crop"></i> ${captions.crop}' +
                                     '</div>' +
-                                    '</li>' : '') : ''
-                        ) +
-                        (data.format == 'image' ?
-                                '<li class="fileuploader-popup-zoomer">' +
-                                '<div data-action="zoom-out">&minus;</div>' +
-                                '<input type="range" min="0" max="100">' +
-                                '<div data-action="zoom-in">&plus;</div>' +
-                                '<span></span> ' +
-                                '</li>' : ''
-                        ) +
-                        (data.data.url ? '<li>' +
-                                '<a href="'+ data.file +'" data-action target="_blank">' +
-                                '<i class="fileuploader-icon-external"></i> ${captions.open}' +
-                                '</a>' +
-                                '</li>' : ''
-                        ) +
-                        '<li>' +
-                        '<div data-action="remove">' +
-                        '<i class="fileuploader-icon-trash"></i> ${captions.remove}' +
-                        '</div>' +
-                        '</li>' +
-                        '</ul>' +
-                        '</div>' +
-                        '<div class="fileuploader-popup-header">' +
-                        '<ul class="fileuploader-popup-meta">' +
-                        '<li>' +
-                        '<span>${captions.name}:</span>' +
-                        '<h5>${name}</h5>' +
-                        '</li>' +
-                        '<li>' +
-                        '<span>${captions.type}:</span>' +
-                        '<h5>${extension.toUpperCase()}</h5>' +
-                        '</li>' +
-                        '<li>' +
-                        '<span>${captions.size}:</span>' +
-                        '<h5>${size2}</h5>' +
-                        '</li>' +
-                        (data.reader && data.reader.width ? '<li>' +
-                                '<span>${captions.dimensions}:</span>' +
-                                '<h5>${reader.width}x${reader.height}px</h5>' +
-                                '</li>' : ''
-                        ) +
-                        (data.reader && data.reader.duration ? '<li>' +
-                                '<span>${captions.duration}:</span>' +
-                                '<h5>${reader.duration2}</h5>' +
-                                '</li>' : ''
-                        ) +
-                        '</ul>' +
-                        '<div class="fileuploader-popup-info"></div>' +
-                        '<ul class="fileuploader-popup-buttons">' +
-                        '<li><div class="fileuploader-popup-button" data-action="cancel">${captions.cancel}</a></li>' +
-                        (data.editor ? '<li><div class="fileuploader-popup-button button-success" data-action="save">${captions.confirm}</div></li>' : ''
-                        ) +
-                        '</ul>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="fileuploader-popup-move" data-action="next"><i class="fileuploader-icon-arrow-right"></i></div>' +
-                        '</div>'; },
+                                    '</li>' : '') +
+                                    (data.editor.rotate ? '<li>' +
+                                        '<div data-action="rotate-cw">' +
+                                        '<i class="fileuploader-icon-rotate"></i> ${captions.rotate}' +
+                                        '</div>' +
+                                        '</li>' : '') : ''
+                            ) +
+                            (data.format == 'image' ?
+                                    '<li class="fileuploader-popup-zoomer">' +
+                                    '<div data-action="zoom-out">&minus;</div>' +
+                                    '<input type="range" min="0" max="100">' +
+                                    '<div data-action="zoom-in">&plus;</div>' +
+                                    '<span></span> ' +
+                                    '</li>' : ''
+                            ) +
+                            (data.data.url ? '<li>' +
+                                    '<a href="' + data.file + '" data-action target="_blank">' +
+                                    '<i class="fileuploader-icon-external"></i> ${captions.open}' +
+                                    '</a>' +
+                                    '</li>' : ''
+                            ) +
+                            '<li>' +
+                            '<div data-action="remove">' +
+                            '<i class="fileuploader-icon-trash"></i> ${captions.remove}' +
+                            '</div>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<div class="fileuploader-popup-header">' +
+                            '<ul class="fileuploader-popup-meta">' +
+                            '<li>' +
+                            '<span>${captions.name}:</span>' +
+                            '<h5>${name}</h5>' +
+                            '</li>' +
+                            '<li>' +
+                            '<span>${captions.type}:</span>' +
+                            '<h5>${extension.toUpperCase()}</h5>' +
+                            '</li>' +
+                            '<li>' +
+                            '<span>${captions.size}:</span>' +
+                            '<h5>${size2}</h5>' +
+                            '</li>' +
+                            (data.reader && data.reader.width ? '<li>' +
+                                    '<span>${captions.dimensions}:</span>' +
+                                    '<h5>${reader.width}x${reader.height}px</h5>' +
+                                    '</li>' : ''
+                            ) +
+                            (data.reader && data.reader.duration ? '<li>' +
+                                    '<span>${captions.duration}:</span>' +
+                                    '<h5>${reader.duration2}</h5>' +
+                                    '</li>' : ''
+                            ) +
+                            '</ul>' +
+                            '<div class="fileuploader-popup-info"></div>' +
+                            '<ul class="fileuploader-popup-buttons">' +
+                            '<li><div class="fileuploader-popup-button" data-action="cancel">${captions.cancel}</a></li>' +
+                            (data.editor ? '<li><div class="fileuploader-popup-button button-success" data-action="save">${captions.confirm}</div></li>' : ''
+                            ) +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="fileuploader-popup-move" data-action="next"><i class="fileuploader-icon-arrow-right"></i></div>' +
+                            '</div>';
+                    },
 
                     // Callback fired after creating the popup
                     // we will trigger by default buttons with custom actions
-                    onShow: function(item) {
-                        item.popup.html.on('click', '[data-action="remove"]', function(e) {
+                    onShow: function (item) {
+                        item.popup.html.on('click', '[data-action="remove"]', function (e) {
                             item.popup.close();
                             item.remove();
-                        }).on('click', '[data-action="cancel"]', function(e) {
+                        }).on('click', '[data-action="cancel"]', function (e) {
                             item.popup.close();
-                        }).on('click', '[data-action="save"]', function(e) {
+                        }).on('click', '[data-action="save"]', function (e) {
                             if (item.editor)
                                 item.editor.save();
                             if (item.popup.close)
@@ -377,7 +383,7 @@
                 selectorExclude: null,
                 placeholder: null,
                 scrollContainer: window,
-                onSort: function(list, listEl, parentEl, newInputEl, inputEl) {
+                onSort: function (list, listEl, parentEl, newInputEl, inputEl) {
                     // onSort callback
                 }
             }

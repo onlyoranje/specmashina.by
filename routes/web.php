@@ -108,6 +108,13 @@ Route::get('/dashboard/vendor/{vendor}/delete', [App\Http\Controllers\VendorsCon
 Route::delete('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsController::class, 'destroyVendor'])->name('vendor_dashboard_destroy')->middleware('isadmin');
 
 
+Route::get('/dashboard/status_bb', [App\Http\Controllers\StatusBbController::class, 'statuses'])->name('status_dashboard')->middleware('isadmin');
+Route::post('/dashboard/status_bb', [App\Http\Controllers\StatusBbController::class, 'addStatus'])->name('addStatusToDB')->middleware('isadmin');
+Route::get('/dashboard/status_bb/add', [App\Http\Controllers\StatusBbController::class, 'addStatusForm'])->name('status_dashboard_add')->middleware('isadmin');
+Route::get('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbController::class, 'detail'])->name('status_dashboard_edit')->middleware('isadmin');
+Route::patch('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbController::class, 'editStatus'])->name('editStatusToDB')->middleware('isadmin');
+Route::get('/dashboard/status_bb/{id}/delete', [App\Http\Controllers\StatusBbController::class, 'delete'])->name('status_dashboard_delete')->middleware('isadmin');
+Route::delete('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbController::class, 'destroyStatus'])->name('status_dashboard_destroy')->middleware('isadmin');
 
 require __DIR__.'/auth.php';
 Route::get('/{bb}', [BbsController::class, 'detail'])->name('bb');

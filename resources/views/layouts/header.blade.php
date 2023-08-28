@@ -274,7 +274,11 @@
             </div>
             <div class="d-flex align-items-center">
                 <a href="https://themesberg.com/docs/bootstrap-5/pixel/getting-started/quick-start/" target="_blank" class="btn btn-outline-gray-100 d-none d-lg-inline me-md-3"><span class="fas fa-book me-2"></span> Docs</a>
-                <a href="https://themesberg.com/product/ui-kit/pixel-free-bootstrap-5-ui-kit" target="_blank" class="btn btn-tertiary"><i class="fas fa-cloud-download-alt me-2"></i> Download</a>
+                @if(Auth::user())
+                <a href="{{route('dashboard')}}"  class="btn btn-tertiary"><i class="fas fa-cloud-download-alt me-2"></i> Личный кабинет</a>
+                @else
+                    <a href="{{route('dashboard')}}"  class="btn btn-tertiary"><i class="fas fa-cloud-download-alt me-2"></i> войти</a>
+                @endif
                 <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
