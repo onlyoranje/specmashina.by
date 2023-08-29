@@ -29,12 +29,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $id_1 = Location::create(['id'=>1,'title' => 'Брестская область','title_r' => 'Брестской области','parent_id' => 0,'level' => 1,'lat'=>'52.5296641','lng'=>'25.4606480']);
-        $id_2 = Location::create(['id'=>2,'title' => 'Витебская область','title_r' => 'Витебской области','parent_id' => 0,'level' => 1,'lat'=>'55.2959833','lng'=>'28.7583626']);
-        $id_3 = Location::create(['id'=>3,'title' => 'Гомельская область','title_r' => 'Гомельской области','parent_id' => 0,'level' => 1,'lat'=>'52.1648754','lng'=>'29.1333251']);
-        $id_4 = Location::create(['id'=>4,'title' => 'Гродненская область','title_r' => 'Гродненской области','parent_id' => 0,'level' => 1,'lat'=>'53.6599945','lng'=>'25.3448570']);
-        $id_5 = Location::create(['id'=>5,'title' => 'Минская область','title_r' => 'Минской области','parent_id' => 0,'level' => 1,'lat'=>'53.4718561','lng'=>'27.6969909']);
-        $id_6 = Location::create(['id'=>6,'title' => 'Могилевская область','title_r' => 'Могилевской области','parent_id' => 0,'level' => 1,'lat'=>'53.7940401','lng'=>'30.7519767']);
+        $id_1 = Location::create(['id'=>1,'title' => 'Брестская область','title_r' => 'Брестской области','parent_id' => 0,'level' => 0,'lat'=>'52.5296641','lng'=>'25.4606480']);
+        $id_2 = Location::create(['id'=>2,'title' => 'Витебская область','title_r' => 'Витебской области','parent_id' => 0,'level' => 0,'lat'=>'55.2959833','lng'=>'28.7583626']);
+        $id_3 = Location::create(['id'=>3,'title' => 'Гомельская область','title_r' => 'Гомельской области','parent_id' => 0,'level' => 0,'lat'=>'52.1648754','lng'=>'29.1333251']);
+        $id_4 = Location::create(['id'=>4,'title' => 'Гродненская область','title_r' => 'Гродненской области','parent_id' => 0,'level' => 0,'lat'=>'53.6599945','lng'=>'25.3448570']);
+        $id_5 = Location::create(['id'=>5,'title' => 'Минская область','title_r' => 'Минской области','parent_id' => 0,'level' => 0,'lat'=>'53.4718561','lng'=>'27.6969909']);
+        $id_6 = Location::create(['id'=>6,'title' => 'Могилевская область','title_r' => 'Могилевской области','parent_id' => 0,'level' => 0,'lat'=>'53.7940401','lng'=>'30.7519767']);
         $id_7 = Location::create(['id'=>7,'title' => 'Брест','title_r' => 'Бресте','parent_id' => $id_1->id,'level' => 1,'lat'=>'52.0976214','lng'=>'23.7340503']);
         $id_8 = Location::create(['id'=>8,'title' => 'Витебск','title_r' => 'Витебске','parent_id' => $id_2->id,'level' => 1,'lat'=>'55.1848061','lng'=>'30.2016220']);
         $id_9 = Location::create(['id'=>9,'title' => 'Гомель','title_r' => 'Гомеле','parent_id' => $id_3->id,'level' => 1,'lat'=>'52.4411761','lng'=>'30.9878462']);

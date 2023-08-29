@@ -64,13 +64,18 @@
 <strong>{{ $message }}</strong>
 </span>
                             @enderror
+                            @error('location_id')
+                            <span class="invalid-feedback">
+<strong>{{ $message }}</strong>
+</span>
+                            @enderror
 
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Рубрика</label>
+                                <label  class="form-label">Рубрика</label>
                             <div class="col-lg-12 col-md-6" id="container_rubric_0"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Город:</label>
+                                <label  class="form-label">Город:</label>
                             <div class="col-lg-12 col-md-6" id="container_location_0"></div>
                             </div>
 
@@ -130,7 +135,9 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
                                 <label class="control-label">Description</label>
                                 <textarea class="form-control" name="description" rows="7">{{old('description',$bb->content)}}</textarea>
                             </div>
+
                             @foreach($contact_types as $contact_type)
+
                                 @if ($contact_type->mask)
                                     <script>
                                         $(function() {
@@ -144,7 +151,7 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
                                     <label class="form-label">{{$contact_type->name}}</label>
                                     <input type="text"
                                 @if (array_key_exists($contact_type->id,$contacts))
-                                   value="{{old('contact',$contacts[$contact_type->id])}}"
+                                   value="{{old('contact['.$contact_type->id.']',$contacts[$contact_type->id])}}"
                                            @else
                                                value=""
                                            @endif
@@ -202,7 +209,7 @@ if (!empty($parameter_value[$parameter->id])) $pv=$parameter_value[$parameter->i
 
                             @foreach($all_locations as $location_)
 
-                            NewSelect('location',<?php if (!$location_->parent_id) {echo 'null';} else {echo $location_->parent_id;}  ?>,{{$location_->level}},{{$location_->id}},@json($all_rubrics));
+                            NewSelect('location',<?php if (!$location_->parent_id) {echo 'null';} else {echo $location_->parent_id;}  ?>,{{$location_->level}},{{$location_->id}},@json($all_locations));
                             $('#location_level_{{$location_->level}} option[value={{$location_->id}}]').prop('selected', true);
 
 
