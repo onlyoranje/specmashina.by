@@ -8,14 +8,16 @@
                     <a href="#"><img   src="http://placehold.it/300x300&text={{ $bb->title }}" alt="{{ $bb->title }}"></a>
                 @endif
             </aside>
+            <?php
+                $parent_rubrics = App\Models\Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get();
+                $parent_rubric = $parent_rubrics[0];
+?>
             <div class="col-md-6">
-                <div class="info-main"><a href="#" class="h5 title">{{$bb->all_rubrics[0]->title}} {{ $bb->vendor->name }} {{ $bb->title }}</a>
+                <div class="info-main"><a href="#" class="h5 title">{{$parent_rubric->title}} {{$bb->rubric->title_r}}<br>{{ $bb->vendor->name }} {{ $bb->title }}</a>
+
                     <div class="d-flex my-3"><span class="star fas fa-star text-warning me-1"></span> <span class="star fas fa-star text-warning me-1"></span> <span class="star fas fa-star text-warning me-1"></span> <span class="star fas fa-star text-warning me-1"></span> <span class="star fas fa-star text-warning"></span> <span class="badge badge-pill badge-gray ms-2">4.7</span> <span class="small text-success ms-3"><span class="fas fa-shopping-cart me-1"></span>150 orders</span>
                     </div>
-                    <p>Monitor your health. Track your workouts. Get the motivation you need to
-                        achieve your
-                        fitness goals. And stay connected to the people and information you care
-                        about.</p>
+                    <p>{{$bb->content}}</p>
                 </div>
             </div>
             <div class="col-12 col-md-3">
