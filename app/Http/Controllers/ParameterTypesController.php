@@ -28,6 +28,7 @@ class ParameterTypesController extends Controller
     }
     public function detail($id){
         $type     = ParameterType::find($id);
+
         return view('parameter_type.edit', ['type'=>$type]);
 
     }

@@ -8,7 +8,7 @@
                     <div class="add-resume-inner box">
                         <div class="post-header align-items-center justify-content-center">
                             <h3>Basic information</h3>
-                            <p>Already have an account? <a href="javacript:" data-toggle="modal" data-target="#login" class="login"> Click here to login</a></p>
+                            <p>Удалить параметр "{{$parameter->name}}"? </p>
                         </div>
                         <form class="form-ad" action="{{route('parameter_dashboard_destroy', ['parameter'=>$parameter->id])}}" method="post">
                             @csrf

@@ -59,5 +59,13 @@ class VendorsController extends Controller
         }
         return redirect()->route('vendor_dashboard');
     }
+    public function delete(Vendor $vendor){
+        return view('vendor.delete', ['vendor'=>$vendor]);
+    }
+    public function destroyVendor(Vendor $vendor){
+
+        $vendor->delete();
+        return redirect()->route('vendor_dashboard');
+    }
 
 }

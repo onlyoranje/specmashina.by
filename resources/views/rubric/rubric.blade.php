@@ -1,4 +1,5 @@
-@extends('layouts.dashboard')
+@extends('layouts.base')
+@section('title', 'Главная')
 @section('main')
     <div class="breadcrumbs overlay">
         <div class="container">
@@ -63,10 +64,10 @@
                         <div class="inner-content">
 
 
-@foreach ($announcements as $ann)
+@foreach ($bbs as $bb)
                             <div class="resume-item">
-                                <a href="{{route('announcement_detail', ['ann' => $ann->id])}}">
-                                    @foreach ($ann->userfile as $image)
+                                <a href="{{route('bb', ['bb' => $bb->id])}}">
+                                    @foreach ($bb->userfile as $image)
 
                                         @if ($loop->first)
                                             <img src="{{ Storage::url($image->resize(240, 240)) }}" class="img-fluid rounded-start" alt="">
@@ -75,7 +76,7 @@
                                 </a>
                                 <div class="right">
                                     <h3>
-                                        <a href="{{route('announcement_detail', ['ann' => $ann->id])}}">{{$ann->title}} </a>
+                                        <a href="{{route('bb', ['bb' => $bb->id])}}">{{$bb->title}} </a>
                                     </h3>
                                     <span class="deg">Аренда  автогудронатора</span>
                                     <ul class="experience">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bb;
 use App\Models\ParameterRubric;
 use App\Models\Rubric;
 use Illuminate\Http\Request;
@@ -25,9 +26,9 @@ class RubricsController extends Controller
     public function rubric($id){
         $rubric     = Rubric::find($id);
         $rubrics    = Rubric::descendantsAndSelf($id)->pluck('id');
-        $announcements    = Bb::whereIn('rubric_id',$rubrics)->get();
+        $bbs    = Bb::whereIn('rubric_id',$rubrics)->orderBy('lifted_at', 'desc')->get();
         $breadcrumbs= Rubric::ancestorsAndSelf($id);
-        return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'announcements'=>$announcements]);
+        return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs]);
 
     }
     public function rubrics(){

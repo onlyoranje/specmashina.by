@@ -1,72 +1,399 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title') :: Объявления</title>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
-    <style>
-        /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}svg,video{display:block;vertical-align:middle}video{max-width:100%;height:auto}.bg-white{--tw-bg-opacity: 1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-gray-100{--tw-bg-opacity: 1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.border-gray-200{--tw-border-opacity: 1;border-color:rgb(229 231 235 / var(--tw-border-opacity))}.border-t{border-top-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000),var(--tw-ring-shadow, 0 0 #0000),var(--tw-shadow)}.text-center{text-align:center}.text-gray-200{--tw-text-opacity: 1;color:rgb(229 231 235 / var(--tw-text-opacity))}.text-gray-300{--tw-text-opacity: 1;color:rgb(209 213 219 / var(--tw-text-opacity))}.text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-gray-600{--tw-text-opacity: 1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity: 1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity: 1;color:rgb(17 24 39 / var(--tw-text-opacity))}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--tw-bg-opacity: 1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark\:bg-gray-900{--tw-bg-opacity: 1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:border-gray-700{--tw-border-opacity: 1;border-color:rgb(55 65 81 / var(--tw-border-opacity))}.dark\:text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:text-gray-400{--tw-text-opacity: 1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}}
-    </style>
-
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-        }
-    </style>
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    @vite(['resources/js/app.js'])
+
 </head>
-<body class="antialiased">
-<div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-    @if (Route::has('login'))
-        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            @auth
-                <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
-            @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+<body>
+@include('layouts.header')
+<main>
 
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                @endif
-            @endauth
-        </div>
-    @endif
 
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
     @yield('main')
-
-                <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm text-gray-500 sm:text-left">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-mt-px w-5 h-5 text-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-                            </svg>
-
-                            <a href="https://laravel.bigcartel.com" class="ml-1 underline">
-                                Shop
-                            </a>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-4 -mt-px w-5 h-5 text-gray-400">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                            </svg>
-
-                            <a href="https://github.com/sponsors/taylorotwell" class="ml-1 underline">
-                                Sponsor
-                            </a>
+</main>
+<footer class="footer pt-6 pb-5 bg-dark text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img class="navbar-brand-dark mb-4" height="35" src="../../assets/img/brand/light.svg"
+                     alt="Logo light">
+                <p>Pixel is a free and open source Bootstrap 5 UI Kit that will help you prototype and build beautiful
+                    website pages and applications.</p>
+                <ul class="social-buttons mb-5 mb-lg-0">
+                    <li>
+                        <a href="https://twitter.com/themesberg" aria-label="twitter social link"
+                           class="icon-white me-2">
+                            <span class="fab fa-twitter"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/themesberg/" class="icon-white me-2"
+                           aria-label="facebook social link">
+                            <span class="fab fa-facebook"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/themesberg" aria-label="github social link" class="icon-white me-2">
+                            <span class="fab fa-github"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://dribbble.com/themesberg" class="icon-white" aria-label="dribbble social link">
+                            <span class="fab fa-dribbble"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-2 mb-5 mb-lg-0">
+                <span class="h5">Themesberg</span>
+                <ul class="footer-links mt-2">
+                    <li><a target="_blank" href="https://themesberg.com/blog">Blog</a></li>
+                    <li><a target="_blank" href="https://themesberg.com/themes">Themes</a></li>
+                    <li><a target="_blank" href="https://themesberg.com/about">About Us</a></li>
+                    <li><a target="_blank" href="https://themesberg.com/contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-2 mb-5 mb-lg-0">
+                <span class="h5">Other</span>
+                <ul class="footer-links mt-2">
+                    <li><a href="https://themesberg.com/docs/bootstrap-5/pixel/getting-started/quick-start/"
+                           target="_blank">Docs</a></li>
+                    <li><a href="https://themesberg.com/docs/pixel-bootstrap/getting-started/changelog"
+                           target="_blank">Changelog</a></li>
+                    <li><a target="_blank" href="https://themesberg.com/licensing">License</a>
+                    </li>
+                    <li><a target="_blank"
+                           href="https://github.com/themesberg/pixel-bootstrap-ui-kit/issues">Support</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-4 mb-5 mb-lg-0">
+                <span class="h5">Subscribe</span>
+                <p class="text-muted font-small mt-2">Join our mailing list. We write rarely, but only the best content.
+                </p>
+                <form action="#">
+                    <div class="form-row mb-2">
+                        <div class="col-12">
+                            <label class="h6 fw-normal text-muted d-none" for="exampleInputEmail3">Email address</label>
+                            <input type="email" class="form-control mb-2" placeholder="example@company.com" name="email"
+                                   aria-label="Subscribe form" id="exampleInputEmail3" required>
+                        </div>
+                        <div class="col-12 d-grid">
+                            <button type="submit" class="btn btn-tertiary" data-loading-text="Sending">
+                                <span>Subscribe</span>
+                            </button>
                         </div>
                     </div>
-
-                    <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </div>
+                </form>
+                <p class="text-muted font-small m-0">We’ll never share your details. See our <a class="text-white"
+                                                                                                href="#">Privacy
+                        Policy</a></p>
+            </div>
+        </div>
+        <hr class="bg-secondary my-3 my-lg-5">
+        <div class="row">
+            <div class="col mb-md-0">
+                <a href="https://themesberg.com" target="_blank" class="d-flex justify-content-center mb-3">
+                    <img src="../../assets/img/themesberg.svg" height="30" class="me-2" alt="Themesberg Logo">
+                    <p class="text-white fw-bold footer-logo-text m-0">Themesberg</p>
+                </a>
+                <div class="d-flex text-center justify-content-center align-items-center" role="contentinfo">
+                    <p class="fw-normal font-small mb-0">Copyright © Themesberg 2019-<span
+                            class="current-year">2021</span>. All rights reserved.</p>
                 </div>
             </div>
-</div>
+        </div>
+    </div>
+</footer>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // enable fileuploader plugin
+        $('input[name="file"]').fileuploader({
+            limit: 20,
+            maxSize: 50,
+
+            changeInput: '<div class="fileuploader-input">' +
+                '<div class="fileuploader-input-inner">' +
+                '<div class="fileuploader-icon-main"></div>' +
+                '<h3 class="fileuploader-input-caption"><span>Нет фото</span></h3>' +
+                '<p>Перетащите фото сюда</p>' +
+                '<button type="button" class="fileuploader-input-button"><span>загрузить фото</span></button>' +
+                '</div>' +
+                '</div>',
+            theme: 'thumbnails',
+            addMore: true,
+            //            thumbnails: {
+            //                onItemShow: function(item) {
+            //                    // add sorter button to the item html
+            //                    item.html.find('.fileuploader-action-remove').before('<button type="button" class="fileuploader-action fileuploader-action-sort" title="Sort"><i class="fileuploader-icon-sort"></i></button>');
+            //                }
+            //            },
+            thumbnails: {
+                // thumbnails list HTML {String, Function}
+                // example: '<ul></ul>'
+                // example: function(options) { return '<ul></ul>'; }
+                box: '<div class="fileuploader-items">' +
+                    '<ul class="fileuploader-items-list row"></ul>' +
+                    '</div>',
+
+                // append thumbnails list to selector {null, String, jQuery Object}
+                // example: 'body'
+                boxAppendTo: null,
+
+                // thumbnails for the choosen files {String, Function}
+                // example: '<li>${name}</li>'
+                // example: function(item) { return '<li>' + item.name + '</li>'; }
+                item: '<li class="fileuploader-item">' +
+                    '<div class="fileuploader-item-inner">' +
+                    '<div class="type-holder">${extension}</div>' +
+                    '<div class="actions-holder">' +
+                    '<button type="button" class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i class="fileuploader-icon-remove"></i></button>' +
+                    '</div>' +
+                    '<div class="thumbnail-holder">' +
+                    '${image}' +
+                    '<span class="fileuploader-action-popup"></span>' +
+                    '</div>' +
+                    '<div class="content-holder"><h5>${name}</h5><span>${size2}</span></div>' +
+                    '<div class="progress-holder">${progressBar}</div>' +
+                    '</div>' +
+                    '</li>',
+
+                // thumbnails for the preloaded files {String, Function}
+                // example: '<li>${name}</li>'
+                // example: function(item) { return '<li>' + item.name + '</li>'; }
+                item2: '<li class="fileuploader-item">' +
+                    '<div class="fileuploader-item-inner">' +
+                    '<div class="type-holder">${extension}</div>' +
+                    '<div class="actions-holder">' +
+                    '<a href="${file}" class="fileuploader-action fileuploader-action-download" title="${captions.download}" download><i class="fileuploader-icon-download"></i></a>' +
+                    '<div type="button" class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i class="fileuploader-icon-remove"></i></div>' +
+                    '</div>' +
+                    '<div class="thumbnail-holder">' +
+                    '${image}' +
+                    '<span class="fileuploader-action-popup"></span>' +
+                    '</div>' +
+                    '<div class="content-holder"><h5 title="${name}">${name}</h5><span>${size2}</span></div>' +
+                    '<div class="progress-holder">${progressBar}</div>' +
+                    '</div>' +
+                    '</li>',
+
+                // thumbnails selectors
+                _selectors: {
+                    list: '.fileuploader-items-list',
+                    item: '.fileuploader-item',
+                    start: '.fileuploader-action-start',
+                    retry: '.fileuploader-action-retry',
+                    remove: '.fileuploader-action-remove',
+                    sorter: '.fileuploader-action-sort',
+                    popup: '.fileuploader-popup-preview',
+                    popup_open: '.fileuploader-action-popup'
+                },
+
+                // insert the thumbnail's item at the begining of the list? {Boolean}
+                itemPrepend: false,
+
+                // show a confirmation dialog by removing a file? {Boolean}
+                // it will not be shown in upload mode by canceling an upload
+                // you can call your own dialog box using dialogs option
+                removeConfirmation: true,
+
+                // render the image thumbnail? {Boolean}
+                // if false, it will generate an icon(you can also hide it with css)
+                // if false, you can use the API method item.renderThumbnail() to render it (check thumbnails example)
+                startImageRenderer: true,
+
+                // render the images synchron {Boolean}
+                // used to improve the browser speed
+                synchronImages: true,
+
+                // read image using URL createObjectURL method {Boolean}
+                // if false, it will use readAsDataURL
+                useObjectUrl: false,
+
+                // render the image in a canvas element {Boolean, Object}
+                // if true, it will generate an image with the css sizes from the parent element of ${image}
+                // you can also set the width and the height in the object {width: 96, height: 96}
+                canvasImage: true,
+
+                // render thumbnail for video files? {Boolean}
+                videoThumbnail: false,
+
+                // fix exif orientation {Boolean}
+                exif: true,
+
+                // Callback fired before adding the list element
+                beforeShow: null,
+
+                // Callback fired after adding the item element
+                onItemShow: function (item) {
+                    // add sorter button to the item html
+                    item.html.find('.fileuploader-action-remove').before('<div class="fileuploader-action fileuploader-action-sort" title="Sort"><i class="fileuploader-icon-sort"></i></div>');
+                },
+                // Callback fired after removing the item element
+                // by default we will animate the removing action
+                onItemRemove: function (html) {
+                    html.children().animate({'opacity': 0}, 200, function () {
+                        setTimeout(function () {
+                            html.slideUp(200, function () {
+                                html.remove();
+                            });
+                        }, 100);
+                    });
+                },
+
+                // Callback fired after the item image was loaded or a image file is invalid
+                // default - null
+                onImageLoaded: function (item, listEl, parentEl, newInputEl, inputEl) {
+                    // invalid image?
+                    if (item.image.hasClass('fileuploader-no-thumbnail')) {
+                        // callback goes here
+                    }
+
+                    // check image size and ratio?
+                    if (item.reader.node && item.reader.width > 1920 && item.reader.height > 1080 && item.reader.ratio != '16:9') {
+                        // callback goes here
+                    }
+                },
+
+                // item popup preview {Object}
+                popup: {
+                    // popup append to container {String, jQuery Object}
+                    container: 'body',
+
+                    // enable arrows {Boolean}
+                    arrows: true,
+
+                    // loop the arrows {Boolean}
+                    loop: true,
+
+                    // popup HTML {String, Function}
+                    template: function (data) {
+                        return '<div class="fileuploader-popup-preview">' +
+                            '<div class="fileuploader-popup-move" data-action="prev"><i class="fileuploader-icon-arrow-left"></i></div>' +
+                            '<div class="fileuploader-popup-node ${format}">' +
+                            '${reader.node}' +
+                            '</div>' +
+                            '<div class="fileuploader-popup-content">' +
+                            '<div class="fileuploader-popup-footer">' +
+                            '<ul class="fileuploader-popup-tools">' +
+                            (data.format == 'image' && data.reader.node && data.editor ? (data.editor.cropper ? '<li>' +
+                                    '<div data-action="crop">' +
+                                    '<i class="fileuploader-icon-crop"></i> ${captions.crop}' +
+                                    '</div>' +
+                                    '</li>' : '') +
+                                    (data.editor.rotate ? '<li>' +
+                                        '<div data-action="rotate-cw">' +
+                                        '<i class="fileuploader-icon-rotate"></i> ${captions.rotate}' +
+                                        '</div>' +
+                                        '</li>' : '') : ''
+                            ) +
+                            (data.format == 'image' ?
+                                    '<li class="fileuploader-popup-zoomer">' +
+                                    '<div data-action="zoom-out">&minus;</div>' +
+                                    '<input type="range" min="0" max="100">' +
+                                    '<div data-action="zoom-in">&plus;</div>' +
+                                    '<span></span> ' +
+                                    '</li>' : ''
+                            ) +
+                            (data.data.url ? '<li>' +
+                                    '<a href="' + data.file + '" data-action target="_blank">' +
+                                    '<i class="fileuploader-icon-external"></i> ${captions.open}' +
+                                    '</a>' +
+                                    '</li>' : ''
+                            ) +
+                            '<li>' +
+                            '<div data-action="remove">' +
+                            '<i class="fileuploader-icon-trash"></i> ${captions.remove}' +
+                            '</div>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '<div class="fileuploader-popup-header">' +
+                            '<ul class="fileuploader-popup-meta">' +
+                            '<li>' +
+                            '<span>${captions.name}:</span>' +
+                            '<h5>${name}</h5>' +
+                            '</li>' +
+                            '<li>' +
+                            '<span>${captions.type}:</span>' +
+                            '<h5>${extension.toUpperCase()}</h5>' +
+                            '</li>' +
+                            '<li>' +
+                            '<span>${captions.size}:</span>' +
+                            '<h5>${size2}</h5>' +
+                            '</li>' +
+                            (data.reader && data.reader.width ? '<li>' +
+                                    '<span>${captions.dimensions}:</span>' +
+                                    '<h5>${reader.width}x${reader.height}px</h5>' +
+                                    '</li>' : ''
+                            ) +
+                            (data.reader && data.reader.duration ? '<li>' +
+                                    '<span>${captions.duration}:</span>' +
+                                    '<h5>${reader.duration2}</h5>' +
+                                    '</li>' : ''
+                            ) +
+                            '</ul>' +
+                            '<div class="fileuploader-popup-info"></div>' +
+                            '<ul class="fileuploader-popup-buttons">' +
+                            '<li><div class="fileuploader-popup-button" data-action="cancel">${captions.cancel}</a></li>' +
+                            (data.editor ? '<li><div class="fileuploader-popup-button button-success" data-action="save">${captions.confirm}</div></li>' : ''
+                            ) +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="fileuploader-popup-move" data-action="next"><i class="fileuploader-icon-arrow-right"></i></div>' +
+                            '</div>';
+                    },
+
+                    // Callback fired after creating the popup
+                    // we will trigger by default buttons with custom actions
+                    onShow: function (item) {
+                        item.popup.html.on('click', '[data-action="remove"]', function (e) {
+                            item.popup.close();
+                            item.remove();
+                        }).on('click', '[data-action="cancel"]', function (e) {
+                            item.popup.close();
+                        }).on('click', '[data-action="save"]', function (e) {
+                            if (item.editor)
+                                item.editor.save();
+                            if (item.popup.close)
+                                item.popup.close();
+                        });
+                    },
+
+                    // Callback fired after closing the popup
+                    onHide: null
+                }
+            },
+
+            sorter: {
+                selectorExclude: null,
+                placeholder: null,
+                scrollContainer: window,
+                onSort: function (list, listEl, parentEl, newInputEl, inputEl) {
+                    // onSort callback
+                }
+            }
+        });
+
+    });
+</script>
 </body>
+
+
+<!-- Turn all file input elements into ponds -->
+
 </html>

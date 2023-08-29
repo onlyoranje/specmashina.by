@@ -23,9 +23,13 @@
                         <div class="col-12 col-md-6 col-lg-12">
                             <div class="card border-gray-300 mb-4">
                                 <div class="row g-0 align-items-center">
-                                    <div class="col-12 col-lg-6 col-xl-4"><a href="#"><img
-                                                src="{{Storage::url($bb->userfile[0]->resize(600, 400))}}" alt="{{ $bb->title }}"
-                                                class="card-img p-2 rounded-xl"></a></div>
+                                    <div class="col-12 col-lg-6 col-xl-4"><a href="#">
+                                            @if (count($bb->userfile)> 0)
+                                            <img   src="{{Storage::url($bb->userfile[0]->resize(600, 400))}}" alt="{{ $bb->title }}" class="card-img p-2 rounded-xl">
+                                            @else
+                                                <img   src="http://placehold.it/600x400&text={{ $bb->title }}" alt="{{ $bb->title }}" class="card-img p-2 rounded-xl">
+                                            @endif
+                                        </a></div>
                                     <div class="col-12 col-lg-6 col-xl-8">
                                         <div class="card-body py-lg-0">
                                             <div class="d-flex g-0 align-items-center mb-2">

@@ -130,7 +130,7 @@
                                        @if ($contact_type->required == 'Y')
                                        required
                                     @endif
-
+>
 
                             </div>
                         @endforeach
@@ -162,6 +162,7 @@
             window.json_rubric = @json($rubrics);
             window.json_location = @json($locations);
             window.json_parameter_rubric = @json($parameter_rubric);
+            window.json_pricetype_rubric = @json($price_type_rubric);
             NewSelect('rubric');
             NewSelect('location');
             $('.input-images').imageUploader();
