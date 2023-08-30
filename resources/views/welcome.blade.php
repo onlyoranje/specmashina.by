@@ -39,7 +39,7 @@
                     <div class="row justify-content-center">
                         @if (count($bbs) > 0)
                             @foreach ($bbs as $bb)
-                              @include('bb.card');
+                              @include('bb.card')
                             @endforeach
                         @endif
                     </div>
