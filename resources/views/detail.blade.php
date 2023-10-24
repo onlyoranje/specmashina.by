@@ -37,13 +37,13 @@
                         <div id="carouselExampleIndicators" class="carousel  carousel-dark slide "  data-bs-interval="false">
                             <div class="carousel-indicators">
                                 @foreach($bb->userfile as $key=>$image)
-                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}"
+                                <img  src="{{ Storage::url($image->resize(64, 64, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}"
                                     @if ($key==0)
                                         aria-current="true" class="active"
                                     @else
                                         class=""
                                     @endif
-                                    aria-label="Slide 1"></button>
+                                    aria-label="Slide 1">
                                 @endforeach
                             </div>
                             <div class="carousel-inner" style="height: 480px">
