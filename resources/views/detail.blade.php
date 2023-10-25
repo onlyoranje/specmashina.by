@@ -34,18 +34,8 @@
 
                     <div class="card border-gray-300 p-3 p-md-5">
 
-                        <div id="carouselExampleIndicators" class="carousel  carousel-dark slide "  data-bs-interval="false">
-                            <div class="carousel-indicators">
-                                @foreach($bb->userfile as $key=>$image)
-                                <img  src="{{ Storage::url($image->resize(64, 64, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}"
-                                    @if ($key==0)
-                                        aria-current="true" class="active"
-                                    @else
-                                        class=""
-                                    @endif
-                                    aria-label="Slide 1">
-                                @endforeach
-                            </div>
+                        <div id="carouselExampleIndicators" class="carousel  /*carousel-dark*/ slide "  data-bs-interval="false">
+
                             <div class="carousel-inner" style="height: 480px">
                                 @foreach($bb->userfile as $key=>$image)
                                 <div class="carousel-item @if ($key==0) active @endif"
@@ -53,18 +43,42 @@
                                     <img src="{{ Storage::url($image->resize(null, 480, function ($constraint) { $constraint->aspectRatio();})) }}" class="d-block " alt="..." style="margin:auto">
                                 </div>
                                 @endforeach
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
                             </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
+
+                            <div class="carousel-indicators">
+                                <div class="car-thumbs">
+                                @foreach($bb->userfile as $key=>$image)
+                                    <img  src="{{ Storage::url($image->resize(64, 64, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" id="carousel-thumb-{{$key}}"
+                                          @if ($key==0)
+                                          aria-current="true" class="active carousel-thumbs"
+                                          @else
+                                          class="carousel-thumbs"
+                                          @endif
+                                          aria-label="1">
+                                @endforeach
+                                </div>
+                            </div>
                         </div>
 
+                        <script>
+                            $( ".carousel-thumbs" ).on( "click", function() {
 
+                            var marginleft =(parseInt($(this).data('bs-slide-to'))-1)*58;
+                            var thumbswidth1 =parseInt($('.carousel-indicators').width());
+                            var thumbswidth2 =parseInt($('.car-thumbs').width());
+                            if (marginleft<0) marginleft=0;
+                            if ((thumbswidth2-marginleft)>thumbswidth1) $('.car-thumbs').css({'transform':'translate3d(-'+marginleft+'px, 0px, 0px)','transition-duration':'500ms'});
+
+                            });
+                        </script>
 
                         <p class="lead mb-5"><strong
                                 class="font-weight-extreme">Rocket</strong> is currently seeking a Frontend Engineer to
@@ -263,4 +277,5 @@
 
         <p><a href="/">На перечень объявлений</a></p>
     </div>
+
 @endsection('main')
