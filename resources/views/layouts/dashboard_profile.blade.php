@@ -32,14 +32,11 @@
     <div class="card bg-white border-gray-300 mb-4 mb-lg-5">
         <div class="card-body">
             <div class="row align-items-center">
-                <div class="col-10 d-flex"><a href="./account.html"
-                                              class="list-group-item list-group-item-action border-0 text-center me-2 active">Overview</a>
-                    <a href="./settings.html"
-                       class="list-group-item list-group-item-action border-0 text-center me-2">Settings</a>
-                    <a href="./my-items.html"
-                       class="list-group-item list-group-item-action border-0 text-center me-2 d-none d-sm-block border-0">My
-                        Items</a> <a href="./security.html"
-                                     class="list-group-item list-group-item-action border-0 text-center d-none d-md-block border-0">Security</a>
+                <div class="col-10 d-flex">
+                    <a href="{{route('mybb')}}" class="list-group-item list-group-item-action border-0 text-center me-2 active">Мои объявления</a>
+                    <a href="{{route('my_organization')}}" class="list-group-item list-group-item-action border-0 text-center me-2">Моя организация</a>
+
+
                 </div>
                 <div class="col-2 d-flex justify-content-center">
                     <div class="btn-group dropleft">
