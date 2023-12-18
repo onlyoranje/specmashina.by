@@ -34,7 +34,7 @@ class UserFile extends Model
         if (!file_exists(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$this->url)){
             $save_path= Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/';
             if (!file_exists($save_path)) {
-                mkdir($save_path, 666, true);
+                mkdir($save_path, 755, true);
             }
             $thumbnail = Image::make(Storage::path('/public/').$this->url);
             $thumbnail->fit($w, $h);
