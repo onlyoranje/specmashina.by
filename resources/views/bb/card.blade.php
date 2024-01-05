@@ -1,9 +1,9 @@
 <div class="col-12 mb-3">
     <div class="card shadow p-4">
         <div class="row align-items-center">
-            <aside class="col-md-3"><a href="#">
+            <aside class="col-md-3">
                     @if (count($bb->userfile)> 0)
-                        <a href="{{route('bb',['bb'=>$bb->id])}}"></a><img
+                        <a href="{{route('bb',['bb'=>$bb->id])}}"><img
                             src="{{Storage::url($bb->userfile[0]->resize(320, 320))}}" alt="{{ $bb->title }}"></a>
                 @else
                     <a href="{{route('bb',['bb'=>$bb->id])}}"><img
