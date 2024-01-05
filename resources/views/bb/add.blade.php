@@ -117,7 +117,7 @@
                         @foreach($contact_types as $contact_type)
                             @if ($contact_type->mask)
                                 <script>
-                                    $(function() {
+                                   window.addEventListener("load", function(){
                                         $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
                                     });
                                 </script>
@@ -158,7 +158,7 @@
 
     <script>
 
-        $(document).ready(function() {
+        window.addEventListener("load", function(){
             window.json_rubric = @json($rubrics);
             window.json_location = @json($locations);
             window.json_parameter_rubric = @json($parameter_rubric);

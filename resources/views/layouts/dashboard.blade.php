@@ -412,7 +412,7 @@
     </div>
 </footer>
 <script type="text/javascript">
-    $(document).ready(function() {
+   window.addEventListener("load", function(){ 
 
         // enable fileuploader plugin
         $('input[name="file"]').fileuploader({
