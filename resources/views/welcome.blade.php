@@ -35,7 +35,7 @@
     <div class="section section-lg py-5">
         <div class="container">
             <div class="row pt-5 pt-md-0">
-                <div class="col-12 col-lg-8">
+                <div class="col-lg-9 col-md-8 col-12">
                     <div class="row justify-content-center">
                         @if (count($bbs) > 0)
                             @foreach ($bbs as $bb)
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-4 mb-3 mb-lg-0">
+                <div class="col-lg-3 col-md-4 col-12">
                     <div class="card border-gray-300 p-2">
                         <div
                             class="card-header bg-white border-0 text-center d-flex flex-row flex-lg-column align-items-center justify-content-center px-1 px-lg-4">
