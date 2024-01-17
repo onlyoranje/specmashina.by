@@ -6,7 +6,8 @@
     <section class="dashboard section">
         <div class="container">
             <div class="row">
-                @include('layouts.dashboard_profile')
+
+
                 <div class="col-lg-9 col-md-8 col-12">
                     <div class="main-content">
                         <!-- Start Profile Settings Area -->
@@ -99,6 +100,9 @@
                         </div>
                         <!-- End Password Change Area -->
                     </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-12">
+                    @include('layouts.dashboard_profile')
                 </div>
             </div>
         </div>

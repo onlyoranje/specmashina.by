@@ -1,4 +1,4 @@
-<div class="col-lg-3 col-md-4 col-12">
+
     <!-- Start Dashboard Sidebar -->
     <div class="dashboard-sidebar">
         <div class="user-image">
@@ -29,6 +29,5 @@
         </div>
     </div>
     <!-- Start Dashboard Sidebar -->
-</div>
 
 

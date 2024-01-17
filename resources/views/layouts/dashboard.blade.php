@@ -8,7 +8,7 @@
 <script type="text/javascript">
    window.addEventListener("load", function(){
 
-        // enable fileuploader plugin
+        // enable fileuploader plugin**
         $('input[name="file"]').fileuploader({
             limit: 20,
             maxSize: 50,
