@@ -17,15 +17,7 @@
                         <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
                             <ul id="nav" class="navbar-nav ms-auto">
                                 <li class="nav-item">
-                                    <a class=" active dd-menu collapsed" href="javascript:void(0)"
-                                       data-bs-toggle="collapse" data-bs-target="#submenu-1-1"
-                                       aria-controls="navbarSupportedContent" aria-expanded="false"
-                                       aria-label="Toggle navigation">Home</a>
-                                    <ul class="sub-menu collapse" id="submenu-1-1">
-                                        <li class="nav-item active"><a href="/">Главная</a></li>
-                                        <li class="nav-item"><a href="javascript:void(0)">Home Version 2</a></li>
-                                        <li class="nav-item"><a href="javascript:void(0)">Home Version 3</a></li>
-                                    </ul>
+                                    <a href="/" aria-label="Toggle navigation">Главная</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="javascript:void(0)" aria-label="Toggle navigation">Categories</a>
