@@ -11,6 +11,7 @@ $subparent_rubric = $parent_rubrics[1];
                 <div class="image">
 
 
+
                         @if (count($bb->userfile)> 0)
                             <a href="{{route('bb',['bb'=>$bb->id])}}"><img
                                     src="{{Storage::url($bb->userfile[0]->resize(600, 400))}}" alt="{{ $bb->title }}"></a>

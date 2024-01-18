@@ -4,6 +4,7 @@
         <div class="user-image">
             <img src="assets/images/dashboard/user-image.jpg" alt="#">
             <h3>Steve Aldridge
+
                 <span><a href="javascript:void(0)">@username</a></span>
             </h3>
         </div>

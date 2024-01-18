@@ -19,6 +19,7 @@
                                         @foreach($bb->userfile as $key=>$image)
                                             <div class="carousel-item @if ($key==0) active @endif"
                                             >
+
                                                 <img src="{{ Storage::url($image->resize(null, 480, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="..." style="margin:auto">
                                             </div>
                                         @endforeach

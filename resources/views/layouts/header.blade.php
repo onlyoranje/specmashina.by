@@ -3,6 +3,7 @@
         <div class="row align-items-center">
             <div class="col-lg-12">
                 <div class="nav-inner">
+
                     <nav class="navbar navbar-expand-lg">
                         <a class="navbar-brand" href="/">
                             <img src="/storage/images/logo/logo.svg" alt="Logo">
