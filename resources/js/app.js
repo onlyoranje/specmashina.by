@@ -1,4 +1,4 @@
-import './bootstrap'
+//import './bootstrap'
 //import './pixel'
 import '../sass/app.scss'
 //import "./image-uploader"
