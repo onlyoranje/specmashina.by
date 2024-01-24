@@ -22,8 +22,8 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
         $("#" + model + "_level_" + level).remove()
     }
     if (child_cat > 0) {
-        var sel = $("#container_" + model + "_" + (level)).html("<select class=\"form-select\" name='" + model + "_id' id='" + model + "_level_" + level + "' onchange= \"NewSelect('" + model + "',this.value," + (level + 1) + ")\"></select>");
-        $("#container_" + model + "_" + (level)).append($("<div id='container_" + model + "_" + (level + 1) + "'></div>"))
+        var sel = $("#container_" + model + "_" + (level)).html("<div class='selector-head'><span class='arrow'><i class='lni lni-chevron-down'></i></span><select class=\"form-select mb-3\" name='" + model + "_id' id='" + model + "_level_" + level + "' onchange= \"NewSelect('" + model + "',this.value," + (level + 1) + ")\"></select></div>");
+        $("#container_" + model + "_" + (level)).append($("<div id='container_" + model + "_" + (level + 1) + "' class='container_" + model + "'></div>"))
         if (id) {
             $("#" + model + "_level_" + level).append('<option disabled>- выбрать -</option>');
         } else {
@@ -171,3 +171,11 @@ $(document).ready(function () {
         console.log($(this).data('hasvalue'))
     })
 })
+window.selectTab = function (id)
+{
+    $('.nav-link').removeClass('active')
+    $('.tab-pane').removeClass('active show')
+    $('#'+id).addClass('active show')
+    $('#'+id+'-tab').addClass('active')
+    console.log(id)
+}

@@ -45,32 +45,48 @@
                                             <div class="step-one-content">
                                                 <form class="default-form-style" method="post" action="#">
                                                     <div class="row">
+
+
+
                                                         <div class="col-12">
                                                             <div class="form-group">
-                                                                <label>Add Title*</label>
-                                                                <input name="title" type="text" placeholder="Enter Title">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>Category*</label>
+                                                                <label>Раздел</label>
                                                                 <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select a Category</option>
-                                                                        <option value="none">Mobile Phones</option>
-                                                                        <option value="none">Electronics</option>
-                                                                        <option value="none">Computers</option>
-                                                                        <option value="none">Headphones</option>
-                                                                        <option value="none">Furnitures</option>
-                                                                        <option value="none">Books</option>
-                                                                    </select>
+
+                                                                    <div id="container_rubric_0" class="container_rubric"></div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label>Производитель</label>
+<div class="selector-head">
+                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
+
+                                                                    <select class="user-chosen-select" name="vendor_id" required>
+                                                                        <option  selected disabled>- выбрать -</option>
+                                                                        <?php
+                                                                        use App\Models\Location;
+                                                                        use App\Models\Rubric;
+                                                                        $vendors = App\Models\Vendor::get();?>
+                                                                        @foreach($vendors as $vendor)
+                                                                            <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label>Модель</label>
+                                                                <input value="{{old('title')}}" name="title" type="text">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
                                                             <div class="form-group button mb-0">
-                                                                <button type="submit" class="btn ">Next Step</button>
+                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details')">Next Step</button>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -182,8 +198,8 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
-                                                                <button type="submit" class="btn alt-btn">Previous</button>
-                                                                <button type="submit" class="btn ">Next Step</button>
+                                                                <button type="button" class="btn alt-btn"  onclick="selectTab('nav-item-info')">Previous</button>
+                                                                <button type="button" class="btn "  onclick="selectTab('nav-user-info')">Next Step</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -297,7 +313,7 @@
                                                                 </label>
                                                             </div>
                                                             <div class="form-group button mb-0">
-                                                                <button type="submit" class="btn alt-btn">Previous</button>
+                                                                <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Previous</button>
                                                                 <button type="submit" class="btn ">Submit Ad</button>
                                                             </div>
                                                         </div>
@@ -330,20 +346,11 @@
                         @csrf
                         <div class="mb-3">
                             <label class="my-1 me-2" for="inlineFormCustomSelectPref">Рубрика</label>
-                            <div id="container_rubric_0"></div>
+
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Производитель</label>
-                            <select class="form-select" name="vendor_id" required>
-                                <option  selected disabled>- выбрать -</option>
-                                <?php
-                                use App\Models\Location;
-                                use App\Models\Rubric;
-                                $vendors = App\Models\Vendor::get();?>
-                                @foreach($vendors as $vendor)
-                                    <option value="{{$vendor->id}}">{{$vendor->name}}</option>
-                                @endforeach
-                            </select>
+
                         </div>
                         <div class="form-group">
                             <label class="control-label">Модель</label>
