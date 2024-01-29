@@ -25,17 +25,17 @@
                                             <button class="nav-link active" id="nav-item-info-tab" data-bs-toggle="tab" data-bs-target="#nav-item-info" type="button" role="tab" aria-controls="nav-item-info" aria-selected="true">
                                                 <span class="serial">01</span>
                                                 Step
-                                                <span class="sub-title">Ad Information</span>
+                                                <span class="sub-title">Общая информация</span>
                                             </button>
                                             <button class="nav-link" id="nav-item-details-tab" data-bs-toggle="tab" data-bs-target="#nav-item-details" type="button" role="tab" aria-controls="nav-item-details" aria-selected="false">
                                                 <span class="serial">02</span>
                                                 Step
-                                                <span class="sub-title">Ad Details</span>
+                                                <span class="sub-title">Фото и описание</span>
                                             </button>
                                             <button class="nav-link" id="nav-user-info-tab" data-bs-toggle="tab" data-bs-target="#nav-user-info" type="button" role="tab" aria-controls="nav-user-info" aria-selected="false">
                                                 <span class="serial">03</span>
                                                 Step
-                                                <span class="sub-title">User Information</span>
+                                                <span class="sub-title">Контактные данные</span>
                                             </button>
                                         </div>
                                     </nav>
@@ -61,15 +61,16 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>Производитель</label>
-<div class="selector-head">
+                                                                    <div class="selector-head">
                                                                     <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-
+    @php
+        use App\Models\Location;
+        use App\Models\Rubric;
+        $vendors = App\Models\Vendor::get();
+    @endphp
                                                                     <select class="user-chosen-select" name="vendor_id" required>
                                                                         <option  selected disabled>- выбрать -</option>
-                                                                        <?php
-                                                                        use App\Models\Location;
-                                                                        use App\Models\Rubric;
-                                                                        $vendors = App\Models\Vendor::get();?>
+
                                                                         @foreach($vendors as $vendor)
                                                                             <option value="{{$vendor->id}}">{{$vendor->name}}</option>
                                                                         @endforeach
@@ -82,6 +83,31 @@
                                                                 <label>Модель</label>
                                                                 <input value="{{old('title')}}" name="title" type="text">
                                                             </div>
+                                                        </div>
+
+
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label>Цена</label>
+                                                                <input name="price" type="number" value="{{old('price')}}"   id="price">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label class="form-label">Цена</label>
+                                                            @if (count($price_types)>0)
+                                                                @foreach($price_types as $price_type)
+                                                                    <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
+                                                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required
+                                                                        @if (count($price_types)==1)
+                                                                        checked
+                                                                        @endif
+                                                                        >
+                                                                        <label class="form-check-label" >
+                                                                            {{$price_type->type}}
+                                                                        </label>
+                                                                    </div>
+                                                                @endforeach
+                                                            @endif
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
@@ -99,42 +125,42 @@
                                             <div class="step-two-content">
                                                 <form class="default-form-style" method="post" action="#">
                                                     <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>Add Price*</label>
-                                                                <input name="price" type="text" placeholder="Enter Price">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>Price Type*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select an option</option>
-                                                                        <option value="none">Fixed</option>
-                                                                        <option value="none">Price On Call</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>Select Currency*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select an option</option>
-                                                                        <option value="none">Dollar</option>
-                                                                        <option value="none">Euro</option>
-                                                                        <option value="none">Rupee</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        @if (count($parameters)>0)
+                                                            @foreach($parameters as $parameter)
+                                                                @if ($parameter->type == 'year')
+                                                                    <div class="col-6">
+                                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                            <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            </label>
+                                                                            <select class="form-select" name="parameter[{{$parameter->id}}]" >
+                                                                                <option disabled selected>- выбрать -</option>
+                                                                                @for($year=date('Y');$year>=1950;$year--)
+                                                                                    <option value="{{$year}}">{{$year}}</option>
+                                                                                @endfor
+                                                                            </select>
+
+                                                                        </div>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="col-6">
+                                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                            <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            </label>
+                                                                            <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+
+<div class="col-12">
+    <input type="file" name="file">
+</div>
+
                                                         <div class="col-lg-6 col-12">
                                                             <div class="upload-input">
-                                                                <input type="file" id="upload" name="upload">
+
+
                                                                 <label for="upload" class="text-center content">
                                                                     <span class="text">
                                                                         <span class="d-block mb-15">Drop files anywhere
@@ -367,30 +393,7 @@
 <strong>{{ $message }}</strong>
 </span>
                         @enderror
-                        @if (count($parameters)>0)
-                            @foreach($parameters as $parameter)
-                                @if ($parameter->type == 'year')
-                                    <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                        <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
-                                        </label>
-                                        <select class="form-select" name="parameter[{{$parameter->id}}]" >
-                                            <option disabled selected>- выбрать -</option>
-                                            @for($year=date('Y');$year>=1950;$year--)
-                                                <option value="{{$year}}">{{$year}}</option>
-                                            @endfor
-                                        </select>
 
-                                    </div>
-                                @else
-
-                                    <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                        <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
-                                        </label>
-                                        <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
-                                    </div>
-                                @endif
-                            @endforeach
-                        @endif
 
                         <div class="mb-3 col-6">
                             <label class="form-label">Цена</label>
@@ -478,6 +481,7 @@
     <script>
 
         window.addEventListener("load", function(){
+
             window.json_rubric = @json($rubrics);
             window.json_location = @json($locations);
             window.json_parameter_rubric = @json($parameter_rubric);
