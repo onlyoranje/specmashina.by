@@ -134,7 +134,7 @@ window.Parameter_Rubric = function (rubric_id) {
     $(".input-parameter").hide();
 
 
-console.log(rubric_id+'fdf')
+
     $.each(json_parameter_rubric, function (key, data) {
 
 
@@ -173,13 +173,22 @@ $(document).ready(function () {
         console.log($(this).data('hasvalue'))
     })
 })
-window.selectTab = function (id)
+window.selectTab = function (id,forms = false)
 {
-    $('.nav-link').removeClass('active')
-    $('.tab-pane').removeClass('active show')
-    $('#'+id).addClass('active show')
-    $('#'+id+'-tab').addClass('active')
-    console.log(id)
+    var errors = Array();
+    if (id=='nav-item-details'){
+        $.each(forms,function(form)
+        {
+            if ($('input[name="'+$(this)+'"]').is(':empty')) errors.push($(this))
+            console.log($(this).val)
+        })
+    }
+    if (errors.length>0) {
+        $('.nav-link').removeClass('active')
+        $('.tab-pane').removeClass('active show')
+        $('#' + id).addClass('active show')
+        $('#' + id + '-tab').addClass('active')
+    }
 }
 
 $(document).ready(function () {

@@ -17,7 +17,11 @@
                         <!-- Start Post Ad Block Area -->
                         <div class="dashboard-block mt-0">
                             <h3 class="block-title">Post Ad</h3>
+                            <form  action="{{route('addBbToDB')}}" method="post" enctype="multipart/form-data">
+                                @csrf
                             <div class="inner-block">
+
+
                                 <!-- Start Post Ad Tab -->
                                 <div class="post-ad-tab">
                                     <nav>
@@ -39,11 +43,12 @@
                                             </button>
                                         </div>
                                     </nav>
+
                                     <div class="tab-content" id="nav-tabContent">
                                         <div class="tab-pane fade active show" id="nav-item-info" role="tabpanel" aria-labelledby="nav-item-info-tab">
                                             <!-- Start Post Ad Step One Content -->
                                             <div class="step-one-content">
-                                                <form class="default-form-style" method="post" action="#">
+                                                <div class="default-form-style">
                                                     <div class="row">
 
 
@@ -51,6 +56,11 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>Раздел</label>
+                                                                @error('rubric_id')
+                                                                <span class="invalid-feedback">
+<strong>{{ $message }}</strong>
+</span>
+                                                                @enderror
                                                                 <div class="selector-head">
 
                                                                     <div id="container_rubric_0" class="container_rubric"></div>
@@ -69,10 +79,15 @@
         $vendors = App\Models\Vendor::get();
     @endphp
                                                                     <select class="user-chosen-select" name="vendor_id" required>
-                                                                        <option  selected disabled>- выбрать -</option>
+                                                                        <option selected disabled>- выбрать -</option>
 
                                                                         @foreach($vendors as $vendor)
-                                                                            <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+                                                                            <option value="{{$vendor->id}}"
+                                                                            @if (old('vendor_id')==$vendor->id)
+                                                                            selected
+                                                                                    @endif
+
+                                                                            >{{$vendor->name}}</option>
                                                                         @endforeach
                                                                     </select>
                                                             </div>
@@ -111,19 +126,19 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
-                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details')">Next Step</button>
+                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details',['rubric_id'])">Далее</button>
 
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                             <!-- Start Post Ad Step One Content -->
                                         </div>
                                         <div class="tab-pane fade" id="nav-item-details" role="tabpanel" aria-labelledby="nav-item-details-tab">
                                             <!-- Start Post Ad Step Two Content -->
                                             <div class="step-two-content">
-                                                <form class="default-form-style" method="post" action="#">
+                                                <div class="default-form-style">
                                                     <div class="row">
                                                         @if (count($parameters)>0)
                                                             @foreach($parameters as $parameter)
@@ -174,18 +189,18 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-12">
+                                                        {{--<div class="col-lg-6 col-12">
                                                             <div class="form-group">
                                                                 <label class="video-label">Video Link* <span>Input only
                                                                         YouTube &amp; Vimeo</span></label>
                                                                 <input name="video" type="text" placeholder="Input link">
                                                                 <a href="javascript:void(0)" class="add-video"><i class="lni lni-plus"></i> Add Video</a>
                                                             </div>
-                                                        </div>
+                                                        </div>--}}
                                                         <div class="col-12">
                                                             <div class="form-group mt-30">
                                                                 <label>Ad Description*</label>
-                                                                <textarea name="message" placeholder="Input ad description"></textarea>
+                                                                <textarea name="description" placeholder="Input ad description">{{old('description')}}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-12">
@@ -229,14 +244,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                             <!-- Start Post Ad Step Two Content -->
                                         </div>
                                         <div class="tab-pane fade" id="nav-user-info" role="tabpanel" aria-labelledby="nav-user-info-tab">
                                             <!-- Start Post Ad Step Three Content -->
                                             <div class="step-three-content">
-                                                <form class="default-form-style" method="post" action="#">
+                                                <div class="default-form-style" >
                                                     <div class="row">
                                                         <div class="col-lg-6 col-12">
                                                             <div class="form-group">
@@ -344,14 +359,17 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                             <!-- Start Post Ad Step Three Content -->
                                         </div>
                                     </div>
+
                                 </div>
+
                                 <!-- End Post Ad Tab -->
                             </div>
+                           </form>
                         </div>
                         <!-- End Post Ad Block Area -->
                     </div>
@@ -486,7 +504,10 @@
             window.json_location = @json($locations);
             window.json_parameter_rubric = @json($parameter_rubric);
             window.json_pricetype_rubric = @json($price_type_rubric);
+
+
             NewSelect('rubric');
+
             NewSelect('location');
             $('.input-images').imageUploader();
 
