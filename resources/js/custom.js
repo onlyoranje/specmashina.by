@@ -45,8 +45,9 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
         if (model === 'rubric') Parameter_Rubric($("select[name='rubric_id']").val());
         if (model === 'rubric') PriceType_Rubric($("select[name='rubric_id']").val());
         $("#" + model + "_level_" + (level - 1)).attr('name', model + "_id")
+        $("#" + model + "_level_" + (level - 1)).attr('data-name', model)
         $("#" + model + "_level_" + (level - 1)).attr('required', "required")
-
+console.log("#" + model + "_level_" + (level - 1))
     }
 
 }
@@ -177,13 +178,20 @@ window.selectTab = function (id,forms = false)
 {
     var errors = Array();
     if (id=='nav-item-details'){
-        $.each(forms,function(form)
+        $.each(forms,function(id,form)
         {
-            if ($('input[name="'+$(this)+'"]').is(':empty')) errors.push($(this))
-            console.log($(this).val)
+            var val_form = $('[data-name="'+form+'"]').val();
+            if (val_form == '' || val_form== null) {
+                errors.push(form)
+            } /*else {
+                errors.push(form)
+            }*/
+            console.log(form +"=="+val_form)
+
         })
     }
-    if (errors.length>0) {
+    console.log(errors)
+    if (errors.length<1) {
         $('.nav-link').removeClass('active')
         $('.tab-pane').removeClass('active show')
         $('#' + id).addClass('active show')

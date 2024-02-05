@@ -96,7 +96,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>Модель</label>
-                                                                <input value="{{old('title')}}" name="title" type="text">
+                                                                <input value="{{old('title')}}" name="title" type="text" data-name="title">
                                                             </div>
                                                         </div>
 
@@ -126,7 +126,7 @@
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
-                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details',['rubric_id'])">Далее</button>
+                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details',['rubric','title'])">Далее</button>
 
                                                             </div>
                                                         </div>
