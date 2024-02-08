@@ -113,7 +113,7 @@
                         </div>
                         <div class="button header-button">
                             @if(Auth::user())
-                            <a href="javascript:void(0)" class="btn">Добавить объявление</a>
+                            <a href="{{route('addForm')}}" class="btn">Добавить объявление</a>
                                 @else
                                 <a href="{{route('dashboard')}}" class="btn">Добавить объявление</a>
                             @endif
