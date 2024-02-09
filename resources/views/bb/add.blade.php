@@ -2,8 +2,6 @@
 @section('title', 'Главная')
 @section('main')
 
-
-
     <section class="dashboard section">
         <div class="container">
             <div class="row">
@@ -78,7 +76,7 @@
         use App\Models\Rubric;
         $vendors = App\Models\Vendor::get();
     @endphp
-                                                                    <select class="user-chosen-select" name="vendor_id" required>
+                                                                    <select class="user-chosen-select" name="vendor_id" data-name="vendor_id" required>
                                                                         <option selected disabled>- выбрать -</option>
 
                                                                         @foreach($vendors as $vendor)
@@ -104,15 +102,16 @@
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                                 <label>Цена</label>
-                                                                <input name="price" type="number" value="{{old('price')}}"   id="price">
+                                                                <input name="price" type="number" value="{{old('price')}}"   id="price" data-name="price" min="1">
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
-                                                            <label class="form-label">Цена</label>
-                                                            @if (count($price_types)>0)
+                                                            <div class="form-group">
+                                                            <label class="form-label">Вид цены</label>
+                                                          {{--  @if (count($price_types)>0)
                                                                 @foreach($price_types as $price_type)
                                                                     <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
-                                                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required
+                                                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required data-name="price_type"
                                                                         @if (count($price_types)==1)
                                                                         checked
                                                                         @endif
@@ -122,11 +121,28 @@
                                                                         </label>
                                                                     </div>
                                                                 @endforeach
-                                                            @endif
+                                                            @endif--}}
+                                                            <div class="selector-head">
+                                                                <span class="arrow"><i class="lni lni-chevron-down"></i></span>
+                                                            <select class="user-chosen-select" name="price_type"  required data-name="price_type">
+                                                                <option selected disabled>- выбрать -</option>
+                                                                @if (count($price_types)>0)
+                                                                @foreach($price_types as $price_type)
+                                                                    <option value="{{$price_type->id}}" id="pricetype_{{$price_type->id}}" class="input-pricetype"
+                                                                            @if (old('price_type')==$price_type->id)
+                                                                            selected
+                                                                        @endif
+
+                                                                    >{{$price_type->type}}</option>
+                                                                @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                        </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
-                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details',['rubric','title'])">Далее</button>
+                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details',['rubric','title','vendor_id','price','price_type'])">Далее</button>
 
                                                             </div>
                                                         </div>
@@ -172,7 +188,8 @@
     <input type="file" name="file">
 </div>
 
-                                                        <div class="col-lg-6 col-12">
+                                                      {{--  <div class="col-lg-6 col-12">
+
                                                             <div class="upload-input">
 
 
@@ -188,7 +205,7 @@
                                                                     </span>
                                                                 </label>
                                                             </div>
-                                                        </div>
+                                                        </div>--}}
                                                         {{--<div class="col-lg-6 col-12">
                                                             <div class="form-group">
                                                                 <label class="video-label">Video Link* <span>Input only
@@ -199,11 +216,11 @@
                                                         </div>--}}
                                                         <div class="col-12">
                                                             <div class="form-group mt-30">
-                                                                <label>Ad Description*</label>
-                                                                <textarea name="description" placeholder="Input ad description">{{old('description')}}</textarea>
+                                                                <label>Описание</label>
+                                                                <textarea name="description" placeholder="">{{old('description')}}</textarea>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-12">
+                                                       {{-- <div class="col-lg-6 col-12">
                                                             <div class="form-group">
                                                                 <label>Type of Ad*</label>
                                                                 <div class="selector-head">
@@ -216,8 +233,8 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-12">
+                                                        </div>--}}
+                                                        {{--<div class="col-lg-6 col-12">
                                                             <div class="form-group">
                                                                 <label>Item Condition*</label>
                                                                 <div class="selector-head">
@@ -229,18 +246,18 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-12">
+                                                        </div>--}}
+                                                        {{--<div class="col-12">
                                                             <div class="form-group">
                                                                 <label class="tag-label">Tags* <span>Comma(,)
                                                                         separated</span></label>
                                                                 <input name="tag" type="text" placeholder="Type Product tag">
                                                             </div>
-                                                        </div>
+                                                        </div>--}}
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
-                                                                <button type="button" class="btn alt-btn"  onclick="selectTab('nav-item-info')">Previous</button>
-                                                                <button type="button" class="btn "  onclick="selectTab('nav-user-info')">Next Step</button>
+                                                                <button type="button" class="btn alt-btn"  onclick="selectTab('nav-item-info')">Назад</button>
+                                                                <button type="button" class="btn "  onclick="selectTab('nav-user-info')">Далее</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -253,99 +270,41 @@
                                             <div class="step-three-content">
                                                 <div class="default-form-style" >
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Name*</label>
-                                                                <input name="name" type="text" placeholder="Enter your name">
+
+
+                                                        @foreach($contact_types as $contact_type)
+                                                            @if ($contact_type->mask)
+                                                                <script>
+                                                                    window.addEventListener("load", function(){
+                                                                        $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
+                                                                    });
+                                                                </script>
+
+                                                            @endif
+                                                            <div class="col-6">
+                                                                <div class="form-group">
+                                                                <label class="form-label">{{$contact_type->name}}</label>
+                                                                <input type="text" value="" name="contact[{{$contact_type->id}}]"
+                                                                        id="contact_{{$contact_type->id}}"
+                                                                       @if ($contact_type->required == 'Y')
+                                                                       required
+                                                                    @endif
+                                                                >
+
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Mobile Numbe*</label>
-                                                                <input name="number" type="text" placeholder="Enter mobile number">
                                                             </div>
-                                                        </div>
+                                                        @endforeach
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>Country*</label>
                                                                 <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select a Country</option>
-                                                                        <option value="none">Afghanistan</option>
-                                                                        <option value="none">America</option>
-                                                                        <option value="none">Albania</option>
-                                                                        <option value="none">Bangladesh</option>
-                                                                        <option value="none">Brazil</option>
-                                                                        <option value="none">India</option>
-                                                                        <option value="none">South Africa</option>
-                                                                    </select>
+
+                                                                    <div id="container_location_0" class="container_location"></div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Select City*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select City</option>
-                                                                        <option value="none">New York</option>
-                                                                        <option value="none">Los Angeles</option>
-                                                                        <option value="none">Chicago</option>
-                                                                        <option value="none">San Diego</option>
-                                                                        <option value="none">San Jose</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Select State*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select State</option>
-                                                                        <option value="none">New York</option>
-                                                                        <option value="none">Texas</option>
-                                                                        <option value="none">Arizona</option>
-                                                                        <option value="none">Florida</option>
-                                                                        <option value="none">Washington</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>Address*</label>
-                                                                <input name="address" type="text" placeholder="Enter a location">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="google-map">
-                                                                <div class="mapouter">
-                                                                    <div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org"></a><br>
-                                                                        <style>
-                                                                            .mapouter {
-                                                                                position: relative;
-                                                                                text-align: right;
-                                                                                height: 300px;
-                                                                                width: 100%;
-                                                                            }
-                                                                        </style><a href="https://www.embedgooglemap.net">embed
-                                                                            google maps wordpress</a>
-                                                                        <style>
-                                                                            .gmap_canvas {
-                                                                                overflow: hidden;
-                                                                                background: none !important;
-                                                                                height: 300px;
-                                                                                width: 100%;
-                                                                            }
-                                                                        </style>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+
                                                         <div class="col-12">
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -454,26 +413,7 @@
 </span>
                         @enderror
 
-                        @foreach($contact_types as $contact_type)
-                            @if ($contact_type->mask)
-                                <script>
-                                   window.addEventListener("load", function(){
-                                        $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
-                                    });
-                                </script>
 
-                            @endif
-                            <div class="mb-3 col-6">
-                                <label class="form-label">{{$contact_type->name}}</label>
-                                <input type="text" value="{{old('contact',$contact_type[$contact_type->id])}}" name="contact[{{$contact_type->id}}]"
-                                       class="form-control" id="contact_{{$contact_type->id}}"
-                                       @if ($contact_type->required == 'Y')
-                                       required
-                                    @endif
->
-
-                            </div>
-                        @endforeach
 
 
                         @if ($user->organization)
