@@ -12,8 +12,16 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <script src="{{ asset('js/jquery-3.6.4.min.js') }}"></script>
-    @vite(['resources/js/app.js'])
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/LineIcons.2.0.css') }}"rel="stylesheet">
+    <link href="{{ asset('css/animate.css') }}"rel="stylesheet">
+    <link href="{{ asset('css/tiny-slider.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/glightbox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/font-fileuploader.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery.fileuploader.min.css') }}"rel="stylesheet">
+
+    {{--@vite(['resources/js/app.js'])--}}
 
 </head>
 <body>
@@ -136,6 +144,12 @@
     </div>
     <!-- End Footer Middle -->
 </footer>
+<script src="{{ asset('js/jquery-3.6.4.min.js') }}"></script>
+<script src="{{ asset('js/image-uploader.js') }}"></script>
+<script src="{{ asset('js/jquery.fileuploader.min.js') }}"></script>
+<script src="{{ asset('js/jquery.maskedinput.js') }}"></script>
+<script src="{{ asset('js/tiny-slider.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
 <script type="text/javascript">
 
 </script>
