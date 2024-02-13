@@ -1,4 +1,4 @@
-/*
+
 import './bootstrap'
 import './pixel'
 import '../sass/app.scss'
@@ -7,6 +7,6 @@ import "./jquery.fileuploader.min"
 import "./jquery.maskedinput"
 import "./tiny-slider"
 import "./custom"
-*/
+
 
 
