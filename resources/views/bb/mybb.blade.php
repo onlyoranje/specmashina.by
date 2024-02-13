@@ -33,7 +33,7 @@
                                 <!-- Start Item List Title -->
                                 <div class="item-list-title">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-5 col-md-5 col-12">
+                                        <div class="col-lg-4 col-md-5 col-12">
                                             <p>Объявление</p>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
@@ -42,7 +42,10 @@
                                         <div class="col-lg-2 col-md-2 col-12">
                                             <p>Статус</p>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-12 align-right">
+                                        <div class="col-lg-2 col-md-2 col-12">
+                                            <p>Город</p>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-12 align-right">
                                             <p></p>
                                         </div>
                                     </div>
@@ -59,7 +62,7 @@
                                 <!-- Start Single List -->
                                 <div class="single-item-list">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-5 col-md-5 col-12">
+                                        <div class="col-lg-4 col-md-5 col-12">
                                             <div class="item-image">
                                                 @if (count($bb->userfile)> 0)
                                                     <img   src="{{Storage::url($bb->userfile[0]->resize(100, 100))}}" alt="{{ $bb->title }}" >
@@ -78,7 +81,10 @@
                                         <div class="col-lg-2 col-md-2 col-12">
                                             <p>New</p>
                                         </div>
-                                        <div class="col-lg-3 col-md-3 col-12 align-right">
+                                        <div class="col-lg-2 col-md-2 col-12">
+                                            <p>{{$bb->location->title}}</p>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-12 align-right">
                                             <ul class="action-btn">
                                                 <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}"><i class="lni lni-pencil"></i></a></li>
                                                 <li><a href="{{route('bb',['bb'=>$bb->id])}}" target="_blank"><i class="lni lni-eye"></i></a></li>
