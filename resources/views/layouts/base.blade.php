@@ -10,18 +10,20 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/LineIcons.2.0.css') }}"rel="stylesheet">
     <link href="{{ asset('css/animate.css') }}"rel="stylesheet">
     <link href="{{ asset('css/tiny-slider.css') }}" rel="stylesheet">
     <link href="{{ asset('css/glightbox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/font-fileuploader.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/jquery.fileuploader.min.css') }}"rel="stylesheet">
+  {{--  <link href="{{ asset('css/font-fileuploader.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery.fileuploader.min.css') }}"rel="stylesheet">--}}
 
-    {{--@vite(['resources/js/app.js'])--}}
+    @vite(['resources/js/app.js'])
 
 </head>
 <body>
@@ -145,10 +147,13 @@
     <!-- End Footer Middle -->
 </footer>
 <script src="{{ asset('js/jquery-3.6.4.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/image-uploader.js') }}"></script>
 <script src="{{ asset('js/jquery.fileuploader.min.js') }}"></script>
 <script src="{{ asset('js/jquery.maskedinput.js') }}"></script>
+<script src="{{ asset('js/wow.min.js') }}"></script>
 <script src="{{ asset('js/tiny-slider.js') }}"></script>
+{{--<script src="{{ asset('js/main.js') }}"></script>--}}
 <script src="{{ asset('js/custom.js') }}"></script>
 <script type="text/javascript">
 

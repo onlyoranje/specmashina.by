@@ -50,6 +50,12 @@
                                 <!-- End List Title -->
                             @if (count($bbs) > 0)
                                 @foreach ($bbs as $bb)
+
+                                    @php
+                                        $parent_rubrics = App\Models\Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get();
+                                        $parent_rubric = $parent_rubrics[0];
+                                        $subparent_rubric = $parent_rubrics[1];
+                                    @endphp
                                 <!-- Start Single List -->
                                 <div class="single-item-list">
                                     <div class="row align-items-center">
@@ -62,12 +68,12 @@
                                                 @endif
                                                 <div class="content">
                                                     <h3 class="title"><a href="javascript:void(0)">{{ $bb->title }}</a></h3>
-                                                    <span class="price">$800</span>
+                                                    <span class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
-                                            <p>Electronic</p>
+                                            <p>{{$bb->rubric->title}}</p>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
                                             <p>New</p>
