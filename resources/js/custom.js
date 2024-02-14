@@ -157,7 +157,7 @@ window.PriceType_Rubric = function (rubric_id) {
             ;
 
         }
-        //console.log(rubric_id +' - ' + data['rubric_id'])
+        /*console.log(rubric_id +' - ' + data['rubric_id'])*/
     })
 
 }
@@ -263,9 +263,9 @@ $(document).ready(function () {
                 '<a href="${file}" class="fileuploader-action fileuploader-action-download" title="${captions.download}" download><i class="fileuploader-icon-download"></i></a>' +
                 '<div type="button" class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i class="fileuploader-icon-remove"></i></div>' +
                 '</div>' +
-                '<div class="thumbnail-holder">' +
-                '${image}' +
-                '<span class="fileuploader-action-popup"></span>' +
+                '<div class="thumbnail-holder" style="background: url(' +
+                '${data.thumbnail}' +
+                ');background-size: contain;"><span class="fileuploader-action-popup"></span>' +
                 '</div>' +
                 '<div class="content-holder"><h5 title="${name}">${name}</h5><span>${size2}</span></div>' +
                 '<div class="progress-holder">${progressBar}</div>' +

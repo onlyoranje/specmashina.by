@@ -113,16 +113,17 @@
                         </div>
                         <div class="button header-button">
                             @if(Auth::user())
-                            <a href="{{route('addForm')}}" class="btn">Добавить объявление</a>
+                            <a href="{{route('addForm')}}" class="btn">Добавить объявления</a>
                                 @else
                                 <a href="{{route('dashboard')}}" class="btn">Добавить объявление</a>
                             @endif
                         </div>
-                    </nav> <!-- navbar -->
+                    </nav>
+                    <!-- navbar -->
                 </div>
             </div>
         </div> <!-- row -->
     </div> <!-- container -->
 </header>
-
+@extends('breadcrumbs')
 
