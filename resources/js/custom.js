@@ -157,7 +157,7 @@ window.PriceType_Rubric = function (rubric_id) {
             ;
 
         }
-        //console.log(rubric_id +' - ' + data['rubric_id'])
+        /*console.log(rubric_id +' - ' + data['rubric_id'])*/
     })
 
 }
