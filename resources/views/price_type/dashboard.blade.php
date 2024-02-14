@@ -2,6 +2,58 @@
 @section('title', 'Главная')
 
 @section('main')
+
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
+                @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Start Activity Log -->
+                                <div class="activity-log dashboard-block">
+                                    <h3 class="block-title">My Activity Log</h3>
+                                    <ul>
+
+                                        @if (count($types)>0)
+
+
+                                    @foreach ($types as $type)
+                                                                            <li>
+                                            <div class="log-icon">
+                                                <i class="lni lni-alarm"></i>
+                                            </div>
+                                            <a href="" class="title">{{$type->type}}</a>
+                                            <span class="time"><a href='{{route('price_type_edit' , [$type->id])}}'>Редактировать </a></span>
+                                            <span class="time"><a href='{{route('price_type_delete', [$type->id])}}'>Удалить </a></span>
+
+
+                                        </li>
+                                            @endforeach
+                                            @endif
+                                    </ul>
+                                </div>
+                                <!-- End Activity Log -->
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
