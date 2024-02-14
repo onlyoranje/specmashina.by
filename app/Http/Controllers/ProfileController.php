@@ -226,7 +226,7 @@ class ProfileController extends Controller
 
         if (is_array($request->contact)) {
             foreach ($request->contact as $contact_type_id=>$contact_value) {
-                if ($contact_value)  BbContact::updateOrCreate(['value'=>$contact_value,'bb_id'=>$bb->id,'contact_type_id'=>$contact_type_id]);
+                if ($contact_value)  BbContact::updateOrCreate(['bb_id'=>$bb->id,'contact_type_id'=>$contact_type_id],['value'=>$contact_value]);
             }
 
         }

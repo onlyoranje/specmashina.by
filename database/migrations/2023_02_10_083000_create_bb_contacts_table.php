@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('contact_type_id');
             $table->foreign('contact_type_id')->references('id')->on('contact_types');
             $table->timestamps();
+            $table->unique(['bb_id','contact_type_id']);
         });
     }
 

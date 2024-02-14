@@ -16,8 +16,9 @@
                         <!-- Start Post Ad Block Area -->
                         <div class="dashboard-block mt-0">
                             <h3 class="block-title">Редактирование объявления</h3>
-                            <form  action="{{route('bb_update',['bb'=>$bb->id])}}" enctype="multipart/form-data" method="POST">
+                            <form  action="{{route('bb_update',['bb'=>$bb->id])}}" enctype="multipart/form-data" method="POST" >
                                 @csrf
+                                @method('PATCH')
                                 <div class="inner-block">
 
 
@@ -152,6 +153,7 @@
                                                 <div class="step-two-content">
                                                     <div class="default-form-style">
                                                         <div class="row">
+
                                                             @if (count($parameters)>0)
                                                                 @foreach($parameters as $parameter)
                                                                     @if ($parameter->type == 'year')
@@ -163,7 +165,7 @@
                                                                                     <option disabled selected>- выбрать -</option>
                                                                                     @for($year=date('Y');$year>=1950;$year--)
                                                                                         <option value="{{$year}}"
-                                                                                        @if ($parameter_value[$parameter->id] ==$year)
+                                                                                        @if (isset($parameter_value[$parameter->id]) && $parameter_value[$parameter->id] ==$year)
                                                                                                 selected
                                                                                         @endif
                                                                                         >{{$year}}</option>
@@ -177,7 +179,7 @@
                                                                             <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                 <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                                 </label>
-                                                                                <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" value="{{$parameter_value[$parameter->id]}}" class="form-control">
+                                                                                <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" value="{{isset($parameter_value[$parameter->id]) ? $parameter_value[$parameter->id]:''}}" class="form-control">
                                                                             </div>
                                                                         </div>
                                                                     @endif
@@ -185,13 +187,13 @@
                                                             @endif
 
                                                             <div class="col-12">
-                                                                <?php $old_image = ''?>
+                                                                <?php ?>
                                                                 @foreach($images as $image)
-                                                                    <?php $old_image .='{"name":"'.$image->original_name.'","id":'.$image->id.',"type":"'.$image->type.'","size":'.$image->size.',"file":"'.$image->id.'","local":"'.Storage::url($image->url).'","data":{"url":"'.Storage::url($image->url).'","thumbnail":"'.Storage::url($image->resize(480,360)) .'","readerForce":true}},'?>
+                                                                    <?php $old_image[]='{"name":"'.$image->original_name.'","id":'.$image->id.',"type":"'.$image->type.'","size":'.$image->size.',"file":"'.$image->id.'","local":"'.Storage::url($image->url).'","data":{"url":"'.Storage::url($image->url).'","thumbnail":"'.Storage::url($image->resize(480,360)) .'","readerForce":true}}'?>
                                                                 @endforeach
-                                                                <?php $old_image = substr($old_image,0,-1);?>
 
-                                                                <input type="file" name="file" data-fileuploader-files='[<?= $old_image ?>]'>
+
+                                                                <input type="file" name="file" data-fileuploader-files='[<?= implode(',',$old_image) ?>]'>
                                                             </div>
 
                                                             {{--  <div class="col-lg-6 col-12">
@@ -223,7 +225,7 @@
                                                             <div class="col-12">
                                                                 <div class="form-group mt-30">
                                                                     <label>Описание</label>
-                                                                    <textarea name="description" placeholder="">{{old('description')}}</textarea>
+                                                                    <textarea name="description" placeholder="">{{old('description',$bb->content)}}</textarea>
                                                                 </div>
                                                             </div>
                                                             {{-- <div class="col-lg-6 col-12">
@@ -290,8 +292,14 @@
                                                                 <div class="col-6">
                                                                     <div class="form-group">
                                                                         <label class="form-label">{{$contact_type->name}}</label>
-                                                                        <input type="text" value="" name="contact[{{$contact_type->id}}]"
-                                                                               id="contact_{{$contact_type->id}}"
+                                                                        <input type="text"
+                                                                               @if (array_key_exists($contact_type->id,$contacts))
+                                                                        value="{{old('contact['.$contact_type->id.']',$contacts[$contact_type->id])}}"
+                                                                               @else
+                                                                               value=""
+                                                                               @endif
+                                                                               name="contact[{{$contact_type->id}}]"
+                                                                               class="form-control" id="contact_{{$contact_type->id}}"
                                                                                @if ($contact_type->required == 'Y')
                                                                                required
                                                                             @endif
