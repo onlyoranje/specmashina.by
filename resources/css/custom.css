@@ -8570,3 +8570,6 @@ blockquote .shape {
     border-color: transparent;
 }
 
+li.list-group-item.list-group-dashboard {
+    border: none;
+}

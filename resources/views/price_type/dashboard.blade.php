@@ -17,8 +17,8 @@
                         <div class="row">
                             <div class="col-12">
                                 <!-- Start Activity Log -->
-                                <div class="activity-log dashboard-block">
-                                    <h3 class="block-title">My Activity Log</h3>
+                                <div class="activity-log dashboard-block mt-0">
+                                    <h3 class="block-title">Виды цен</h3>
                                     <ul>
 
                                         @if (count($types)>0)
@@ -27,7 +27,7 @@
                                     @foreach ($types as $type)
                                                                             <li>
                                             <div class="log-icon">
-                                                <i class="lni lni-alarm"></i>
+                                                <i class="lni lni-coin"></i>
                                             </div>
                                             <a href="" class="title">{{$type->type}}</a>
                                             <span class="time"><a href='{{route('price_type_edit' , [$type->id])}}'>Редактировать </a></span>
@@ -38,6 +38,11 @@
                                             @endforeach
                                             @endif
                                     </ul>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group button mb-0 mt-5">
+                                        <a href="{{route('price_type_add')}}" class="btn ">Добавить тип цены</a>
+                                    </div>
                                 </div>
                                 <!-- End Activity Log -->
                             </div>
