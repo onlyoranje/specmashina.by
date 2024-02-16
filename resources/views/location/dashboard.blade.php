@@ -63,7 +63,7 @@
 
                         </div>
 
-
+                    {{ $locations->links() }}
 
                     </div>
                 </div>

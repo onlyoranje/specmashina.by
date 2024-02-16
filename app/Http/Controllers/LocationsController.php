@@ -31,7 +31,8 @@ class LocationsController extends Controller
     }
     public function locations(){
 
-        $locations = Location::orderBy('sort')->get()->toTree();
+        //$locations = Location::orderBy('sort')->simplePaginate(15)->toTree();
+        $locations = Location::orderBy('title')->simplePaginate(15);
         return view('location.dashboard',compact('locations'));
 
     }
