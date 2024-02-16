@@ -23,33 +23,24 @@
                                     <ul>
 
                                         @if (count($locations)>0)
-                                            <?
-                                            $traverse = function ($locations, $prefix = '-') use (&$traverse) {
-                                            foreach ($locations as $location) {
-                                            ?>
+
+
+                                            @foreach ($locations as $location)
+
 
 
                                                 <li>
                                                     <div class="log-icon">
                                                         <i class="lni lni-flag-alt"></i>
                                                     </div>
-                                                    <a href="" class="title">{{PHP_EOL . $prefix . ' ' . $location->title}}</a>
+                                                    <a href="" class="title">{{$location->title}}</a>
                                                     <span class="time"><a href='{{route('location_dashboard_edit', ['location' => $location->id])}}'>Редактировать </a></span>
                                                     <span class="time"><a href='{{route('location_dashboard_delete', ['location' => $location->id])}}'>Удалить </a></span>
 
 
                                                 </li>
 
-                                            <?
-
-
-
-                                            $traverse($location->children, $prefix . '-');
-                                            }
-                                            };
-
-                                            $traverse($locations);
-                                            ?>
+                                            @endforeach
                                         @endif
                                     </ul>
                                 </div>
@@ -63,7 +54,7 @@
 
                         </div>
 
-                    {{ $locations->links() }}
+                    {{ $locations->onEachSide(10)->links() }}
 
                     </div>
                 </div>
