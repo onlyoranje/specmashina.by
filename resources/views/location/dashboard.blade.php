@@ -54,7 +54,7 @@
 
                         </div>
 
-                    {{ $locations->onEachSide(2)->links() }}
+                    {{ $locations->onEachSide(1)->links() }}
 
                     </div>
                 </div>
