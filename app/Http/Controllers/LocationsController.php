@@ -47,7 +47,7 @@ class LocationsController extends Controller
             $level = (Location::find($request->parent_id)->level)+1;
         else
             $level=0;
-        Location::create(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
+        Location::create(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
         return redirect()->route('location_dashboard');
     }
     public function editLocation(Request $request, Location $location){
@@ -56,7 +56,7 @@ class LocationsController extends Controller
             $level = (Location::find($request->parent_id)->level)+1;
         else
             $level=0;
-        $location->fill(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
+        $location->fill(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
         $location->save();
         return redirect()->route('location_dashboard');
     }
