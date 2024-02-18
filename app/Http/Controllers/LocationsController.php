@@ -60,7 +60,6 @@ class LocationsController extends Controller
         $location->save();
         return redirect()->route('location_dashboard');
     }
-
     public function delete(Location $location){
         return view('delete', ['location'=>$location]);
     }
