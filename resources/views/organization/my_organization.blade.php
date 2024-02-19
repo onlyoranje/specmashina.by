@@ -30,8 +30,10 @@
                                     @endif
 
                                 </div>
-                                    <form class="profile-setting-form" method="post" action="{{route('addOrganizationToDB')}}" enctype="multipart/form-data">
+                                    <form class="profile-setting-form" method="post" action="{{route('organization_update',['organization'=>$organization->id])}}" method="post"
+                                          enctype="multipart/form-data">
                                         @csrf
+                                        @method('PATCH')
                                         <div class="row">
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-group">
