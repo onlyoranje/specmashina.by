@@ -62,7 +62,7 @@
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-group">
                                                     <label>УНП</label>
-                                                    <input name="unp" type="number" id="unp"  value="{{$organization->unp}}">
+                                                    <input name="unp" type="text" id="unp"  value="{{$organization->unp}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-12">
