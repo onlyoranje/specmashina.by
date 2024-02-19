@@ -2,6 +2,98 @@
 @section('title', 'Главная')
 
 @section('main')
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
+                @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
+                        <!-- Start Profile Settings Area -->
+                        <div class="dashboard-block mt-0 profile-settings-block">
+                            <h3 class="block-title">Моя организация</h3>
+                            <div class="inner-block">
+                                @if ($organization)
+                                <div class="image">
+                                    <img src="assets/images/dashboard/user-image.jpg" alt="#">
+                                </div>
+                                <form class="profile-setting-form" method="post" action="#">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12">
+                                            <div class="form-group">
+                                                <label>First Name*</label>
+                                                <input name="first-name" type="text" placeholder="Steve">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <div class="form-group">
+                                                <label>Last Name*</label>
+                                                <input name="last-name" type="text" placeholder="Aldridge">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <div class="form-group">
+                                                <label>Username*</label>
+                                                <input name="usernames" type="text" placeholder="@username">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <div class="form-group">
+                                                <label>Email Address*</label>
+                                                <input name="email" type="email" placeholder="username@gmail.com">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group upload-image">
+                                                <label>Profile Image*</label>
+                                                <input name="profile-image" type="file" placeholder="Upload Image">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group message">
+                                                <label>About You*</label>
+                                                <textarea name="message" placeholder="Enter about yourself"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group button mb-0">
+                                                <button type="submit" class="btn ">Update Profile</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                @else
+
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <div class="form-group button mb-0">
+                                                    <a href="{{route('organization_add')}}" class="btn ">Добавить организацию</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                @endif
+                            </div>
+                        </div>
+                        <!-- End Profile Settings Area -->
+                        <!-- Start Password Change Area -->
+
+                        <!-- End Password Change Area -->
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
 
     <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
         <div class="container">

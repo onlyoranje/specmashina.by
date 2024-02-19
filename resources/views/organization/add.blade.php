@@ -3,6 +3,86 @@
 
 @section('main')
 
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
+                @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
+                        <!-- Start Profile Settings Area -->
+                        <div class="dashboard-block mt-0 profile-settings-block">
+                            <h3 class="block-title">Моя организация</h3>
+                            <div class="inner-block">
+
+
+                                    <form class="profile-setting-form" method="post" action="{{route('addOrganizationToDB')}}" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Название организации</label>
+                                                    <input name="title" type="text" >
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Адрес организации</label>
+                                                    <input name="address" type="text" >
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                <label>Телефон</label>
+                                                <input type="text"  id="phone" name="phone">
+                                            </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>E-mail</label>
+                                                    <input type="email"  name="email">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>УНП</label>
+                                                    <input name="unp" type="number" id="unp">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group upload-image">
+                                                    <label>Лого</label>
+                                                    <input type="file"  name="file">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group button mb-0">
+                                                    <button type="submit" class="btn ">Добавить</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                            </div>
+                        </div>
+                        <!-- End Profile Settings Area -->
+                        <!-- Start Password Change Area -->
+
+                        <!-- End Password Change Area -->
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
 
     <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
         <div class="container">
