@@ -61,7 +61,7 @@ class LocationsController extends Controller
         return redirect()->route('location_dashboard');
     }
     public function delete(Location $location){
-        return view('delete', ['location'=>$location]);
+        return view('location.delete', ['location'=>$location]);
     }
     public function destroyLocation(Location $location){
         $location->delete();

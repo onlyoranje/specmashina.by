@@ -36,12 +36,12 @@ Route::patch('/dashboard/organization/{organization}',[App\Http\Controllers\Prof
 Route::delete('/dashboard/organization', [App\Http\Controllers\ProfileController::class, 'destroyOrganization'])->name('organization_destroy')->middleware('auth');
 
 Route::get('/dashboard/mybb',[App\Http\Controllers\ProfileController::class, 'mybb'])->name('mybb');
-Route::get('/dashboard/add', [App\Http\Controllers\ProfileController::class, 'addForm'])->name('addForm');
+Route::get('/dashboard/mybb/add', [App\Http\Controllers\ProfileController::class, 'addForm'])->name('addForm');
 Route::post('/dashboard/mybb', [App\Http\Controllers\ProfileController::class, 'addBb'])->name('addBbToDB');
-Route::get('/dashboard/{bb}/edit',[App\Http\Controllers\ProfileController::class, 'editBb'])->name('bb_edit')->middleware('can:update,bb');
-Route::patch('/dashboard/{bb}',[App\Http\Controllers\ProfileController::class, 'updateBb'])->name('bb_update')->middleware('can:update,bb');
-Route::get('/dashboard/{bb}/delete',[App\Http\Controllers\ProfileController::class, 'deleteBb'])->name('bb_delete')->middleware('can:destroy,bb');
-Route::delete('/dashboard/{bb}',[App\Http\Controllers\ProfileController::class, 'destroyBb'])->name('bb_destroy')->middleware('can:destroy,bb');
+Route::get('/dashboard/mybb/{bb}/edit',[App\Http\Controllers\ProfileController::class, 'editBb'])->name('bb_edit')->middleware('can:update,bb');
+Route::patch('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::class, 'updateBb'])->name('bb_update')->middleware('can:update,bb');
+Route::get('/dashboard/mybb/{bb}/delete',[App\Http\Controllers\ProfileController::class, 'deleteBb'])->name('bb_delete')->middleware('can:destroy,bb');
+Route::delete('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::class, 'destroyBb'])->name('bb_destroy')->middleware('can:destroy,bb');
 //Route::get('/announcements/{bb}',[App\Http\Controllers\AnnouncementsController::class, 'detail'])->name('announcement_detail');
 
 Route::get('/rubric', [App\Http\Controllers\RubricsController::class, 'rubric'])->name('rubrics');
