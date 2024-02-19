@@ -18,53 +18,65 @@
                             <div class="inner-block">
                                 @if ($organization)
                                 <div class="image">
-                                    <img src="assets/images/dashboard/user-image.jpg" alt="#">
+
+                                    @if ($organization->logo)
+                                        <img class="image-logo" src="{{Storage::url($organization->logo)}}" alt="{{$organization->title}}">
+                                    @else
+                                        <svg class="bd-placeholder-img img-fluid rounded-start" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                            <title>Placeholder</title>
+                                            <rect width="100%" height="100%" fill="#868e96"></rect>
+                                            <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text>
+                                        </svg>
+                                    @endif
+
                                 </div>
-                                <form class="profile-setting-form" method="post" action="#">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-12">
-                                            <div class="form-group">
-                                                <label>First Name*</label>
-                                                <input name="first-name" type="text" placeholder="Steve">
+                                    <form class="profile-setting-form" method="post" action="{{route('addOrganizationToDB')}}" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Название организации</label>
+                                                    <input name="title" type="text" value="{{$organization->title}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Адрес организации</label>
+                                                    <input name="address" type="text"  value="{{$organization->address}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>Телефон</label>
+                                                    <input type="text"  id="phone" name="phone"  value="{{$organization->phone}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>E-mail</label>
+                                                    <input type="email"  name="email"  value="{{$organization->email}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
+                                                    <label>УНП</label>
+                                                    <input name="unp" type="number" id="unp"  value="{{$organization->unp}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group upload-image">
+                                                    <label>Лого</label>
+                                                    <input type="file"  name="file">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group button mb-0">
+                                                    <button type="submit" class="btn ">Обновить</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-12">
-                                            <div class="form-group">
-                                                <label>Last Name*</label>
-                                                <input name="last-name" type="text" placeholder="Aldridge">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-12">
-                                            <div class="form-group">
-                                                <label>Username*</label>
-                                                <input name="usernames" type="text" placeholder="@username">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-12">
-                                            <div class="form-group">
-                                                <label>Email Address*</label>
-                                                <input name="email" type="email" placeholder="username@gmail.com">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group upload-image">
-                                                <label>Profile Image*</label>
-                                                <input name="profile-image" type="file" placeholder="Upload Image">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group message">
-                                                <label>About You*</label>
-                                                <textarea name="message" placeholder="Enter about yourself"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group button mb-0">
-                                                <button type="submit" class="btn ">Update Profile</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
                                 @else
 
                                         <div class="row">
@@ -93,9 +105,14 @@
         </div>
     </section>
 
+    <script>
+        window.addEventListener("load", function(){
+            $("#phone").mask("+375 (99) 999-99-99")
+            $("#unp").mask("999999999")
+        });
+    </script>
 
-
-    <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
+   {{-- <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
         <div class="container">
             <div class="row pt-5 pt-md-0">
                 @include('layouts.dashboard_profile')
@@ -182,7 +199,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
 
 
 
