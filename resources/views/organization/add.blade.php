@@ -30,8 +30,26 @@
                                             </div>
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-group">
+                                                    <label>УНП</label>
+                                                    <input name="unp" type="text" id="unp">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+
+                                                    <div class="form-group">
+                                                    <label>Город</label>
+                                                    <div class="selector-head">
+
+                                                        <div id="container_location_0" class="container_location"></div>
+
+                                                    </div>
+                                                    </div>
+
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
                                                     <label>Адрес организации</label>
-                                                    <input name="address" type="text" >
+                                                    <textarea name="address" cols="1" ></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-12">
@@ -46,12 +64,7 @@
                                                     <input type="email"  name="email">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-12">
-                                                <div class="form-group">
-                                                    <label>УНП</label>
-                                                    <input name="unp" type="text" id="unp">
-                                                </div>
-                                            </div>
+
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-group upload-image">
                                                     <label>Лого</label>
@@ -144,6 +157,8 @@
         window.addEventListener("load", function(){
             $("#phone").mask("+375 (99) 999-99-99")
             $("#unp").mask("999999999")
+            window.json_location = @json($locations);
+            NewSelect('location');
         });
     </script>
 @endsection

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->foreignId('location_id')->constrained();
             $table->string('address');
             $table->string('unp');
             $table->string('site')->nullable();

@@ -64,5 +64,10 @@
             </div>
         </div>
     </div>
-
+    <script>
+        window.addEventListener("load", function(){
+            $("#phone").mask("+375 (99) 999-99-99")
+            $("#unp").mask("999999999")
+        });
+    </script>
 @endsection

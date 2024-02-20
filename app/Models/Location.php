@@ -13,6 +13,7 @@ class Location extends Model
     public function bbs() {
         return $this->hasMany(Bb::class);
     }
+
     public function locations() {
         return $this->hasMany(self::class, 'parent_id');
     }

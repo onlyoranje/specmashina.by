@@ -2,3 +2,30 @@
 {
   width:unset !important;
 }
+
+.profile-setting-form .form-group .selector-head
+{
+   position: relative;
+}
+.profile-setting-form  .form-group .arrow {
+    position: absolute;
+    color: #888;
+    right: 20px;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    font-size: 12px;
+}
+.profile-setting-form  .form-group select {
+    height: 50px;
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    color: #081828;
+    background: #fff;
+    padding: 0px 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+}

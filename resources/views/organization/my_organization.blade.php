@@ -43,8 +43,26 @@
                                             </div>
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-group">
+                                                    <label>УНП</label>
+                                                    <input name="unp" type="text" id="unp"  value="{{$organization->unp}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+
+                                                <div class="form-group">
+                                                    <label>Город</label>
+                                                    <div class="selector-head">
+
+                                                        <div id="container_location_0" class="container_location"></div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6 col-12">
+                                                <div class="form-group">
                                                     <label>Адрес организации</label>
-                                                    <input name="address" type="text"  value="{{$organization->address}}">
+                                                    <textarea name="address" cols="1" >{{$organization->address}}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-12">
@@ -59,16 +77,18 @@
                                                     <input type="email"  name="email"  value="{{$organization->email}}">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-12">
-                                                <div class="form-group">
-                                                    <label>УНП</label>
-                                                    <input name="unp" type="text" id="unp"  value="{{$organization->unp}}">
-                                                </div>
-                                            </div>
+
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-group upload-image">
+                                                    <?php
+
+                                                   /* if ($organization->logo){
+                                                      echo  $old_image ='{"name":"'.$organization->name.'","id":'.$organization->id.',"file":"'.$organization->id.'","local":"'.Storage::url($organization->logo).'","data":{"url":"'.Storage::url($organization->logo).'","thumbnail":"'.Storage::url($organization->logo) .'","readerForce":true}}';
+                                                    }*/
+
+                                                    ?>
                                                     <label>Лого</label>
-                                                    <input type="file"  name="file">
+                                                    <input type="file"  name="file" data-fileuploader-limit="1">
                                                 </div>
                                             </div>
 
@@ -111,6 +131,14 @@
         window.addEventListener("load", function(){
             $("#phone").mask("+375 (99) 999-99-99")
             $("#unp").mask("999999999")
+            window.json_location = @json($locations);
+            @foreach($all_locations as $location_)
+
+            NewSelect('location',<?php if (!$location_->parent_id) {echo 'null';} else {echo $location_->parent_id;}  ?>,{{$location_->level}},{{$location_->id}},@json($all_locations));
+            $('#location_level_{{$location_->level}} option[value={{$location_->id}}]').prop('selected', true);
+console.log({{$location_->id}})
+
+            @endforeach
         });
     </script>
 

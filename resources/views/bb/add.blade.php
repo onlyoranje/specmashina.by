@@ -296,7 +296,7 @@
                                                         @endforeach
                                                         <div class="col-12">
                                                             <div class="form-group">
-                                                                <label>Country*</label>
+                                                                <label>Город</label>
                                                                 <div class="selector-head">
 
                                                                     <div id="container_location_0" class="container_location"></div>

@@ -311,10 +311,14 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return redirect()->route('mybb');
     }
     public function MyOrganization(){
-        return view('organization.my_organization',['organization' => Organization::where('user_id',Auth::user()->id)->first()]);
+        $organization = Organization::where('user_id',Auth::user()->id)->first();
+        $all_locations = Location::whereAncestorOrSelf($organization->location_id)->orderBy('level')->get();
+        $locations = Location::all();
+        return view('organization.my_organization',['organization' => Organization::where('user_id',Auth::user()->id)->first(),'locations'=>$locations,           'all_locations'=>$all_locations]);
     }
     public function addOrganization(){
-        return view('organization.add');
+        $locations = Location::all();
+        return view('organization.add',['locations'=>$locations]);
     }
     public function addOrganizationToDB(Request $request){
 
@@ -324,6 +328,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             'title'=>$validated['title'],
             'address'=>$validated['address'],
             'unp'=>$validated['unp'],
+            'location_id'=>$request->location_id,
             'phone'=>$request->phone,
             'site'=>$request->site,
             'email'=>$request->email
@@ -342,6 +347,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return redirect()->route('dashboard');
     }
     public function editOrganization(){
+
         return view('organization.edit',['organization' => Organization::where('user_id',Auth::user()->id)->first()]);
     }
     public function deleteOrganization(Organization $organization){
@@ -360,6 +366,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             'title'=>$validated['title'],
             'address'=>$validated['address'],
             'unp'=>$validated['unp'],
+            'location_id'=>$request->location_id,
             'phone'=>$request->phone,
             'site'=>$request->site,
             'email'=>$request->email
@@ -373,11 +380,11 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             $organization->save();
 
         }
-        if (!is_array($old_files))
+       /* if (!is_array($old_files))
         {
             $organization->fill(['logo'=> null]);
             $organization->save();
-        }
+        }*/
         //test comment
         return redirect()->route('my_organization');
     }
