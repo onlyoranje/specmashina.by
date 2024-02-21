@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@extends('breadcrumbs')
+
 @section('title', 'Главная')
 @section('main')
     <section class="login section">
