@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bb;
 use App\Models\Rubric;
+use App\Models\UserFile;
 use Illuminate\Http\Request;
 
 class BbsController extends Controller
@@ -16,6 +17,7 @@ class BbsController extends Controller
     public function detail(Bb $bb) {
         //test
        // $rubric = $bb->rubric();
-        return view('detail', ['bb' => $bb]);
+        $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
+        return view('detail', ['bb' => $bb,'images'=>$images]);
     }
 }

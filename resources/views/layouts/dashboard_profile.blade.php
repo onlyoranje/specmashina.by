@@ -1,11 +1,13 @@
-
+@php
+$user = Auth::user();
+@endphp
     <!-- Start Dashboard Sidebar -->
     <div class="dashboard-sidebar">
         <div class="user-image">
             <img src="assets/images/dashboard/user-image.jpg" alt="#">
-            <h3>Steve Aldridge
+            <h3>{{$user->realname}}
 
-                <span><a href="javascript:void(0)">@username</a></span>
+                <span><a href="javascript:void(0)">&commat;{{$user->name}}</a></span>
             </h3>
         </div>
         <div class="dashboard-menu">

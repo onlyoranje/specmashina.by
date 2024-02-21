@@ -78,7 +78,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-lg-6 col-12">
+                                            <div class="col-lg-12 col-12">
                                                 <div class="form-group upload-image">
                                                     <?php
 
@@ -87,14 +87,19 @@
                                                     }*/
 
                                                     ?>
-                                                    <label>Лого</label>
+                                                    <label>Обновить логотип</label>
                                                     <input type="file"  name="file" data-fileuploader-limit="1">
                                                 </div>
                                             </div>
 
-                                            <div class="col-12">
+                                            <div class="col-6">
                                                 <div class="form-group button mb-0">
                                                     <button type="submit" class="btn ">Обновить</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group button mb-0">
+                                                    <a href="{{route('organization_delete')}}" class="btn btт-danger">Удалить организацию</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -103,11 +108,12 @@
 
                                         <div class="row">
 
-                                            <div class="col-12">
+                                            <div class="col-6">
                                                 <div class="form-group button mb-0">
                                                     <a href="{{route('organization_add')}}" class="btn ">Добавить организацию</a>
                                                 </div>
                                             </div>
+
                                         </div>
 
                                 @endif

@@ -312,9 +312,18 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
     }
     public function MyOrganization(){
         $organization = Organization::where('user_id',Auth::user()->id)->first();
-        $all_locations = Location::whereAncestorOrSelf($organization->location_id)->orderBy('level')->get();
         $locations = Location::all();
-        return view('organization.my_organization',['organization' => Organization::where('user_id',Auth::user()->id)->first(),'locations'=>$locations,           'all_locations'=>$all_locations]);
+        if ($organization)
+        {
+            $all_locations = Location::whereAncestorOrSelf($organization->location_id)->orderBy('level')->get();
+            return view('organization.my_organization',['organization' => Organization::where('user_id',Auth::user()->id)->first(),'locations'=>$locations,           'all_locations'=>$all_locations]);
+        }
+        else
+        {
+            return view('organization.add',['locations'=>$locations]);
+        }
+
+
     }
     public function addOrganization(){
         $locations = Location::all();
@@ -344,13 +353,15 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
 
         }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('my_organization');
+
     }
     public function editOrganization(){
 
         return view('organization.edit',['organization' => Organization::where('user_id',Auth::user()->id)->first()]);
     }
     public function deleteOrganization(Organization $organization){
+        $organization = Organization::where('user_id',Auth::user()->id)->first();
         return view('organization.delete', ['organization'=>$organization]);
     }
     public function destroyOrganization(){

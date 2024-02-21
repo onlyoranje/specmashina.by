@@ -17,7 +17,10 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('realname');
+            $table->string('email')->nullable();;
+            $table->string('phone')->nullable();;
+            $table->string('avatar')->nullable();;
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('organization_id')->nullable();
@@ -26,8 +29,8 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        User::create(['name' => 'admin', 'email' => '47@terwa.by','password' => Hash::make('12345678'),'is_admin'=>'1']);
-        User::create(['name' => 'user', 'email' => '48@terwa.by','password' => Hash::make('12345678')]);
+        User::create(['name' => 'admin', 'realname' => 'Максим','email' => '47@terwa.by','password' => Hash::make('12345678'),'is_admin'=>'1']);
+        User::create(['name' => 'user', 'realname' => 'Вова','email' => '48@terwa.by','password' => Hash::make('12345678')]);
     }
 
     /**
