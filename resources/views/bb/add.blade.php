@@ -66,7 +66,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12">
+                                                        <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label>Производитель</label>
                                                                     <div class="selector-head">
@@ -80,18 +80,13 @@
                                                                         <option selected disabled>- выбрать -</option>
 
                                                                         @foreach($vendors as $vendor)
-                                                                            <option value="{{$vendor->id}}"
-                                                                            @if (old('vendor_id')==$vendor->id)
-                                                                            selected
-                                                                                    @endif
-
-                                                                            >{{$vendor->name}}</option>
+                                                                            <option value="{{$vendor->id}}" @if (old('vendor_id')==$vendor->id) selected @endif >{{$vendor->name}}</option>
                                                                         @endforeach
                                                                     </select>
                                                             </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12">
+                                                        <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label>Модель</label>
                                                                 <input value="{{old('title')}}" name="title" type="text" data-name="title">
@@ -128,14 +123,7 @@
                                                                 <option selected disabled>- выбрать -</option>
                                                                 @if (count($price_types)>0)
                                                                 @foreach($price_types as $price_type)
-                                                                    <option value="{{$price_type->id}}" id="pricetype_{{$price_type->id}}" class="input-pricetype"
-                                                                            @if (old('price_type')==$price_type->id)
-                                                                            selected
-                                                                            @endif
-
-
-
-                                                                    >{{$price_type->type}}</option>
+                                                                    <option value="{{$price_type->id}}" id="pricetype_{{$price_type->id}}" class="input-pricetype" @if (old('price_type')==$price_type->id) selected @endif >{{$price_type->type}}</option>
                                                                 @endforeach
                                                                 @endif
                                                             </select>
@@ -356,7 +344,7 @@
             NewSelect('rubric');
 
             NewSelect('location');
-            $('.input-images').imageUploader();
+            //$('.input-images').imageUploader();
 
 
         })
