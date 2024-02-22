@@ -1,9 +1,12 @@
 
-/*import './bootstrap'
-import './pixel'*/
+import './bootstrap'
+/*import './pixel'*/
 import "./jquery-3.6.4.min"
 import '../sass/app.scss'
 /*import "./image-uploader"*/
+
+import "./jquery-3.6.4.min"
+/*import "./wow.min"*/
 import "./jquery.fileuploader.min"
 import "./jquery.maskedinput"
 import "./tiny-slider"
