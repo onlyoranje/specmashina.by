@@ -131,7 +131,9 @@
                                                                     <option value="{{$price_type->id}}" id="pricetype_{{$price_type->id}}" class="input-pricetype"
                                                                             @if (old('price_type')==$price_type->id)
                                                                             selected
-                                                                        @endif
+                                                                            @endif
+
+
 
                                                                     >{{$price_type->type}}</option>
                                                                 @endforeach

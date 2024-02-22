@@ -147,18 +147,23 @@ window.Parameter_Rubric = function (rubric_id) {
 }
 window.PriceType_Rubric = function (rubric_id) {
     $(".input-pricetype").hide();
-
+    var arr =[];
     $.each(json_pricetype_rubric, function (key, data) {
 
         if (rubric_id == data['rubric_id']) {
-
+            arr.unshift(data['price_type_id']);
             $('#pricetype_' + data['price_type_id']).show();
             $('#input_pricetype_' + data['price_type_id']).prop('checked', false);
+
             ;
 
         }
         /*console.log(rubric_id +' - ' + data['rubric_id'])*/
     })
+    if (arr.length==1) {
+        var element_id = arr.shift();
+        $('#pricetype_' + element_id).prop('selected', true);
+    }
 
 }
 $(document).ready(function () {

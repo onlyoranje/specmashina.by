@@ -150,10 +150,10 @@ class ProfileController extends Controller
         }
 
         $bbprice = BbPrice::create(['bb_id' => $bb->id, 'price_type_id'=>$validated['price_type']]);
-        if ($bbprice->pricetype->has_value =='Y'){
+
             $bbprice->fill(['price'=>$request->price]);
             $bbprice->save();
-        }
+
         if (is_array($request->contact)) {
             foreach ($request->contact as $contact_type_id=>$contact_value) {
                 if ($contact_value)  BbContact::create(['value'=>$contact_value,'bb_id'=>$bb->id,'contact_type_id'=>$contact_type_id]);
