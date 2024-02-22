@@ -18,7 +18,10 @@
                             <h3 class="block-title">Настройки профиля</h3>
                             <div class="inner-block">
                                 <div class="image">
-                                    <img src="{{Storage::url($user->avatar->resize(350,350))}}" alt="#">
+                                    @php
+
+                                    @endphp
+                                    <img src="{{Storage::url($user->resizeImage($user->avatar,320, 320))}}" alt="#">
                                 </div>
                                 <form class="profile-setting-form" method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                                     @csrf
