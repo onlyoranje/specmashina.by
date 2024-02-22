@@ -13,6 +13,7 @@ $user = Auth::user();
         <div class="dashboard-menu">
             <ul>
                 <li><a class="{{ Request::routeIs(['mybb','addForm','bb_edit']) ? 'active' : null }}" href="{{route('mybb')}}"><i class="lni lni-dashboard"></i> Мои объявления</a></li>
+                <li><a class="{{ Request::routeIs('profile.update') ? 'active' : null }}" href="{{route('profile.update')}}"><i class="lni lni-pencil-alt"></i>Мой профиль</a></li>
                 <li><a class="{{ Request::routeIs('my_organization') ? 'active' : null }}" href="{{route('my_organization')}}"><i class="lni lni-pencil-alt"></i>
                         Моя организация</a></li>
                 @if(Auth::user()->isAdmin())

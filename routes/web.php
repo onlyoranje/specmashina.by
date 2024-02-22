@@ -116,8 +116,10 @@ Route::patch('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbControll
 Route::get('/dashboard/status_bb/{id}/delete', [App\Http\Controllers\StatusBbController::class, 'delete'])->name('status_dashboard_delete')->middleware('isadmin');
 Route::delete('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbController::class, 'destroyStatus'])->name('status_dashboard_destroy')->middleware('isadmin');
 
+
+
 require __DIR__.'/auth.php';
-Route::get('/{bb}', [BbsController::class, 'detail'])->name('bb');
+Route::get('/item/{bb}', [BbsController::class, 'detail'])->name('bb');
 
 Auth::routes();
 
