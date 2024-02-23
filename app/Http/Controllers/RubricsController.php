@@ -57,7 +57,7 @@ class RubricsController extends Controller
             $level = (Rubric::find($request->parent_id)->level)+1;
         else
             $level=0;
-        $rubric->fill(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description,'sort'=>$request->sort]);
+        $rubric->fill(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description,'sort'=>$request->sort]);
         $rubric->save();
         return redirect()->route('rubric_dashboard');
     }
