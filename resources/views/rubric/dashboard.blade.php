@@ -19,30 +19,39 @@
                                 <ul class="activity-log dashboard-block mt-0">
                                     <h3 class="block-title">Категории</h3>
 
-
+                                    @if (count($rubrics)>0)
+                                        <?
+                                        $traverse = function ($rubrics, $prefix = '-') use (&$traverse) {
+                                        foreach ($rubrics as $rubric){
+                                        ?>
                                     <ul>
-
-                                        @if (count($rubrics)>0)
-
-
-                                            @foreach ($rubrics as $rubric)
-
-
 
                                                 <li>
                                                     <div class="log-icon">
                                                         <i class="lni lni-flag-alt"></i>
                                                     </div>
-                                                    <a href="" class="title">{{$rubric->title}}</a>
-                                                    <span class="time"><a href='{{route('location_dashboard_edit', ['location' => $rubric->id])}}'>Редактировать </a></span>
-                                                    <span class="time"><a href='{{route('location_dashboard_delete', ['location' => $rubric->id])}}'>Удалить </a></span>
+                                                    <a href="" class="title">{{PHP_EOL.$prefix.' '.$rubric->title}}</a>
+                                                    <span class="time"><a href='{{route('rubric_dashboard_edit', ['rubric' => $rubric->id])}}'>Редактировать </a></span>
+                                                    <span class="time"><a href='{{route('rubric_dashboard_delete', ['rubric' => $rubric->id])}}'>Удалить </a></span>
 
 
                                                 </li>
 
-                                            @endforeach
-                                        @endif
+
                                     </ul>
+
+
+                                <?
+
+
+
+                                $traverse($rubric->children, $prefix.'-');
+                                }
+                                };
+
+                                $traverse($rubrics);
+                                ?>
+                                @endif
                             </div>
                             <div class="col-12">
                                 <div class="form-group button mb-0 mt-5">
@@ -54,7 +63,7 @@
 
                     </div>
 
-                    {{ $rubrics->onEachSide(1)->links() }}
+
 
                 </div>
             </div>
