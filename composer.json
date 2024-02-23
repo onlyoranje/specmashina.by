@@ -14,6 +14,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "laravolt/avatar": "^5.0",
         "sopamo/laravel-filepond": "^1.1",
         "twbs/bootstrap-icons": "^1.10"
     },

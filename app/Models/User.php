@@ -76,10 +76,11 @@ class User extends Authenticatable
             if (!file_exists($save_path)) {
                 mkdir($save_path, 755, true);
             }
-            $thumbnail = Image::make(Storage::path('/public/').$this->$url);
+            //$thumbnail = Image::make(Storage::path('/public/').$this->$url);
+            $thumbnail = Image::make(Storage::path('/public/').$url);
             $thumbnail->fit($w, $h);
-            $thumbnail->save(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.url);
+            $thumbnail->save(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$url);
         }
-        return 'thumbnails/'.$w.'x'.$h.'/'.url;
+        return 'thumbnails/'.$w.'x'.$h.'/'.$url;
     }
 }

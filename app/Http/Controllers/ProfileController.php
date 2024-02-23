@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Laravolt\Avatar\Avatar;
 use PhpParser\Node\Expr\Array_;
 
 class ProfileController extends Controller
@@ -56,6 +57,8 @@ class ProfileController extends Controller
     ];
     public function edit(Request $request): View
     {
+
+
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -66,6 +69,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        $user = Auth::user();
         $request->user()->fill($request->validated());
 //dd($request);
         if ($request->user()->isDirty('email')) {
@@ -80,6 +84,12 @@ class ProfileController extends Controller
             $request->user()->fill(['avatar'=> $file_name[1]]);
             $request->user()->save();
 
+        }
+        if ($request->remove_avatar=='remove')
+        {
+
+            $request->user()->fill(['avatar'=> null]);
+            $request->user()->save();
         }
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

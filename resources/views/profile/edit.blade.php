@@ -18,10 +18,11 @@
                             <h3 class="block-title">Настройки профиля</h3>
                             <div class="inner-block">
                                 <div class="image">
-                                    @php
-
-                                    @endphp
-                                    <img src="{{Storage::url($user->resizeImage($user->avatar,320, 320))}}" alt="#">
+                                    @if ($user->avatar)
+                                    <img src="{{Storage::url($user->resizeImage($user->avatar,150, 150))}}" alt="#">
+                                    @else
+                                        {!! Avatar::create($user->realname)->toSvg() !!}
+                                    @endif
                                 </div>
                                 <form class="profile-setting-form" method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                                     @csrf
@@ -30,7 +31,7 @@
                                         <div class="col-lg-6 col-12">
                                             <div class="form-group">
                                                 <label>Имя*</label>
-                                                <input name="realname" type="text" placeholder="Steve" value="{{old('name', $user->realname)}}">
+                                                <input name="realname" type="text" placeholder="Александр" value="{{old('name', $user->realname)}}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-12">
@@ -47,9 +48,18 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group upload-image">
-                                                <label>Profile Image*</label>
+                                                <label>Фото профиля</label>
                                                 <input name="profileimage" type="file" placeholder="Upload Image">
                                             </div>
+                                        </div>
+                                        <div class="col-6">
+
+
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input width-auto" name="remove_avatar" value="remove">
+                                                    <label class="form-check-label">Удалить фото профиля*</label>
+                                                </div>
+
                                         </div>
                                         {{--<div class="col-12">
                                             <div class="form-group message">
@@ -58,8 +68,8 @@
                                             </div>
                                         </div>--}}
                                         <div class="col-12">
-                                            <div class="form-group button mb-0">
-                                                <button type="submit" class="btn ">Update Profile</button>
+                                            <div class="form-group button mb-0 mt-5">
+                                                <button type="submit" class="btn ">Обновить</button>
                                             </div>
                                         </div>
                                     </div>
@@ -69,31 +79,33 @@
                         <!-- End Profile Settings Area -->
                         <!-- Start Password Change Area -->
                         <div class="dashboard-block password-change-block">
-                            <h3 class="block-title">Change Password</h3>
+                            <h3 class="block-title">Изменить пароль</h3>
                             <div class="inner-block">
-                                <form class="default-form-style" method="post" action="#">
+                                <form class="default-form-style" method="post" action="{{ route('password.update') }}">
+                                    @csrf
+                                    @method('put')
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Current Password*</label>
-                                                <input name="current-password" type="password" placeholder="Enter old password">
+                                                <label>Текущий пароль*</label>
+                                                <input name="current_password" type="password" >
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>New Password*</label>
-                                                <input name="new-password" type="password" placeholder="Enter new password">
+                                                <label>Новый пароль*</label>
+                                                <input name="password" type="password" >
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Retype Password*</label>
-                                                <input name="retype-password" type="password" placeholder="Retype password">
+                                                <label>Повторите новый пароль*</label>
+                                                <input name="password_confirmation" type="password">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group button mb-0">
-                                                <button type="submit" class="btn ">Update Password</button>
+                                                <button type="submit" class="btn ">Обновить пароль</button>
                                             </div>
                                         </div>
                                     </div>
