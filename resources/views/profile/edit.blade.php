@@ -13,6 +13,14 @@
             <div class="col-lg-9 col-md-12 col-12">
                 <div class="main-content">
                     <div class="main-content">
+
+                        @if (session('status') === 'password-updated')
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">Пароль обновлен!</h4>
+
+                            </div>
+                    @endif
+
                         <!-- Start Profile Settings Area -->
                         <div class="dashboard-block mt-0 profile-settings-block">
                             <h3 class="block-title">Настройки профиля</h3>

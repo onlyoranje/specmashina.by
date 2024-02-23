@@ -4,10 +4,14 @@ $user = Auth::user();
     <!-- Start Dashboard Sidebar -->
     <div class="dashboard-sidebar">
         <div class="user-image">
-            <img src="assets/images/dashboard/user-image.jpg" alt="#">
+            @if ($user->avatar)
+                <img src="{{Storage::url($user->resizeImage($user->avatar,150, 150))}}" alt="#">
+            @else
+                {!! Avatar::create($user->realname)->toSvg() !!}
+            @endif
             <h3>{{$user->realname}}
 
-                <span><a href="javascript:void(0)">&commat;{{$user->name}}</a></span>
+                <span><a href="javascript:void(0)">ID: {{$user->id}}</a></span>
             </h3>
         </div>
         <div class="dashboard-menu">
@@ -28,7 +32,7 @@ $user = Auth::user();
                 @endif
             </ul>
             <div class="button">
-                <a class="btn" href="javascript:void(0)">Logout</a>
+                <a class="btn" href="{{route('logout')}}">Выход</a>
             </div>
         </div>
     </div>

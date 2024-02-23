@@ -122,7 +122,7 @@ require __DIR__.'/auth.php';
 Route::get('/item/{bb}', [BbsController::class, 'detail'])->name('bb');
 
 Auth::routes();
-
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
