@@ -24,7 +24,7 @@ class ParametersController extends Controller
     ];
     public function parameters(){
 
-        $parameters = Parameter::orderBy('sort')->get();
+        $parameters = Parameter::orderBy('sort')->paginate(15);
         $types = ParameterType::orderBy('type_name')->get();
         return view('parameter.dashboard',['parameters'=>$parameters,'types'=>$types]);
 

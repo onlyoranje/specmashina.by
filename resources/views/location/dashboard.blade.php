@@ -18,14 +18,14 @@
                                 <!-- Start Activity Log -->
                                 <ul class="activity-log dashboard-block mt-0">
                                     <h3 class="block-title">Города</h3>
-                                        <nav class="list-nav">
-                                            <div class="form-group button mb-0 mt-5"><a href="{{route('location_dashboard_add')}}" class="btn ">Добавить Регион/Город</a></div>
-                                        </nav>
+
 
 
 
                                     <ul>
-
+                                        <li>
+                                            <div class="form-group button mb-0 mt-0"><a href="{{route('location_dashboard_add')}}" class="btn ">Добавить Регион/Город</a></div>
+                                        </li>
                                         @if (count($locations)>0)
 
 
@@ -48,11 +48,7 @@
                                         @endif
                                     </ul>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group button mb-0 mt-5">
-                                        <a href="{{route('location_dashboard_add')}}" class="btn ">Добавить Регион/Город</a>
-                                    </div>
-                                </div>
+
                                 <!-- End Activity Log -->
                             </div>
 

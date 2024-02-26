@@ -30,7 +30,7 @@
                                                     <div class="log-icon">
                                                         <i class="lni lni-flag-alt"></i>
                                                     </div>
-                                                    <a href="" class="title">{!! $prefix !!} {{$rubric->title}}</a>
+                                                    <a href="" class="title">{!! $prefix !!} {{$rubric->title}} (уровень: {{$rubric->level}})</a>
                                                     <span class="time"><a href='{{route('rubric_dashboard_edit', ['rubric' => $rubric->id])}}'>Редактировать </a></span>
                                                     <span class="time"><a href='{{route('rubric_dashboard_delete', ['rubric' => $rubric->id])}}'>Удалить </a></span>
 

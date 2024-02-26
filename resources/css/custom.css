@@ -29,3 +29,7 @@
     appearance: none;
     position: relative;
 }
+.dashboard-block .form-check {
+    display: block;
+    margin-bottom: 20px;
+}
