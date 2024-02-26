@@ -66,7 +66,7 @@
 
 
 
-    <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
+    {{--<div class="section section-lg pt-5 pt-md-7 bg-gray-200">
         <div class="container">
             <div class="row pt-5 pt-md-0">
                 @include('layouts.dashboard_profile')
@@ -91,8 +91,8 @@
                                     <div class="col-auto"><span class="icon icon-md"><span
                                                 class="fas fa-sms"></span></span></div>
                                     <div class="col ms-n2"><a href="{{route('parameter_dashboard_edit', ['parameter' => $parameter->id])}}"><h6  class="text-sm mb-0">{{$parameter->name}}</h6></a></div>
-                                    <div class="col d-none d-md-block">{{--<span class="text-muted">Added:</span> 2021-02-12
-                                        14:34:12--}}
+                                    <div class="col d-none d-md-block">--}}{{--<span class="text-muted">Added:</span> 2021-02-12
+                                        14:34:12--}}{{--
                                     </div>
                                     <div class="col-auto">
                                         <div class="btn-group">
@@ -120,6 +120,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
 
 @endsection

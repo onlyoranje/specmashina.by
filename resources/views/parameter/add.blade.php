@@ -68,16 +68,16 @@
                                                             <?php
 
                                                             $traverse = function ($rubrics, $prefix = '<ul>',$postfix= '</ul>') use (&$traverse) {
-                                                           /*     if (count($rubrics)>0) echo '<ul>';*/
+                                                               if (count($rubrics)>0) echo '<ul>';
                                                                 foreach ($rubrics as $rubric) {
                                                                     $parent_id=$rubric->parent_id;
                                                                     if (!is_numeric($rubric->parent_id)) $parent_id=0;
-                                                                    echo "<div class=\"form-check\"><input  type=\"checkbox\" id=\"checkbox".$rubric->id."\" name=\"rubrics[]\" value=\"".$rubric->id."\" class=\"form-check-input\"><label class=\"form-check-label\" for=\"checkbox".$rubric->id."\">".$rubric->title."</label></div>";
+                                                                    echo "<li class=\"form-check\"><input type=\"checkbox\" id=\"checkbox".$rubric->id."\" name=\"rubrics[]\" value=\"".$rubric->id."\" class=\"form-check-input\"><label class=\"form-check-label\" for=\"checkbox".$rubric->id."\">".$rubric->title."</label>";
 
                                                                     if (count($rubric->children)==0) echo "</li>";
                                                                     $traverse($rubric->children);
                                                                 }
-                                                               /* if (count($rubrics)>0) echo "</ul>";*/
+                                                               if (count($rubrics)>0) echo "</ul>";
                                                             };
 
                                                             $traverse($rubrics);

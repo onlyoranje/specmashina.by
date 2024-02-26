@@ -13,7 +13,7 @@ class PriceTypesController extends Controller
 
     public function types(){
 
-        $types = PriceType::orderBy('type')->get();
+        $types = PriceType::orderBy('type')->paginate(15);
         return view('price_type.dashboard',compact('types'));
 
     }
