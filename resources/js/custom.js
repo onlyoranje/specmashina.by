@@ -58,9 +58,6 @@ $(document).ready(function () {
             .find("input[type='checkbox']")
             .prop('checked', this.checked);
     });
-
-
-
 })
 
 window.CheckRubrics = function (parent_id, id) {
