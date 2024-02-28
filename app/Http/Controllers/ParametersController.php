@@ -37,7 +37,8 @@ class ParametersController extends Controller
     public function addParameter(Request $request){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
         //dd($request);
-        $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort]);
+        if ($request->type=='option') $options = json_encode($request->options);
+        $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options]);
         $parameter->rubrics()->attach($request->rubrics);
         return redirect()->route('parameter_dashboard');
     }

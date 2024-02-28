@@ -27,7 +27,7 @@
                                                 <div class="col-lg-3 col-12">
                                                     <div class="form-group">
                                                         <label>Наименование</label>
-                                                        <input type="text" value="{{old('title')}}"  name="title"  required>
+                                                        <input type="text" value="{{old('name')}}"  name="name"  required>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3 col-12">
@@ -42,7 +42,7 @@
                                                         <select class="form-select" name='type' required>
                                                             <option selected disabled>- выбрать -</option>
                                                             @foreach($types as $type)
-                                                                <option value="{{$type->type}}">{{$type->type_name}}</option>
+                                                                <option value="{{$type->type}}" @if ($type->type==old('type')) selected @endif>{{$type->type_name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -65,20 +65,20 @@
                                                         <div id="sortable">
 
 
-                                                            <div class="input-group flex-nowrap">
+                                                            <div class="input-group flex-nowrap mt-1 input-option">
                                                                 <span class="input-group-text" id="addon-wrapping">
                                                                  <i class="lni lni-circle-plus"></i></span>
                                                                 <input name="options[]" type="text">
                                                             </div>
-                                                            <div class="input-group flex-nowrap">
-                                                                <span class="input-group-text" id="addon-wrapping">
-                                                                 <i class="lni lni-circle-plus"></i></span>
-                                                                <input name="options[]" type="text">
-                                                            </div>
+
 
                                                         </div>
 
-
+                                                        <div class="col-12">
+                                                            <div class="form-group button mt-1">
+                                                                <span type="button" class="reply add-option" >Добавить строку</span>
+                                                            </div>
+                                                        </div>
 
 
                                                     </div>
@@ -117,7 +117,7 @@
 
                                                 <div class="col-12">
                                                     <div class="form-group button mb-0 mt-5">
-                                                        <button type="submit" class="btn ">Обновить</button>
+                                                        <button type="submit" class="btn ">Добавить</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -151,7 +151,9 @@
                 }
 
             });
-          $("sortable").
+          $(".add-option").on( "click",function (){
+              $('#sortable').append('<div class="input-group flex-nowrap mt-1 input-option"><span class="input-group-text" id="addon-wrapping"><i class="lni lni-circle-plus"></i></span><input name="options[]" type="text"></div>');
+          })
         });
     </script>
 
