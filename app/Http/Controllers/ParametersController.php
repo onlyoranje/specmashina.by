@@ -52,8 +52,14 @@ class ParametersController extends Controller
     }
     public function editParameter(Request $request, Parameter $parameter){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
+        $options_array = $request->options;
+        $options_array = array_filter($options_array, fn($n) => !is_null($n));
+        if ($request->type=='option')
+            $options = json_encode($options_array);
 
-        $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort]);
+        else
+            $options = NULL;
+        $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options]);
         $parameter->save();
         $parameter_rubric = $parameter->rubrics->pluck('id');
         $parameter_rubric_update = $request->rubrics;
@@ -66,6 +72,8 @@ class ParametersController extends Controller
         foreach ($parameter_rubric_update as $pr){
             if (!in_array($pr,$parameter_rubric)) ParameterRubric::updateOrCreate(['rubric_id'=>$pr,'parameter_id'=>$parameter->id]);
         }
+
+        // dd($request);
         return redirect()->route('parameter_dashboard');
     }
     public function delete(Parameter $parameter){
