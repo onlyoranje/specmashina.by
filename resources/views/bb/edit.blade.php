@@ -199,11 +199,14 @@
                                                                     @endforeach
                                                                 @endif
                                                             <div class="col-12">
-                                                                <?php ?>
+                                                                @php
+                                                                $old_image=[];
+                                                                @endphp
+                                                                @if (count($images)>0)
                                                                 @foreach($images as $image)
                                                                     <?php $old_image[]='{"name":"'.$image->original_name.'","id":'.$image->id.',"type":"'.$image->type.'","size":'.$image->size.',"file":"'.$image->id.'","local":"'.Storage::url($image->url).'","data":{"url":"'.Storage::url($image->url).'","thumbnail":"'.Storage::url($image->resize(480,360)) .'","readerForce":true}}'?>
                                                                 @endforeach
-
+                                                                @endif
 
                                                                 <input type="file" name="file" data-fileuploader-files='[<?= implode(',',$old_image) ?>]'>
                                                             </div>

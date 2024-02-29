@@ -301,6 +301,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             }
         }
         if ($request->parameter) {
+            $parameters_new = [];
             $parameters_old = BbParameters::where('bb_id',$bb->id)->pluck('parameter_id')->toArray();;
 
             foreach ($request->parameter as $parameter_id => $value) {

@@ -2,8 +2,13 @@
 @section('title',' Удаление параметра')
 @section('main')
 
-
-
+@php
+$title= "Удалить организацию ".$organization->title;
+$id = $organization->id;
+$route = 'organization_destroy';
+@endphp
+@include('layouts.delete_form')
+{{--
     <section class="dashboard section">
         <div class="container">
             <div class="row">
@@ -37,14 +42,12 @@
                         </div>
 
                     </div>
-
-
-
                 </div>
             </div>
         </div>
         </div>
     </section>
+--}}
 
 
 

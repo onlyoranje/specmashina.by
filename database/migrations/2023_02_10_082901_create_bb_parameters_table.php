@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('bb_parameters', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parameter_id');
+            $table->unsignedBigInteger('parameter_id')->onDelete('cascade');
             $table->foreign('parameter_id')->references('id')->on('parameters');
             $table->unsignedBigInteger('bb_id');
             $table->foreign('bb_id')->references('id')->on('bbs');

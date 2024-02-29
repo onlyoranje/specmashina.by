@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Models\TypeParameter;
+use App\Models\ParameterType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,10 +22,10 @@ return new class extends Migration
             $table->json('properties')->nullable();
             $table->timestamps();
         });
-        /*TypeParameter::updateOrCreate(['type'=>'number','type_name'=>"Число"]);
-        TypeParameter::updateOrCreate(['type'=>'string','type_name'=>"Текст"]);
-        TypeParameter::updateOrCreate(['type'=>'phone','type_name'=>"Телефон"]);
-        TypeParameter::updateOrCreate(['type'=>'boolean','type_name'=>"Да/Нет"]);*/
+        ParameterType::updateOrCreate(['type'=>'number','type_name'=>"Число"]);
+        ParameterType::updateOrCreate(['type'=>'string','type_name'=>"Текст"]);
+        ParameterType::updateOrCreate(['type'=>'options','type_name'=>"Опции"]);
+        ParameterType::updateOrCreate(['type'=>'checkbox','type_name'=>"Да/Нет"]);
     }
 
     /**
