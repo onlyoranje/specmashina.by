@@ -123,6 +123,7 @@
                                                                 <option selected disabled>- выбрать -</option>
                                                                 @if (count($price_types)>0)
                                                                 @foreach($price_types as $price_type)
+
                                                                     <option value="{{$price_type->id}}" id="pricetype_{{$price_type->id}}" class="input-pricetype" @if (old('price_type')==$price_type->id) selected @endif >{{$price_type->type}}</option>
                                                                 @endforeach
                                                                 @endif
@@ -148,24 +149,40 @@
                                                     <div class="row">
                                                         @if (count($parameters)>0)
                                                             @foreach($parameters as $parameter)
-                                                                @if ($parameter->type == 'year')
+                                                                @if ($parameter->type == 'option')
                                                                     <div class="col-6">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                             </label>
                                                                             <select class="form-select" name="parameter[{{$parameter->id}}]" >
                                                                                 <option disabled selected>- выбрать -</option>
-                                                                                @for($year=date('Y');$year>=1950;$year--)
-                                                                                    <option value="{{$year}}">{{$year}}</option>
-                                                                                @endfor
+                                                                                @php
+                                                                                $options = json_decode($parameter->options);
+                                                                                @endphp
+                                                                                @foreach($options as $option)
+                                                                                    <option value="{{$option}}">{{$option}}</option>
+                                                                                @endforeach
                                                                             </select>
 
                                                                         </div>
                                                                     </div>
+                                                                @elseif ($parameter->type == 'checkbox')
+                                                                    <div class="col-6">
+
+                                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                            <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            </label>
+                                                                        <div class="form-check">
+                                                                            <input type="checkbox" class="form-check-input width-auto" name="parameter[{{$parameter->id}}]" value="Y">
+                                                                            <label class="form-check-label">Да</label>
+                                                                        </div>
+                                                                        </div>
+
+                                                                    </div>
                                                                 @else
                                                                     <div class="col-6">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                             </label>
                                                                             <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
                                                                         </div>

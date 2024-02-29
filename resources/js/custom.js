@@ -34,7 +34,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
 
         $.each(json, function (key, data) {
                 if (parent_id == data['parent_id']) {
-                    $("#" + model + "_level_" + level).append(new Option(data['title']+':'+data['id'], data['id']));
+                    $("#" + model + "_level_" + level).append(new Option(data['title'], data['id']));
                 }
             }
         );

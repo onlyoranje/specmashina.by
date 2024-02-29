@@ -301,13 +301,17 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             }
         }
         if ($request->parameter) {
+            $parameters_old = BbParameters::where('bb_id',$bb->id)->pluck('parameter_id')->toArray();;
+
             foreach ($request->parameter as $parameter_id => $value) {
                 if (!is_null($value)) {
+                    $parameters_new[] = $parameter_id;
                     BbParameters::updateOrCreate(['bb_id' => $bb->id, 'parameter_id' => $parameter_id], ['value' => $value]);
-                } else {
-                    BbParameters::where('bb_id', $bb->id)->where('parameter_id', $parameter_id)->delete();
                 }
+
             }
+
+            BbParameters::where('bb_id', $bb->id)->whereIn('parameter_id', array_diff($parameters_old,$parameters_new))->delete();
         }
         if ($request->organization=='Y'){
             $bb->fill(['organization_id'=>Auth::user()->organization->id]);
@@ -318,6 +322,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         }
         $bb->bbprice->fill(['price'=>$request->price,'price_type_id'=>$request->price_type]);
         $bb->bbprice->save();
+        //dd($parameters_old);
         return redirect()->route('mybb');
     }
     public function deleteBb(Bb $bb){

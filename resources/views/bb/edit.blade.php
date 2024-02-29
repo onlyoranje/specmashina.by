@@ -154,38 +154,50 @@
                                                     <div class="default-form-style">
                                                         <div class="row">
 
-                                                            @if (count($parameters)>0)
-                                                                @foreach($parameters as $parameter)
-                                                                    @if ($parameter->type == 'year')
-                                                                        <div class="col-6">
-                                                                            <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                                <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
-                                                                                </label>
-                                                                                <select class="form-select" name="parameter[{{$parameter->id}}]" >
-                                                                                    <option disabled selected>- выбрать -</option>
-                                                                                    @for($year=date('Y');$year>=1950;$year--)
-                                                                                        <option value="{{$year}}"
-                                                                                        @if (isset($parameter_value[$parameter->id]) && $parameter_value[$parameter->id] ==$year)
-                                                                                                selected
-                                                                                        @endif
-                                                                                        >{{$year}}</option>
-                                                                                    @endfor
-                                                                                </select>
+
+                                                                @if (count($parameters)>0)
+                                                                    @foreach($parameters as $parameter)
+                                                                        @if ($parameter->type == 'option')
+                                                                            <div class="col-6">
+                                                                                <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                                    <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                                    </label>
+                                                                                    <select class="form-select" name="parameter[{{$parameter->id}}]" >
+                                                                                        <option disabled selected>- выбрать -</option>
+                                                                                        @php
+                                                                                            $options = json_decode($parameter->options);
+                                                                                        @endphp
+                                                                                        @foreach($options as $option)
+                                                                                            <option value="{{$option}}" {{(isset($parameter_value[$parameter->id]) && $parameter_value[$parameter->id] ==$option)?  'selected' : ''}} >{{$option}}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+
+                                                                                </div>
+                                                                            </div>
+                                                                        @elseif ($parameter->type == 'checkbox')
+                                                                            <div class="col-6">
+
+                                                                                <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                                    <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                                    </label>
+                                                                                    <div class="form-check">
+                                                                                        <input type="checkbox" class="form-check-input width-auto" name="parameter[{{$parameter->id}}]" value="Y" {{isset($parameter_value[$parameter->id]) ? 'checked':''}}>
+                                                                                        <label class="form-check-label">Да</label>
+                                                                                    </div>
+                                                                                </div>
 
                                                                             </div>
-                                                                        </div>
-                                                                    @else
-                                                                        <div class="col-6">
-                                                                            <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                                <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
-                                                                                </label>
-                                                                                <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" value="{{isset($parameter_value[$parameter->id]) ? $parameter_value[$parameter->id]:''}}" class="form-control">
+                                                                        @else
+                                                                            <div class="col-6">
+                                                                                <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                                    <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                                    </label>
+                                                                                    <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control" value="{{isset($parameter_value[$parameter->id]) ? $parameter_value[$parameter->id]:''}}">
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    @endif
-                                                                @endforeach
-                                                            @endif
-
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
                                                             <div class="col-12">
                                                                 <?php ?>
                                                                 @foreach($images as $image)

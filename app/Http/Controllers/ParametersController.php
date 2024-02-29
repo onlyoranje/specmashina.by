@@ -36,8 +36,10 @@ class ParametersController extends Controller
     }
     public function addParameter(Request $request){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
-        //dd($request);
-        if ($request->type=='option') $options = json_encode($request->options);
+        $options = NULL;
+        $options_array = $request->options;
+        $options_array = array_filter($options_array, fn($n) => !is_null($n));
+        if ($request->type=='option') $options = json_encode($options_array);
         $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options]);
         $parameter->rubrics()->attach($request->rubrics);
         return redirect()->route('parameter_dashboard');
@@ -52,13 +54,12 @@ class ParametersController extends Controller
     }
     public function editParameter(Request $request, Parameter $parameter){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
+        $options = NULL;
         $options_array = $request->options;
         $options_array = array_filter($options_array, fn($n) => !is_null($n));
-        if ($request->type=='option')
-            $options = json_encode($options_array);
+        if ($request->type=='option') $options = json_encode($options_array);
 
-        else
-            $options = NULL;
+
         $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options]);
         $parameter->save();
         $parameter_rubric = $parameter->rubrics->pluck('id');
