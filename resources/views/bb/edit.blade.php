@@ -187,7 +187,16 @@
                                                                                 </div>
 
                                                                             </div>
-                                                                        @else
+                                                                    @elseif ($parameter->type == 'number')
+                                                                        <div class="col-6">
+                                                                            <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                                <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                                </label>
+                                                                                <input type="{{$parameter->type}}" value="{{isset($parameter_value[$parameter->id]) ? $parameter_value[$parameter->id]:''}}" name="parameter[{{$parameter->id}}]" class="form-control" max="{{$parameter->max}}" min="{{$parameter->min}}">
+                                                                            </div>
+                                                                        </div>
+
+                                                                    @else
                                                                             <div class="col-6">
                                                                                 <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                     <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
@@ -387,6 +396,21 @@
 
 
             @endforeach
+            $("input[name*='parameter']").change(function () {
+                if (typeof ($(this).attr("min"))!= "undefined")
+                {
+                    var min = $(this).attr("min");
+                    if ($(this).val()<=min) $(this).val(min)
+                    console.log(min+' '+$(this).val)
+                }
+
+                if (typeof ($(this).attr("max"))!= "undefined")
+                {
+                    var max = $(this).attr("max");
+                    if ($(this).val()>=max) $(this).val(max)
+                    console.log(max+' '+$(this).val)
+                }
+            });
             /*$('.input-images').imageUploader();*/
             Parameter_Rubric($("select[name='rubric_id']").val())
             PriceType_Rubric($("select[name='rubric_id']").val())

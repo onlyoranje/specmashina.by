@@ -21,7 +21,7 @@ class Bb extends Model
         return $this->belongsTo(Location::class);
     }
     public function userfile() {
-        return $this->hasMany(UserFile::class);
+        return $this->hasMany(UserFile::class)->orderBy('sort', 'asc');
     }
     public function bbprice(){
         return $this->hasOne(BbPrice::class);
