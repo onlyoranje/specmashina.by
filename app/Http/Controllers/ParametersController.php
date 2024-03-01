@@ -43,7 +43,7 @@ class ParametersController extends Controller
         $options_array = array_filter($options_array, fn($n) => !is_null($n));
         if ($request->type=='option') $options = json_encode($options_array);
         if ($request->type=='number' and isset($request->min)) $limit_min = $request->min;
-        if ($request->type=='number' and isset($request->max)) $limit_min = $request->max;
+        if ($request->type=='number' and isset($request->max)) $limit_max = $request->max;
         $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options,'min'=>$limit_min,'max'=>$limit_max]);
         $parameter->rubrics()->attach($request->rubrics);
         return redirect()->route('parameter_dashboard');
