@@ -20,7 +20,7 @@
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
                                     <h3 class="block-title">Добавление типа параметра</h3>
-                                    <form class="default-form-style" action="{{route('addTypeToDB')}}" method="post">
+                                    <form class="default-form-style" action="{{route('addTypeToDB')}}" method="post" enctype="multipart/form-data">
                                         @csrf
 
                                         <div class="inner-block">

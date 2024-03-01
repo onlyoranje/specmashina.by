@@ -1,8 +1,6 @@
 @extends('layouts.dashboard')
 @section('title',' Удаление параметра')
 @section('main')
-
-
     @php
         $title= "Удалить параметр ".$parameter->name;
         $id = ['parameter'=>$parameter->id];
@@ -11,8 +9,4 @@
         if (count($used)>0) $errors_form[] = "Данный параметр используется в ".count($used)." объявлениях  ";
     @endphp
     @include('layouts.delete_form')
-
-
-
-
 @endsection

@@ -12,7 +12,7 @@
                     <div class="dashboard-block mt-0 profile-settings-block">
                         <h3 class="block-title">{{$title}}</h3>
                         <div class="inner-block">
-                            @if ($errors_form)
+                            @if (count($errors_form)>0)
                                 @foreach ($errors_form as $error)
                                     <div class="alert alert-warning" role="alert">
                                         {{$error}}

@@ -1,48 +1,18 @@
 @extends('layouts.dashboard')
 @section('title',' Удаление раздела')
+
 @section('main')
+    @php
+        $title= "Удалить категорию ".$rubric->title;
+        $id = ['rubric'=>$rubric->id];
+        $route = 'rubric_dashboard_destroy';
+        //
+        $children = App\Models\Rubric::descendantsAndSelf($rubric->id)->pluck('id')->toArray();
+        $used = App\Models\Bb::WhereIn('rubric_id',$children)->pluck('id')->toArray();
 
-
-
-    <section class="dashboard section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-12 col-12">
-                    <!-- Start Dashboard Sidebar -->
-                @include('layouts.dashboard_profile')
-                <!-- Start Dashboard Sidebar -->
-                </div>
-                <div class="col-lg-9 col-md-12 col-12">
-                    <div class="main-content">
-
-                        <div class="row">
-                            <div class="col-12">
-                                <!-- Start Activity Log -->
-
-                                    <h3 class="block-title">Удалить категорию {{$rubric->title}}</h3>
-                                    <form class="form-ad" action="{{route('rubric_dashboard_destroy', ['rubric'=>$rubric->id])}}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                    <div class="col-12">
-                                    <div class="form-group button mb-0 mt-5">
-                                        <button type="submit" class="btn ">Удалить категорию</button>
-                                    </div>
-
-                                    </div>
-                                    </form>
-
-                            </div>
-                            <!-- End Activity Log -->
-                        </div>
-
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
-
+        $errors_form=[];
+        if ($rubric->level==0) $errors_form[] = "Нельзя удалять корневую рубрику";
+        if (count($used)>0) $errors_form[] = "Данный раздел используется в ".count($used)." объявлениях  ";
+    @endphp
+    @include('layouts.delete_form')
 @endsection

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
         \App\Models\ContactType::create(['name' => 'Телефон','mask'=>'+375 99 999-99-99']);
-        \App\Models\ContactType::create(['name' => 'Viber']);
+        \App\Models\ContactType::create(['name' => 'Контактное лицо']);
     }
 
     /**

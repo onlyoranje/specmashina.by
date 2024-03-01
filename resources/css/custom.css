@@ -42,3 +42,17 @@
     font-size: 14px;
     font-weight: 500;
 }
+ .form-group.upload-image input {
+    padding: 10px;
+    font-size: 14px;
+    color: #888;
+}
+ .form-group input {
+     height: 50px;
+     width: 100%;
+     border: 1px solid #eee;
+     border-radius: 6px;
+     color: #081828;
+     background: #fff;
+     padding: 0px 20px;
+ }

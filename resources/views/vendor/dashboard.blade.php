@@ -3,7 +3,68 @@
 
 @section('main')
 
-    <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
+                @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Start Activity Log -->
+                                <ul class="activity-log dashboard-block mt-0">
+                                    <h3 class="block-title">Производители</h3>
+
+
+
+
+                                    <ul>
+                                        <li>
+                                            <div class="form-group button mb-0 mt-0"><a href="{{route('vendor_dashboard_add')}}" class="btn ">Добавить производителя</a></div>
+                                        </li>
+                                        @if (count($vendors)>0)
+
+
+                                            @foreach ($vendors as $vendor)
+
+
+
+                                                <li>
+                                                    <div class="log-icon">
+                                                        <i class="lni lni-flag-alt"></i>
+                                                    </div>
+                                                    <a href="" class="title">{{$vendor->name}}</a>
+                                                    <span class="time"><a href='{{route('vendor_dashboard_edit', ['vendor' => $vendor->id])}}'>Редактировать </a></span>
+                                                    <span class="time"><a href='{{route('vendor_dashboard_delete', ['vendor' => $vendor->id])}}'>Удалить </a></span>
+
+
+                                                </li>
+
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                            </div>
+
+                            <!-- End Activity Log -->
+                        </div>
+
+                    </div>
+
+                    {{ $vendors->onEachSide(1)->links() }}
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+   {{-- <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
         <div class="container">
             <div class="row pt-5 pt-md-0">
                 @include('layouts.dashboard_profile')
@@ -29,8 +90,8 @@
                                         @endif
                                         </div>
                                         <div class="col ms-n2"><a href="{{route('vendor_dashboard_edit' ,  ['vendor'=>$vendor->id])}}"><h6  class="text-sm mb-0">{{$vendor->name}}</h6></a></div>
-                                        <div class="col d-none d-md-block">{{--<span class="text-muted">Added:</span> 2021-02-12
-                                        14:34:12--}}
+                                        <div class="col d-none d-md-block">--}}{{--<span class="text-muted">Added:</span> 2021-02-12
+                                        14:34:12--}}{{--
                                         </div>
                                         <div class="col-auto">
                                             <div class="btn-group">
@@ -58,6 +119,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
 
 @endsection
