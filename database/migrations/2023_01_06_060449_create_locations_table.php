@@ -145,7 +145,7 @@ return new class extends Migration
         $id_114 = Location::create(['id'=>114,'title' => 'Кореличи','title_r' => 'Кореличах','parent_id' => $id_4->id,'level' => 1,'lat'=>'53.5666638','lng'=>'26.1406893']);
         $id_115 = Location::create(['id'=>115,'title' => 'Свислочь','title_r' => 'Свислочи','parent_id' => $id_4->id,'level' => 1,'lat'=>'53.0358086','lng'=>'24.0942728']);
         $id_116 = Location::create(['id'=>116,'title' => 'Красносельский','title_r' => 'Красносельском','parent_id' => $id_4->id,'level' => 1,'lat'=>'53.2621830','lng'=>'24.4235742']);
-        $id_117 = Location::create(['id'=>117,'title' => ' Вороново','title_r' => 'Вороново','parent_id' => $id_4->id,'level' => 1,'lat'=>'54.1499032','lng'=>'25.3160274']);
+        $id_117 = Location::create(['id'=>117,'title' => 'Вороново','title_r' => 'Вороново','parent_id' => $id_4->id,'level' => 1,'lat'=>'54.1499032','lng'=>'25.3160274']);
         $id_118 = Location::create(['id'=>118,'title' => 'Россь','title_r' => 'Росси','parent_id' => $id_4->id,'level' => 1,'lat'=>'53.2833165','lng'=>'24.4054988']);
         $id_119 = Location::create(['id'=>119,'title' => 'Большая Берестовица','title_r' => 'Большой Берестовице','parent_id' => $id_4->id,'level' => 1,'lat'=>'53.1948656','lng'=>'24.0191604']);
         $id_120 = Location::create(['id'=>120,'title' => 'Свислочь','title_r' => 'Свислочи','parent_id' => $id_4->id,'level' => 1,'lat'=>'53.0358086','lng'=>'24.0942728']);
