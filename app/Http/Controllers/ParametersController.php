@@ -37,10 +37,14 @@ class ParametersController extends Controller
     public function addParameter(Request $request){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
         $options = NULL;
+        $limit_min = NULL;
+        $limit_max = NULL;
         $options_array = $request->options;
         $options_array = array_filter($options_array, fn($n) => !is_null($n));
         if ($request->type=='option') $options = json_encode($options_array);
-        $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options]);
+        if ($request->type=='number' and isset($request->min)) $limit_min = $request->min;
+        if ($request->type=='number' and isset($request->max)) $limit_min = $request->max;
+        $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options,'min'=>$limit_min,'max'=>$limit_max]);
         $parameter->rubrics()->attach($request->rubrics);
         return redirect()->route('parameter_dashboard');
     }
@@ -55,12 +59,16 @@ class ParametersController extends Controller
     public function editParameter(Request $request, Parameter $parameter){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
         $options = NULL;
+        $limit_min = NULL;
+        $limit_max = NULL;
+        if ($request->type=='number' and isset($request->min)) $limit_min = $request->min;
+        if ($request->type=='number' and isset($request->max)) $limit_max= $request->max;
         $options_array = $request->options;
         $options_array = array_filter($options_array, fn($n) => !is_null($n));
         if ($request->type=='option') $options = json_encode($options_array);
 
 
-        $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options]);
+        $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options,'min'=>$limit_min,'max'=>$limit_max]);
         $parameter->save();
         $parameter_rubric = $parameter->rubrics->pluck('id');
         $parameter_rubric_update = $request->rubrics;

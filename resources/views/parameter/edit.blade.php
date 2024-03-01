@@ -88,6 +88,18 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-3 col-12 limit">
+                                                    <div class="form-group">
+                                                        <label>Минимальное значение</label>
+                                                        <input type="number" value="{{old('min',$parameter->min)}}" name="min">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-12 limit">
+                                                    <div class="form-group">
+                                                        <label>Максимальное значение</label>
+                                                        <input type="number" value="{{old('max',$parameter->max)}}" name="max">
+                                                    </div>
+                                                </div>
                                                 <div class="col-lg-12 col-12">
 
                                                     {{--  <div class="form-group">
@@ -99,6 +111,7 @@
                                                         $pr= $parameter->rubrics->pluck('id')->toArray();
 
                                                         $traverse = function ($rubrics, $prefix = '<ul>',$postfix= '</ul>') use ($pr, &$traverse) {
+
                                                             if (count($rubrics)>0) echo '<ul>';
                                                             foreach ($rubrics as $rubric) {
                                                                 $parent_id=$rubric->parent_id;
@@ -150,15 +163,22 @@
     <script>
         window.addEventListener("load", function(){
             $( "#sortable" ).sortable();
-            @if ($parameter->type!=='option')
-            $('#options').hide()
-            @endif
+            @if ($parameter->type!=='options') $('#options').hide() @endif
+            @if ($parameter->type!=='number') $('.limit').hide() @endif
+
             $("select[name='type']").change(function () {
-                if ($(this).val()==='option')
+                if ($(this).val()==='options')
                 {
                     $('#options').show()
-                } else {
+                    $('.limit').hide()
+                } else if ($(this).val()==='number')
+                {
+                    $('.limit').show()
                     $('#options').hide()
+                } else {
+                    $('.limit').hide()
+                    $('#options').hide()
+
                 }
 
             });

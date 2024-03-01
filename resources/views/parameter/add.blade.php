@@ -58,7 +58,7 @@
                                                         <input type="number" value="{{old('sort',500)}}" name="sort"   required>
                                                     </div>
                                                 </div>
-
+{{--опции--}}
                                                 <div class="col-lg-4 col-12" id="options" >
                                                     <div class="form-group">
                                                         <label>Опции</label>
@@ -81,6 +81,19 @@
                                                         </div>
 
 
+                                                    </div>
+                                                </div>
+                                      {{--Числа--}}
+                                                <div class="col-lg-3 col-12 limit">
+                                                    <div class="form-group">
+                                                        <label>Минимальное значение</label>
+                                                        <input type="number" value="{{old('min')}}" name="min">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-12 limit">
+                                                    <div class="form-group">
+                                                        <label>Максимальное значение</label>
+                                                        <input type="number" value="{{old('max')}}" name="max">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 col-12">
@@ -142,14 +155,21 @@
         window.addEventListener("load", function(){
             $( "#sortable" ).sortable();
             $('#options').hide()
+            $('.limit').hide()
             $("select[name='type']").change(function () {
-                if ($(this).val()==='option')
+                if ($(this).val()==='options')
                 {
                     $('#options').show()
-                } else {
+                    $('.limit').hide()
+                } else if ($(this).val()==='number')
+                {
+                    $('.limit').show()
                     $('#options').hide()
-                }
+                } else {
+                    $('.limit').hide()
+                    $('#options').hide()
 
+                }
             });
           $(".add-option").on( "click",function (){
               $('#sortable').append('<div class="input-group flex-nowrap mt-1 input-option"><span class="input-group-text" id="addon-wrapping"><i class="lni lni-circle-plus"></i></span><input name="options[]" type="text"></div>');

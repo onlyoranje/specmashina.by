@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Parameter extends Model
 {
-    protected $fillable=['name','type','measure', 'sort','options'];
+    protected $fillable=['name','type','measure', 'sort','options','min','max'];
     use HasFactory;
     public function rubrics() {
         return $this->belongsToMany(Rubric::class);
