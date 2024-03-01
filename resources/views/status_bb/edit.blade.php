@@ -2,53 +2,73 @@
 @section('title', 'Главная')
 
 @section('main')
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <section class="add-resume section">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-10 offset-lg-1 col-12">
-                                    <div class="add-resume-inner box">
-                                        <form action="{{route('editVendorToDB',['vendor'=>$vendor->id])}}" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PATCH')
-                                            <label  class="form-label">Бренд</label>
-                                            <input type="text" name="name" class="form-control" value="{{ old('name',$vendor->name)}}">
 
-                                            <?php
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
+                @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
 
-                                            if ($vendor->logo){
-                                                $old_image ='{"name":"'.$vendor->name.'","id":'.$vendor->id.',"file":"'.$vendor->id.'","local":"'.Storage::url($vendor->logo).'","data":{"url":"'.Storage::url($vendor->logo).'","thumbnail":"'.Storage::url($vendor->logo) .'","readerForce":true}}';
-                                            }
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Start Activity Log -->
+                                <div class="profile-settings-block dashboard-block mt-0">
+                                    <h3 class="block-title">Редактирование статуса "{{$status->name}} {{$status->id}}"</h3>
+                                    <form class="default-form-style" action="{{route('editStatusToDB',['id'=>$type->id])}}" method="post">
+                                        @csrf
+                                        @method('PATCH')
 
-                                            ?>
-                                            <input type="file" name="file" data-fileuploader-limit="1"
-                                                   <?php if ($vendor->logo) {?> data-fileuploader-files='[<?= $old_image ?>]'<?php }?>>
-                                            <div class="col-lg-6 col-md-5 col-12">
-                                                <div class="button">
-                                                    <button type="submit" class="btn">Save</button>
+                                        <div class="inner-block">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-12">
+                                                    <div class="form-group">
+                                                        <label>Тип</label>
+                                                        <div class="selector-head">
+                                                            <span class="arrow"><i class="lni lni-chevron-down"></i></span>
+                                                            <select class="user-chosen-select" name="type"  required>
+                                                                <option selected disabled>- выбрать -</option>
+
+                                                                @foreach($types as $status_)
+                                                                    <option value="{{$type_}}" @if (old('type',$type->type)==$type_) selected @endif >{{$type_}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-12">
+                                                    <div class="form-group">
+                                                        <label >Имя типа</label>
+                                                        <input type="text" value="{{old('type_name',$type->type_name)}}" name="type_name" class="form-control"  required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group button mb-0 mt-5">
+                                                        <button type="submit" class="btn ">Обновить</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
+                                        </div>
 
+                                    </form>
+                                </div>
+                                <!-- End Activity Log -->
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <script>
-
-        $(document).ready(function() {
-
-            $('.input-images').imageUploader();
+    </section>
 
 
-        })
-    </script>
 @endsection
