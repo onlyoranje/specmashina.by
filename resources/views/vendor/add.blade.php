@@ -19,7 +19,7 @@
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
                                     <h3 class="block-title">Добавление производителя</h3>
-                                    <form class="default-form-style" action="{{route('addVendorToDB')}}" method="post">
+                                    <form class="default-form-style" action="{{route('addVendorToDB')}}" method="post" enctype="multipart/form-data">
                                         @csrf
 
                                         <div class="inner-block">

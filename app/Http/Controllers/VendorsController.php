@@ -26,16 +26,17 @@ class VendorsController extends Controller
     public function addVendor(Request $request){
 
 
-//dd($request);
+//
         $vendor = Vendor::create(['name'=>$request->name]);
         if ($request->logo_image) {
-
+            //dd($request->logo_image);
                 $filename = $request->logo_image->store('public');
                 $file_name = explode('/', $filename);
                 $vendor->fill(['logo'=> $file_name[1]]);
                 $vendor->save();
 
             }
+
         return redirect()->route('vendor_dashboard');
     }
     public function editvendor(Request $request, Vendor $vendor){
