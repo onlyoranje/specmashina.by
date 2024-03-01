@@ -366,7 +366,21 @@
             window.json_parameter_rubric = @json($parameter_rubric);
             window.json_pricetype_rubric = @json($price_type_rubric);
 
+            $("input[name*='parameter']").change(function () {
+                if (typeof ($(this).attr("min"))!= "undefined")
+                {
+                    var min = $(this).attr("min");
+                    if ($(this).val()<=min) $(this).val(min)
+                    console.log(min+' '+$(this).val)
+                }
 
+                if (typeof ($(this).attr("max"))!= "undefined")
+                {
+                    var max = $(this).attr("max");
+                    if ($(this).val()>=max) $(this).val(max)
+                    console.log(max+' '+$(this).val)
+                }
+            });
             NewSelect('rubric');
 
             NewSelect('location');
