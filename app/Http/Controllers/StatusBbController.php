@@ -19,4 +19,40 @@ class StatusBbController extends Controller
         return view('status_bb.dashboard',compact('statuses'));
 
     }
+    public function addStatusForm(){
+        return view('status_bb.add');
+    }
+    public function addStatus(Request $request){
+
+        Status_bb::create([
+            'name'=>$request->name,
+            'active_status'=>$request->code,
+            'price'=>$request->price,
+            'period'=>$request->premium_status_days,
+            'sort'=>$request->sort,
+            'description'=>$request->description
+        ]);
+        return redirect()->route('status_dashboard');
+    }
+    public function editStatus(Request $request, Status_bb $status){
+        $status->fill([
+            'name'=>$request->name,
+            'active_status'=>$request->code,
+            'price'=>$request->price,
+            'period'=>$request->premium_status_days,
+            'sort'=>$request->sort,
+            'description'=>$request->description
+        ]);
+        $status->save();
+        return redirect()->route('status_dashboard');
+    }
+    public function delete($id){
+        $status     = Status_bb::find($id);
+        return view('status_bb.delete', ['status'=>$status]);
+    }
+    public function destroyStatus($id){
+        $status     = Status_bb::find($id);
+        $status->delete();
+        return redirect()->route('status_dashboard');
+    }
 }

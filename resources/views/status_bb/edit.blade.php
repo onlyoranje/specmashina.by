@@ -18,32 +18,47 @@
                             <div class="col-12">
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
-                                    <h3 class="block-title">Редактирование статуса "{{$status->name}} {{$status->id}}"</h3>
-                                    <form class="default-form-style" action="{{route('editStatusToDB',['id'=>$type->id])}}" method="post">
+                                    <h3 class="block-title">Изменение статуса {{$status->name}}</h3>
+                                    <form class="default-form-style" action="{{route('editStatusToDB', ['id' => $status->id])}}" method="post">
                                         @csrf
                                         @method('PATCH')
-
                                         <div class="inner-block">
                                             <div class="row">
-                                                <div class="col-lg-6 col-12">
+                                                <div class="col-lg-4 col-12">
                                                     <div class="form-group">
-                                                        <label>Тип</label>
-                                                        <div class="selector-head">
-                                                            <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                            <select class="user-chosen-select" name="type"  required>
-                                                                <option selected disabled>- выбрать -</option>
-
-                                                                @foreach($types as $status_)
-                                                                    <option value="{{$type_}}" @if (old('type',$type->type)==$type_) selected @endif >{{$type_}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
+                                                        <label>Название</label>
+                                                        <input type="text" value="{{old('name',$status->name)}}"  name="name"  required>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-12">
+                                                <div class="col-lg-2 col-12">
                                                     <div class="form-group">
-                                                        <label >Имя типа</label>
-                                                        <input type="text" value="{{old('type_name',$type->type_name)}}" name="type_name" class="form-control"  required>
+                                                        <label>Код статуса</label>
+                                                        <input type="text" value="{{old('code',$status->active_status)}}"  name="code"  required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Стоимость</label>
+                                                        <input type="number" value="{{old('price',$status->price)}}" name="price" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Период, дней</label>
+                                                        <input type="number" value="{{old('period',$status->premium_status_days)}}" name="period" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Сортировка</label>
+                                                        <input type="number" value="{{old('sort',$status->sort)}}" name="sort"   required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group mt-30">
+                                                        <label>Описание</label>
+                                                        <textarea name="description" placeholder="">{{old('description',$status->description)}}</textarea>
                                                     </div>
                                                 </div>
 
