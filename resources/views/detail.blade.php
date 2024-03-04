@@ -60,9 +60,11 @@
                                 <ul>
                                     <li><span>Производитель:</span> {{ $bb->vendor->name }}</li>
                                     <li><span>Модель:</span> {{ $bb->title }}</li>
+                                    
                                     @if (count($bb->BbParameters)>0)
                                         @foreach($bb->BbParameters as $parameter)
-                                    <li><span>{{$parameter->id}}:</span> {{$$parameter->value}}</li>
+                                        
+                                    <li><span>{{$parameter->parameters->name}}:</span> {{$parameter->value}} {{$parameter->parameters->measure}}</li>
                                         @endforeach
                                         @endif
                                 </ul>
