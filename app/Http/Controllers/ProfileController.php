@@ -182,7 +182,7 @@ class ProfileController extends Controller
             $bb->save();
         }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('mybb');
     }
     public function editBb(Bb $bb){
         $user = Auth::user();

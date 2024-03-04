@@ -41,7 +41,7 @@ class ParametersController extends Controller
         $limit_max = NULL;
         $options_array = $request->options;
         $options_array = array_filter($options_array, fn($n) => !is_null($n));
-        if ($request->type=='option') $options = json_encode($options_array);
+        if ($request->type=='options') $options = json_encode($options_array);
         if ($request->type=='number' and isset($request->min)) $limit_min = $request->min;
         if ($request->type=='number' and isset($request->max)) $limit_max = $request->max;
         $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options,'min'=>$limit_min,'max'=>$limit_max]);
@@ -65,9 +65,9 @@ class ParametersController extends Controller
         if ($request->type=='number' and isset($request->max)) $limit_max= $request->max;
         $options_array = $request->options;
         $options_array = array_filter($options_array, fn($n) => !is_null($n));
-        if ($request->type=='option') $options = json_encode($options_array);
+        if ($request->type=='options') $options = json_encode($options_array);
 
-
+//dd($options);
         $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options,'min'=>$limit_min,'max'=>$limit_max]);
         $parameter->save();
         $parameter_rubric = $parameter->rubrics->pluck('id');

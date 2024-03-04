@@ -39,7 +39,7 @@
                                                     <div class="log-icon">
                                                         <i class="lni lni-flag-alt"></i>
                                                     </div>
-                                                    <a href="" class="title">{{$parameter->name}}</a>
+                                                    <a href="" class="title">{{$parameter->name}}, {{$parameter->measure}}</a>
                                                     <span class="time"><a href='{{route('parameter_dashboard_edit', ['parameter' => $parameter->id])}}'>Редактировать </a></span>
                                                     <span class="time"><a href='{{route('parameter_dashboard_delete', ['parameter' => $parameter->id])}}'>Удалить </a></span>
 

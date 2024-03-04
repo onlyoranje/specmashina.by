@@ -157,7 +157,7 @@
 
                                                                 @if (count($parameters)>0)
                                                                     @foreach($parameters as $parameter)
-                                                                        @if ($parameter->type == 'option')
+                                                                        @if ($parameter->type == 'options')
                                                                             <div class="col-6">
                                                                                 <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                     <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>

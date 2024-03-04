@@ -56,11 +56,15 @@
                             <p class="location"><i class="lni lni-map-marker"></i><a href="javascript:void(0)">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
                             <h3 class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</h3>
                             <div class="list-info">
-                                <h4>Informations</h4>
+                                <h4>Информация</h4>
                                 <ul>
-                                    <li><span>Condition:</span> New</li>
-                                    <li><span>Brand:</span> Apple</li>
-                                    <li><span>Model:</span> Mackbook Pro</li>
+                                    <li><span>Производитель:</span> {{ $bb->vendor->name }}</li>
+                                    <li><span>Модель:</span> {{ $bb->title }}</li>
+                                    @if (count($bb->BbParameters)>0)
+                                        @foreach($bb->BbParameters as $parameter)
+                                    <li><span>{{$parameter->id}}:</span> {{$$parameter->value}}</li>
+                                        @endforeach
+                                        @endif
                                 </ul>
                             </div>
                             <div class="contact-info">
