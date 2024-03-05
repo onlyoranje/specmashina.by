@@ -9,4 +9,9 @@ class BbContact extends Model
 {
     use HasFactory;
     protected $fillable=['value','bb_id','contact_type_id'];
+
+    public function contactType() {
+        return $this->belongsTo(contactType::class);
+    }
 }
+

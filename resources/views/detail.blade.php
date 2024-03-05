@@ -73,15 +73,21 @@
                                 @php
                                     $contacts = $bb->bbcontact;
 
-                                    print_r($contacts)
-                                @endphp
 
+
+                                foreach($contacts as $contact)
+                                    {
+                                       $contact_info[$contact->contactType->code] = $contact->value;
+                                    }
+//print_r($contact_info);
+
+                                @endphp
                                 <ul>
                                     <li>
                                         <a href="tel:+002562352589" class="call">
                                             <i class="lni lni-phone-set"></i>
-                                            +00 256 235 2589
-                                            <span>Call &amp; Get more info</span>
+                                            {{$contact_info['phone']}}
+                                            <span>{{$contact_info['user_name']}}</span>
                                         </a>
                                     </li>
                                     <li>
@@ -111,20 +117,7 @@
                         <!-- Start Single Block -->
                         <div class="single-block description">
                             <h3>Description</h3>
-                            <p>
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in some form, by injected humour, or randomised words which don't
-                                look even slightly believable.
-                            </p>
-                            <ul>
-                                <li>Model: Apple MacBook Pro 13.3-Inch MYDA2</li>
-                                <li>Apple M1 chip with 8-core CPU and 8-core GPU</li>
-                                <li>8GB RAM</li>
-                                <li>256GB SSD</li>
-                                <li>13.3-inch 2560x1600 LED-backlit Retina Display</li>
-                            </ul>
-                            <p>The generated Lorem Ipsum is therefore always free from repetition, injected humour, or
-                                non-characteristic words etc.</p>
+                            {{$bb->description}}
                         </div>
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
