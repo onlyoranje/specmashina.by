@@ -60,16 +60,22 @@
                                 <ul>
                                     <li><span>Производитель:</span> {{ $bb->vendor->name }}</li>
                                     <li><span>Модель:</span> {{ $bb->title }}</li>
-                                    
+
                                     @if (count($bb->BbParameters)>0)
                                         @foreach($bb->BbParameters as $parameter)
-                                        
+
                                     <li><span>{{$parameter->parameters->name}}:</span> {{$parameter->value}} {{$parameter->parameters->measure}}</li>
                                         @endforeach
                                         @endif
                                 </ul>
                             </div>
                             <div class="contact-info">
+                                @php
+                                    $contacts = $bb->bbcontact;
+
+                                    print_r($contacts)
+                                @endphp
+
                                 <ul>
                                     <li>
                                         <a href="tel:+002562352589" class="call">
