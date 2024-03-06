@@ -321,18 +321,22 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-12">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
-                                                                    I agree to all Terms of Use &amp; Posting Rules
-                                                                </label>
+                                                            @if ($bb->user->organization)
+                                                                <div class="col-12">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckDefault">
+                                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                                            Разместить объявление от имени {{$bb->user->organization->title}}
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                            <div class="col-12">
+                                                                <div class="form-group button mb-0">
+                                                                    <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Назад</button>
+                                                                    <button type="submit" class="btn ">Обновить</button>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group button mb-0">
-                                                                <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Previous</button>
-                                                                <button type="submit" class="btn ">Submit Ad</button>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

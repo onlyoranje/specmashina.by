@@ -192,7 +192,7 @@
                                                                             <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                 <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                                 </label>
-                                                                                <input type="{{$parameter->type}}" value="{{isset($parameter_value[$parameter->id]) ? $parameter_value[$parameter->id]:''}}" name="parameter[{{$parameter->id}}]" class="form-control" max="{{$parameter->max}}" min="{{$parameter->min}}">
+                                                                                <input type="{{$parameter->type}}" value="{{isset($parameter_value[$parameter->id]) ? $parameter_value[$parameter->id]:''}}" name="parameter[{{$parameter->id}}]" class="form-control" @if ($parameter->max) max="{{$parameter->max}}" @endif @if ($parameter->min)min="{{$parameter->min}}"@endif>
                                                                             </div>
                                                                         </div>
 
@@ -334,7 +334,7 @@
                                                             @endforeach
                                                             <div class="col-12">
                                                                 <div class="form-group">
-                                                                    <label>Country*</label>
+                                                                    <label>Город</label>
                                                                     <div class="selector-head">
 
                                                                         <div id="container_location_0" class="container_location"></div>
@@ -342,19 +342,23 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-
+                                                            @if ($bb->user->organization)
                                                             <div class="col-12">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                                    <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckDefault" @if ($bb->user->organization) checked @endif>
                                                                     <label class="form-check-label" for="flexCheckDefault">
-                                                                        I agree to all Terms of Use &amp; Posting Rules
+                                                                        Разместить объявление от имени {{$bb->user->organization->title}}
                                                                     </label>
                                                                 </div>
+                                                                </div>
+                                                                @endif
+                                                            <div class="col-12">
                                                                 <div class="form-group button mb-0">
-                                                                    <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Previous</button>
-                                                                    <button type="submit" class="btn ">Submit Ad</button>
+                                                                    <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Назад</button>
+                                                                    <button type="submit" class="btn ">Обновить</button>
                                                                 </div>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
