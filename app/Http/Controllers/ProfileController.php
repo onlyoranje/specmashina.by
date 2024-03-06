@@ -116,7 +116,7 @@ class ProfileController extends Controller
     }
     public function mybb() {
         return view('bb.mybb',
-            ['bbs' => Auth::user()->bbs()->latest()->paginate(3)]);
+            ['bbs' => Auth::user()->bbs()->latest()->paginate(10)]);
     }
     public function addForm(){
         $user = Auth::user();

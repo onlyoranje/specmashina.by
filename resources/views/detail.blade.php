@@ -61,12 +61,7 @@
                                     <li><span>Производитель:</span> {{ $bb->vendor->name }}</li>
                                     <li><span>Модель:</span> {{ $bb->title }}</li>
 
-                                    @if (count($bb->BbParameters)>0)
-                                        @foreach($bb->BbParameters as $parameter)
 
-                                    <li><span>{{$parameter->parameters->name}}:</span> {{$parameter->value}} {{$parameter->parameters->measure}}</li>
-                                        @endforeach
-                                        @endif
                                 </ul>
                             </div>
                             <div class="contact-info">
@@ -117,11 +112,11 @@
                         <!-- Start Single Block -->
                         <div class="single-block description">
                             <h3>Description</h3>
-                            {{$bb->content}}
+                            {!!  $bb->content!!}
                         </div>
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
-                        <div class="single-block tags">
+                       {{-- <div class="single-block tags">
                             <h3>Tags</h3>
                             <ul>
                                 <li><a href="javascript:void(0)">Bike</a></li>
@@ -129,7 +124,7 @@
                                 <li><a href="javascript:void(0)">Brand</a></li>
                                 <li><a href="javascript:void(0)">Popular</a></li>
                             </ul>
-                        </div>
+                        </div>--}}
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
                         <div class="single-block comments">
@@ -140,7 +135,10 @@
                                 @if (count($bb->BbParameters)>0)
                                     @foreach($bb->BbParameters as $parameter)
 
-                                            <div class="col-6"><span>{{$parameter->parameters->name}}:</span> {{$parameter->value}} {{$parameter->parameters->measure}}</div>
+                                            <div class="col-6 d-flex bd-highlight">
+                                                <div class="p-2 bd-highlight">{{$parameter->parameters->name}}:</div>
+                                                <div class="ms-auto p-2 bd-highlight">{{$parameter->value}} {{$parameter->parameters->measure}}</div>
+                                            </div>
                                     @endforeach
                                 @endif
                                 </div>
@@ -148,30 +146,19 @@
                         </div>
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
-                        <div class="single-block comment-form">
-                            <h3>Post a comment</h3>
+                       <div class="single-block comment-form">
+                           @php
+                               $location = App\Models\Location::where('id',$bb->location_id)->first();
+                               $bbs_location=$location->bbs->whereNotIn('id', $bb->id)->random(3);
+
+                           @endphp
+                            <h3>Еще техника в {{$location->title_r}}</h3>
                             <form action="#" method="POST">
                                 <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-box form-group">
-                                            <input type="text" name="name" class="form-control form-control-custom" placeholder="Your Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-box form-group">
-                                            <input type="email" name="email" class="form-control form-control-custom" placeholder="Your Email">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-box form-group">
-                                            <textarea name="#" class="form-control form-control-custom" placeholder="Your Comments"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="button">
-                                            <button type="submit" class="btn">Post Comment</button>
-                                        </div>
-                                    </div>
+
+                                    @foreach($bbs_location as $bb_widget)
+                                        @include('bb.minicard')
+                                    @endforeach
                                 </div>
                             </form>
                         </div>
@@ -193,7 +180,7 @@
                         @endif
                             <!-- End Single Block -->
                             <!-- Start Single Block -->
-                            <div class="single-block contant-seller comment-form ">
+                            {{--<div class="single-block contant-seller comment-form ">
                                 <h3>Contact Seller</h3>
                                 <form action="#" method="POST">
                                     <div class="row">
@@ -219,13 +206,13 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div>--}}
                             <!-- End Single Block -->
                             <!-- Start Single Block -->
                             <div class="single-block ">
                                 <h3>Location</h3>
                                 <div class="mapouter">
-                                    <div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://putlocker-is.org"></a><br>
+                                    <div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q={{$bb->user->organization->address}},%20{{$bb->user->organization->location->title}}&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
                                         <style>
                                             .mapouter {
                                                 position: relative;

@@ -321,12 +321,12 @@
                                                             </div>
                                                         </div>
 
-                                                            @if ($bb->user->organization)
+                                                            @if (Auth::user()->organization)
                                                                 <div class="col-12">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckDefault">
                                                                         <label class="form-check-label" for="flexCheckDefault">
-                                                                            Разместить объявление от имени {{$bb->user->organization->title}}
+                                                                            Разместить объявление от имени {{Auth::user()->organization->title}}
                                                                         </label>
                                                                     </div>
                                                                 </div>
