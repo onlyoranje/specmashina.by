@@ -11,7 +11,7 @@ class BbContact extends Model
     protected $fillable=['value','bb_id','contact_type_id'];
 
     public function contactType() {
-        return $this->belongsTo(contactType::class);
+        return $this->belongsTo(ContactType::class);
     }
 }
 

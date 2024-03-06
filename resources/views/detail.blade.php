@@ -74,7 +74,7 @@
                                     {
                                        $contact_info[$contact->contactType->code] = $contact->value;
                                     }
-//print_r($contact_info);
+
 
                                 @endphp
                                 <ul>
@@ -151,8 +151,9 @@
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
                         @php
+                        
                             $location = App\Models\Location::where('id',$bb->location_id)->first();
-                            $bbs_location=$location->bbs->whereNotIn('id', $bb->id)->random(3);
+                            $bbs_location=$location->bbs->whereNotIn('id', $bb->id);
 
                         @endphp
                         @if (count($bbs_location)>0)
@@ -162,7 +163,7 @@
                             <form action="#" method="POST">
                                 <div class="row">
 
-                                    @foreach($bbs_location as $bb_widget)
+                                    @foreach($bbs_location->random(count ($bbs_location)>3? 3: count ($bbs_location)) as $bb_widget)
                                         @include('bb.minicard')
                                     @endforeach
                                 </div>
@@ -184,7 +185,7 @@
                                     <a href="javascript:void(0)" class="see-all">Все объявления организации</a>
                                 </div>
                             </div>
-                        @endif
+                        
                             <!-- End Single Block -->
                             <!-- Start Single Block -->
                             {{--<div class="single-block contant-seller comment-form ">
@@ -240,6 +241,7 @@
                                 </div>
                             </div>
                             <!-- End Single Block -->
+                            @endif
                         </div>
                     </div>
                 </div>
