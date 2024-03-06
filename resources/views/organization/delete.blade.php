@@ -6,6 +6,9 @@
 $title= "Удалить организацию ".$organization->title;
 $id = $organization->id;
 $route = 'organization_destroy';
+$used = App\Models\Bb::Where('organization_id',$organization->id)->pluck('id')->toArray();
+$errors_form=[];
+        if (count($used)>0) $errors_form[] = "Данная организация используется в ".count($used)." объявлениях  ";
 @endphp
 @include('layouts.delete_form')
 {{--

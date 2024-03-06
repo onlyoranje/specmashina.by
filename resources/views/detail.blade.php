@@ -110,10 +110,12 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-7 col-12">
                         <!-- Start Single Block -->
+                        @if ($bb->content)
                         <div class="single-block description">
-                            <h3>Description</h3>
+                            <h3>Описание</h3>
                             {!!  $bb->content!!}
                         </div>
+                        @endif
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
                        {{-- <div class="single-block tags">
@@ -127,12 +129,13 @@
                         </div>--}}
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
+                        @if (count($bb->BbParameters)>0)
                         <div class="single-block comments">
                             <h3>Характеристики</h3>
                             <!-- Start Single Comment -->
 
                                 <div class="row">
-                                @if (count($bb->BbParameters)>0)
+
                                     @foreach($bb->BbParameters as $parameter)
 
                                             <div class="col-6 d-flex bd-highlight">
@@ -140,18 +143,21 @@
                                                 <div class="ms-auto p-2 bd-highlight">{{$parameter->value}} {{$parameter->parameters->measure}}</div>
                                             </div>
                                     @endforeach
-                                @endif
+
                                 </div>
                             <!-- End Single Comment -->
                         </div>
+                        @endif
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
-                       <div class="single-block comment-form">
-                           @php
-                               $location = App\Models\Location::where('id',$bb->location_id)->first();
-                               $bbs_location=$location->bbs->whereNotIn('id', $bb->id)->random(3);
+                        @php
+                            $location = App\Models\Location::where('id',$bb->location_id)->first();
+                            $bbs_location=$location->bbs->whereNotIn('id', $bb->id)->random(3);
 
-                           @endphp
+                        @endphp
+                        @if (count($bbs_location)>0)
+                       <div class="single-block comment-form">
+
                             <h3>Еще техника в {{$location->title_r}}</h3>
                             <form action="#" method="POST">
                                 <div class="row">
@@ -162,6 +168,7 @@
                                 </div>
                             </form>
                         </div>
+                    @endif
                         <!-- End Single Block -->
                     </div>
                     <div class="col-lg-4 col-md-5 col-12">
@@ -210,7 +217,7 @@
                             <!-- End Single Block -->
                             <!-- Start Single Block -->
                             <div class="single-block ">
-                                <h3>Location</h3>
+                               {{-- <h3>Location</h3>--}}
                                 <div class="mapouter">
                                     <div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q={{$bb->user->organization->address}},%20{{$bb->user->organization->location->title}}&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
                                         <style>
