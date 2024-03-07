@@ -15,7 +15,7 @@ use App\Http\Controllers\BbsController;
 |
 */
 Auth::routes();
-Route::get('/', [BbsController::class, 'index']);
+Route::get('/', [BbsController::class, 'index'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -2,37 +2,10 @@
 @section('title', 'Главная')
 @section('main')
 
-    <section class="section-header bg-primary pb-9 pb-lg-10 text-white">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-10 text-center"><h1 class="mb-3">Advice and answers from our team</h1>
-                    <p class="lead px-lg-5 mb-5">Get account assistance, technical support, or help with any other
-                        issues.</p>
-                    <form action="#">
-                        <div class="form-group bg-white shadow-soft rounded-pill mb-4 px-3 py-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="input-group input-group-merge shadow-none">
-                                        <div class="input-group-text bg-transparent border-0"><span
-                                                class="fas fa-search"></span></div>
-                                        <input type="text"
-                                               class="form-control border-0 form-control-flush shadow-none pb-2"
-                                               placeholder="Search for answers..." required=""></div>
-                                </div>
-                                <div class="col-auto">
-                                    <button type="submit" class="btn btn-block btn-primary rounded-pill">Search</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="pattern bottom"></div>
-    </section>
 
 
-    <div class="section section-lg py-5">
+
+    <div class="section section-lg py-5" @if (Request::routeIs('home')) style="padding-top: 100px !important;"@endif>
         <div class="container">
             <div class="row pt-5 pt-md-0">
                 <div class="col-lg-9 col-md-8 col-12">
