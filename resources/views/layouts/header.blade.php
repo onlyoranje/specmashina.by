@@ -21,40 +21,20 @@
                                     <a href="/" aria-label="Toggle navigation">Главная </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="javascript:void(0)" aria-label="Toggle navigation">Categories</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class=" dd-menu collapsed" href="javascript:void(0)"
-                                       data-bs-toggle="collapse" data-bs-target="#submenu-1-3"
-                                       aria-controls="navbarSupportedContent" aria-expanded="false"
-                                       aria-label="Toggle navigation">Listings</a>
-                                    <ul class="sub-menu collapse" id="submenu-1-3">
-                                        <li class="nav-item"><a href="javascript:void(0)">Ad Grid</a></li>
-                                        <li class="nav-item"><a href="javascript:void(0)">Ad Listing</a></li>
-                                        <li class="nav-item"><a href="javascript:void(0)">Ad Details</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
                                     <a class=" dd-menu collapsed" href="javascript:void(0)"
                                        data-bs-toggle="collapse" data-bs-target="#submenu-1-4"
                                        aria-controls="navbarSupportedContent" aria-expanded="false"
-                                       aria-label="Toggle navigation">Pages</a>
+                                       aria-label="Toggle navigation">Объявления</a>
                                     <ul class="sub-menu mega-menu collapse" id="submenu-1-4">
+                                        @php
+
+                                        @endphp
                                         <li class="single-block">
                                             <ul>
-                                                <li class="mega-menu-title">Essential Pages</li>
+                                                <li class="mega-menu-title"></li>
+
                                                 <li class="nav-item"><a href="about-us.html">About Us</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Ads Details</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Ads Post</a></li>
-                                                <li class="nav-item"><a href="pricing.html">Pricing Table</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Sign Up</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Sign In</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Contact Us</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">FAQ</a></li>
-                                                <li class="nav-item"><a href="404.html">Error Page</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Mail Success</a>
-                                                </li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Comming Soon</a>
+
                                                 </li>
                                             </ul>
                                         </li>
@@ -76,9 +56,26 @@
                                                 </li>
                                                 <li class="nav-item"><a href="javascript:void(0)">Invoice</a></li>
                                             </ul>
+
                                         </li>
+
                                     </ul>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="javascript:void(0)" aria-label="Toggle navigation">Categories</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class=" dd-menu collapsed" href="javascript:void(0)"
+                                       data-bs-toggle="collapse" data-bs-target="#submenu-1-3"
+                                       aria-controls="navbarSupportedContent" aria-expanded="false"
+                                       aria-label="Toggle navigation">Listings</a>
+                                    <ul class="sub-menu collapse" id="submenu-1-3">
+                                        <li class="nav-item"><a href="javascript:void(0)">Ad Grid</a></li>
+                                        <li class="nav-item"><a href="javascript:void(0)">Ad Listing</a></li>
+                                        <li class="nav-item"><a href="javascript:void(0)">Ad Details</a></li>
+                                    </ul>
+                                </li>
+
                                 <li class="nav-item">
                                     <a class=" dd-menu collapsed" href="javascript:void(0)"
                                        data-bs-toggle="collapse" data-bs-target="#submenu-1-5"
