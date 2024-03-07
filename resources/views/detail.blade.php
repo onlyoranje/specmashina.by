@@ -18,10 +18,10 @@
 
                                     <div class="carousel-inner main-img" {{--style="height: 480px"--}}>
                                         @foreach($bb->userfile as $key=>$image)
-                                            <div class="carousel-item @if ($key==0) active @endif"
+                                            <div class="carousel-item @if ($key==0) active @endif ratio ratio-1x1"
                                             >
 
-                                                <img src="{{ Storage::url($image->resize(800, null, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="..." style="margin:auto">
+                                                <img src="{{ Storage::url($image->resize(null, 800, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="..." style="position: absolute; top: 50%;left: 50%; margin-right: -50%;transform: translate(-50%, -50%);{{$image->resizeClass()}}">
                                             </div>
                                         @endforeach
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

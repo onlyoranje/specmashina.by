@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "blade-ui-kit/blade-ui-kit": "^0.3.4",
         "guzzlehttp/guzzle": "^7.2",
+        "illuminate/support": "*",
         "intervention/image": "^2.7",
         "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^9.19",
