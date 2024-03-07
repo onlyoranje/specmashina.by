@@ -27,6 +27,9 @@
                                        aria-label="Toggle navigation">Объявления</a>
                                     <ul class="sub-menu mega-menu collapse" id="submenu-1-4">
                                         @php
+                                            $result = App\Models\Rubric::withDepth()->having('depth', '=', 1)->get()->toArray();
+echo "<pre>";print_r($result);
+echo "</pre>";
 
                                         @endphp
                                         <li class="single-block">
