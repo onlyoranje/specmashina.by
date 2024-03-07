@@ -345,7 +345,7 @@
                                                             @if ($bb->user->organization)
                                                             <div class="col-12">
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckDefault" @if ($bb->user->organization) checked @endif>
+                                                                    <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckDefault" @if ($bb->organization_id) checked @endif>
                                                                     <label class="form-check-label" for="flexCheckDefault">
                                                                         Разместить объявление от имени {{$bb->user->organization->title}}
                                                                     </label>

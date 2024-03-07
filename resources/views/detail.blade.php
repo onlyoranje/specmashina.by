@@ -1,5 +1,6 @@
-@extends('layouts.base')
 @section('title', $bb->title)
+@extends('layouts.base')
+
 
 @section('main')
     <?php
@@ -20,7 +21,7 @@
                                             <div class="carousel-item @if ($key==0) active @endif"
                                             >
 
-                                                <img src="{{ Storage::url($image->resize(null, 480, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="..." style="margin:auto">
+                                                <img src="{{ Storage::url($image->resize(800, null, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="..." style="margin:auto">
                                             </div>
                                         @endforeach
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -33,7 +34,7 @@
                                         </button>
                                     </div>
 
-
+                                    @if (count($bb->userfile)>1)
                                         <div class="images">
                                             @foreach($bb->userfile as $key=>$image)
                                                 <img  src="{{ Storage::url($image->resize(110, 110, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" id="carousel-thumb-{{$key}}"
@@ -45,7 +46,7 @@
                                                       aria-label="1">
                                             @endforeach
                                         </div>
-
+                                    @endif
                                 </div>
                             </main>
                         </div>
@@ -151,7 +152,7 @@
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
                         @php
-                        
+
                             $location = App\Models\Location::where('id',$bb->location_id)->first();
                             $bbs_location=$location->bbs->whereNotIn('id', $bb->id);
 
@@ -175,7 +176,7 @@
                     <div class="col-lg-4 col-md-5 col-12">
                         <div class="item-details-sidebar">
                             <!-- Start Single Block -->
-                            @if ($bb->user->organization)
+                            @if ($bb->organization_id)
                             <div class="single-block author">
                                 <h3>Организация</h3>
                                 <div class="content">
@@ -185,7 +186,7 @@
                                     <a href="javascript:void(0)" class="see-all">Все объявления организации</a>
                                 </div>
                             </div>
-                        
+
                             <!-- End Single Block -->
                             <!-- Start Single Block -->
                             {{--<div class="single-block contant-seller comment-form ">
