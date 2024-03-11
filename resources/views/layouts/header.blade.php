@@ -27,21 +27,32 @@
                                        aria-label="Toggle navigation">Объявления</a>
                                     <ul class="sub-menu mega-menu collapse" id="submenu-1-4">
                                         @php
-                                            $result = App\Models\Rubric::withDepth()->having('depth', '=', 1)->get()->toArray();
-echo "<pre>";print_r($result);
-echo "</pre>";
+                                            $result = App\Models\Rubric::orderBy('sort')->get()->toFlatTree();
+/*echo "<pre>";print_r($result);
+echo "</pre>";*/
 
                                         @endphp
-                                        <li class="single-block">
-                                            <ul>
-                                                <li class="mega-menu-title"></li>
+                                        <li class="single-block"><ul>
+                                        <?
+                                        $traverse = function ($result, $prefix = '-') use (&$traverse) {
+                                            foreach ($result as $menu_item) {
 
-                                                <li class="nav-item"><a href="about-us.html">About Us</a></li>
+                                                if ($menu_item->level==0) echo '<li class="mega-menu-title">'.$menu_item->title.'</li>';
+                                                if ($menu_item->level==1) echo '<li class="nav-item"><a href="about-us.html">'.$menu_item->title.'</a></li>';
 
-                                                </li>
+                                                $traverse($menu_item->children, $prefix.'-');
+                                            }
+                                        };
+
+                                        $traverse($result);
+                                        ?>
+
+
                                             </ul>
                                         </li>
-                                        <li class="single-block">
+
+
+                                       {{-- <li class="single-block">
                                             <ul>
                                                 <li class="mega-menu-title">Dashboard</li>
                                                 <li class="nav-item"><a href="javascript:void(0)">Account Overview</a>
@@ -60,7 +71,7 @@ echo "</pre>";
                                                 <li class="nav-item"><a href="javascript:void(0)">Invoice</a></li>
                                             </ul>
 
-                                        </li>
+                                        </li>--}}
 
                                     </ul>
                                 </li>
