@@ -39,7 +39,7 @@
                                         @if ($key==0)
                                         <li class="single-block"><ul>
                                         @endif
-                                                <li class="nav-item"><a href="{{$key}}">{{$menu_item->title}}</a></li>
+                                                <li class="nav-item"><a href="{{route('rubric',$menu_item->id)}}">{{$menu_item->title}}</a></li>
 
 
                                         @if ($key==$count_column)
