@@ -20,61 +20,41 @@
                                 <li class="nav-item">
                                     <a href="/" aria-label="Toggle navigation">Главная </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class=" dd-menu collapsed" href="javascript:void(0)"
-                                       data-bs-toggle="collapse" data-bs-target="#submenu-1-4"
-                                       aria-controls="navbarSupportedContent" aria-expanded="false"
-                                       aria-label="Toggle navigation">Объявления</a>
-                                    <ul class="sub-menu mega-menu collapse" id="submenu-1-4">
-                                        @php
-                                            $result = App\Models\Rubric::orderBy('sort')->get()->toFlatTree();
-/*echo "<pre>";print_r($result);
-echo "</pre>";*/
+                                @php
+                                    $root_categories= App\Models\Rubric::where('level',0)->orderBy('sort')->get();
+                                @endphp
+                                @foreach ($root_categories as $root_category)
+                        <li class="nav-item">
+                            <a class=" dd-menu collapsed" href="javascript:void(0)"
+                               data-bs-toggle="collapse" data-bs-target="#submenu-1-4"
+                               aria-controls="navbarSupportedContent" aria-expanded="false"
+                               aria-label="Toggle navigation">{{$root_category->title}}</a>
+                            <ul class="sub-menu mega-menu collapse" id="submenu-1-4">
+                                @php
+                                    $result = App\Models\Rubric::where('parent_id',$root_category->id)->orderBy('sort')->get();
 
+                                $count_column = ceil(count($result)/2)-1;
                                         @endphp
+                                        @foreach ($result as $key=>$menu_item)
+                                        @if ($key==0)
                                         <li class="single-block"><ul>
-                                        <?
-                                        $traverse = function ($result, $prefix = '-') use (&$traverse) {
-                                            foreach ($result as $menu_item) {
-
-                                                if ($menu_item->level==0) echo '<li class="mega-menu-title">'.$menu_item->title.'</li>';
-                                                if ($menu_item->level==1) echo '<li class="nav-item"><a href="about-us.html">'.$menu_item->title.'</a></li>';
-
-                                                $traverse($menu_item->children, $prefix.'-');
-                                            }
-                                        };
-
-                                        $traverse($result);
-                                        ?>
+                                        @endif
+                                                <li class="nav-item"><a href="{{$key}}">{{$menu_item->title}}</a></li>
 
 
-                                            </ul>
-                                        </li>
+                                        @if ($key==$count_column)
+                                            </ul></li><li class="single-block"><ul>
+                                            @endif
+                                        @endforeach
+                                    </ul></li>
 
 
-                                       {{-- <li class="single-block">
-                                            <ul>
-                                                <li class="mega-menu-title">Dashboard</li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Account Overview</a>
-                                                </li>
-                                                <li class="nav-item"><a href="javascript:void(0)">My Profile</a>
-                                                </li>
-                                                <li class="nav-item"><a href="javascript:void(0)">My Ads</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Favorite Ads</a>
-                                                </li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Ad post</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Bookmarked Ad</a>
-                                                </li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Messages</a></li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Close account</a>
-                                                </li>
-                                                <li class="nav-item"><a href="javascript:void(0)">Invoice</a></li>
-                                            </ul>
 
-                                        </li>--}}
 
                                     </ul>
                                 </li>
+                                @endforeach
+
                                 <li class="nav-item">
                                     <a href="javascript:void(0)" aria-label="Toggle navigation">Categories</a>
                                 </li>
