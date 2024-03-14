@@ -47,14 +47,12 @@ class UserFile extends Model
         $size = getimagesize(Storage::path('/public/').$this->url);
         $w = $size[0];
         $h = $size[1];
-
         if ($w>=$h){
             $class = 'width: 100%; height: auto';
         }
         if ($w<$h){
             $class = 'width: auto ;height: 100%';
         }
-
         return $class;
     }
 }

@@ -58,8 +58,6 @@
                                 <ul>
                                     <li><span>Производитель:</span> {{ $bb->vendor->name }}</li>
                                     <li><span>Модель:</span> {{ $bb->title }}</li>
-
-
                                 </ul>
                             </div>
                             <div class="contact-info">
