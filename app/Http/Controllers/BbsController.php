@@ -17,7 +17,9 @@ class BbsController extends Controller
     public function detail(Bb $bb) {
         //test
        // $rubric = $bb->rubric();
+        $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
+        $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
-        return view('detail', ['bb' => $bb,'images'=>$images]);
+        return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title]);
     }
 }

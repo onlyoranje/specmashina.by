@@ -1,12 +1,9 @@
-@section('title', $bb->title)
+@section('title', $title)
 @extends('layouts.base')
 
 
 @section('main')
-    <?php
-    $parent_rubrics = App\Models\Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get();
-    $parent_rubric = $parent_rubrics[0];
-    ?>
+
     <section class="item-details section">
         <div class="container">
             <div class="top-area">

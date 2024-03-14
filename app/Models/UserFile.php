@@ -48,7 +48,7 @@ class UserFile extends Model
         $w = $size[0];
         $h = $size[1];
 
-        if ($w>$h){
+        if ($w>=$h){
             $class = 'width: 100%; height: auto';
         }
         if ($w<$h){
