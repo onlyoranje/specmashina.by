@@ -19,7 +19,7 @@
                             <h3 class="block-title">My Ads</h3>
                             <nav class="list-nav">
                                 <ul>
-                                    <li class="active"><a href="javascript:void(0)">Все <span>{{count($bbs)}}</span></a></li>
+                                    <li class="active"><a href="javascript:void(0)">Все <span>{{$bbs->total()}}</span></a></li>
                                     <li><a href="javascript:void(0)">Published <span>88</span></a></li>
                                     <li><a href="javascript:void(0)">Featured <span>12</span></a></li>
                                     <li><a href="javascript:void(0)">Sold <span>02</span></a></li>

@@ -26,7 +26,7 @@ class RubricsController extends Controller
     public function rubric($id){
         $rubric     = Rubric::find($id);
         $rubrics    = Rubric::descendantsAndSelf($id)->pluck('id');
-        $bbs    = Bb::whereIn('rubric_id',$rubrics)->orderBy('lifted_at', 'desc')->get();
+        $bbs    = Bb::whereIn('rubric_id',$rubrics)->orderBy('lifted_at', 'desc')->paginate(12);
 
         $breadcrumbs= Rubric::ancestorsAndSelf($id);
         return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs]);

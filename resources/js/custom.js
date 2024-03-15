@@ -480,3 +480,18 @@ $(document).ready(function () {
    // new WOW().init();
 
 })();
+
+
+$(document).ready(function () {
+    $('.nav-link').on( "click", function() {
+        if ($(this).data('hasvalue')==='Y'){
+            $('#price').attr('required','required')
+            $('#price').show()
+        } else {
+            $('#price').removeAttr('required')
+            $('#price').hide()
+
+        }
+        console.log($(this).data('hasvalue'))
+    })
+})

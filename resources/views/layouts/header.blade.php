@@ -25,7 +25,7 @@
                                 @endphp
                                 @foreach ($root_categories as $root_category)
                         <li class="nav-item">
-                            <a class=" dd-menu collapsed" href="javascript:void(0)"
+                            <a class=" dd-menu collapsed" href="{{route('rubric',$root_category->id)}}"
                                data-bs-toggle="collapse" data-bs-target="#submenu-1-4"
                                aria-controls="navbarSupportedContent" aria-expanded="false"
                                aria-label="Toggle navigation">{{$root_category->title}}</a>
