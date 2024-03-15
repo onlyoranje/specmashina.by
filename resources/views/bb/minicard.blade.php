@@ -3,7 +3,7 @@
     $parent_rubric = $parent_rubrics[0];
     $subparent_rubric = $parent_rubrics[1];
     $images = App\Models\UserFile::where('bb_id',$bb_widget->id)->orderBy('sort')->get();
-    $title =$parent_rubric->title." ".$bb->rubric->title_r." ".$bb_widget->vendor->name." ".$bb_widget->title;
+    $title =$parent_rubric->title." ".$bb_widget->rubric->title_r." ".$bb_widget->vendor->name." ".$bb_widget->title;
 @endphp
 <div class="col-lg-4 col-12">
     <div class="single-item-grid">
@@ -12,7 +12,7 @@
                 <a href="{{route('bb',['bb'=>$bb_widget])}}"><img
                         src="{{Storage::url($images[0]->resize(600, 400))}}" alt="{{$title}}"></a>
             @else
-                <a href="{{route('bb',['bb'=>$bb->id])}}"><img
+                <a href="{{route('bb',['bb'=>$bb_widget->id])}}"><img
                         src="http://placehold.it/600x400&text={{ $bb_widget->title }}" alt="{{ $title }}"></a>
             @endif
             <i class=" cross-badge lni lni-bolt"></i>

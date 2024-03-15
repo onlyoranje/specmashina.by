@@ -1,7 +1,109 @@
 @extends('layouts.base')
 @section('title', 'Главная')
 @section('main')
-    <div class="breadcrumbs overlay">
+
+
+    <section class="category-page section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-12">
+                    <div class="category-sidebar">
+                        <!-- Start Single Widget -->
+                        @include('widgets.search_mini')
+                        <!-- End Single Widget -->
+                        <!-- Start Single Widget -->
+                    @include('widgets.category')
+                        <!-- End Single Widget -->
+                        <!-- Start Single Widget -->
+                    @include('widgets.range')
+                        <!-- End Single Widget -->
+                        <!-- Start Single Widget -->
+                    @include('widgets.options')
+                        <!-- End Single Widget -->
+                        <!-- Start Single Widget -->
+                    @include('widgets.banner')
+                        <!-- End Single Widget -->
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-12">
+                    <div class="category-grid-list">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="category-grid-topbar">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <h3 class="title">Showing 1-12 of 21 ads found</h3>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <nav>
+                                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                    <button class="nav-link" id="nav-grid-tab" data-bs-toggle="tab" data-bs-target="#nav-grid" type="button" role="tab" aria-controls="nav-grid" aria-selected="false"><i class="lni lni-grid-alt"></i></button>
+                                                    <button class="nav-link active" id="nav-list-tab" data-bs-toggle="tab" data-bs-target="#nav-list" type="button" role="tab" aria-controls="nav-list" aria-selected="true"><i class="lni lni-list"></i></button>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
+                                        <div class="row">
+
+                                            @foreach ($bbs as $bb_widget)
+                                                @include('bb.minicard')
+                                            @endforeach
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- Pagination -->
+                                                <div class="pagination left">
+                                                    <ul class="pagination-list">
+                                                        <li><a href="javascript:void(0)">1</a></li>
+                                                        <li class="active"><a href="javascript:void(0)">2</a></li>
+                                                        <li><a href="javascript:void(0)">3</a></li>
+                                                        <li><a href="javascript:void(0)">4</a></li>
+                                                        <li><a href="javascript:void(0)"><i class="lni lni-chevron-right"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <!--/ End Pagination -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade active show" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+                                        <div class="row">
+                                            @foreach ($bbs as $bb)
+                                                @include('bb.card')
+                                            @endforeach
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- Pagination -->
+                                                <div class="pagination left">
+                                                    <ul class="pagination-list">
+                                                        <li><a href="javascript:void(0)">1</a></li>
+                                                        <li class="active"><a href="javascript:void(0)">2</a></li>
+                                                        <li><a href="javascript:void(0)">3</a></li>
+                                                        <li><a href="javascript:void(0)">4</a></li>
+                                                        <li><a href="javascript:void(0)"><i class="lni lni-chevron-right"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <!--/ End Pagination -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+  {{--  <div class="breadcrumbs overlay">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -28,7 +130,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--}}
     <div class="manage-resumes section">
         <div class="container">
             <div class="resume-inner">
