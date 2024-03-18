@@ -6,7 +6,7 @@
     $bbs1 = $bbs;
     $bbs2 = $bbs;
     $tab_list = 'nav_list';
-    if ($_COOKIE['tablist'])  $tab_list = $_COOKIE['tablist'];
+    if (isset($_COOKIE['tablist']))  $tab_list = $_COOKIE['tablist'];
 
 
     @endphp
@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-content" id="nav-tabContent">
-                                    <div class="tab-pane fade @php echo $tablist=='nav-grid' ? 'show active' : '' @endphp" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
+                                    <div class="tab-pane fade @php echo $tab_list=='nav-grid' ? 'show active' : '' @endphp" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
                                         <div class="row">
 
                                             @foreach ($bbs1 as $bb_widget)
@@ -75,7 +75,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade @php echo $tablist!='nav-grid' ? 'show active' : ''; @endphp " id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+                                    <div class="tab-pane fade @php echo $tab_list!='nav-grid' ? 'show active' : ''; @endphp " id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
                                         <div class="row">
                                             @foreach ($bbs2 as $bb)
                                                 @include('bb.card')

@@ -1,27 +1,15 @@
 <div class="single-widget">
     <h3>All Categories</h3>
     <ul class="list">
+       @php
+       $sub_rubrics = App\Models\Rubric::where('parent_id',$rubric->id)->orderBy('sort')->get();
+       @endphp
+
+        @foreach($sub_rubrics as $sub_rubric)
+            {{--@dd($sub_rubric->bbs())--}}
         <li>
-            <a href="javascript:void(0)"><i class="lni lni-dinner"></i> Hotel &amp; Travels<span>15</span></a>
+            <a href="javascript:void(0)"><i class="lni lni-dinner"></i> {{$sub_rubric->title}}<span>{{count($sub_rubric->bbs()->get())}}</span></a>
         </li>
-        <li>
-            <a href="javascript:void(0)"><i class="lni lni-control-panel"></i> Services <span>20</span></a>
-        </li>
-        <li>
-            <a href="javascript:void(0)"><i class="lni lni-bullhorn"></i> Marketing <span>55</span></a>
-        </li>
-        <li>
-            <a href="javascript:void(0)"><i class="lni lni-home"></i> Real Estate<span>35</span></a>
-        </li>
-        <li>
-            <a href="javascript:void(0)"><i class="lni lni-bolt"></i> Electronics <span>60</span></a>
-        </li>
-        <li>
-            <a href="javascript:void(0)"><i class="lni lni-tshirt"></i> Dress &amp; Clothing <span>55</span></a>
-        </li>
-        <li>
-            <a href="javascript:void(0)"><i class="lni lni-diamond-alt"></i> Jewelry &amp; Accessories
-                <span>45</span></a>
-        </li>
+        @endforeach
     </ul>
 </div>
