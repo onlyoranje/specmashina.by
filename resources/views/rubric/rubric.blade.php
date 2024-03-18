@@ -5,8 +5,8 @@
     @php
     $bbs1 = $bbs;
     $bbs2 = $bbs;
-    $tablist = 'nav_list';
-    if ($_COOKIE['tablist'])  $tablist = $_COOKIE['tablist'];
+    $tab_list = 'nav_list';
+    if ($_COOKIE['tablist'])  $tab_list = $_COOKIE['tablist'];
 
 
     @endphp
@@ -45,13 +45,13 @@
                                         <div class="col-lg-6 col-md-6 col-12">
                                             <nav>
                                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                                    <button class="nav-link @php echo $tablist=='nav-grid' ? 'active' : '' @endphp" id="nav-grid-tab" data-bs-toggle="tab"
+                                                    <button class="nav-link @php echo $tab_list=='nav-grid' ? 'active' : '' @endphp" id="nav-grid-tab" data-bs-toggle="tab"
                                                             data-bs-target="#nav-grid" type="button" role="tab"
-                                                            aria-controls="nav-grid" aria-selected="@php echo $tablist=='nav-grid' ? 'true' : 'false' @endphp"><i
+                                                            aria-controls="nav-grid" aria-selected="@php echo $tab_list=='nav-grid' ? 'true' : 'false' @endphp"><i
                                                             class="lni lni-grid-alt"></i></button>
-                                                    <button class="nav-link @php echo $tablist!='nav-grid' ? 'active' : '' @endphp" id="nav-list-tab"
+                                                    <button class="nav-link @php echo $tab_list!='nav-grid' ? 'active' : '' @endphp" id="nav-list-tab"
                                                             data-bs-toggle="tab" data-bs-target="#nav-list" type="button"
-                                                            role="tab" aria-controls="nav-list" aria-selected="@php echo $tablist!='nav-grid' ? 'true' : 'false' @endphp"><i
+                                                            role="tab" aria-controls="nav-list" aria-selected="@php echo $tab_list!='nav-grid' ? 'true' : 'false' @endphp"><i
                                                             class="lni lni-list"></i></button>
                                                 </div>
                                             </nav>
