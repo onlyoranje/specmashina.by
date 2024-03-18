@@ -484,14 +484,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('.nav-link').on( "click", function() {
-        if ($(this).data('hasvalue')==='Y'){
-            $('#price').attr('required','required')
-            $('#price').show()
-        } else {
-            $('#price').removeAttr('required')
-            $('#price').hide()
-
-        }
-        console.log($(this).data('hasvalue'))
+        document.cookie = 'tablist='+$(this).attr('aria-controls')+'; max-age=3600000';
+        console.log($(this).attr('aria-controls'))
     })
 })

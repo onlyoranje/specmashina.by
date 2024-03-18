@@ -5,6 +5,10 @@
     @php
     $bbs1 = $bbs;
     $bbs2 = $bbs;
+    $tablist = 'nav_list';
+    if ($_COOKIE['tablist'])  $tablist = $_COOKIE['tablist'];
+
+
     @endphp
 
     <section class="category-page section">
@@ -41,15 +45,21 @@
                                         <div class="col-lg-6 col-md-6 col-12">
                                             <nav>
                                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                                    <button class="nav-link" id="nav-grid-tab" data-bs-toggle="tab" data-bs-target="#nav-grid" type="button" role="tab" aria-controls="nav-grid" aria-selected="false"><i class="lni lni-grid-alt"></i></button>
-                                                    <button class="nav-link active" id="nav-list-tab" data-bs-toggle="tab" data-bs-target="#nav-list" type="button" role="tab" aria-controls="nav-list" aria-selected="true"><i class="lni lni-list"></i></button>
+                                                    <button class="nav-link @php echo $tablist=='nav-grid' ? 'active' : '' @endphp" id="nav-grid-tab" data-bs-toggle="tab"
+                                                            data-bs-target="#nav-grid" type="button" role="tab"
+                                                            aria-controls="nav-grid" aria-selected="@php echo $tablist=='nav-grid' ? 'true' : 'false' @endphp"><i
+                                                            class="lni lni-grid-alt"></i></button>
+                                                    <button class="nav-link @php echo $tablist!='nav-grid' ? 'active' : '' @endphp" id="nav-list-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#nav-list" type="button"
+                                                            role="tab" aria-controls="nav-list" aria-selected="@php echo $tablist!='nav-grid' ? 'true' : 'false' @endphp"><i
+                                                            class="lni lni-list"></i></button>
                                                 </div>
                                             </nav>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tab-content" id="nav-tabContent">
-                                    <div class="tab-pane fade" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
+                                    <div class="tab-pane fade @php echo $tablist=='nav-grid' ? 'show active' : '' @endphp" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
                                         <div class="row">
 
                                             @foreach ($bbs1 as $bb_widget)
@@ -65,7 +75,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+                                    <div class="tab-pane fade @php echo $tablist!='nav-grid' ? 'show active' : ''; @endphp " id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
                                         <div class="row">
                                             @foreach ($bbs2 as $bb)
                                                 @include('bb.card')
