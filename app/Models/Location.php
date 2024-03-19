@@ -10,7 +10,7 @@ class Location extends Model
 {
     use HasFactory;
     use NodeTrait;
-    protected $fillable=['title','title_r','parent_id', 'level','sort'];
+    protected $fillable=['title','title_r','parent_id', 'level','sort','lat','lng'];
     public function bbs()
     {
         return $this->hasMany(Bb::class);

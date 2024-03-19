@@ -1,7 +1,9 @@
+<?php
+use App\Models\Location;
+use App\Models\Bb;
+?>
 @section('title', $title)
 @extends('layouts.base')
-
-
 @section('main')
 
     <section class="item-details section">
@@ -148,7 +150,7 @@
                         <!-- Start Single Block -->
                         @php
 
-                            $location = App\Models\Location::where('id',$bb->location_id)->first();
+                            $location = Location::where('id',$bb->location_id)->first();
                             $bbs_location=$location->bbs->whereNotIn('id', $bb->id);
 
                         @endphp
@@ -166,6 +168,39 @@
                             </form>
                         </div>
                     @endif
+
+                        @php
+
+                            //$location = App\Models\Location::where('id',$bb->location_id)->first();
+                            $bbs_near=App\Models\Bb::where('rubric_id', $bb->rubric_id)->whereNot('id', $bb->id)->get();
+                            $lat = $bb->location->lat;
+                            $lng = $bb->location->lng;
+                            $bbs_near = $bbs_near->sortBy(function($value, $key) use ($lat,$lng){
+                                $theta = $lng - $value->location->lng;
+                                $distance = (sin(deg2rad($lat)) * sin(deg2rad($value->location->lat))) + (cos(deg2rad($lat)) * cos(deg2rad($value->location->lat)) * cos(deg2rad($theta)));
+                                $distance = acos($distance);
+                                $distance = rad2deg($distance);
+                                $distance = $distance * 60 * 1.1515 * 1.609344;
+                                return $distance;
+
+                            });
+
+                        @endphp
+                        @if (count($bbs_near)>0)
+                            <div class="single-block comment-form">
+
+                                <h3>Еще техника в {{$location->title_r}}</h3>
+                                <form action="#" method="POST">
+                                    <div class="row">
+
+                                        @foreach($bbs_near->random(count ($bbs_near)>3? 3: count ($bbs_near)) as $bb_widget)
+                                            @include('bb.minicard')
+                                        @endforeach
+                                    </div>
+                                </form>
+                            </div>
+                    @endif
+
                         <!-- End Single Block -->
                     </div>
                     <div class="col-lg-4 col-md-5 col-12">
