@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use App\Models\User;
 class Bb extends Model
 {
+    use Searchable;
+
     protected $fillable = ['title', 'content', 'rubric_id','location_id', 'vendor_id','organization_id'];
     public function user() {
         return $this->belongsTo(User::class);
@@ -31,6 +34,18 @@ class Bb extends Model
     }
     public function bbcontact(){
         return $this->hasMany(BbContact::class);
+    }
+    public function searchableAs(): string
+    {
+        return 'bbs_index';
+    }
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+
+        // Customize the data array...
+
+        return $array;
     }
 
 }
