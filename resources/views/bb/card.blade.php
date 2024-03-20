@@ -24,7 +24,7 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
 
 
                     <i class=" cross-badge lni lni-bolt"></i>
-                    <span class="flat-badge sale">Sale</span>
+                    <span class="flat-badge sale">#{{$bb->id}}</span>
                 </div>
             </div>
             <div class="col-lg-7 col-md-5 col-12">

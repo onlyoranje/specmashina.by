@@ -16,7 +16,7 @@
                         src="http://placehold.it/600x400&text={{ $bb_widget->title }}" alt="{{ $title }}"></a>
             @endif
             <i class=" cross-badge lni lni-bolt"></i>
-            <span class="flat-badge sale">Sale</span>
+            <span class="flat-badge sale">#{{$bb_widget->id}}</span>
         </div>
         <div class="content">
             <a href="javascript:void(0)" class="tag">{{$subparent_rubric->title}}</a>
