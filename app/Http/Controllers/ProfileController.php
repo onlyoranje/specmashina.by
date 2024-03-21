@@ -229,14 +229,25 @@ class ProfileController extends Controller
 
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
+        $search_text[] = $validated['title'];
         $bb->fill(['title'=>$validated['title'],'content'=>$description,'vendor_id'=>$request->vendor_id]);
         $bb->save();
         if ($request->rubric_id) {
             $bb->fill(['rubric_id'=>$request->rubric_id]);
+            $rubrics = Rubric::whereAncestorOrSelf($request->rubric_id)->get();
+            foreach ($rubrics as $rubric)
+            {
+                $search_text[] = $rubric->title;
+            }
             $bb->save();
         }
         if ($request->location_id) {
             $bb->fill(['location_id'=>$request->location_id]);
+            $locations = Location::whereAncestorOrSelf($request->location_id)->get();
+            foreach ($locations as $location)
+            {
+                $search_text[] = $location->title;
+            }
             $bb->save();
         }
 
@@ -316,6 +327,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         }
         if ($request->organization=='Y'){
             $bb->fill(['organization_id'=>Auth::user()->organization->id]);
+            $search_text[] = Auth::user()->organization->title;
             $bb->save();
         } else {
             $bb->fill(['organization_id'=>null]);
@@ -324,6 +336,9 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         $bb->bbprice->fill(['price'=>$request->price,'price_type_id'=>$request->price_type]);
         $bb->bbprice->save();
         //dd($parameters_old);
+        $bb->fill(['search_text'=>implode(' ',$search_text)]);
+        $bb->save();
+
         return redirect()->route('mybb');
     }
     public function deleteBb(Bb $bb){
