@@ -11,7 +11,10 @@ class BbsController extends Controller
 {
     public function index() {
 
-        $context = ['bbs' => Bb::latest()->paginate(10),'rubrics'=>Rubric::orderBy('sort')->orderBy('title')->get()->toTree()];
+        $context = [
+            'bbs_actual' => Bb::orderBy('lifted_at')->orderBy('updated_at')->limit(6)->get(),
+            'rubrics'=>Rubric::orderBy('sort')->orderBy('title')->get()->toTree()
+        ];
         return view('home', $context);
     }
     public function detail(Bb $bb) {
