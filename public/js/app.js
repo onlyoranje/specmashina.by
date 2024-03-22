@@ -5,6 +5,7 @@ import "./image-uploader"
 import "./jquery.fileuploader.min"
 import "./jquery.maskedinput"
 import "./tiny-slider"
+import "./main"
 import "./custom"
 
 

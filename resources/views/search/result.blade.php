@@ -22,7 +22,9 @@
                             @foreach ($bbs as $bb)
                                 @include('bb.card')
                             @endforeach
-                        @endif
+                        @else
+                            <div class="col-12"><h6> Ничего не найдено :(</h6></div>
+                            @endif
                     </div>
 
                 </div>
