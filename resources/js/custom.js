@@ -504,3 +504,7 @@ $(document).ready(function () {
     })
 })
 
+$(document).ready(function () {
+    //window.tns = tns;
+
+});

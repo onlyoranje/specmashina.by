@@ -123,7 +123,7 @@
                                 <li><a href="javascript:void(0)">Site Map</a></li>
                                 <li><a href="javascript:void(0)">Information</a></li>
                             </ul>
-                            <p class="copyright-text">Designed and Developed by <a href="https://graygrids.com/" rel="nofollow" target="_blank">GrayGrids</a>
+                            <p class="copyright-text">Designed 2and Developed by <a href="https://graygrids.com/" rel="nofollow" target="_blank">GrayGrids</a>
                             </p>
                             <ul class="footer-social">
                                 <li><a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a></li>
