@@ -1,4 +1,4 @@
-
+$(document).ready(function () {
     var tns = (function () {
         var win = window;
 
@@ -3666,7 +3666,7 @@
             }
         }
     });
-
+})
     //========= testimonial
 /*    tns({
         container: '.testimonial-slider',

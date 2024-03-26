@@ -21,15 +21,21 @@
                                     class="category-slider  tns-slider tns-carousel tns-subpixel tns-calc tns-horizontal"
                                     id="tns1"
                                     style="">
+                                    ;
                                     @foreach ($rubrics_slider as $rubric)
+                                        @php
+                                        $parent_rubrics = App\Models\Rubric::whereAncestorOrSelf($rubric->id)->orderBy('level')->get();
+                                        $parent_rubric = $parent_rubrics[0];
+                                        $subparent_rubric = $parent_rubrics[1];
+                                        @endphp
                                     <a
                                         href="category.html" class="single-cat tns-item tns-slide-cloned"
                                         aria-hidden="true" tabindex="-1">
                                         <div class="icon">
                                             <img src="storage/images/categories/jobs.svg" alt="{{$rubric->title}}">
                                         </div>
-                                        <h3>{{$rubric->title}}</h3>
-                                        <h5 class="total">44</h5>
+                                        <h3>{{$parent_rubric->title}} {{$rubric->title_r}}</h3>
+                                        <h5 class="total">{{$rubric->bbs_count}}</h5>
                                     </a>
                                     @endforeach
 

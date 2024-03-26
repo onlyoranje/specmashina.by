@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title_r',100);
             $table->string('lat',100)->nullable();
             $table->string('lng',100)->nullable();
-
+            $table->string('image')->nullable();;
             //$table->unsignedBigInteger('parent_id')->nullable();
             //$table->foreign('parent_id')->references('id')->on('locations')->onDelete('restrict');
             $table->unsignedBigInteger('sort')->default(500);

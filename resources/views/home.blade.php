@@ -5,6 +5,7 @@
     @include('home.hero')
     @include('home.categories')
     @include('home.actual')
+    @include('home.city')
 <script type="javascript">
 
 
