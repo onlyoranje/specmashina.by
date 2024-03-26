@@ -4,8 +4,9 @@
     $subparent_rubric = $parent_rubrics[1];
     $images = App\Models\UserFile::where('bb_id',$bb_widget->id)->orderBy('sort')->get();
     $title =$parent_rubric->title." ".$bb_widget->rubric->title_r." ".$bb_widget->vendor->name." ".$bb_widget->title;
+    if (!isset($col)) $col='col-lg-4 col-12';
 @endphp
-<div class="col-lg-4 col-12">
+<div class="{{$col}}">
     <div class="single-item-grid">
         <div class="image">
             @if (count($images)> 0)

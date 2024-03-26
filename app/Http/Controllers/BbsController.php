@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bb;
+use App\Models\BbStatistic;
 use App\Models\Location;
 use App\Models\Rubric;
 use App\Models\UserFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BbsController extends Controller
 {
     public function index() {
 
         $context = [
-            'bbs_actual' => Bb::orderBy('lifted_at')->orderBy('updated_at')->limit(6)->get(),
+            'bbs_actual' => Bb::orderBy('created_at')->limit(8)->get(),
+            'bbs_random' => Bb::inRandomOrder()->limit(8)->get(),
+            'bbs_last' => Bb::orderBy('lifted_at')->orderBy('updated_at')->limit(6)->get(),
             'rubrics'=>Rubric::orderBy('sort')->orderBy('title')->get()->toTree(),
             'rubrics_slider'=>Rubric::withCount('bbs')->where('level',2)->orderBy('bbs_count','desc')->limit(12)->inRandomOrder()->get(),
             'bbs_city'=>Location::withCount('bbs')->where('level',1)->orderBy('bbs_count','desc')->limit(5)->inRandomOrder()->get()
@@ -21,9 +25,12 @@ class BbsController extends Controller
         ];
         return view('home', $context);
     }
-    public function detail(Bb $bb) {
-        //test
-       // $rubric = $bb->rubric();
+    public function detail(Bb $bb,Request $request) {
+
+        $stat = BbStatistic::updateOrCreate(['bb_id'=>$bb->id,'user_token'=> $request->ip()]);
+        $stat->fill(['views'=>$stat->views+1]);
+        $stat->save();
+
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();

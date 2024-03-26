@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LocationsController extends Controller
 {
@@ -47,7 +48,16 @@ class LocationsController extends Controller
             $level = (Location::find($request->parent_id)->level)+1;
         else
             $level=0;
-        Location::create(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
+        $location = Location::create(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
+
+        if ($request->file) {
+
+            $filename = $request->file[0]->store('public');
+            $file_name = explode('/', $filename);
+            $location->fill(['image'=> $file_name[1]]);
+            $location->save();
+
+        }
         return redirect()->route('location_dashboard');
     }
     public function editLocation(Request $request, Location $location){
@@ -58,6 +68,15 @@ class LocationsController extends Controller
             $level=0;
         $location->fill(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
         $location->save();
+
+        if ($request->file) {
+
+            $filename = $request->file->store('public');
+            $file_name = explode('/', $filename);
+            $location->fill(['image'=> $file_name[1]]);
+            $location->save();
+
+        }
         return redirect()->route('location_dashboard');
     }
     public function delete(Location $location){

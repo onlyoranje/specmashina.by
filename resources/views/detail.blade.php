@@ -1,6 +1,9 @@
 <?php
+
+use App\Models\BbStatistic;
 use App\Models\Location;
 use App\Models\Bb;
+
 ?>
 @section('title', $title)
 @extends('layouts.base')

@@ -20,7 +20,7 @@
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
                                     <h3 class="block-title">Добавление города</h3>
-                                    <form class="default-form-style" action="{{route('addLocationToDB')}}" method="post">
+                                    <form class="default-form-style" action="{{route('addLocationToDB')}}" method="post" enctype="multipart/form-data">
                                         @csrf
 
                                         <div class="inner-block">
@@ -71,8 +71,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
+                                                <div class="col-lg-6 col-12">
+                                                    <div class="form-group upload-image">
+                                                        <label>Фото</label>
+                                                        <input type="file"  name="file">
+                                                    </div>
+                                                </div>
                                                 <div class="col-12">
                                                     <div class="form-group button mb-0 mt-5">
                                                         <button type="submit" class="btn ">Обновить</button>

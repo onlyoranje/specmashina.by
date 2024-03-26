@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('bb_id');
             $table->foreign('bb_id')->references('id')->on('bbs');
-            $table->integer("views");
+            $table->string('user_token')->nullable();
+            $table->integer("views")->default(1);
             $table->timestamps();
+            $table->unique(['user_token', 'bb_id'],'user_bb');
         });
     }
 

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\Request;
+
 class Bb extends Model
 {
     use Searchable;
@@ -34,6 +36,9 @@ class Bb extends Model
     }
     public function bbcontact(){
         return $this->hasMany(BbContact::class);
+    }
+    public function bbstatistic(){
+        return $this->hasMany(BbStatistic::class);
     }
     public function searchableAs(): string
     {

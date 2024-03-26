@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class BbStatistic extends Model
 {
     use HasFactory;
+    protected $fillable=['bb_id','user_token','views'];
 }
