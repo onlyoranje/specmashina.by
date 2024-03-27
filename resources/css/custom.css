@@ -60,3 +60,6 @@
 {
     background-color: #00000036;
 }
+.items-grid .single-grid .content .top-content .info-list li {
+    width: 100%;
+}

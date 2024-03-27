@@ -15,6 +15,13 @@
                 @foreach ($bbs_actual as $bb)
                     @php
                         $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
+
+                        $parent_rubrics = App\Models\Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get();
+                        $parent_rubric = $parent_rubrics[0];
+                        $subparent_rubric = $parent_rubrics[1];
+
+
+
                     @endphp
                 <div class="col-lg-4 col-md-6 col-12">
                     <!-- Start Single Grid -->
@@ -34,7 +41,7 @@
                                     <a href="javascript:void(0)"><img src="assets/images/items-grid/author-1.jpg" alt="#">
                                         <span>Smith jeko</span></a>
                                 </div>
-                                <p class="sale">For Sale</p>
+                                <p class="sale">{{$parent_rubric->title}}</p>
                             </div>
                         </div>
                         <div class="content">
@@ -43,7 +50,7 @@
                                 <h3 class="title">
                                     <a href="item-details.html">{{$bb->vendor->name}} {{$bb->title}}</a>
                                 </h3>
-                                <p class="update-time">Last Updated: 1 hours ago</p>
+                                <p class="update-time">Обновлено: {{timesince($bb->updated_at)}}</p>
                                 <ul class="rating">
                                     <li><i class="lni lni-star-filled"></i></li>
                                     <li><i class="lni lni-star-filled"></i></li>
@@ -53,12 +60,12 @@
                                     <li><a href="javascript:void(0)">(35)</a></li>
                                 </ul>
                                 <ul class="info-list">
-                                    <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> New York, US</a></li>
-                                    <li><a href="javascript:void(0)"><i class="lni lni-timer"></i> Feb 18, 2023</a></li>
+                                    <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> {{$bb->location->title}}, {{$bb->location->parent->title}}</a></li>
+
                                 </ul>
                             </div>
                             <div class="bottom-content">
-                                <p class="price">Start From: <span>$200.00</span></p>
+                                <p class="price">Цена: <span>{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span></p>
                                 <a href="javascript:void(0)" class="like"><i class="lni lni-heart"></i></a>
                             </div>
                         </div>
