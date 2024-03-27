@@ -36,31 +36,28 @@
                                             src="http://placehold.it/600x400&text={{ $bb->title }}" alt="{{ $bb->title }}">
                                 @endif
                             </a>
+
                             <div class="author">
+                                @if ($bb->organization_id)
                                 <div class="author-image">
-                                    <a href="javascript:void(0)"><img src="assets/images/items-grid/author-1.jpg" alt="#">
-                                        <span>Smith jeko</span></a>
+                                    <a href="javascript:void(0)"><img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
+                                        <span>{{$bb->user->organization->title}}</span></a>
                                 </div>
+                                @endif
                                 <p class="sale">{{$parent_rubric->title}}</p>
                             </div>
+
                         </div>
                         <div class="content">
                             <div class="top-content">
-                                <a href="javascript:void(0)" class="tag">{{$bb->rubric->title}}</a>
+                                <a href="{{route('rubric',$bb->rubric->id)}}" class="tag">{{$bb->rubric->title}}</a>
                                 <h3 class="title">
-                                    <a href="item-details.html">{{$bb->vendor->name}} {{$bb->title}}</a>
+                                    <a href="{{route('bb',['bb'=>$bb->id])}}">{{$bb->vendor->name}} {{$bb->title}}</a>
                                 </h3>
                                 <p class="update-time">Обновлено: {{timesince($bb->updated_at)}}</p>
-                                <ul class="rating">
-                                    <li><i class="lni lni-star-filled"></i></li>
-                                    <li><i class="lni lni-star-filled"></i></li>
-                                    <li><i class="lni lni-star-filled"></i></li>
-                                    <li><i class="lni lni-star-filled"></i></li>
-                                    <li><i class="lni lni-star-filled"></i></li>
-                                    <li><a href="javascript:void(0)">(35)</a></li>
-                                </ul>
+
                                 <ul class="info-list">
-                                    <li><a href="javascript:void(0)"><i class="lni lni-map-marker"></i> {{$bb->location->title}}, {{$bb->location->parent->title}}</a></li>
+                                    <li><a href="{{route('location',$bb->location->id)}}"><i class="lni lni-map-marker"></i> {{$bb->location->title}}, {{$bb->location->parent->title}}</a></li>
 
                                 </ul>
                             </div>

@@ -22,7 +22,7 @@
             <div class="{{$col}} col-12">
                 <!-- Start Single City -->
                 <div class="single-city wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                    <a href="category.html" class="info-box">
+                    <a href="{{route('location',$city->id)}}" class="info-box">
                         <div class="image">
 
 

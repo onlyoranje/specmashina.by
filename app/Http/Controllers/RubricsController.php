@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bb;
+use App\Models\Location;
 use App\Models\ParameterRubric;
 use App\Models\Rubric;
 use Illuminate\Http\Request;
@@ -30,6 +31,15 @@ class RubricsController extends Controller
 
         $breadcrumbs= Rubric::ancestorsAndSelf($id);
         return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs]);
+
+    }
+    public function location($id){
+        $location     = Location::find($id);
+        $locations    = Location::descendantsAndSelf($id)->pluck('id');
+        $bbs    = Bb::whereIn('location_id',$locations)->orderBy('lifted_at', 'desc')->paginate(12);
+
+        $breadcrumbs= Location::ancestorsAndSelf($id);
+        return view('rubric.rubric', ['rubric'=>$location,'rubrics'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs]);
 
     }
     public function rubrics(){
