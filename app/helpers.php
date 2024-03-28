@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Http\Client\Request;
 function timesince($datetime)
 {
     $now = new \DateTime();
@@ -9,13 +10,26 @@ function timesince($datetime)
         return 'Сегодня';
     } elseif ($interval == 1) {
         return 'Вчера';
-    } elseif ($interval < 7) {
-        return $diff->format('%a дней назад');
-    } elseif ($interval < 30) {
-        return $diff->format('%W недель назад');
     } elseif ($interval < 365) {
+        return $diff->format('%a дней назад');
+    } /*elseif ($interval < 30) {
+        return $diff->format('%W недель назад');
+    }elseif ($interval < 365) {
         return $diff->format('%M месяцев назад');
-    } else {
+    }*/  else {
         return $diff->format('%Y лет назад');
     }
+}
+function url_parameters($request){
+    $lkl = $request->toArray();
+    if ($request)
+    {
+        $result ='?';
+
+        foreach ($lkl as $key=>$value) {
+            $result.=$key.'='.$value;
+        }
+
+    }
+    return $result;
 }

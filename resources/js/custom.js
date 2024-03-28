@@ -508,3 +508,8 @@ $(document).ready(function () {
     //window.tns = tns;
 
 });
+window.SelectLocation = function ()
+{
+    var id=$('#location').val()
+    window.location.href = '?location='+id;
+}

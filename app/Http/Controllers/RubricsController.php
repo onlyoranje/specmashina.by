@@ -24,13 +24,19 @@ class RubricsController extends Controller
         return view('rubric.edit', ['rubric'=>$rubric,'rubrics'=>$rubrics,'depth'=>$depth]);
 
     }
-    public function rubric($id){
+    public function rubric(Request $request,$id ){
         $rubric     = Rubric::find($id);
         $rubrics    = Rubric::descendantsAndSelf($id)->pluck('id');
-        $bbs    = Bb::whereIn('rubric_id',$rubrics)->orderBy('lifted_at', 'desc')->paginate(12);
+        $bbs    = Bb::whereIn('rubric_id',$rubrics)->where(function($query)
+        {
+            global $request;
+            if ($request->location) $query->where('location_id', $request->location );
 
+                })->orderBy('lifted_at', 'desc')->paginate(12);
+        $locations = Location::where('level',1)->orderBy('title')->get();
+        $title = $rubric->title;
         $breadcrumbs= Rubric::ancestorsAndSelf($id);
-        return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs]);
+        return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request]);
 
     }
     public function location($id){
@@ -39,7 +45,7 @@ class RubricsController extends Controller
         $bbs    = Bb::whereIn('location_id',$locations)->orderBy('lifted_at', 'desc')->paginate(12);
 
         $breadcrumbs= Location::ancestorsAndSelf($id);
-        return view('rubric.rubric', ['rubric'=>$location,'rubrics'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs]);
+        return view('rubric.rubric', ['rubric'=>$location,'rubrics'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$location->title]);
 
     }
     public function rubrics(){

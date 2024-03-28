@@ -9,8 +9,17 @@
             </div>
             <div class="col-lg-6 col-md-6 col-12">
                 <ul class="breadcrumb-nav">
-                    <li><a href="index.html">Home</a></li>
-                    <li>Ad Details</li>
+
+                        @foreach($breadcrumbs as $key=>$breadcrumb)
+                    <li>
+                        @if  ($key!=(count($breadcrumbs)-1))
+                            <a href="{{route('rubric',$breadcrumb->id)}}">{{$breadcrumb->title}}</a>
+                        @else
+                            {{$breadcrumb->title}}
+                        @endif
+                    </li>
+                        @endforeach
+
                 </ul>
             </div>
         </div>

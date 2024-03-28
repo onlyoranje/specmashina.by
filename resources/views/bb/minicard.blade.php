@@ -24,7 +24,7 @@
             <h3 class="title">
                 <a href="{{route('bb',['bb'=>$bb_widget->id])}}">{{$title}}</a>
             </h3>
-            <p class="location"><a href="javascript:void(0)"><i class="lni lni-map-marker">
+            <p class="location"><a href="{{route('location',$bb_widget->location->id)}}"><i class="lni lni-map-marker">
                     </i>{{$bb_widget->location->title}}</a></p>
             <ul class="info">
                 <li class="price">{{$bb_widget->bbprice->price}} {{$bb_widget->bbprice->pricetype->type}}</li>

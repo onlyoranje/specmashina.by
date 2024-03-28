@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('title', 'Главная')
+@section('title', $title)
 @section('main')
 
     @php
@@ -20,6 +20,9 @@
                         @include('widgets.search_mini')
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
+                    @if (Request::routeIs('rubric'))
+                    @include('widgets.location')
+                    @endif
                     @include('widgets.category')
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
