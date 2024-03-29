@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unique(['bb_id','contact_type_id']);
         });
 
-        $faker = Faker\Factory::create('be_BY');
+        $faker = Faker\Factory::create('ru_RU');
         for ($i = 1; $i < 300; $i++) {
             BbContact::create(['value' => $faker->name(), 'bb_id' => $i, 'contact_type_id' => 2]);
             BbContact::create(['value' => $faker->phoneNumber(), 'bb_id' => $i, 'contact_type_id' => 1]);

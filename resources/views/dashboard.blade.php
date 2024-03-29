@@ -1,3 +1,4 @@
+
 @extends('layouts.dashboard')
 @section('title', 'Главная')
 
@@ -23,8 +24,8 @@
                                             <i class="lni lni-checkmark-circle"></i>
                                         </div>
                                         <h3>
-                                            340
-                                            <span>Total Ad Posted</span>
+                                            {{$bbs}}
+                                            <span>Всего объявлений</span>
                                         </h3>
                                     </div>
                                     <!-- End Single List -->

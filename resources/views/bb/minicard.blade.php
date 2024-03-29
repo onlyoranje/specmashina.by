@@ -14,7 +14,7 @@
                         src="{{Storage::url($images[0]->resize(600, 400))}}" alt="{{$title}}"></a>
             @else
                 <a href="{{route('bb',['bb'=>$bb_widget->id])}}"><img
-                        src="http://placehold.it/600x400&text={{ $bb_widget->title }}" alt="{{ $title }}"></a>
+                        src="http://placehold.it/600x400&text={{ $bb_widget->id }}" alt="{{ $title }}"></a>
             @endif
             <i class=" cross-badge lni lni-bolt"></i>
             <span class="flat-badge sale">#{{$bb_widget->id}} </span>

@@ -16,7 +16,7 @@ class BbsController extends Controller
     public function index() {
 
         $context = [
-            'bbs_actual' => Bb::orderBy('created_at')->limit(8)->get(),
+            'bbs_actual' => Bb::orderBy('created_at')->limit(6)->get(),
             'bbs_random' => Bb::inRandomOrder()->limit(8)->get(),
             'bbs_last' => Bb::orderBy('lifted_at')->orderBy('updated_at','desc')->limit(8)->get(),
             'bbs_popular' => Bb::addSelect(['bbstatistic_count' => BbStatistic::selectRaw('sum(views) as total')

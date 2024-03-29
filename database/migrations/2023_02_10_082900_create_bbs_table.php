@@ -47,7 +47,8 @@ return new class extends Migration
                 'rubric_id'=>$rubric->id,
                 'vendor_id'=>rand(1,143),
                 'location_id'=>$location->id,
-                'user_id'=>rand(1,32)
+                'user_id'=>rand(1,32),
+                'status_bb_id'=>rand(1,8)
             ]);
 
 

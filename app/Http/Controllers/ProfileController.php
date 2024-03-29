@@ -437,4 +437,19 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         //test comment
         return redirect()->route('my_organization');
     }
+    public function admin_dashboard(){
+        $bbs = Bb::get()->count();
+        return view('dashboard',['bbs'=>$bbs ]);
+    }
+    public function dashboard(){
+        if(!Auth::user()->isAdmin()){
+            $bbs = Auth::user()->bbs->count();
+        }
+        else
+        {
+            $bbs = BB::get()->count();
+        }
+
+        return view('dashboard',['bbs'=>$bbs ]);
+    }
 }

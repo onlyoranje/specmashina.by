@@ -22,8 +22,9 @@
                         <!-- Start Single Widget -->
                     @if (Request::routeIs('rubric'))
                     @include('widgets.location')
-                    @endif
                     @include('widgets.category')
+                    @endif
+
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
                     @include('widgets.range')

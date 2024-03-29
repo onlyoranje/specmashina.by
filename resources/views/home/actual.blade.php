@@ -33,7 +33,7 @@
                                             src="{{Storage::url($images[0]->resize(600, 400))}}" alt="{{ $bb->title }}">
                                 @else
                                     <img
-                                            src="http://placehold.it/600x400&text={{ $bb->title }}" alt="{{ $bb->title }}">
+                                            src="http://placehold.it/600x400&text={{ $bb->id}}" alt="{{ $bb->title }}">
                                 @endif
                             </a>
 

@@ -12,7 +12,7 @@ class Bb extends Model
 {
     use Searchable;
 
-    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id'];
+    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id'];
     public function user() {
         return $this->belongsTo(User::class);
     }
