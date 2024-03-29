@@ -22,8 +22,13 @@ return new class extends Migration
             $table->foreign('price_type_id')->references('id')->on('price_types')->cascadeOnDelete();
         });
         \App\Models\PriceType::create(['type' => 'руб']);
-        \App\Models\PriceTypeRubric::create(['rubric_id'=>1,'price_type_id'=>1]);
-        \App\Models\PriceTypeRubric::create(['rubric_id'=>2,'price_type_id'=>1]);
+
+
+        for ($i = 1; $i < 235; $i++) {
+            \App\Models\PriceTypeRubric::create(['rubric_id'=>$i,'price_type_id'=>1]);
+        }
+
+
     }
 
     /**

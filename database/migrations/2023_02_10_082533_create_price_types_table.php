@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('sort')->default(500);
             $table->timestamps();
         });
+        \App\Models\PriceType::create(['type' => 'руб']);
     }
 
     /**

@@ -9,7 +9,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-12">
                 <ul class="breadcrumb-nav">
-
+@if (isset($breadcrumbs))
                         @foreach($breadcrumbs as $key=>$breadcrumb)
                     <li>
                         @if  ($key!=(count($breadcrumbs)-1))
@@ -19,7 +19,7 @@
                         @endif
                     </li>
                         @endforeach
-
+                    @endif
                 </ul>
             </div>
         </div>

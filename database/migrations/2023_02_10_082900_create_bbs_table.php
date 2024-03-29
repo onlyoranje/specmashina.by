@@ -1,5 +1,11 @@
 <?php
 
+use App\Models\Bb;
+use App\Models\BbContact;
+use App\Models\BbPrice;
+use App\Models\Location;
+use App\Models\Rubric;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,6 +35,25 @@ return new class extends Migration
             $table->timestamps();
             $table->index('created_at');
         });
+
+        $faker = Faker\Factory::create('be_BY');
+        for ($i = 1; $i < 300; $i++) {
+            $rubric = Rubric::where('level',2)->inRandomOrder()->limit(1)->first();
+            $location = Location::where('level',1)->inRandomOrder()->limit(1)->first();
+
+            $bb = Bb::create([
+                'title'=>rand(100,9999),
+                'content'=>$faker->text(),
+                'rubric_id'=>$rubric->id,
+                'vendor_id'=>rand(1,143),
+                'location_id'=>$location->id,
+                'user_id'=>rand(1,32)
+            ]);
+
+
+
+        }
+
     }
 
     /**

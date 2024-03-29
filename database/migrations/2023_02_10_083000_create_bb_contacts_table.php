@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\BbContact;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,6 +24,12 @@ return new class extends Migration
             $table->timestamps();
             $table->unique(['bb_id','contact_type_id']);
         });
+
+        $faker = Faker\Factory::create('be_BY');
+        for ($i = 1; $i < 300; $i++) {
+            BbContact::create(['value' => $faker->name(), 'bb_id' => $i, 'contact_type_id' => 2]);
+            BbContact::create(['value' => $faker->phoneNumber(), 'bb_id' => $i, 'contact_type_id' => 1]);
+        }
     }
 
     /**
