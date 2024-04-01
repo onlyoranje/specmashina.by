@@ -34,8 +34,10 @@ class RubricsController extends Controller
 
                 })->orderBy('lifted_at', 'desc')->paginate(12);
         $locations = Location::where('level',1)->orderBy('title')->get();
-        $title = $rubric->title;
+
         $breadcrumbs= Rubric::ancestorsAndSelf($id);
+        $parent_rubric = $breadcrumbs[0];
+        $title = $parent_rubric->title.' '.$rubric->title_r;
         return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request]);
 
     }
@@ -43,9 +45,9 @@ class RubricsController extends Controller
         $location     = Location::find($id);
         $locations    = Location::descendantsAndSelf($id)->pluck('id');
         $bbs    = Bb::whereIn('location_id',$locations)->orderBy('lifted_at', 'desc')->paginate(12);
-
+        $title = "Техника в ".$location->title_r;
         $breadcrumbs= Location::ancestorsAndSelf($id);
-        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$location->title]);
+        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title]);
 
     }
     public function rubrics(){

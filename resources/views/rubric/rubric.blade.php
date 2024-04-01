@@ -14,6 +14,7 @@
     <section class="category-page section">
         <div class="container">
             <div class="row">
+                <div class="col-12 mb-5"><h1>{{$title}}</h1></div>
                 <div class="col-lg-3 col-md-4 col-12">
                     <div class="category-sidebar">
                         <!-- Start Single Widget -->
@@ -27,10 +28,10 @@
 
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
-                    @include('widgets.range')
+                  {{--  @include('widgets.range')
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
-                    @include('widgets.options')
+                    @include('widgets.options')--}}
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
                     @include('widgets.banner')
@@ -39,6 +40,7 @@
                 </div>
                 <div class="col-lg-9 col-md-8 col-12">
                     <div class="category-grid-list">
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="category-grid-topbar">
