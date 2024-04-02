@@ -7,11 +7,10 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
 @endphp
 <div class="col-lg-12 col-md-12 col-12">
     <!-- Start Single Item -->
-    <div class="single-item-grid">
+    <div class="single-item-grid" style="background-color: {{($bb->user->id==Auth::id()) ? '#ffeb3b30':''}}">
         <div class="row align-items-center">
             <div class="col-lg-5 col-md-7 col-12">
                 <div class="image">
-
 
 
                         @if (count($images)> 0)
@@ -22,9 +21,10 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
                                     src="http://placehold.it/600x400&text={{ $bb->id }}" alt="{{ $bb->title }}"></a>
                         @endif
 
-
+@if (isset($bb->status_bb->premium_status_days))
                     <i class=" cross-badge lni lni-bolt"></i>
-                    <span class="flat-badge sale">#{{$bb->id}}</span>
+                    <span class="flat-badge" style="background-color:#{{$bb->status_bb->color_badge}}">#{{$bb->status_bb->name}}</span>
+                            @endif
                 </div>
             </div>
             <div class="col-lg-7 col-md-5 col-12">
@@ -46,4 +46,5 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
     </div>
     <!-- End Single Item -->
 </div>
+
 

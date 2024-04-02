@@ -32,7 +32,7 @@ class RubricsController extends Controller
             global $request;
             if ($request->location) $query->where('location_id', $request->location );
 
-                })->orderBy('lifted_at', 'desc')->paginate(12);
+                })->orderBy('lifted_at', 'desc')->orderBy('created_at','desc')->paginate(12);
         $locations = Location::where('level',1)->orderBy('title')->get();
 
         $breadcrumbs= Rubric::ancestorsAndSelf($id);

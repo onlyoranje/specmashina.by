@@ -44,6 +44,9 @@ class Bb extends Model
     {
         return 'bbs_index';
     }
+    public function status_bb() {
+    return $this->belongsTo(Status_bb::class);
+}
     public function toSearchableArray(): array
     {
         $array = $this->toArray();
@@ -52,5 +55,6 @@ class Bb extends Model
 
         return $array;
     }
+
 
 }

@@ -16,9 +16,9 @@ class BbsController extends Controller
     public function index() {
 
         $context = [
-            'bbs_actual' => Bb::orderBy('created_at')->limit(6)->get(),
+            'bbs_last' => Bb::orderBy('created_at','desc')->limit(8)->get(),
             'bbs_random' => Bb::inRandomOrder()->limit(8)->get(),
-            'bbs_last' => Bb::orderBy('lifted_at')->orderBy('updated_at','desc')->limit(8)->get(),
+            'bbs_actual' => Bb::orderBy('lifted_at','desc')->orderBy('updated_at','desc')->limit(6)->get(),
             'bbs_popular' => Bb::addSelect(['bbstatistic_count' => BbStatistic::selectRaw('sum(views) as total')
                 ->whereColumn('bb_id', 'bbs.id')
                 ->groupBy('bb_id')
@@ -48,6 +48,7 @@ class BbsController extends Controller
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
+
         return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title]);
     }
 }

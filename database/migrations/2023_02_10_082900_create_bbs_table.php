@@ -29,7 +29,7 @@ return new class extends Migration
             $table->foreignId('organization_id')->nullable();
             $table->text('content')->nullable();
             $table->text('search_text')->nullable();
-            $table->foreignId('status_bb_id')->nullable()->constrained();
+            $table->foreignId('status_bb_id')->default(1)->constrained();
             $table->dateTime('lifted_at')->nullable();
             $table->dateTime('premium_until')->nullable();
             $table->timestamps();
