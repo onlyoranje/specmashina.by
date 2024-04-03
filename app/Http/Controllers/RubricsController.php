@@ -27,12 +27,12 @@ class RubricsController extends Controller
     public function rubric(Request $request,$id ){
         $rubric     = Rubric::find($id);
         $rubrics    = Rubric::descendantsAndSelf($id)->pluck('id');
-        $bbs    = Bb::whereIn('rubric_id',$rubrics)->where(function($query)
+        $bbs    = Bb::join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->whereIn('rubric_id',$rubrics)->where(function($query)
         {
             global $request;
             if ($request->location) $query->where('location_id', $request->location );
 
-                })->orderBy('lifted_at', 'desc')->orderBy('created_at','desc')->paginate(12);
+                })->orderBy('status_bbs.sort_on_board','asc')->orderBy('lifted_at', 'desc')->orderBy('bbs.created_at','desc')->paginate(12);
         $locations = Location::where('level',1)->orderBy('title')->get();
 
         $breadcrumbs= Rubric::ancestorsAndSelf($id);

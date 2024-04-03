@@ -16,10 +16,10 @@ class BbsController extends Controller
     public function index() {
 
         $context = [
-            'bbs_last' => Bb::orderBy('created_at','desc')->limit(8)->get(),
-            'bbs_random' => Bb::inRandomOrder()->limit(8)->get(),
-            'bbs_actual' => Bb::orderBy('lifted_at','desc')->orderBy('updated_at','desc')->limit(6)->get(),
-            'bbs_popular' => Bb::addSelect(['bbstatistic_count' => BbStatistic::selectRaw('sum(views) as total')
+            'bbs_last' => Bb::join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->orderBy('bbs.created_at','desc')->limit(8)->get(),
+            'bbs_random' => Bb::join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->inRandomOrder()->limit(8)->get(),
+            'bbs_actual' => Bb::join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->orderBy('lifted_at','desc')->orderBy('bbs.updated_at','desc')->limit(6)->get(),
+            'bbs_popular' => Bb::join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->addSelect(['bbstatistic_count' => BbStatistic::selectRaw('sum(views) as total')
                 ->whereColumn('bb_id', 'bbs.id')
                 ->groupBy('bb_id')
             ])->orderBy('bbstatistic_count','desc')->limit(8)->get(),

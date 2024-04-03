@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('sort_on_board')->default(500);
             $table->string('color_bg', 6)->nullable();
             $table->string('color_badge', 6)->nullable();
+            $table->string('badge_text', 25)->nullable();
             $table->timestamps();
         });
 
@@ -33,10 +34,10 @@ return new class extends Migration
         Status_bb::create(['name' => 'Удалено', 'active_status'=>'D']);
         Status_bb::create(['name' => 'Удалено безвозвратно', 'active_status'=>'DF']);
         /*Status_bb::create(['name' => 'Продано', 'active_status'=>'S']);*/
-        Status_bb::create(['name' => 'Премиум 3','price'=>2.00, 'premium_status_days'=>3, 'sort_on_board' => 400,'color_badge'=>'ffdc73']);
-        Status_bb::create(['name' => 'Премиум 7','price'=>5.00, 'premium_status_days'=>7, 'sort_on_board' => 300,'color_badge'=>'ffcf40']);
-        Status_bb::create(['name' => 'Премиум 15','price'=>10.00, 'premium_status_days'=>15, 'sort_on_board' => 200,'color_badge'=>'ffbf00']);
-        Status_bb::create(['name' => 'Премиум 30','price'=>15.00, 'premium_status_days'=>30, 'sort_on_board' => 100,'color_badge'=>'bf9b30']);
+        Status_bb::create(['name' => 'Премиум 3','price'=>2.00, 'premium_status_days'=>3, 'sort_on_board' => 400,'color_badge'=>'ffdc73', 'badge_text'=>'Премиум']);
+        Status_bb::create(['name' => 'Премиум 7','price'=>5.00, 'premium_status_days'=>7, 'sort_on_board' => 300,'color_badge'=>'ffcf40', 'badge_text'=>'Премиум']);
+        Status_bb::create(['name' => 'Премиум 15','price'=>10.00, 'premium_status_days'=>15, 'sort_on_board' => 200,'color_badge'=>'ffbf00', 'badge_text'=>'Премиум']);
+        Status_bb::create(['name' => 'Премиум 30','price'=>15.00, 'premium_status_days'=>30, 'sort_on_board' => 100,'color_badge'=>'bf9b30', 'badge_text'=>'Премиум']);
     }
 
     /**

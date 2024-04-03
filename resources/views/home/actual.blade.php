@@ -44,8 +44,12 @@
                                         <span>{{$bb->user->organization->title}}</span></a>
                                 </div>
                                 @endif
-                                <p class="sale">{{$parent_rubric->title}}</p>
+
                             </div>
+                            @if (isset($bb->status_bb->premium_status_days))
+                                <p class="item-position" style="background-color:#{{$bb->status_bb->color_badge}}">{{$bb->status_bb->badge_text}}</p>
+                            @endif
+
 
                         </div>
                         <div class="content">

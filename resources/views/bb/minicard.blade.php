@@ -16,8 +16,10 @@
                 <a href="{{route('bb',['bb'=>$bb_widget->id])}}"><img
                         src="http://placehold.it/600x400&text={{ $bb_widget->id }}" alt="{{ $title }}"></a>
             @endif
-            <i class=" cross-badge lni lni-bolt"></i>
-            <span class="flat-badge sale">#{{$bb_widget->id}} </span>
+                @if (isset($bb_widget->status_bb->premium_status_days))
+                    <i class=" cross-badge lni lni-bolt"></i>
+                    <span class="flat-badge" style="background-color:#{{$bb_widget->status_bb->color_badge}}">{{$bb_widget->status_bb->badge_text}}</span>
+                @endif
         </div>
         <div class="content">
             <a href="javascript:void(0)" class="tag">{{$subparent_rubric->title}}</a>

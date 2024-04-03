@@ -21,9 +21,9 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
                                     src="http://placehold.it/600x400&text={{ $bb->id }}" alt="{{ $bb->title }}"></a>
                         @endif
 
-@if (isset($bb->status_bb->premium_status_days))
+                    @if (isset($bb->status_bb->premium_status_days))
                     <i class=" cross-badge lni lni-bolt"></i>
-                    <span class="flat-badge" style="background-color:#{{$bb->status_bb->color_badge}}">#{{$bb->status_bb->name}}</span>
+                    <span class="flat-badge" style="background-color:#{{$bb->status_bb->color_badge}}">{{$bb->status_bb->badge_text}}</span>
                             @endif
                 </div>
             </div>
