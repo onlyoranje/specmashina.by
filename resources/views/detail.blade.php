@@ -221,37 +221,7 @@ use App\Models\Bb;
                                 </div>
                             </div>
 
-                            <!-- End Single Block -->
-                            <!-- Start Single Block -->
-                            {{--<div class="single-block contant-seller comment-form ">
-                                <h3>Contact Seller</h3>
-                                <form action="#" method="POST">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-box form-group">
-                                                <input type="text" name="name" class="form-control form-control-custom" placeholder="Your Name">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-box form-group">
-                                                <input type="email" name="email" class="form-control form-control-custom" placeholder="Your Email">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-box form-group">
-                                                <textarea name="#" class="form-control form-control-custom" placeholder="Your Message"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="button">
-                                                <button type="submit" class="btn">Send Message</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>--}}
-                            <!-- End Single Block -->
-                            <!-- Start Single Block -->
+
                             <div class="single-block ">
                                {{-- <h3>Location</h3>--}}
                                 <div class="mapouter">
@@ -277,6 +247,9 @@ use App\Models\Bb;
                             </div>
                             <!-- End Single Block -->
                             @endif
+                            <div class="single-block">
+                            @include('widgets.banner')
+                            </div>
                         </div>
                     </div>
                 </div>
