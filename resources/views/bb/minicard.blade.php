@@ -14,7 +14,7 @@
                         src="{{Storage::url($images[0]->resize(600, 400))}}" alt="{{$title}}"></a>
             @else
                 <a href="{{route('bb',['bb'=>$bb_widget->id])}}"><img
-                        src="http://placehold.it/600x400&text={{ $bb_widget->id }}" alt="{{ $title }}"></a>
+                        src="http://placehold.it/600x400&text={{ $title }}" alt="{{ $title }}"></a>
             @endif
                 @if (isset($bb_widget->status_bb->premium_status_days))
                     <i class=" cross-badge lni lni-bolt"></i>
@@ -24,7 +24,7 @@
         <div class="content">
             <a href="javascript:void(0)" class="tag">{{$subparent_rubric->title}}</a>
             <h3 class="title">
-                <a href="{{route('bb',['bb'=>$bb_widget->id])}}">{{$title}}</a>
+                <a href="{{route('bb',['bb'=>$bb_widget->id])}}">{{$title}} {{$bb_widget->id}}</a>
             </h3>
             <p class="location"><a href="{{route('location',$bb_widget->location->id)}}"><i class="lni lni-map-marker">
                     </i>{{$bb_widget->location->title}}</a></p>

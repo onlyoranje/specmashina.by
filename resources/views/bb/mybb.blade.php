@@ -20,6 +20,7 @@
                             <nav class="list-nav">
                                 <ul>
                                     <li class="active"><a href="javascript:void(0)">Все <span>{{$bbs->total()}}</span></a></li>
+
                                     <li><a href="javascript:void(0)">Published <span>88</span></a></li>
                                     <li><a href="javascript:void(0)">Featured <span>12</span></a></li>
                                     <li><a href="javascript:void(0)">Sold <span>02</span></a></li>
@@ -33,7 +34,7 @@
                                 <!-- Start Item List Title -->
                                 <div class="item-list-title">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-4 col-md-5 col-12">
+                                        <div class="col-lg-3 col-md-5 col-12">
                                             <p>Объявление</p>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
@@ -44,6 +45,9 @@
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
                                             <p>Город</p>
+                                        </div>
+                                        <div class="col-lg-1 col-md-2 col-12">
+                                            <p>Просмотры</p>
                                         </div>
                                         <div class="col-lg-2 col-md-3 col-12 align-right">
                                             <p></p>
@@ -62,7 +66,7 @@
                                 <!-- Start Single List -->
                                 <div class="single-item-list">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-4 col-md-5 col-12">
+                                        <div class="col-lg-3 col-md-5 col-12">
                                             <div class="item-image">
                                                 @if (count($bb->userfile)> 0)
                                                     <img   src="{{Storage::url($bb->userfile[0]->resize(100, 100))}}" alt="{{ $bb->title }}" >
@@ -70,19 +74,22 @@
                                                     <img   src="http://placehold.it/100x100&text={{ $bb->title }}" alt="{{ $bb->title }}">
                                                 @endif
                                                 <div class="content">
-                                                    <h3 class="title"><a href="javascript:void(0)">{{ $bb->title }}</a></h3>
+                                                    <h3 class="title"><a href="javascript:void(0)">{{$bb->vendor->name}} {{ $bb->title }}</a></h3>
                                                     <span class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
-                                            <p>{{$bb->rubric->title}}</p>
+                                            <p>{{$parent_rubric->title}} {{$bb->rubric->title_r}}</p>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
-                                            <p>New</p>
+                                            <p>{{$bb->status_bb->name}}</p>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
                                             <p>{{$bb->location->title}}</p>
+                                        </div>
+                                        <div class="col-lg-1 col-md-2 col-12">
+                                            <p>{{$bb->count_views()}}</p>
                                         </div>
                                         <div class="col-lg-2 col-md-3 col-12 align-right">
                                             <ul class="action-btn">

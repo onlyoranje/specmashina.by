@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +48,14 @@ class Bb extends Model
     public function status_bb() {
     return $this->belongsTo(Status_bb::class);
 }
+    public function count_views(){
+       $views = BbStatistic::where('bb_id',$this->id)->get();
+       return $views->count();
+    }
+    public function count_bbs($status_id=false)
+    {
+        Auth::user()->bbs()->latest()->get();
+    }
     public function toSearchableArray(): array
     {
         $array = $this->toArray();

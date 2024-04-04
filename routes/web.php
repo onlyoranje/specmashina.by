@@ -18,6 +18,7 @@ Auth::routes();
 Route::get('/', [BbsController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [App\Http\Controllers\ProfileController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard/admin', [App\Http\Controllers\ProfileController::class, 'admin_dashboard'])->middleware(['auth', 'verified'])->name('admin_dashboard');
 
 
 Route::middleware('auth')->group(function () {

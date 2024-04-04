@@ -22,6 +22,7 @@ $user = Auth::user();
                 <li><a class="{{ Request::routeIs('my_organization') ? 'active' : null }}" href="{{route('my_organization')}}"><i class="lni lni-pencil-alt"></i>
                         Моя организация</a></li>
                 @if(Auth::user()->isAdmin())
+                <li><a class="{{ Request::routeIs('admin_dashboard') ? 'active' : null }}"  href="{{route('admin_dashboard')}}"><i class="lni lni-bolt-alt"></i> Админ-дашборд</a></li>
                 <li><a class="{{ Request::routeIs('location_dashboard') ? 'active' : null }}"  href="{{route('location_dashboard')}}"><i class="lni lni-bolt-alt"></i> Список городов</a></li>
                 <li><a class="{{ Request::routeIs('rubric_dashboard') ? 'active' : null }}"  href="{{route('rubric_dashboard')}}"><i class="lni lni-heart"></i> Список категорий</a></li>
                 <li><a class="{{ Request::routeIs('parameter_dashboard') ? 'active' : null }}"  href="{{route('parameter_dashboard')}}"><i class="lni lni-circle-plus"></i> Параметры</a></li>

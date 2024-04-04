@@ -115,8 +115,12 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
     public function mybb() {
+        $bbs_last =  Auth::user()->bbs()->latest()->paginate(10);
+
         return view('bb.mybb',
-            ['bbs' => Auth::user()->bbs()->latest()->paginate(10)]);
+            [
+                'bbs' => $bbs_last
+            ]);
     }
     public function addForm(){
         $user = Auth::user();
@@ -448,6 +452,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         else
         {
             $bbs = BB::get()->count();
+            return view('dashboard',['bbs'=>$bbs ]);
         }
 
         return view('dashboard',['bbs'=>$bbs ]);
