@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('bb_statistics', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('bb_id');
-            $table->foreign('bb_id')->references('id')->on('bbs');
+            $table->foreign('bb_id')->references('id')->on('bbs')->constrained()->onDelete('cascade');
             $table->string('user_token')->nullable();
             $table->integer("views")->default(1);
             $table->timestamps();

@@ -24,7 +24,7 @@
         <div class="content">
             <a href="javascript:void(0)" class="tag">{{$subparent_rubric->title}}</a>
             <h3 class="title">
-                <a href="{{route('bb',['bb'=>$bb_widget->id])}}">{{$title}} {{$bb_widget->id}}</a>
+                <a href="{{route('bb',['bb'=>$bb_widget->id])}}">{{$title}} </a>
             </h3>
             <p class="location"><a href="{{route('location',$bb_widget->location->id)}}"><i class="lni lni-map-marker">
                     </i>{{$bb_widget->location->title}}</a></p>

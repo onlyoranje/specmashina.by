@@ -14,7 +14,9 @@ use App\Models\PriceType;
 use App\Models\PriceTypeRubric;
 use App\Models\Rubric;
 use App\Models\Bb;
+use App\Models\Status_bb;
 use App\Models\UserFile;
+use Composer\XdebugHandler\Status;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -114,12 +116,19 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-    public function mybb() {
-        $bbs_last =  Auth::user()->bbs()->latest()->paginate(10);
+    public function mybb(Request $request) {
+        $bbs_last =  Auth::user()->bbs()->where(function($query)
+        {
+            global $request;
+            if ($request->status_id) $query->where('status_bb_id', $request->status_id );
 
+        })->latest()->paginate(10);
+        $status_bb = Status_bb::OrderBy('sort','asc')->get();
         return view('bb.mybb',
             [
-                'bbs' => $bbs_last
+                'bbs' => $bbs_last,
+                'status_bb'=>$status_bb,
+                'request'=>$request
             ]);
     }
     public function addForm(){

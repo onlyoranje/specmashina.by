@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status_bb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StatusBbController extends Controller
 {
@@ -55,4 +56,5 @@ class StatusBbController extends Controller
         $status->delete();
         return redirect()->route('status_dashboard');
     }
+
 }

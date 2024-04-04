@@ -52,10 +52,7 @@ class Bb extends Model
        $views = BbStatistic::where('bb_id',$this->id)->get();
        return $views->count();
     }
-    public function count_bbs($status_id=false)
-    {
-        Auth::user()->bbs()->latest()->get();
-    }
+
     public function toSearchableArray(): array
     {
         $array = $this->toArray();

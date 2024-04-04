@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Главная')
+@section('title', 'Мои объявления')
 
 @section('main')
     @include('dashboard_nav')
@@ -16,16 +16,13 @@
                 <div class="col-lg-9 col-md-12 col-12">
                     <div class="main-content">
                         <div class="dashboard-block mt-0">
-                            <h3 class="block-title">My Ads</h3>
+                            <h3 class="block-title">Мои объявления</h3>
                             <nav class="list-nav">
                                 <ul>
-                                    <li class="active"><a href="javascript:void(0)">Все <span>{{$bbs->total()}}</span></a></li>
-
-                                    <li><a href="javascript:void(0)">Published <span>88</span></a></li>
-                                    <li><a href="javascript:void(0)">Featured <span>12</span></a></li>
-                                    <li><a href="javascript:void(0)">Sold <span>02</span></a></li>
-                                    <li><a href="javascript:void(0)">Active <span>45</span></a></li>
-                                    <li><a href="javascript:void(0)">Expired <span>55</span></a></li>
+                                    <li class="{{ $request->status_id ? '':'active' }}"><a href="{{route('mybb')}}">Все <span>{{$bbs->total()}}</span></a></li>
+                                    @foreach($status_bb as $status)
+                                    <li class="{{ $request->status_id==$status->id ? 'active':'' }}"><a href="?status_id={{$status->id}}">{{$status->name}} <span>{{$status->count_bbs()}}</span></a></li>
+                                    @endforeach
                                 </ul>
                             </nav>
 

@@ -7,6 +7,7 @@ use App\Models\Bb;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -83,4 +84,5 @@ class User extends Authenticatable
         }
         return 'thumbnails/'.$w.'x'.$h.'/'.$url;
     }
+
 }
