@@ -19,9 +19,11 @@
                             <h3 class="block-title">Мои объявления</h3>
                             <nav class="list-nav">
                                 <ul>
-                                    <li class="{{ $request->status_id ? '':'active' }}"><a href="{{route('mybb')}}">Все <span>{{$bbs->total()}}</span></a></li>
+                                    <li class="{{ $request->status_id ? '':'active' }}"><a href="{{route('mybb')}}">Все <span>{{$bbs_count}}</span></a></li>
                                     @foreach($status_bb as $status)
+                                        @if ($status->count_bbs())
                                     <li class="{{ $request->status_id==$status->id ? 'active':'' }}"><a href="?status_id={{$status->id}}">{{$status->name}} <span>{{$status->count_bbs()}}</span></a></li>
+                                    @endif
                                     @endforeach
                                 </ul>
                             </nav>

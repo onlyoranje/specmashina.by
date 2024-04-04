@@ -124,11 +124,13 @@ class ProfileController extends Controller
 
         })->latest()->paginate(10);
         $status_bb = Status_bb::OrderBy('sort','asc')->get();
+        $bbs_count = Auth::user()->bbs->count();
         return view('bb.mybb',
             [
                 'bbs' => $bbs_last,
                 'status_bb'=>$status_bb,
-                'request'=>$request
+                'request'=>$request,
+                'bbs_count'=>$bbs_count
             ]);
     }
     public function addForm(){
@@ -455,14 +457,9 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return view('dashboard',['bbs'=>$bbs ]);
     }
     public function dashboard(){
-        if(!Auth::user()->isAdmin()){
+
             $bbs = Auth::user()->bbs->count();
-        }
-        else
-        {
-            $bbs = BB::get()->count();
-            return view('dashboard',['bbs'=>$bbs ]);
-        }
+
 
         return view('dashboard',['bbs'=>$bbs ]);
     }

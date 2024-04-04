@@ -31,7 +31,7 @@ class BbsController extends Controller
         return view('home', $context);
     }
     public function detail(Bb $bb,Request $request) {
-//dd($request);
+        if ($bb->status_bb->active_status != 'Y' ) abort(404);
         $stat = BbStatistic::updateOrCreate(['bb_id'=>$bb->id,'user_token'=> Session::getId()]);
         if ($stat->updated_at < date('Y-m-d H:i:s',strtotime('-1 minute')) and $stat->user_token==Session::getId())
         {

@@ -16,6 +16,7 @@ $user = Auth::user();
         </div>
         <div class="dashboard-menu">
             <ul>
+                <li><a class="{{ Request::routeIs(['dashboard']) ? 'active' : null }}" href="{{route('dashboard')}}"><i class="lni lni-dashboard"></i> Дашборд</a></li>
                 <li><a class="{{ Request::routeIs(['mybb','bb_edit']) ? 'active' : null }}" href="{{route('mybb')}}"><i class="lni lni-dashboard"></i> Мои объявления</a></li>
                 <li><a class="{{ Request::routeIs('addForm') ? 'active' : null }}" href="{{route('addForm')}}"><i class="lni lni-dashboard"></i> Добавить объявление</a></li>
                 <li><a class="{{ Request::routeIs('profile.edit') ? 'active' : null }}" href="{{route('profile.update')}}"><i class="lni lni-pencil-alt"></i>Мой профиль</a></li>
