@@ -63,3 +63,6 @@
 .items-grid .single-grid .content .top-content .info-list li {
     width: 100%;
 }
+.single-widget.banner a img {
+    width: 100%;
+}
