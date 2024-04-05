@@ -49,8 +49,8 @@ class Bb extends Model
     return $this->belongsTo(Status_bb::class);
 }
     public function count_views(){
-       $views = BbStatistic::where('bb_id',$this->id)->get();
-       return $views->count();
+       $views = BbStatistic::where('bb_id',$this->id)->sum('views');
+       return $views;
     }
 
     public function toSearchableArray(): array

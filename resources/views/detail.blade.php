@@ -152,8 +152,8 @@ use App\Models\Bb;
                         <!-- End Single Block -->
                         @php
 
-                            //$location = App\Models\Location::where('id',$bb->location_id)->first();
-                            $bbs_near=App\Models\Bb::where('rubric_id', $bb->rubric_id)->whereNot('id', $bb->id)->get();
+
+                            $bbs_near=App\Models\Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->where('rubric_id', $bb->rubric_id)->whereNot('bbs.id', $bb->id)->get();
                             $lat = $bb->location->lat;
                             $lng = $bb->location->lng;
                             $bbs_near = $bbs_near->sortBy(function($value, $key) use ($lat,$lng){
@@ -184,14 +184,17 @@ use App\Models\Bb;
                         <!-- Start Single Block -->
                         @php
 
-                            $location = Location::where('id',$bb->location_id)->first();
-                            $bbs_location=$location->bbs->whereNotIn('id', $bb->id);
+
+                            $bbs_location= App\Models\Bb::select('bbs.*')->whereNot('bbs.id', $bb->id)->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->where('location_id',$bb->location_id)->orderBy('bbs.created_at','desc')->limit(3)->get();
+
 
                         @endphp
-                        @if (count($bbs_location)>0)
+
+
+                        @if (isset($bbs_location) and count($bbs_location)>0)
                        <div class="single-block comment-form">
 
-                            <h3>Еще техника в {{$location->title_r}}</h3>
+                            <h3>Еще техника в {{$bb->location->title_r}}</h3>
                             <form action="#" method="POST">
                                 <div class="row">
 
