@@ -29,7 +29,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Status_bb::create(['name' => 'На модерации', 'active_status'=>'N']);
+        Status_bb::create(['name' => 'На модерации', 'active_status'=>'M']);
         Status_bb::create(['name' => 'Не прошло модерацию', 'active_status'=>'N']);
         Status_bb::create(['name' => 'Стандарт']);
         Status_bb::create(['name' => 'На паузе', 'active_status'=>'N']);

@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\BbContact;
 use App\Models\BbParameters;
 use App\Models\BbPrice;
+use App\Models\BbStatistic;
 use App\Models\ContactType;
 use App\Models\Location;
 use App\Models\Organization;
@@ -453,14 +454,52 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return redirect()->route('my_organization');
     }
     public function admin_dashboard(){
-        $bbs = Bb::get()->count();
-        return view('dashboard',['bbs'=>$bbs ]);
+        $bbs = Bb::all();
+        $bbs_popular =
+            Bb::addSelect(
+                ['status' => Status_bb::selectRaw('active_status')->
+                whereColumn('id','bbs.status_bb_id')]
+            )->
+            addSelect(
+                ['bbstatistic_count' =>
+                    BbStatistic::selectRaw('sum(views) as total')
+                        ->whereColumn('bb_id', 'bbs.id')
+                        ->groupBy('bb_id')
+                ]
+            )->
+
+            orderBy('bbstatistic_count','desc')->
+            limit(5)->
+            get();
+        $bbs_active = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->get();
+        $bbs_moderation = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','M')->get();
+
+
+        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular ]);
     }
     public function dashboard(){
+            $bbs = Bb::where('user_id',Auth::id())->get();
+            $bbs_popular =
+                Bb::where('user_id',Auth::id())->
+                addSelect(
+                    ['status' => Status_bb::selectRaw('active_status')->
+                    whereColumn('id','bbs.status_bb_id')]
+                )->
+                addSelect(
+                    ['bbstatistic_count' =>
+                        BbStatistic::selectRaw('sum(views) as total')
+                ->whereColumn('bb_id', 'bbs.id')
+                ->groupBy('bb_id')
+            ]
+                )->
 
-            $bbs = Auth::user()->bbs->count();
+                orderBy('bbstatistic_count','desc')->
+                limit(5)->
+                get();
+            $bbs_active = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->get();
+            $bbs_moderation = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','M')->get();
 
 
-        return view('dashboard',['bbs'=>$bbs ]);
+        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular ]);
     }
 }

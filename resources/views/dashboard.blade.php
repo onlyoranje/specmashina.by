@@ -24,7 +24,7 @@
                                             <i class="lni lni-checkmark-circle"></i>
                                         </div>
                                         <h3>
-                                            {{$bbs}}
+                                            {{count($bbs)}}
                                             <span>Всего объявлений</span>
                                         </h3>
                                     </div>
@@ -37,8 +37,8 @@
                                             <i class="lni lni-bolt"></i>
                                         </div>
                                         <h3>
-                                            23
-                                            <span>Featured Ads </span>
+                                            {{count($bbs_active)}}
+                                            <span>Опубликовано </span>
                                         </h3>
                                     </div>
                                     <!-- End Single List -->
@@ -50,8 +50,8 @@
                                             <i class="lni lni-emoji-sad"></i>
                                         </div>
                                         <h3>
-                                            45
-                                            <span>Expired Ads </span>
+                                            {{count($bbs_moderation)}}
+                                            <span>На модерации </span>
                                         </h3>
                                     </div>
                                     <!-- End Single List -->
@@ -112,40 +112,15 @@
                             <div class="col-lg-6 col-md-12 col-12">
                                 <!-- Start Recent Items -->
                                 <div class="recent-items dashboard-block">
-                                    <h3 class="block-title">Recent Ads</h3>
+                                    <h3 class="block-title">Популярные</h3>
                                     <ul>
+                                        @foreach($bbs_popular as $bb)
+
                                         <li>
-                                            <div class="image">
-                                                <a href="javascript:void(0)"><img src="assets/images/dashboard/recent-items/item1.jpg" alt="#"></a>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">iPhone 11 Pro Max</a>
-                                            <span class="time">12 Minutes Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
+@include('bb.dashboardcard')
+
                                         </li>
-                                        <li>
-                                            <div class="image">
-                                                <a href="javascript:void(0)"><img src="assets/images/dashboard/recent-items/item2.jpg" alt="#"></a>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">Polaris 600 Assault 144</a>
-                                            <span class="time">5 days Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
-                                        </li>
-                                        <li>
-                                            <div class="image">
-                                                <a href="javascript:void(0)"><img src="assets/images/dashboard/recent-items/item3.jpg" alt="#"></a>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">Brand New Bagpack</a>
-                                            <span class="time">1 week Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
-                                        </li>
-                                        <li>
-                                            <div class="image">
-                                                <a href="javascript:void(0)"><img src="assets/images/dashboard/recent-items/item4.jpg" alt="#"></a>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">Honda Civic VTi 2023</a>
-                                            <span class="time">3 week Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
-                                        </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                                 <!-- End Recent Items -->
