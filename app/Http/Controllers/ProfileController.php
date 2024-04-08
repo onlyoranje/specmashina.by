@@ -164,16 +164,16 @@ class ProfileController extends Controller
             if (is_array($request->file) ) {
                 foreach ($request->file as $file_upload) {
                     if (!is_null($file_upload)) {
-                        $filename = $file_upload->store('public');
+                        $filename = $file_upload->store('public/bb');
                         $file_name = explode('/', $filename);
-                        UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
+                        UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1].'/'.$file_name[2],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
                     }
                 }
             } else {
 
-                $filename = $request->file->store('public');
+                $filename = $request->file->store('public/bb');
                 $file_name = explode('/', $filename);
-                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
+                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1].'/'.$file_name[2],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
 
             }}
         if ($request->parameter){
@@ -279,16 +279,16 @@ class ProfileController extends Controller
             if (is_array($request->file) ) {
                 foreach ($request->file as $file_upload) {
                     if (!is_null($file_upload)) {
-                    $filename = $file_upload->store('public');
+                    $filename = $file_upload->store('public/bb');
                     $file_name = explode('/', $filename);
-                    UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
+                    UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1].'/'.$file_name[2],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
                     }
                 }
             } else {
 
-                $filename = $request->file->store('public');
+                $filename = $request->file->store('public/bb');
                 $file_name = explode('/', $filename);
-                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
+                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1].'/'.$file_name[2],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
 
         }}
         $files_before_edit=UserFile::where('bb_id',$bb->id)->pluck('id');
