@@ -60,51 +60,19 @@
                         </div>
                         <!-- End Details Lists -->
                         <div class="row">
+
                             <div class="col-lg-6 col-md-12 col-12">
                                 <!-- Start Activity Log -->
-                                <div class="activity-log dashboard-block">
-                                    <h3 class="block-title">My Activity Log</h3>
+                                <div class="recent-items dashboard-block">
+                                    <h3 class="block-title">На модерации</h3>
                                     <ul>
-                                        <li>
-                                            <div class="log-icon">
-                                                <i class="lni lni-alarm"></i>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">Your Profile Updated!</a>
-                                            <span class="time">12 Minutes Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
-                                        </li>
-                                        <li>
-                                            <div class="log-icon">
-                                                <i class="lni lni-alarm"></i>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">You change your password</a>
-                                            <span class="time">59 Minutes Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
-                                        </li>
-                                        <li>
-                                            <div class="log-icon">
-                                                <i class="lni lni-alarm"></i>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">Your ads approved!</a>
-                                            <span class="time">5 Hours Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
-                                        </li>
-                                        <li>
-                                            <div class="log-icon">
-                                                <i class="lni lni-alarm"></i>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">You submit a new ads</a>
-                                            <span class="time">8 hours Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
-                                        </li>
-                                        <li>
-                                            <div class="log-icon">
-                                                <i class="lni lni-alarm"></i>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">You subscribe as a pro user!</a>
-                                            <span class="time">1 day Ago</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
-                                        </li>
+                                        @foreach($bbs_moderation as $bb)
+                                            <li>
+                                            @include('bb.dashboardcard')
+                                            </li>
+
+                                        @endforeach
+
                                     </ul>
                                 </div>
                                 <!-- End Activity Log -->

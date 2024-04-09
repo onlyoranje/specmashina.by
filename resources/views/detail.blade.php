@@ -55,6 +55,24 @@ use App\Models\Bb;
                     </div>
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="product-info">
+                            @if ($bb->status_bb->active_status == 'M')
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    Объявление <mark>на модерации</mark>
+                                </div>
+                            <div class="col-6 d-grid gap-2 d-md-block">
+                                @if (Auth::user()->isAdmin())
+
+                                        <button class="btn btn-primary btn-sm" type="button">Принять</button>
+                                        <button class="btn btn-danger btn-sm" type="button">Отклонить</button>
+
+                                @endif
+                            </div>
+                            </div>
+
+                                @elseif ($bb->status_bb->active_status == 'N')
+                                <span>Объявление <mark class="mark-N">не прошло модерацию</mark></span>
+                            @endif
                             <h2 class="title">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</h2>
                             <p class="location"><i class="lni lni-map-marker"></i><a href="javascript:void(0)">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
                             <h3 class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</h3>

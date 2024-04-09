@@ -9,6 +9,7 @@ use App\Models\Rubric;
 use App\Models\UserFile;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class BbsController extends Controller
@@ -31,7 +32,7 @@ class BbsController extends Controller
         return view('home', $context);
     }
     public function detail(Bb $bb,Request $request) {
-        if ($bb->status_bb->active_status != 'Y' ) abort(404);
+        if ($bb->status_bb->active_status != 'Y' and Auth::user()->isAdmin()==false and $bb->user->id!=Auth::id()) abort(404);
         $stat = BbStatistic::updateOrCreate(['bb_id'=>$bb->id,'user_token'=> Session::getId()]);
         if ($stat->updated_at < date('Y-m-d H:i:s',strtotime('-1 minute')) and $stat->user_token==Session::getId())
         {

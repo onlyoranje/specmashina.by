@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 return new class extends Migration
 {
@@ -42,7 +43,7 @@ return new class extends Migration
             $location = Location::where('level',1)->inRandomOrder()->limit(1)->first();
 
             $bb = Bb::create([
-                'title'=>rand(100,9999),
+                'title'=>strtoupper(Str::random(rand(3,6))),
                 'content'=>$faker->text(),
                 'rubric_id'=>$rubric->id,
                 'vendor_id'=>rand(1,143),
