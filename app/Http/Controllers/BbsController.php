@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bb;
+use App\Models\BbAdminComments;
 use App\Models\BbStatistic;
 use App\Models\Location;
 use App\Models\Rubric;
+use App\Models\Status_bb;
 use App\Models\UserFile;
 use Illuminate\Http\Request;
 
@@ -17,10 +19,10 @@ class BbsController extends Controller
     public function index() {
 
         $context = [
-            'bbs_last' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->orderBy('bbs.created_at','desc')->limit(8)->get(),
-            'bbs_random' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->inRandomOrder()->limit(8)->get(),
-            'bbs_actual' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->orderBy('lifted_at','desc')->orderBy('bbs.updated_at','desc')->limit(6)->get(),
-            'bbs_popular' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->addSelect(['bbstatistic_count' => BbStatistic::selectRaw('sum(views) as total')
+            'bbs_last' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('bbs.created_at','desc')->limit(8)->get(),
+            'bbs_random' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->inRandomOrder()->limit(8)->get(),
+            'bbs_actual' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('lifted_at','desc')->orderBy('bbs.updated_at','desc')->limit(6)->get(),
+            'bbs_popular' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->addSelect(['bbstatistic_count' => BbStatistic::selectRaw('sum(views) as total')
                 ->whereColumn('bb_id', 'bbs.id')
                 ->groupBy('bb_id')
             ])->orderBy('bbstatistic_count','desc')->limit(8)->get(),
@@ -32,7 +34,8 @@ class BbsController extends Controller
         return view('home', $context);
     }
     public function detail(Bb $bb,Request $request) {
-        if ($bb->status_bb->active_status != 'Y' and Auth::user()->isAdmin()==false and $bb->user->id!=Auth::id()) abort(404);
+        if ($bb->status_bb->active != 'Y' and Auth::id()==false) abort(404);
+        if ($bb->status_bb->active != 'Y' and Auth::user()->isAdmin()==false and $bb->user->id!=Auth::id()) abort(404);
         $stat = BbStatistic::updateOrCreate(['bb_id'=>$bb->id,'user_token'=> Session::getId()]);
         if ($stat->updated_at < date('Y-m-d H:i:s',strtotime('-1 minute')) and $stat->user_token==Session::getId())
         {
@@ -51,5 +54,11 @@ class BbsController extends Controller
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
 
         return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title]);
+    }
+    public function approve(Bb $bb,Request $request){
+        BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>'Объявление прошло модерацию']);
+        $active_status = Status_bb::where('status','S')->get()->value('id');
+        Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
+        return redirect()->route('admin_dashboard');
     }
 }

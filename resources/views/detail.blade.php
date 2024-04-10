@@ -55,7 +55,7 @@ use App\Models\Bb;
                     </div>
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="product-info">
-                            @if ($bb->status_bb->active_status == 'M')
+                            @if ($bb->status_bb->status == 'M')
                             <div class="row mb-3">
                                 <div class="col-6">
                                     Объявление <mark>на модерации</mark>
@@ -63,14 +63,14 @@ use App\Models\Bb;
                             <div class="col-6 d-grid gap-2 d-md-block">
                                 @if (Auth::user()->isAdmin())
 
-                                        <button class="btn btn-primary btn-sm" type="button">Принять</button>
+                                        <a href="{{route('approve', $bb->id)}}" class="btn btn-primary btn-sm" type="button">Принять</a>
                                         <button class="btn btn-danger btn-sm" type="button">Отклонить</button>
 
                                 @endif
                             </div>
                             </div>
 
-                                @elseif ($bb->status_bb->active_status == 'N')
+                                @elseif ($bb->status_bb->status == 'N')
                                 <span>Объявление <mark class="mark-N">не прошло модерацию</mark></span>
                             @endif
                             <h2 class="title">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</h2>
@@ -171,7 +171,7 @@ use App\Models\Bb;
                         @php
 
 
-                            $bbs_near=App\Models\Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->where('rubric_id', $bb->rubric_id)->whereNot('bbs.id', $bb->id)->get();
+                            $bbs_near=App\Models\Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->where('rubric_id', $bb->rubric_id)->whereNot('bbs.id', $bb->id)->get();
                             $lat = $bb->location->lat;
                             $lng = $bb->location->lng;
                             $bbs_near = $bbs_near->sortBy(function($value, $key) use ($lat,$lng){
@@ -203,7 +203,7 @@ use App\Models\Bb;
                         @php
 
 
-                            $bbs_location= App\Models\Bb::select('bbs.*')->whereNot('bbs.id', $bb->id)->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->where('location_id',$bb->location_id)->orderBy('bbs.created_at','desc')->limit(3)->get();
+                            $bbs_location= App\Models\Bb::select('bbs.*')->whereNot('bbs.id', $bb->id)->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->where('location_id',$bb->location_id)->orderBy('bbs.created_at','desc')->limit(3)->get();
 
 
                         @endphp

@@ -61,6 +61,9 @@ class Bb extends Model
 
         return $array;
     }
+    public function admin_comment(){
+        return $this->hasMany(BbAdminComments::class);
+    }
 
 
 }

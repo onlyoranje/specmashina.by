@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class BbAdminComments extends Model
 {
     use HasFactory;
+    protected $fillable = ['bb_id', 'comment','read_at'];
+
+    public function bb()
+    {
+        return $this->belongsTo(Bb::class);
+    }
 }

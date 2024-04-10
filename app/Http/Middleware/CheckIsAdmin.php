@@ -12,10 +12,11 @@ class CheckIsAdmin
 
     public function handle($request, Closure $next)
     {
-
-        if(!Auth::user()->isAdmin()){
+        if (!Auth::user()) abort(404);
+        if(!Auth::user()->isAdmin() ){
             return redirect()->route('dashboard');
         }
+
 
         return $next($request);
     }

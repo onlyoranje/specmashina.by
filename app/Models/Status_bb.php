@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Status_bb extends Model
 {
     use HasFactory;
-    protected $fillable=['name','active_status','price','sort','premium_status_days','sort_on_board','color_bg','color_badge','badge_text'];
+    protected $fillable=['name','active','status','price','sort','premium_status_days','sort_on_board','color_bg','color_badge','badge_text'];
     public function bbs() {
         return $this->belongsToMany(Bb::class);
     }

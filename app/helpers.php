@@ -5,6 +5,7 @@ function timesince($datetime)
     $now = new \DateTime();
     $ago = new \DateTime($datetime);
     $diff = $now->diff($ago);
+    $interval_day = $diff->format('%a');
     $interval = $diff->format('%a');
     if ($interval == 0) {
         return 'Сегодня';

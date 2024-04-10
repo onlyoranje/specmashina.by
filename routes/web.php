@@ -120,6 +120,7 @@ Route::delete('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbControl
 
 require __DIR__.'/auth.php';
 Route::get('/item/{bb}', [BbsController::class, 'detail'])->name('bb');
+Route::get('/item/{bb}/approve', [BbsController::class, 'approve'])->name('approve')->middleware('isadmin');
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

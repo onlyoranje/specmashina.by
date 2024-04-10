@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\BbAdminComments;
 use App\Models\BbContact;
 use App\Models\BbParameters;
 use App\Models\BbPrice;
@@ -457,7 +458,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         $bbs = Bb::all();
         $bbs_popular =
             Bb::addSelect(
-                ['status' => Status_bb::selectRaw('active_status')->
+                ['status' => Status_bb::selectRaw('active')->
                 whereColumn('id','bbs.status_bb_id')]
             )->
             addSelect(
@@ -471,8 +472,8 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             orderBy('bbstatistic_count','desc')->
             limit(5)->
             get();
-        $bbs_active = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->get();
-        $bbs_moderation = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','M')->get();
+        $bbs_active = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
+        $bbs_moderation = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->get();
 
 
         return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular ]);
@@ -482,7 +483,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             $bbs_popular =
                 Bb::where('user_id',Auth::id())->
                 addSelect(
-                    ['status' => Status_bb::selectRaw('active_status')->
+                    ['status' => Status_bb::selectRaw('status')->
                     whereColumn('id','bbs.status_bb_id')]
                 )->
                 addSelect(
@@ -496,10 +497,10 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
                 orderBy('bbstatistic_count','desc')->
                 limit(5)->
                 get();
-            $bbs_active = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','Y')->get();
-            $bbs_moderation = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active_status','M')->get();
+            $bbs_active = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
+            $bbs_moderation = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->get();
+            $bbs_admin_comments = BbAdminComments::Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->orderBy('bb_admin_comments.created_at','desc')->get();
 
-
-        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular ]);
+        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular , 'bbs_admin_comments'=>$bbs_admin_comments ]);
     }
 }

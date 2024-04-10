@@ -18,7 +18,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50)->nullable();
             $table->text('description')->nullable();
-            $table->string('active_status',3)->default('Y');
+            $table->string('status',3)->nullable();
+            $table->string('active',3)->default('Y');
             $table->float('price',12,2)->nullable();
             $table->integer('premium_status_days')->nullable();
             $table->integer('sort')->default(500);
@@ -29,17 +30,17 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Status_bb::create(['name' => 'На модерации', 'active_status'=>'M']);
-        Status_bb::create(['name' => 'Не прошло модерацию', 'active_status'=>'N']);
-        Status_bb::create(['name' => 'Стандарт']);
-        Status_bb::create(['name' => 'На паузе', 'active_status'=>'N']);
-        Status_bb::create(['name' => 'Удалено', 'active_status'=>'D']);
-        Status_bb::create(['name' => 'Удалено безвозвратно', 'active_status'=>'DF']);
+        Status_bb::create(['name' => 'На модерации', 'status'=>'M','active'=>'Y']);
+        Status_bb::create(['name' => 'Не прошло модерацию', 'status'=>'N','active'=>'N']);
+        Status_bb::create(['name' => 'Стандарт', 'status'=>'S','active'=>'Y']);
+        Status_bb::create(['name' => 'На паузе', 'status'=>'P','active'=>'N']);
+        Status_bb::create(['name' => 'Удалено', 'status'=>'D','active'=>'N']);
+        Status_bb::create(['name' => 'Удалено безвозвратно', 'status'=>'DF','active'=>'N']);
         /*Status_bb::create(['name' => 'Продано', 'active_status'=>'S']);*/
-        Status_bb::create(['name' => 'Премиум 3','price'=>2.00, 'premium_status_days'=>3, 'sort_on_board' => 400,'color_badge'=>'ffdc73', 'badge_text'=>'Премиум']);
-        Status_bb::create(['name' => 'Премиум 7','price'=>5.00, 'premium_status_days'=>7, 'sort_on_board' => 300,'color_badge'=>'ffcf40', 'badge_text'=>'Премиум']);
-        Status_bb::create(['name' => 'Премиум 15','price'=>10.00, 'premium_status_days'=>15, 'sort_on_board' => 200,'color_badge'=>'ffbf00', 'badge_text'=>'Премиум']);
-        Status_bb::create(['name' => 'Премиум 30','price'=>15.00, 'premium_status_days'=>30, 'sort_on_board' => 100,'color_badge'=>'bf9b30', 'badge_text'=>'Премиум']);
+        Status_bb::create(['name' => 'Премиум 3','price'=>2.00,'active'=>'Y', 'status'=>'P3',  'premium_status_days'=>3, 'sort_on_board' => 400,'color_badge'=>'ffdc73', 'badge_text'=>'Премиум']);
+        Status_bb::create(['name' => 'Премиум 7','price'=>5.00,'active'=>'Y', 'status'=>'P7', 'premium_status_days'=>7, 'sort_on_board' => 300,'color_badge'=>'ffcf40', 'badge_text'=>'Премиум']);
+        Status_bb::create(['name' => 'Премиум 15','price'=>10.00,'active'=>'Y', 'status'=>'P15', 'premium_status_days'=>15, 'sort_on_board' => 200,'color_badge'=>'ffbf00', 'badge_text'=>'Премиум']);
+        Status_bb::create(['name' => 'Премиум 30','price'=>15.00,'active'=>'Y', 'status'=>'P30', 'premium_status_days'=>30, 'sort_on_board' => 100,'color_badge'=>'bf9b30', 'badge_text'=>'Премиум']);
     }
 
     /**
