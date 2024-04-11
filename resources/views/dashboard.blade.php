@@ -63,7 +63,7 @@
 
                             <div class="col-lg-6 col-md-12 col-12">
                                 <div class="activity-log dashboard-block">
-                                    <h3 class="block-title">My Activity Log</h3>
+                                    <h3 class="block-title">Уведомления</h3>
                                     <ul>
                                         @if (isset($bbs_admin_comments) and count($bbs_admin_comments)>0)
                                             @foreach ($bbs_admin_comments as $comment)
@@ -72,7 +72,7 @@
                                                 <i class="lni lni-alarm"></i>
                                             </div>
                                             <a href="javascript:void(0)" class="title">{{$comment->bb->vendor->name}} {{$comment->bb->title}}</a>
-                                            <span class="time">{{$comment->comment}}</span>
+                                            <span class="time">{!! html_entity_decode($comment->comment) !!}</span>
                                             <span class="time">{{ \Carbon\Carbon::parse($comment->created_at)->format('H:i:s d.m.Y') }}</span>
                                             <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
                                         </li>
@@ -98,6 +98,20 @@
                                     </ul>
                                 </div>
                             @endif
+                                    @if (count($bbs_moderation_fail)>0)
+                                        <div class="recent-items dashboard-block">
+                                            <h3 class="block-title">Не прошло модерацию</h3>
+                                            <ul>
+                                                @foreach($bbs_moderation_fail as $bb)
+                                                    <li>
+                                                        @include('bb.dashboardcard')
+                                                    </li>
+
+                                                @endforeach
+
+                                            </ul>
+                                        </div>
+                                @endif
                                 <!-- Start Recent Items -->
                                 <div class="recent-items dashboard-block">
                                     <h3 class="block-title">Популярные</h3>

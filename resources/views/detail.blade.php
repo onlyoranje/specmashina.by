@@ -64,7 +64,51 @@ use App\Models\Bb;
                                 @if (Auth::user()->isAdmin())
 
                                         <a href="{{route('approve', $bb->id)}}" class="btn btn-primary btn-sm" type="button">Принять</a>
-                                        <button class="btn btn-danger btn-sm" type="button">Отклонить</button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        Отклонить
+                                    </button>
+
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form class="default-form-style" method="POST" enctype="multipart/form-data" action="{{route('reject', $bb->id)}}">
+                                                @csrf
+                                                @method('PATCH')
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Причины отклонения</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body row">
+
+                                                @foreach($reasons as $reason)
+                                                    <div class="col-12">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="{{$reason->id}}" name="reasons[]" id="flexCheckDefault">
+                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                                {{$reason->reason}}
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                    @endforeach
+                                                    <div class="col-12">
+                                                        <div class="form-group mt-30">
+
+                                                            <textarea name="comment" placeholder="Комментарий"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                                    <button class="btn btn-danger btn-sm" type="submit">Отклонить</button>
+                                                </div>
+
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                        {{--<a href="{{route('reject', $bb->id)}}" class="btn btn-danger btn-sm" type="button">Отклонить</a>--}}
+
 
                                 @endif
                             </div>

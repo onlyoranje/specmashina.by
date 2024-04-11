@@ -160,7 +160,8 @@ class ProfileController extends Controller
         //dd($request);
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
-        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'vendor_id'=>$request->vendor_id,'location_id'=>$validated['location_id']]);
+        $status_bb_id = Status_bb::where('status','M')->get()->value('id');
+        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'vendor_id'=>$request->vendor_id,'location_id'=>$validated['location_id'],'status_bb_id'=>$status_bb_id]);
         if ($request->file) {
             if (is_array($request->file) ) {
                 foreach ($request->file as $file_upload) {
@@ -246,8 +247,9 @@ class ProfileController extends Controller
 
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
+        $status_bb_id = Status_bb::where('status','M')->get()->value('id');
         $search_text[] = $validated['title'];
-        $bb->fill(['title'=>$validated['title'],'content'=>$description,'vendor_id'=>$request->vendor_id]);
+        $bb->fill(['title'=>$validated['title'],'content'=>$description,'vendor_id'=>$request->vendor_id,'status_bb_id'=>$status_bb_id]);
         $bb->save();
         if ($request->rubric_id) {
             $bb->fill(['rubric_id'=>$request->rubric_id]);
@@ -474,9 +476,10 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             get();
         $bbs_active = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
         $bbs_moderation = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->get();
+        $bbs_moderation_fail = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','N')->get();
 
 
-        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular ]);
+        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular, 'bbs_moderation_fail'=>$bbs_moderation_fail]);
     }
     public function dashboard(){
             $bbs = Bb::where('user_id',Auth::id())->get();
@@ -499,8 +502,9 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
                 get();
             $bbs_active = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
             $bbs_moderation = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->get();
+            $bbs_moderation_fail = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','N')->get();
             $bbs_admin_comments = BbAdminComments::Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->orderBy('bb_admin_comments.created_at','desc')->get();
 
-        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular , 'bbs_admin_comments'=>$bbs_admin_comments ]);
+        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_moderation_fail'=>$bbs_moderation_fail,'bbs_popular'=>$bbs_popular , 'bbs_admin_comments'=>$bbs_admin_comments ]);
     }
 }

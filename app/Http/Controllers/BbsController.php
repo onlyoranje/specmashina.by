@@ -6,6 +6,7 @@ use App\Models\Bb;
 use App\Models\BbAdminComments;
 use App\Models\BbStatistic;
 use App\Models\Location;
+use App\Models\RejectReasons;
 use App\Models\Rubric;
 use App\Models\Status_bb;
 use App\Models\UserFile;
@@ -34,8 +35,10 @@ class BbsController extends Controller
         return view('home', $context);
     }
     public function detail(Bb $bb,Request $request) {
+
         if ($bb->status_bb->active != 'Y' and Auth::id()==false) abort(404);
         if ($bb->status_bb->active != 'Y' and Auth::user()->isAdmin()==false and $bb->user->id!=Auth::id()) abort(404);
+        $reasons = RejectReasons::all();
         $stat = BbStatistic::updateOrCreate(['bb_id'=>$bb->id,'user_token'=> Session::getId()]);
         if ($stat->updated_at < date('Y-m-d H:i:s',strtotime('-1 minute')) and $stat->user_token==Session::getId())
         {
@@ -53,11 +56,25 @@ class BbsController extends Controller
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
 
-        return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title]);
+        return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title, 'reasons'=>$reasons]);
     }
     public function approve(Bb $bb,Request $request){
         BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>'Объявление прошло модерацию']);
         $active_status = Status_bb::where('status','S')->get()->value('id');
+        Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
+        return redirect()->route('admin_dashboard');
+    }
+    public function reject(Bb $bb,Request $request){
+        $comment = 'Объявление не прошло модерацию<br>';
+        if ($request->reasons){
+            foreach ($request->reasons as $reason)
+            {
+                $comment.= RejectReasons::where('id',$reason)->value('reason').'<br>';
+            }
+        }
+        if ($request->comment) $comment.= $request->comment;
+        BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>$comment]);
+        $active_status = Status_bb::where('status','N')->get()->value('id');
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
         return redirect()->route('admin_dashboard');
     }

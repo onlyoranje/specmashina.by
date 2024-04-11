@@ -15,4 +15,10 @@
     @endif
 </div>
 <a href="{{route('bb',['bb'=>$bb->id])}}" class="title">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</a>
+@if ($bb->status_bb->active=='Y')
 <span class="time">{{$bb->bbstatistic_count}} просмотров</span>
+@endif
+
+@if ($bb->status_bb->status=='N')
+    <a href="{{route('bb_edit',$bb->id)}}" class="btn btn-sm btn-secondary" >Исправить</a>
+@endif
