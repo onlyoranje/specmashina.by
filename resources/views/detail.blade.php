@@ -149,9 +149,20 @@ use App\Models\Bb;
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="mailto:example@gmail.com" class="mail">
+                                        <a class="mail" data-bs-toggle="modal" data-bs-target="#imModal">
                                             <i class="lni lni-envelope"></i>
                                         </a>
+                                        <div class="modal fade" id="imModal" tabindex="-1" aria-labelledby="imModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-body">
+                                                        @include('im.new_message_modal')
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
