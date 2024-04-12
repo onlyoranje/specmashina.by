@@ -132,7 +132,11 @@
                 </div>
                 <div class="col-12">
                     @php
+                        use Ably;
 
+                        echo Ably::time(); // 1467884220000
+                        $token = Ably::auth()->requestToken([ 'clientId' => 'client123', ]); // Ably\Models\TokenDetails
+                        Ably::channel('testChannel')->publish('testEvent', 'testPayload', 'testClientId');
                     @endphp
                     <script>
 
