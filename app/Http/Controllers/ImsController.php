@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Im;
 use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,9 +26,10 @@ class ImsController extends Controller
             }
                 $dialog[$user2]['updated_at'] = $message->updated_at;
                 $dialog[$user2]['message'][] = Array($message->user1_id,$message->text);
-                $dialog[$user2]['user'] = User::where('id',$user2)->get();
+                $dialog[$user2]['user'] = User::where('id',$user2)->first();
 
         }
-        return view('im.im',['messages'=>$dialog]);
+        $context = ['messages'=>$dialog];
+        return view('im.im',$context);
     }
 }

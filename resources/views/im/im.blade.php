@@ -37,15 +37,18 @@
                                             <ul>
 
                                                 @if (isset($messages))
-                                                    @foreach($messages as $message)
+                                                    @foreach($messages as $key=>$message)
+                                                        @php
+                                                        $user2 = $message['user'];
+                                                        @endphp
                                                        {{-- @dd($message)--}}
                                                 <li>
                                                     <a href="javascript:void(0)">
                                                         <div class="image">
                                                             <img src="assets/images/messages/image1.jpg" alt="#">
                                                         </div>
-                                                        <span class="username">{{$message['user']->realname}}</span>
-                                                        <span class="short-message">ff</span>
+                                                        <span class="username">{{$user2->realname}}</span>
+                                                        <span class="short-message">88</span>
                                                         <span class="unseen-message">02</span>
                                                     </a>
                                                 </li>

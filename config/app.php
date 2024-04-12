@@ -181,7 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Ably\Laravel\AblyServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -210,7 +210,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'Ably' => Ably\Laravel\Facades\Ably::class
+
     ])->toArray(),
 
 ];

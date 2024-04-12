@@ -2,7 +2,7 @@
 
 namespace App\Models;
 use App\Models\Bb;
-use Cmgmyr\Messenger\Traits\Messagable;
+
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +16,7 @@ use Intervention\Image\Facades\Image;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use Messagable;
+
     /**
      * The attributes that are mass assignable.
      *
