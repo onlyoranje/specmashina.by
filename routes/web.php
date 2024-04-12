@@ -129,14 +129,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'search_result'])->name('search');
 
 
-Route::get('/im', [App\Http\Controllers\MessagesController::class, 'index'])->name('im');
-Route::post('/', [App\Http\Controllers\MessagesController::class, 'store'])->name('new_message_modal');
-/*Route::group(['prefix' => 'messages'], function () {
-    Route::get('/im', ['as' => 'im', 'uses' => 'MessagesController@index']);
-    Route::get('create', ['as' => 'messages.create', 'uses' => 'MessagesController@create']);
-    Route::post('/', ['as' => 'messages.store', 'uses' => 'MessagesController@store']);
-    Route::get('{id}', ['as' => 'messages.show', 'uses' => 'MessagesController@show']);
-    Route::put('{id}', ['as' => 'messages.update', 'uses' => 'MessagesController@update']);
-});*/
 
 

@@ -1,4 +1,4 @@
-<form action="{{ route('new_message_modal') }}" method="post">
+<form action="" method="post">
     @csrf
 
 </form>

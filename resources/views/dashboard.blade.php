@@ -130,6 +130,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12">
+                    @php
+
+                    @endphp
+                    <script>
+
+                    </script>
+                </div>
             </div>
         </div>
     </section>
