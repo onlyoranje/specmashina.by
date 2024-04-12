@@ -36,15 +36,16 @@
                                         <div class="user-list">
                                             <ul>
 
-                                                @if (isset($threads))
-                                                    @foreach($threads as $thread)
+                                                @if (isset($messages))
+                                                    @foreach($messages as $message)
+                                                       {{-- @dd($message)--}}
                                                 <li>
                                                     <a href="javascript:void(0)">
                                                         <div class="image">
                                                             <img src="assets/images/messages/image1.jpg" alt="#">
                                                         </div>
-                                                        <span class="username">Laura Cormier</span>
-                                                        <span class="short-message">Hi, how are ...</span>
+                                                        <span class="username">{{$message['user']->realname}}</span>
+                                                        <span class="short-message">ff</span>
                                                         <span class="unseen-message">02</span>
                                                     </a>
                                                 </li>
@@ -115,6 +116,9 @@
         </div>
         </div>
     </section>
+<pre> @php
+        print_r($messages)
+    @endphp</pre>
 
 
 

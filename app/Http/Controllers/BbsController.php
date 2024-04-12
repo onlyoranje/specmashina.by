@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bb;
 use App\Models\BbAdminComments;
 use App\Models\BbStatistic;
+use App\Models\Im;
 use App\Models\Location;
 use App\Models\RejectReasons;
 use App\Models\Rubric;
@@ -60,6 +61,7 @@ class BbsController extends Controller
     }
     public function approve(Bb $bb,Request $request){
         BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>'Объявление прошло модерацию']);
+        Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>'Объявление прошло модерацию']);
         $active_status = Status_bb::where('status','S')->get()->value('id');
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
         return redirect()->route('admin_dashboard');
@@ -74,6 +76,7 @@ class BbsController extends Controller
         }
         if ($request->comment) $comment.= $request->comment;
         BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>$comment]);
+        Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>$comment]);
         $active_status = Status_bb::where('status','N')->get()->value('id');
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
         return redirect()->route('admin_dashboard');
