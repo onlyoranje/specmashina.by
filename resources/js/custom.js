@@ -1,10 +1,5 @@
 window.NewSelect = function (model, parent_id = null, level = 0, id = null, selected = false) {
-    /*console.log('model:'+model);
-    console.log('parent_id:'+parent_id);
-    console.log('level:'+level);
-    console.log('id:'+id);
-    console.log('selected:'+selected);
-    console.log('-----');*/
+
     var json
 
     var child_cat = 0;
@@ -112,7 +107,7 @@ window.PriceType_Rubric = function (rubric_id) {
             ;
 
         }
-        /*console.log(rubric_id +' - ' + data['rubric_id'])*/
+
     })
     if (arr.length==1) {
         var element_id = arr.shift();
@@ -142,9 +137,7 @@ window.selectTab = function (id,forms = false)
             var val_form = $('[data-name="'+form+'"]').val();
             if (val_form == '' || val_form== null) {
                 errors.push(form)
-            } /*else {
-                errors.push(form)
-            }*/
+            }
             console.log(form +"=="+val_form)
 
         })
@@ -509,6 +502,10 @@ window.SelectLocation = function ()
 {
     var id=$('#location').val()
     window.location.href = '?location='+id;
+}
+window.ShowChat= function (chat_id){
+    $('.chat-list').hide()
+    $('#'+chat_id).show()
 }
 
 

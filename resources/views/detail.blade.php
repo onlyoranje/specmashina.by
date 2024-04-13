@@ -83,8 +83,8 @@ use App\Models\Bb;
                                                 @foreach($reasons as $reason)
                                                     <div class="col-12">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" value="{{$reason->id}}" name="reasons[]" id="flexCheckDefault">
-                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                            <input class="form-check-input" type="checkbox" value="{{$reason->id}}" name="reasons[]" id="flexCheck{{$reason->id}}">
+                                                            <label class="form-check-label" for="flexCheck{{$reason->id}}">
                                                                 {{$reason->reason}}
                                                             </label>
                                                         </div>

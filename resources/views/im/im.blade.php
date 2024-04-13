@@ -35,21 +35,27 @@
                                         <!-- Start User List -->
                                         <div class="user-list">
                                             <ul>
-
+{{--@dd($messages)--}}
                                                 @if (isset($messages))
                                                     @foreach($messages as $key=>$message)
                                                         @php
-                                                        $user2 = $message['user'];
+                                                        $user2 = $message['user2'];
                                                         @endphp
                                                        {{-- @dd($message)--}}
                                                 <li>
-                                                    <a href="javascript:void(0)">
+                                                    <a onclick="ShowChat('{{$key}}')">
                                                         <div class="image">
-                                                            <img src="assets/images/messages/image1.jpg" alt="#">
+                                                            @if ($user2->avatar)
+                                                                <img src="{{Storage::url($user2->resizeImage($user2->avatar,150, 150))}}" alt="#">
+                                                            @else
+                                                                {!! Avatar::create($user2->realname)->toSvg() !!}
+                                                            @endif
                                                         </div>
                                                         <span class="username">{{$user2->realname}}</span>
-                                                        <span class="short-message">88</span>
-                                                        <span class="unseen-message">02</span>
+                                                        <span class="short-message">{{$message['last_message']}}</span>
+                                                        @if (isset($message['unread']))
+                                                        <span class="unseen-message">{{$message['unread']}}</span>
+                                                        @endif
                                                     </a>
                                                 </li>
                                                     @endforeach
@@ -62,38 +68,36 @@
                                         </div>
                                         <!-- End User List -->
                                     </div>
-                                    <div class="col-lg-7 col-12">
+                                    <div class="col-lg-7 col-12 chats">
                                         <!-- Start Chat List -->
-                                        <div class="chat-list">
+                                        @if (isset($messages))
+                                            @foreach($messages as $key=>$message)
+                                        <div class="chat-list hide" id="{{$key}}">
                                             <ul class="single-chat-head">
-                                                <li class="left">
-                                                    <img src="assets/images/messages/image1.jpg" alt="#">
-                                                    <p class="text">Lorem Ipsum is simply dummy text of the printing and
-                                                        typesetting industry.
-                                                        <span class="time">9:51 AM</span>
-                                                    </p>
-                                                </li>
+                                                @foreach($message['message'] as $msg)
+                                                    @if ($msg['user1_id'] ==Auth::id())
                                                 <li class="right">
-                                                    <img src="assets/images/messages/image2.jpg" alt="#">
-                                                    <p class="text">Lorem Ipsum is simply dummy text of the printing and
-                                                        typesetting industry.
-                                                        <span class="time">11:00 AM</span>
-                                                    </p>
-                                                </li>
-                                                <li class="left">
-                                                    <img src="assets/images/messages/image1.jpg" alt="#">
-                                                    <p class="text">Lorem Ipsum is simply dummy text of the printing and
-                                                        typesetting industry.
-                                                        <span class="time">12:00 AM</span>
-                                                    </p>
-                                                </li>
-                                                <li class="right">
-                                                    <img src="assets/images/messages/image2.jpg" alt="#">
-                                                    <p class="text">Lorem Ipsum is simply dummy text of the printing and
-                                                        typesetting industry.
-                                                        <span class="time">12:25 AM</span>
-                                                    </p>
-                                                </li>
+                                                    @if ($message['user1']->avatar)
+                                                        <img src="{{Storage::url($message['user1']->resizeImage($message['user1']->avatar,150, 150))}}" alt="#">
+                                                    @else
+                                                        {!! Avatar::create($message['user1']->realname)->toSvg() !!}
+                                                    @endif
+                                                        @else
+                                                            <li class="left">
+                                                            @if ($message['user2']->avatar)
+                                                                <img src="{{Storage::url($message['user2']->resizeImage($message['user2']->avatar,150, 150))}}" alt="#">
+                                                            @else
+                                                                <img src="{!! Avatar::create($message['user2']->realname)->toGravatar() !!}" alt="#">
+                                                            @endif
+                                                                @endif
+
+
+                                                            <p class="text">{!! html_entity_decode($msg->text) !!}
+                                                                <span class="time">{{ \Carbon\Carbon::parse($msg->created_at)->format('H:i:s d.m.Y') }}</span>
+                                                            </p>
+                                                        </li>
+
+                                                @endforeach
                                             </ul>
                                             <div class="reply-block">
                                                 <ul class="add-media-list">
@@ -104,7 +108,10 @@
                                                 <button class="reply-btn"><img src="assets/images/messages/send.svg" alt="#"></button>
                                             </div>
                                         </div>
-                                        <!-- End Chat List -->
+
+                                        @endforeach
+                                    @endif
+                                    <!-- End Chat List -->
                                     </div>
                                 </div>
                             </div>
@@ -119,9 +126,7 @@
         </div>
         </div>
     </section>
-<pre> @php
-        print_r($messages)
-    @endphp</pre>
+
 
 
 

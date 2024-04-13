@@ -69,3 +69,11 @@
 .mark-N {
     background-color: #f4433647;
 }
+.chats .hide
+{
+    display: none;
+}
+.chats .show
+{
+    display: block;
+}
