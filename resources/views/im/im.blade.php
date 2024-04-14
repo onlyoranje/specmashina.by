@@ -105,7 +105,7 @@
                                                     <li><a href="javascript:void(0)"><i class="lni lni-image"></i></a></li>
                                                 </ul>
                                                 <input name="reply" type="text" placeholder="Type your message here...">
-                                                <button class="reply-btn"><img src="assets/images/messages/send.svg" alt="#"></button>
+                                                <button class="reply-btn"><img src={{asset("images/messages/send.svg")}} alt="#"></button>
                                             </div>
                                         </div>
 

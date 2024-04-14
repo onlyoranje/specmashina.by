@@ -128,7 +128,7 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'search_result'])->name('search');
 
-Route::get('/messages', [App\Http\Controllers\ImsController::class, 'index'])->name('messages');
+Route::get('/messages', [App\Http\Controllers\ImsController::class, 'index'])->middleware(['auth', 'verified'])->name('messages');
 
 
 

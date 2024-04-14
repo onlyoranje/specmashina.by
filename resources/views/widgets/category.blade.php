@@ -15,7 +15,7 @@ $sub_rubrics = Rubric::where('parent_id',$rubric->id)->orderBy('sort')->get();  
                     {{count(Bb::select('bbs.*')->
         Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->
 
-        where('status_bbs.active_status','Y')->whereIn('rubric_id',Rubric::descendantsAndSelf($sub_rubric->id)->pluck('id'))->where(function($query)
+        where('status_bbs.active','Y')->whereIn('rubric_id',Rubric::descendantsAndSelf($sub_rubric->id)->pluck('id'))->where(function($query)
         {
             global $request;
             if ($request->location) $query->where('location_id', $request->location );

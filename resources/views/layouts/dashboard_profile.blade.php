@@ -4,7 +4,7 @@ $user = Auth::user();
     <!-- Start Dashboard Sidebar -->
     <div class="dashboard-sidebar">
         <div class="user-image">
-            @if ($user->avatar)
+            @if (isset($user->avatar))
                 <img src="{{Storage::url($user->resizeImage($user->avatar,150, 150))}}" alt="#">
             @else
                 {!! Avatar::create($user->realname)->toSvg() !!}

@@ -30,7 +30,7 @@ class RubricsController extends Controller
         $bbs    = Bb::select('bbs.*')->
         Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->
 
-        where('status_bbs.active_status','Y')->
+        where('status_bbs.active','Y')->
         whereIn('rubric_id',$rubrics)->
         where(function($query)
         {
