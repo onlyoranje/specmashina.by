@@ -51,4 +51,17 @@ class ImsController extends Controller
         $context = ['messages'=>$dialog];
         return view('im.im',$context);
     }
+
+    public function new_msg(Request $request)
+    {
+
+        $msg = Im::create([
+            'user1_id' => Auth::id(),
+            'user2_id' => $request->user2,
+            'text' => $request->msg
+        ]);
+
+        return response()->json(['code'=>200, 'message'=>'Запись успешно создана','data' => $msg], 200);
+
+    }
 }

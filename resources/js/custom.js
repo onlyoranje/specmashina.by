@@ -507,6 +507,43 @@ window.ShowChat= function (chat_id){
     $('.chat-list').hide()
     $('#'+chat_id).show()
 }
+window.createMsg = function (chat_id) {
+
+    var msg = $('#reply_'+chat_id).val();
+    var user2= $('#user2_'+chat_id).val();
+
+
+    let _url     = `/new_msg`;
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+        url: _url,
+        type: "PATCH",
+        data: {
+            user2: user2,
+            msg: msg,
+            _token: _token
+        },
+        success: function(response) {
+            if(response.code == 200) {
+                if(id != ""){
+                    $("#row_"+id+" td:nth-child(2)").html(response.data.title);
+                    $("#row_"+id+" td:nth-child(3)").html(response.data.description);
+                } else {
+                    $('table tbody').prepend('<tr id="row_'+response.data.id+'"><td>'+response.data.id+'</td><td>'+response.data.title+'</td><td>'+response.data.description+'</td><td><a href="javascript:void(0)" data-id="'+response.data.id+'" onclick="editPost(event.target)" class="btn btn-info">Edit</a></td><td><a href="javascript:void(0)" data-id="'+response.data.id+'" class="btn btn-danger" onclick="deletePost(event.target)">Delete</a></td></tr>');
+                }
+                $('#title').val('');
+                $('#description').val('');
+
+                $('#post-modal').modal('hide');
+            }
+        },
+        error: function(response) {
+            $('#titleError').text(response.responseJSON.errors.title);
+            $('#descriptionError').text(response.responseJSON.errors.description);
+        }
+    });
+}
 
 
 

@@ -104,8 +104,9 @@
                                                     <li><a href="javascript:void(0)"><i class="lni lni-link"></i></a></li>
                                                     <li><a href="javascript:void(0)"><i class="lni lni-image"></i></a></li>
                                                 </ul>
-                                                <input name="reply" type="text" placeholder="Type your message here...">
-                                                <button class="reply-btn"><img src={{asset("images/messages/send.svg")}} alt="#"></button>
+                                                <input name="reply" id="reply_{{$key}}" type="text" placeholder="Type your message here...">
+                                                <input type="hidden" id="user2_{{$key}}" value="{{$message['user2']->id}}">
+                                                <button class="reply-btn"><img src={{asset("images/messages/send.svg")}} alt="#" onclick="createMsg('{{$key}}')"></button>
                                             </div>
                                         </div>
 
