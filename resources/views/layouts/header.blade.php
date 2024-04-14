@@ -6,7 +6,7 @@
 
                     <nav class="navbar navbar-expand-lg">
                         <a class="navbar-brand" href="/">
-                            <img src="/storage/images/logo/logo.svg" alt="Logo">
+                            <img src="{{asset("images/logo/logo.svg")}}" alt="Logo">
                         </a>
                         <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

@@ -77,3 +77,11 @@
 {
     display: block;
 }
+.messages-body .chat-list .single-chat-head {
+    height: 309px;
+    overflow-y: scroll;
+}
+.messages-body .chat-list .single-chat-head li.left .unread {
+    background: #ffd486;
+
+}

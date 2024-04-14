@@ -526,16 +526,7 @@ window.createMsg = function (chat_id) {
         },
         success: function(response) {
             if(response.code == 200) {
-                if(id != ""){
-                    $("#row_"+id+" td:nth-child(2)").html(response.data.title);
-                    $("#row_"+id+" td:nth-child(3)").html(response.data.description);
-                } else {
-                    $('table tbody').prepend('<tr id="row_'+response.data.id+'"><td>'+response.data.id+'</td><td>'+response.data.title+'</td><td>'+response.data.description+'</td><td><a href="javascript:void(0)" data-id="'+response.data.id+'" onclick="editPost(event.target)" class="btn btn-info">Edit</a></td><td><a href="javascript:void(0)" data-id="'+response.data.id+'" class="btn btn-danger" onclick="deletePost(event.target)">Delete</a></td></tr>');
-                }
-                $('#title').val('');
-                $('#description').val('');
-
-                $('#post-modal').modal('hide');
+                chats(chat_id)
             }
         },
         error: function(response) {
@@ -545,9 +536,33 @@ window.createMsg = function (chat_id) {
     });
 }
 
+window.chats = function (id) {
 
 
+    let _url     = `/chats/`+id;
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+
+    $.get( _url, function( data ) {
+        $( '.chats' ).html( data );
+        var pos = $('.unrd:first').position();
+        if (pos) {
+            $('.single-chat-head').animate({
+                scrollTop: '+=' + (pos.top - 300) + 'px'
+            });
+            if ($("#msg11").prop('scrollWidth') >
+                $("#msg11").width()) {
+                //alert("this element is overflowing !!");
+            } else {
+                // alert("this element is not overflowing!!");
+            }
+        }
+    });
+}
+
+$(document).ready(function () {
 
 
-
-
+    $( "#D_25" ).on( "scroll", function() {
+        console.log(11)
+    } );
+});
