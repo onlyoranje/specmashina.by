@@ -549,20 +549,15 @@ window.chats = function (id) {
             $('.single-chat-head').animate({
                 scrollTop: '+=' + (pos.top - 300) + 'px'
             });
-            if ($("#msg11").prop('scrollWidth') >
-                $("#msg11").width()) {
-                //alert("this element is overflowing !!");
-            } else {
-                // alert("this element is not overflowing!!");
-            }
+            var h = $('.single-chat-head').height();
+            var hiddenEls = [];
+            $('.single-chat-head').find('.msg').each(function() {
+                if ($(this).position().top > h)
+                    console.log(this.id)
+            });
+
         }
     });
 }
 
-$(document).ready(function () {
 
-
-    $( "#D_25" ).on( "scroll", function() {
-        console.log(11)
-    } );
-});

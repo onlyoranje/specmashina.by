@@ -5,14 +5,14 @@
             <ul class="single-chat-head">
                 @foreach($message['message'] as $msg)
                     @if ($msg['user1_id'] ==Auth::id())
-                        <li class="right" id="msg{{$msg->id}}">
+                        <li class="right msg" id="msg{{$msg->id}}">
                             @if ($message['user1']->avatar)
                                 <img src="{{Storage::url($message['user1']->resizeImage($message['user1']->avatar,150, 150))}}" alt="#">
                     @else
                         {!! Avatar::create($message['user1']->realname)->toSvg() !!}
                     @endif
                     @else
-                        <li class="left {{$msg->read_at?'':'unrd'}}" id="msg{{$msg->id}}">
+                        <li class="left msg {{$msg->read_at?'':'unrd'}}" id="msg{{$msg->id}}">
                             @if ($message['user2']->avatar)
                                 <img src="{{Storage::url($message['user2']->resizeImage($message['user2']->avatar,150, 150))}}" alt="#">
                             @else
