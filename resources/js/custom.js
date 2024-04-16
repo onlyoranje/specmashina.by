@@ -511,7 +511,7 @@ window.createMsg = function (chat_id) {
 
     var msg = $('#reply_'+chat_id).val();
     var user2= $('#user2_'+chat_id).val();
-
+    if (msg){
 
     let _url     = `/new_msg`;
     let _token   = $('meta[name="csrf-token"]').attr('content');
@@ -534,7 +534,9 @@ window.createMsg = function (chat_id) {
             $('#descriptionError').text(response.responseJSON.errors.description);
         }
     });
+    }
 }
+
 
 window.chats = function (id) {
 
@@ -547,17 +549,25 @@ window.chats = function (id) {
         var pos = $('.unrd:first').position();
         if (pos) {
             $('.single-chat-head').animate({
-                scrollTop: '+=' + (pos.top - 300) + 'px'
+                scrollTop: '+=' + (pos.top - 300 + 'px')
             });
             var h = $('.single-chat-head').height();
             var hiddenEls = [];
             $('.single-chat-head').find('.msg').each(function() {
-                if ($(this).position().top > h)
-                    console.log(this.id)
+                if (($(this).position().top) >= (pos.top) && $(this).attr('class') === 'left msg unrd' && ($(this).position().top) < (pos.top+h))
+
+                    console.log(this.id+' '+$(this).attr('class'))
             });
 
         }
     });
 }
+$(document).ready(function () {
+    let _url     = `/chats`;
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+    $.get( _url, function( data ) {
+        $( '.all_chats' ).html( data );
+    })
+})
 
 

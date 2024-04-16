@@ -1,4 +1,3 @@
-
 @if (isset($messages))
     @foreach($messages as $key=>$message)
         <div class="chat-list show" id="{{$key}}">
@@ -22,7 +21,7 @@
 
 
                             <p class="text {{$msg->read_at?'':'unread'}}">{!! html_entity_decode($msg->text) !!}
-                                <span class="time">{{ \Carbon\Carbon::parse($msg->created_at)->format('H:i:s d.m.Y') }}</span>
+                                <span class="time">{{ \Carbon\Carbon::parse($msg->created_at)->format('H:i:s d.m.Y') }} msg{{$msg->id}}</span>
                             </p>
                         </li>
 
@@ -41,3 +40,6 @@
 
     @endforeach
 @endif
+<script>
+    $('.username-title').text('{{$message['user2']->realname}}')
+</script>
