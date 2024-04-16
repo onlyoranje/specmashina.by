@@ -557,10 +557,31 @@ window.chats = function (id) {
                 if (($(this).position().top) >= (pos.top) && $(this).attr('class') === 'left msg unrd' && ($(this).position().top) < (pos.top+h))
 
                     console.log(this.id+' '+$(this).attr('class'))
+                readMsg(this.id)
             });
 
         }
     });
+}
+
+window.readMsg = function (id){
+    let _url     = `/read_message/`+id;
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: _url,
+        type: "PATCH",
+        data: {
+            id: id,
+            _token: _token
+        },
+        success: function(response) {
+
+        },
+        error: function(response) {
+
+        }
+    });
+
 }
 $(document).ready(function () {
     let _url     = `/chats`;

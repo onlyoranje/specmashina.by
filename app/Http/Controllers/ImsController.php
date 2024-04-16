@@ -104,6 +104,14 @@ class ImsController extends Controller
         return response()->json(['code'=>200, 'message'=>'Запись успешно создана','data' => $msg], 200);
 
     }
+    public function read_msg(Request $request)
+    {
+        $msg_id = substr($request->id,3);
+        $msg = Im::where('id',$msg_id)->where('user2_id',Auth::id())->update(['read_at'=>date('Y-m-d H:i:s')]);
+
+        //return response()->json(['code'=>200, 'message'=>'Запись успешно создана','data' => $msg], 200);
+
+    }
     public function chat($id)
     {
         $dialog = [];
