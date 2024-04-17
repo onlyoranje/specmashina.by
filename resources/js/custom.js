@@ -547,20 +547,31 @@ window.chats = function (id) {
     $.get( _url, function( data ) {
         $( '.chats' ).html( data );
         var pos = $('.unrd:first').position();
+        var h = $('.single-chat-head').height();
+        var h2 = $('.single-chat-head').prop("scrollHeight");
         if (pos) {
-            $('.single-chat-head').animate({
-                scrollTop: '+=' + (pos.top - 300 + 'px')
-            });
-            var h = $('.single-chat-head').height();
-            var hiddenEls = [];
-            $('.single-chat-head').find('.msg').each(function() {
-                if (($(this).position().top) >= (pos.top) && $(this).attr('class') === 'left msg unrd' && ($(this).position().top) < (pos.top+h))
 
-                    console.log(this.id+' '+$(this).attr('class'))
-                readMsg(this.id)
+            $('.single-chat-head').scrollTop(pos.top - h)
+
+
+
+            $('.single-chat-head').find('.msg').each(function() {
+
+                if (($(this).position().top) >= h && $(this).attr('class') === 'left msg unrd' && ($(this).position().top) < (h+h))
+                {
+                    readMsg(this.id)
+                }
+
+
             });
+
+        } else {
+            $('.single-chat-head').scrollTop(h2);
 
         }
+        $( ".single-chat-head" ).on( "scroll", function() {
+
+        } );
     });
 }
 
@@ -575,6 +586,7 @@ window.readMsg = function (id){
             _token: _token
         },
         success: function(response) {
+$('#'+id).children('.text').addClass('reading_msg')
 
         },
         error: function(response) {
@@ -589,6 +601,9 @@ $(document).ready(function () {
     $.get( _url, function( data ) {
         $( '.all_chats' ).html( data );
     })
+})
+$(document).ready(function () {
+
 })
 
 

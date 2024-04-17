@@ -85,4 +85,8 @@
     background: #ffd486;
 
 }
+.reading_msg{
+    background: #f9f9f9!important;
 
+    transition:  background 1s linear;
+}
