@@ -530,8 +530,7 @@ window.createMsg = function (chat_id) {
             }
         },
         error: function(response) {
-            $('#titleError').text(response.responseJSON.errors.title);
-            $('#descriptionError').text(response.responseJSON.errors.description);
+
         }
     });
     }
@@ -546,6 +545,7 @@ window.chats = function (id) {
 
     $.get( _url, function( data ) {
         $( '.chats' ).html( data );
+        $('#reply_'+id).focus();
         var pos = $('.unrd:first').position();
         var h = $('.single-chat-head').height();
         var h2 = $('.single-chat-head').prop("scrollHeight");
@@ -572,6 +572,12 @@ window.chats = function (id) {
         $( ".single-chat-head" ).on( "scroll", function() {
 
         } );
+        $("input[name='reply']").keyup(function (event) {
+
+            if (event.keyCode === 13) {
+                createMsg(id)
+            }
+        });
     });
 }
 
@@ -604,6 +610,28 @@ $(document).ready(function () {
 })
 $(document).ready(function () {
 
+
 })
 
+import Echo from 'laravel-echo'
 
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'b52b7d79e679a85bb93f',
+    cluster: 'eu',
+    forceTLS: true
+});
+
+var channel = window.Echo.channel('allusers');
+channel.listen('.my-event', function(data) {
+    alert(JSON.stringify(data));
+});
+
+
+
+/*
+var channel = window.Echo.channel('115');
+channel.listen('.my-event', function(data) {
+    alert(JSON.stringify(data));
+});
+*/

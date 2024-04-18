@@ -145,12 +145,8 @@
 </a>
 
 
-<script type="text/javascript">
-
-</script>
 </body>
 
 
-<!-- Turn all file input elements into ponds -->
 
 </html>

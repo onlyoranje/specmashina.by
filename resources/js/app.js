@@ -11,7 +11,7 @@ import "./jquery-ui.min"
 import "./jquery.fileuploader.min"
 import "./jquery.maskedinput"
 /*import  "./tiny-slider"*/
-
+import "laravel-echo"
 import "./custom"
 
 

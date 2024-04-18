@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\NewMessageNotification;
 use App\Models\Im;
 use App\Models\User;
 use Illuminate\Support\Str;
@@ -100,7 +101,7 @@ class ImsController extends Controller
             'user2_id' => $request->user2,
             'text' => $request->msg
         ]);
-
+        event(new NewMessageNotification($msg));
         return response()->json(['code'=>200, 'message'=>'Запись успешно создана','data' => $msg], 200);
 
     }
@@ -137,8 +138,8 @@ class ImsController extends Controller
             $dialog['D_'.$user2]['updated_at'] = $message->updated_at;
             $dialog['D_'.$user2]['message'][] = $message;
             $dialog['D_'.$user2]['last_message'] = Str::limit(strip_tags($message->text),50);
-            $dialog['D_'.$user2]['user1'] = User::where('id',$user1)->first();
-            $dialog['D_'.$user2]['user2'] = User::where('id',$user2)->first();
+            if (!isset($dialog['D_'.$user2]['user1'])) $dialog['D_'.$user2]['user1'] = User::where('id',$user1)->first();
+            if (!isset($dialog['D_'.$user2]['user2'])) $dialog['D_'.$user2]['user2'] = User::where('id',$user2)->first();
 
         }
 
