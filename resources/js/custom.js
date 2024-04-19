@@ -610,11 +610,42 @@ $(document).ready(function () {
 })
 $(document).ready(function () {
 
+    document.getElementById("toastbtn").onclick = function() {
 
+    };
 })
 
 
+window.newNotificate = function (category,message,user1,user2){
 
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+    let _url     = `/notification`;
+    $.ajax({
+        url: _url,
+        type: "PATCH",
+        data: {
+            _token: _token,
+            category: category,
+            message: message,
+            user1: user1,
+            user2: user2
+        },
+        success: function(data) {
+  $('.toast-container').html(data.html)
+//console.log(data.html)
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function(toastEl) {
+                console.log(toastEl)
+                return new window.bootstrap.Toast(toastEl)
+            });
+            toastList.forEach(toast => toast.show());
+        },
+        error: function(response) {
+
+        }
+    });
+
+}
 
 
 

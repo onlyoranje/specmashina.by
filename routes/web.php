@@ -133,6 +133,7 @@ Route::get('/chats', [App\Http\Controllers\ImsController::class, 'chats'])->midd
 Route::get('/chats/{id}', [App\Http\Controllers\ImsController::class, 'chat'])->middleware(['auth', 'verified'])->name('chat');
 Route::patch('/read_message/{id}', [App\Http\Controllers\ImsController::class, 'read_msg'])->middleware(['auth', 'verified'])->name('read_msg');
 Route::patch('/new_msg', [App\Http\Controllers\ImsController::class, 'new_msg'])->middleware(['auth', 'verified'])->name('new_msg');
+Route::patch('/notification', [App\Http\Controllers\NotificationController::class, 'index'])->middleware(['auth', 'verified'])->name('notification');
 
 
 

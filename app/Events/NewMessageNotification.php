@@ -1,6 +1,7 @@
 <?php
 namespace App\Events;
 use App\Models\Im;
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -14,15 +15,20 @@ class NewMessageNotification implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $message;
+    public $user;
+    public $category;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Im $message)
+    public function __construct($category,Im $message,$user1_id,$user2_id)
     {
-        $this->message ='$message->text'; ;
+        $this->category =$category;
+        $this->message =$message->text;
+        $this->user1 = User::where('id',$user1_id)->first();
+        $this->user2 =$user2_id;
     }
 
     /**
@@ -32,7 +38,7 @@ class NewMessageNotification implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return ['allusers'];
+        return ['user.'.$this->user2];
     }
     public function broadcastAs()
     {

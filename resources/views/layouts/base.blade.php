@@ -130,6 +130,7 @@
                                 <li><a href="javascript:void(0)"><i class="lni lni-twitter-original"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="lni lni-youtube"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="lni lni-linkedin-original"></i></a></li>
+                                <li> <button type="button" class="btn btn-primary" id="toastbtn">Initialize toast</button></li>
                             </ul>
                         </div>
                     </div>
@@ -143,10 +144,37 @@
 <a href="#" class="scroll-top btn-hover">
     <i class="lni lni-chevron-up"></i>
 </a>
-
+<div class="toast-container"></div>
 
 </body>
+@if (Auth::user())
+<script>
+    window.addEventListener("load", function(){
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('b52b7d79e679a85bb93f', {
+            cluster: 'eu'
+        });
+
+        var channel = pusher.subscribe('user.{{Auth::id()}}');
+        channel.bind('my-event', function(data) {
+            //alert(JSON.stringify(data));
+            var arr = $.parseJSON(JSON.stringify(data));
+            newNotificate(arr.category,arr.message,arr.user,{{Auth::id()}})
 
 
+
+
+            });
+
+
+
+    });
+
+
+</script>
+
+
+    @endif
 
 </html>

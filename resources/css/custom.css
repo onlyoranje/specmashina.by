@@ -90,3 +90,16 @@
 
     transition:  background 1s linear;
 }
+.toast-container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    bottom: 30px;
+    right: 80px;
+    z-index: 9;
+    cursor: pointer;
+    flex-direction: column-reverse;
+}
