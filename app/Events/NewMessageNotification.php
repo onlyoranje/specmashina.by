@@ -34,4 +34,8 @@ class NewMessageNotification implements ShouldBroadcastNow
     {
         return ['allusers'];
     }
+    public function broadcastAs()
+    {
+        return 'my-event';
+    }
 }
