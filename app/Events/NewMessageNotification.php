@@ -38,6 +38,7 @@ class NewMessageNotification implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
+      
         return ['user.'.$this->user2];
     }
     public function broadcastAs()

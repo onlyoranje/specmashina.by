@@ -10,8 +10,8 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
 
-        $context= ['message'=>$request->message,'user2'=>User::where('id',$request->user2)->first(),'user1'=>$request->user1];
-
+        $context= ['message'=>$request->message,'user1'=>User::where('id',$request->user1)->first(),'user2'=>$request->user2];
+dd($context);
 
         $returnHTML = view('notification.'.$request->category,$context)->render();
         return response()->json(array('success' => true, 'html'=>$returnHTML));
