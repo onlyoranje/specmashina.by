@@ -160,8 +160,8 @@
         channel.bind('my-event', function(data) {
             //alert(JSON.stringify(data));
             var arr = $.parseJSON(JSON.stringify(data));
-            console.log(arr)
-            newNotificate(arr.category,arr.message,arr.user['id'],{{Auth::id()}})
+            //console.log( typeof arr.user)
+            newNotificate(arr.category,arr.message,arr.user1,{{Auth::id()}})
 
 
 

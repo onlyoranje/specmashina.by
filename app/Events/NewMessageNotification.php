@@ -28,7 +28,7 @@ class NewMessageNotification implements ShouldBroadcastNow
     {
         $this->category =$category;
         $this->message =$message->text;
-        $this->user1 = User::where('id',$user1_id)->first();
+        $this->user1 = $user1_id;
         $this->user2 =$user2_id;
 
     }

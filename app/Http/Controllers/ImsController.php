@@ -101,8 +101,8 @@ class ImsController extends Controller
             'user2_id' => $request->user2,
             'text' => $request->msg
         ]);
-
-        event(new NewMessageNotification('new_message',$msg,Auth::id(),$request->user2));
+        //dd(Auth::id());
+        event(new NewMessageNotification('new_message',$msg,$msg->user1_id,$request->user2));
         return response()->json(['code'=>200, 'message'=>'Запись успешно создана','data' => $msg], 200);
 
     }
