@@ -15,7 +15,8 @@ class NewMessageNotification implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $message;
-    public $user;
+    public $user1;
+    public $user2;
     public $category;
 
     /**
@@ -29,6 +30,7 @@ class NewMessageNotification implements ShouldBroadcastNow
         $this->message =$message->text;
         $this->user1 = User::where('id',$user1_id)->first();
         $this->user2 =$user2_id;
+
     }
 
     /**
@@ -38,7 +40,7 @@ class NewMessageNotification implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-      
+
         return ['user.'.$this->user2];
     }
     public function broadcastAs()

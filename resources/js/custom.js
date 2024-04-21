@@ -620,6 +620,7 @@ window.newNotificate = function (category,message,user1,user2){
 
     let _token   = $('meta[name="csrf-token"]').attr('content');
     let _url     = `/notification`;
+    console.log('user' + user1)
     $.ajax({
         url: _url,
         type: "PATCH",
