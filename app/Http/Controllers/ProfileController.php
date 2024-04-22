@@ -475,7 +475,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             limit(5)->
             get();
         $bbs_active = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
-        $bbs_moderation = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->get();
+        $bbs_moderation = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->orderBy('bbs.updated_at','asc')->get();
         $bbs_moderation_fail = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','N')->get();
 
 

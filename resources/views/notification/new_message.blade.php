@@ -1,5 +1,5 @@
 
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="99999999999999">
     <div class="toast-header">
         @if (isset($user1->avatar))
             <img src="{{Storage::url($user1->resizeImage($user1->avatar,50, 50))}}" alt="#">
@@ -11,6 +11,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">
-        {{$message}}
+        {!! html_entity_decode($message) !!}
     </div>
 </div>

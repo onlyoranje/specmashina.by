@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessageNotification;
 use App\Models\Bb;
 use App\Models\BbAdminComments;
 use App\Models\BbStatistic;
 use App\Models\Im;
 use App\Models\Location;
+use App\Models\Notification;
 use App\Models\RejectReasons;
 use App\Models\Rubric;
 use App\Models\Status_bb;
@@ -61,9 +63,11 @@ class BbsController extends Controller
     }
     public function approve(Bb $bb,Request $request){
         BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>'Объявление прошло модерацию']);
-        Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>'Объявление прошло модерацию']);
+        $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>'Объявление прошло модерацию']);
         $active_status = Status_bb::where('status','S')->get()->value('id');
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
+        event(new NewMessageNotification('new_message',$msg ,Auth::id(),$bb->user->id));
+        Notification::create(['type'=>'new_message','user_id'=>$bb->user->id,'data'=>$msg->text]);
         return redirect()->route('admin_dashboard');
     }
     public function reject(Bb $bb,Request $request){
@@ -76,7 +80,8 @@ class BbsController extends Controller
         }
         if ($request->comment) $comment.= $request->comment;
         BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>$comment]);
-        Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>$comment]);
+        $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>$comment]);
+        event(new NewMessageNotification('new_message',$msg,Auth::id(),$bb->user->id));
         $active_status = Status_bb::where('status','N')->get()->value('id');
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
         return redirect()->route('admin_dashboard');
