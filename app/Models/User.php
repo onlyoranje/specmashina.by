@@ -56,6 +56,9 @@ class User extends Authenticatable
     public function organization(){
         return $this->hasOne(Organization::class);
     }
+    public function notifications(){
+        return $this->hasMany(Notification::class);
+    }
     public function isAdmin()
     {
         return $this->is_admin === 1;

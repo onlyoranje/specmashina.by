@@ -64,16 +64,17 @@
                             <div class="col-lg-6 col-md-12 col-12">
                                 <div class="activity-log dashboard-block">
                                     <h3 class="block-title">Уведомления</h3>
+
                                     <ul>
-                                        @if (isset($bbs_admin_comments) and count($bbs_admin_comments)>0)
-                                            @foreach ($bbs_admin_comments as $comment)
+                                        @if (isset($notifications) and count($notifications)>0)
+                                            @foreach ($notifications as $notification)
                                         <li>
                                             <div class="log-icon">
                                                 <i class="lni lni-alarm"></i>
                                             </div>
-                                            <a href="javascript:void(0)" class="title">{{$comment->bb->vendor->name}} {{$comment->bb->title}}</a>
-                                            <span class="time">{!! html_entity_decode($comment->comment) !!}</span>
-                                            <span class="time">{{ \Carbon\Carbon::parse($comment->created_at)->format('H:i:s d.m.Y') }}</span>
+                                            <a href="javascript:void(0)" class="title">{!! html_entity_decode($notification->data) !!}</a>
+
+                                            <span class="time">{{ \Carbon\Carbon::parse($notification->created_at)->format('H:i:s d.m.Y') }}</span>
                                             <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
                                         </li>
 @endforeach
