@@ -112,3 +112,21 @@
     top: 8px;
     margin-right: 16px;
 }
+.modal-dialog{
+    background-color: rgb(255, 255, 255);
+
+    border-radius: 20px;
+    box-sizing: border-box;
+    display: block;
+
+
+
+
+    padding-bottom: 60px;
+    padding-left :70px;
+    padding-right: 70px;
+    padding-top :60px;
+;
+
+
+}

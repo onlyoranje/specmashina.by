@@ -73,12 +73,12 @@ use App\Models\Bb;
                                             <form class="default-form-style" method="POST" enctype="multipart/form-data" action="{{route('reject', $bb->id)}}">
                                                 @csrf
                                                 @method('PATCH')
-                                            <div class="modal-content">
-                                                <div class="modal-header">
+                                            <div class="">
+
                                                     <h5 class="modal-title" id="staticBackdropLabel">Причины отклонения</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body row">
+
+
+                                                <div class="row">
 
                                                 @foreach($reasons as $reason)
                                                     <div class="col-12">
@@ -98,7 +98,7 @@ use App\Models\Bb;
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
+                                                <div class="">
                                                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                                                     <button class="btn btn-danger btn-sm" type="submit">Отклонить</button>
                                                 </div>
