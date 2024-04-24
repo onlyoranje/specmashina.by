@@ -601,6 +601,27 @@ $('#'+id).children('.text').addClass('reading_msg')
     });
 
 }
+window.readAlert = function (id){
+    let _url     = `/read_alert/`+id;
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: _url,
+        type: "PATCH",
+        data: {
+            id: id,
+            _token: _token
+        },
+        success: function(response) {
+            $('#alert'+id).html('<i class="fa-regular fa-bell"></i>')
+            $('#alerttext'+id).removeClass('fw-bold')
+
+        },
+        error: function(response) {
+
+        }
+    });
+
+}
 $(document).ready(function () {
     let _url     = `/chats`;
     let _token   = $('meta[name="csrf-token"]').attr('content');

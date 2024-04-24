@@ -69,11 +69,11 @@
                                         @if (isset($notifications) and count($notifications)>0)
                                             @foreach ($notifications as $notification)
                                         <li>
-                                            <div class="log-icon">
+                                            <div class="log-icon" id="alert{{$notification->id}}">
 
                                                 <i class="{{($notification->read_at)?'fa-regular':'fa-solid'}} fa-bell"></i>
                                             </div>
-                                            <a href="javascript:void(0)"  class="title {{($notification->read_at)?'':'fw-bold'}}">{!! html_entity_decode($notification->data) !!}</a>
+                                            <a href="javascript:void(0)" id="alerttext{{$notification->id}}" class="title {{($notification->read_at)?'':'fw-bold'}}">{!! html_entity_decode($notification->data) !!}</a>
 
                                             <span class="time ">{{ \Carbon\Carbon::parse($notification->created_at)->format('H:i:s d.m.Y') }}</span>
                                             <span class="remove"><a  data-bs-toggle="modal" data-bs-target="#staticBackdrop{{$notification->id}}"><i class="fa-solid fa-expand"></i></a></span>
@@ -92,7 +92,7 @@
 
                                                                 </div>
                                                                 <div class="">
-                                                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal" onclick="readAlert({{$notification->id}})">Закрыть</button>
 
                                                                 </div>
 

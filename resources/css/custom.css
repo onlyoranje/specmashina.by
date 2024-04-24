@@ -146,3 +146,6 @@ opacity: 0;
 visibility: hidden;
 border-radius: 3px;
 }
+.dashboard .main-content .activity-log ul li .title{
+    font-weight: normal ;
+}
