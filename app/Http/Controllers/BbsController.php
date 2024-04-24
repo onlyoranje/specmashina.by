@@ -84,6 +84,7 @@ class BbsController extends Controller
         event(new NewMessageNotification('new_message',$msg,Auth::id(),$bb->user->id));
         $active_status = Status_bb::where('status','N')->get()->value('id');
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
+        Notification::create(['type'=>'new_message','user_id'=>$bb->user->id,'data'=>$msg->text]);
         return redirect()->route('admin_dashboard');
     }
 }

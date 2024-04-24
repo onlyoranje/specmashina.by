@@ -70,14 +70,36 @@
                                             @foreach ($notifications as $notification)
                                         <li>
                                             <div class="log-icon">
-                                                <i class="lni lni-alarm"></i>
-                                            </div>
-                                            <a href="javascript:void(0)" class="title">{!! html_entity_decode($notification->data) !!}</a>
 
-                                            <span class="time">{{ \Carbon\Carbon::parse($notification->created_at)->format('H:i:s d.m.Y') }}</span>
-                                            <span class="remove"><a href="javascript:void(0)"><i class="lni lni-close"></i></a></span>
+                                                <i class="{{($notification->read_at)?'fa-regular':'fa-solid'}} fa-bell"></i>
+                                            </div>
+                                            <a href="javascript:void(0)"  class="title {{($notification->read_at)?'':'fw-bold'}}">{!! html_entity_decode($notification->data) !!}</a>
+
+                                            <span class="time ">{{ \Carbon\Carbon::parse($notification->created_at)->format('H:i:s d.m.Y') }}</span>
+                                            <span class="remove"><a  data-bs-toggle="modal" data-bs-target="#staticBackdrop{{$notification->id}}"><i class="fa-solid fa-expand"></i></a></span>
                                         </li>
-@endforeach
+                                                @if (!$notification->read_at)
+                                                    <div class="modal fade" id="staticBackdrop{{$notification->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+
+                                                                <div class="row">
+
+
+                                                                        <div class="col-12">
+                                                                            {!! html_entity_decode($notification->data) !!}
+                                                                        </div>
+
+
+                                                                </div>
+                                                                <div class="">
+                                                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+
+                                                                </div>
+
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @endforeach
                                             @endif
                                     </ul>
                                 </div>

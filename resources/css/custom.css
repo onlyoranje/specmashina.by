@@ -118,15 +118,31 @@
     border-radius: 20px;
     box-sizing: border-box;
     display: block;
+    pointer-events: unset;
 
 
 
-
-    padding-bottom: 60px;
-    padding-left :70px;
-    padding-right: 70px;
-    padding-top :60px;
+padding-bottom: 60px;
+padding-left :70px;
+padding-right: 70px;
+padding-top :60px;
 ;
 
 
+}
+.dashboard .main-content .activity-log ul li .remove a {
+position: absolute;
+right: 30px;
+top: 50%;
+transform: translateY(-50%);
+height: 15px;
+width: 15px;
+line-height: 15px;
+background: blue;
+color: #fff;
+font-size: 10px;
+text-align: center;
+opacity: 0;
+visibility: hidden;
+border-radius: 3px;
 }
