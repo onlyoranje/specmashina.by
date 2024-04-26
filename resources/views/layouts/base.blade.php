@@ -168,9 +168,15 @@
 
             });
 
+        let _url     = `/chats`;
+        let _token   = $('meta[name="csrf-token"]').attr('content');
+        $.get( _url, function( data ) {
+            $( '.all_chats' ).html( data );
+        })
 
 
     });
+
 
 
 </script>

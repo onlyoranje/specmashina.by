@@ -11,7 +11,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
             }
         }
     )
-    if (level) $("#container_"+model+"_"+(level+1)).remove();
+    if (level) $("#container_" + model + "_" + (level + 1)).remove();
     $('#log').text("child_cat:" + child_cat + " parent_id:" + parent_id + " level:" + level)
     if (level > 0 && child_cat === 0) {
         $("#" + model + "_level_" + level).remove()
@@ -42,7 +42,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
         $("#" + model + "_level_" + (level - 1)).attr('name', model + "_id")
         $("#" + model + "_level_" + (level - 1)).attr('data-name', model)
         $("#" + model + "_level_" + (level - 1)).attr('required', "required")
-console.log("#" + model + "_level_" + (level - 1))
+        console.log("#" + model + "_level_" + (level - 1))
     }
 
 }
@@ -56,7 +56,7 @@ $(document).ready(function () {
 })
 
 window.CheckRubrics = function (parent_id, id) {
-   // console.log(id)
+    // console.log(id)
     var child_cat = $('.parent' + parent_id).length
     var child_cat_checked = $('.parent' + parent_id + ':checked').length;
 
@@ -84,7 +84,6 @@ window.Parameter_Rubric = function (rubric_id) {
     $(".input-parameter").hide();
 
 
-
     $.each(json_parameter_rubric, function (key, data) {
 
 
@@ -96,7 +95,7 @@ window.Parameter_Rubric = function (rubric_id) {
 }
 window.PriceType_Rubric = function (rubric_id) {
     $(".input-pricetype").hide();
-    var arr =[];
+    var arr = [];
     $.each(json_pricetype_rubric, function (key, data) {
 
         if (rubric_id == data['rubric_id']) {
@@ -104,12 +103,12 @@ window.PriceType_Rubric = function (rubric_id) {
             $('#pricetype_' + data['price_type_id']).show();
             $('#input_pricetype_' + data['price_type_id']).prop('checked', false);
 
-            ;
+
 
         }
 
     })
-    if (arr.length==1) {
+    if (arr.length == 1) {
         var element_id = arr.shift();
         $('#pricetype_' + element_id).prop('selected', true);
     }
@@ -117,8 +116,8 @@ window.PriceType_Rubric = function (rubric_id) {
 }
 $(document).ready(function () {
     $('input[name="price_type"]').change(function (e) {
-        if ($(this).data('hasvalue')==='Y'){
-            $('#price').attr('required','required')
+        if ($(this).data('hasvalue') === 'Y') {
+            $('#price').attr('required', 'required')
             $('#price').show()
         } else {
             $('#price').removeAttr('required')
@@ -128,22 +127,20 @@ $(document).ready(function () {
         console.log($(this).data('hasvalue'))
     })
 })
-window.selectTab = function (id,forms = false)
-{
+window.selectTab = function (id, forms = false) {
     var errors = Array();
-    if (id=='nav-item-details'){
-        $.each(forms,function(id,form)
-        {
-            var val_form = $('[data-name="'+form+'"]').val();
-            if (val_form == '' || val_form== null) {
+    if (id == 'nav-item-details') {
+        $.each(forms, function (id, form) {
+            var val_form = $('[data-name="' + form + '"]').val();
+            if (val_form == '' || val_form == null) {
                 errors.push(form)
             }
-            console.log(form +"=="+val_form)
+            console.log(form + "==" + val_form)
 
         })
     }
     console.log(errors)
-    if (errors.length<1) {
+    if (errors.length < 1) {
         $('.nav-link').removeClass('active')
         $('.tab-pane').removeClass('active show')
         $('#' + id).addClass('active show')
@@ -157,7 +154,7 @@ $(document).ready(function () {
     $('input[name="file"]').fileuploader({
         limit: 20,
         maxSize: 50,
-        extensions: ['jpg', 'jpeg','png','webp','bmp'],
+        extensions: ['jpg', 'jpeg', 'png', 'webp', 'bmp'],
         changeInput: '<div class="fileuploader-input">' +
             '<div class="fileuploader-input-inner">' +
             '<div class="fileuploader-icon-main"></div>' +
@@ -435,10 +432,10 @@ $(document).ready(function () {
     }*/
 
 
-   /* function fadeout() {
-        document.querySelector('.preloader').style.opacity = '0';
-        document.querySelector('.preloader').style.display = 'none';
-    }*/
+    /* function fadeout() {
+         document.querySelector('.preloader').style.opacity = '0';
+         document.querySelector('.preloader').style.display = 'none';
+     }*/
 
 
     /*=====================================
@@ -470,27 +467,27 @@ $(document).ready(function () {
     });
 
     // WOW active
-   // new WOW().init();
+    // new WOW().init();
 
 })();
 
 
 $(document).ready(function () {
-    $('.nav-link').on( "click", function() {
-        document.cookie = 'tablist='+$(this).attr('aria-controls')+'; max-age=3600000';
+    $('.nav-link').on("click", function () {
+        document.cookie = 'tablist=' + $(this).attr('aria-controls') + '; max-age=3600000';
         console.log($(this).attr('aria-controls'))
     })
 })
 $(document).ready(function () {
-    $('.hero-search').on( "click", function() {
-        var q=$('#keyword').val();
+    $('.hero-search').on("click", function () {
+        var q = $('#keyword').val();
         console.log(q.length)
-        if (q.length>2) $('#hero_search').submit();
-        if (q.length==0) {
+        if (q.length > 2) $('#hero_search').submit();
+        if (q.length == 0) {
             $('.invalid-feedback-hero-form').show();
             $('.invalid-feedback-hero-form').text('Пустой запрос');
         }
-        if (3>q.length>0) {
+        if (3 > q.length > 0) {
             $('.invalid-feedback-hero-form').show();
             $('.invalid-feedback-hero-form').text('Введите 3 и более символов');
         }
@@ -498,41 +495,40 @@ $(document).ready(function () {
 })
 
 
-window.SelectLocation = function ()
-{
-    var id=$('#location').val()
-    window.location.href = '?location='+id;
+window.SelectLocation = function () {
+    var id = $('#location').val()
+    window.location.href = '?location=' + id;
 }
-window.ShowChat= function (chat_id){
+window.ShowChat = function (chat_id) {
     $('.chat-list').hide()
-    $('#'+chat_id).show()
+    $('#' + chat_id).show()
 }
 window.createMsg = function (chat_id) {
 
-    var msg = $('#reply_'+chat_id).val();
-    var user2= $('#user2_'+chat_id).val();
-    if (msg){
+    var msg = $('#reply_' + chat_id).val();
+    var user2 = $('#user2_' + chat_id).val();
+    if (msg) {
 
-    let _url     = `/new_msg`;
-    let _token   = $('meta[name="csrf-token"]').attr('content');
+        let _url = `/new_msg`;
+        let _token = $('meta[name="csrf-token"]').attr('content');
 
-    $.ajax({
-        url: _url,
-        type: "PATCH",
-        data: {
-            user2: user2,
-            msg: msg,
-            _token: _token
-        },
-        success: function(response) {
-            if(response.code == 200) {
-                chats(chat_id)
+        $.ajax({
+            url: _url,
+            type: "PATCH",
+            data: {
+                user2: user2,
+                msg: msg,
+                _token: _token
+            },
+            success: function (response) {
+                if (response.code == 200) {
+                    chats(chat_id)
+                }
+            },
+            error: function (response) {
+
             }
-        },
-        error: function(response) {
-
-        }
-    });
+        });
     }
 }
 
@@ -540,12 +536,12 @@ window.createMsg = function (chat_id) {
 window.chats = function (id) {
 
 
-    let _url     = `/chats/`+id;
-    let _token   = $('meta[name="csrf-token"]').attr('content');
+    let _url = `/chats/` + id;
+    let _token = $('meta[name="csrf-token"]').attr('content');
 
-    $.get( _url, function( data ) {
-        $( '.chats' ).html( data );
-        $('#reply_'+id).focus();
+    $.get(_url, function (data) {
+        $('.chats').html(data);
+        $('#reply_' + id).focus();
         var pos = $('.unrd:first').position();
         var h = $('.single-chat-head').height();
         var h2 = $('.single-chat-head').prop("scrollHeight");
@@ -554,11 +550,9 @@ window.chats = function (id) {
             $('.single-chat-head').scrollTop(pos.top - h)
 
 
+            $('.single-chat-head').find('.msg').each(function () {
 
-            $('.single-chat-head').find('.msg').each(function() {
-
-                if (($(this).position().top) >= h && $(this).attr('class') === 'left msg unrd' && ($(this).position().top) < (h+h))
-                {
+                if (($(this).position().top) >= h && $(this).attr('class') === 'left msg unrd' && ($(this).position().top) < (h + h)) {
                     readMsg(this.id)
                 }
 
@@ -569,9 +563,9 @@ window.chats = function (id) {
             $('.single-chat-head').scrollTop(h2);
 
         }
-        $( ".single-chat-head" ).on( "scroll", function() {
+        $(".single-chat-head").on("scroll", function () {
 
-        } );
+        });
         $("input[name='reply']").keyup(function (event) {
 
             if (event.keyCode === 13) {
@@ -581,9 +575,9 @@ window.chats = function (id) {
     });
 }
 
-window.readMsg = function (id){
-    let _url     = `/read_message/`+id;
-    let _token   = $('meta[name="csrf-token"]').attr('content');
+window.readMsg = function (id) {
+    let _url = `/read_message/` + id;
+    let _token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         url: _url,
         type: "PATCH",
@@ -591,19 +585,19 @@ window.readMsg = function (id){
             id: id,
             _token: _token
         },
-        success: function(response) {
-$('#'+id).children('.text').addClass('reading_msg')
+        success: function (response) {
+            $('#' + id).children('.text').addClass('reading_msg')
 
         },
-        error: function(response) {
+        error: function (response) {
 
         }
     });
 
 }
-window.readAlert = function (id){
-    let _url     = `/read_alert/`+id;
-    let _token   = $('meta[name="csrf-token"]').attr('content');
+window.readAlert = function (id) {
+    let _url = `/read_alert/` + id;
+    let _token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         url: _url,
         type: "PATCH",
@@ -611,36 +605,29 @@ window.readAlert = function (id){
             id: id,
             _token: _token
         },
-        success: function(response) {
-            $('#alert'+id).html('<i class="fa-regular fa-bell"></i>')
-            $('#alerttext'+id).removeClass('fw-bold')
+        success: function (response) {
+            $('#alert' + id).html('<i class="fa-regular fa-bell"></i>')
+            $('#alerttext' + id).removeClass('fw-bold')
 
         },
-        error: function(response) {
+        error: function (response) {
 
         }
     });
 
 }
 $(document).ready(function () {
-    let _url     = `/chats`;
-    let _token   = $('meta[name="csrf-token"]').attr('content');
-    $.get( _url, function( data ) {
-        $( '.all_chats' ).html( data );
-    })
-})
-$(document).ready(function () {
 
-    document.getElementById("toastbtn").onclick = function() {
+    document.getElementById("toastbtn").onclick = function () {
 
     };
 })
 
 
-window.newNotificate = function (category,message,user1,user2){
+window.newNotificate = function (category, message, user1, user2) {
 
-    let _token   = $('meta[name="csrf-token"]').attr('content');
-    let _url     = `/notification`;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    let _url = `/notification`;
     console.log('user' + user1)
     $.ajax({
         url: _url,
@@ -652,23 +639,22 @@ window.newNotificate = function (category,message,user1,user2){
             user1: user1,
             user2: user2
         },
-        success: function(data) {
-  $('.toast-container').html(data.html)
+        success: function (data) {
+            $('.toast-container').html(data.html)
 //console.log(data.html)
             var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-            var toastList = toastElList.map(function(toastEl) {
+            var toastList = toastElList.map(function (toastEl) {
                 console.log(toastEl)
                 return new window.bootstrap.Toast(toastEl)
             });
             toastList.forEach(toast => toast.show());
         },
-        error: function(response) {
+        error: function (response) {
 
         }
     });
 
 }
-
 
 
 /*
