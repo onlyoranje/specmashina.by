@@ -129,8 +129,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'search_result'])->name('search');
 
 Route::get('/messages', [App\Http\Controllers\ImsController::class, 'index'])->middleware(['auth', 'verified'])->name('messages');
-Route::get('/chats', [App\Http\Controllers\ImsController::class, 'chats'])->middleware(['auth', 'verified'])->name('chats');
 Route::get('/chats/{id}', [App\Http\Controllers\ImsController::class, 'chat'])->middleware(['auth', 'verified'])->name('chat');
+Route::get('/chats', [App\Http\Controllers\ImsController::class, 'chats'])->middleware(['auth', 'verified'])->name('chats');
+
 Route::patch('/read_message/{id}', [App\Http\Controllers\ImsController::class, 'read_msg'])->middleware(['auth', 'verified'])->name('read_msg');
 Route::patch('/read_alert/{id}', [App\Http\Controllers\NotificationController::class, 'read_alert'])->middleware(['auth', 'verified'])->name('read_msg');
 Route::patch('/new_msg', [App\Http\Controllers\ImsController::class, 'new_msg'])->middleware(['auth', 'verified'])->name('new_msg');
