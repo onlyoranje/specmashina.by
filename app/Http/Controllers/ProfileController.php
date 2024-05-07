@@ -64,7 +64,7 @@ class ProfileController extends Controller
 
 
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $request->user(),'locations' =>Location::all()
         ]);
     }
 
@@ -425,7 +425,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         Organization::where('user_id',Auth::user()->id)->delete();
         return redirect()->route('my_organization');
     }
-    public function updateOrganization(Request $request, Organization $organization){
+    public function updateOrganization(Request $request){
 //dd($request);
 
         $old_files = json_decode($request['fileuploader-list-file'],true);
