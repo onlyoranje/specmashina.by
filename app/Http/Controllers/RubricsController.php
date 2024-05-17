@@ -53,7 +53,7 @@ class RubricsController extends Controller
     public function location($id){
         $location     = Location::find($id);
         $locations    = Location::descendantsAndSelf($id)->pluck('id');
-        $bbs    = Bb::whereIn('location_id',$locations)->orderBy('lifted_at', 'desc')->paginate(12);
+        $bbs    = Bb::whereIn('location_id',$locations)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('lifted_at', 'desc')->paginate(12);
         $title = "Техника в ".$location->title_r;
         $breadcrumbs= Location::ancestorsAndSelf($id);
         return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title]);

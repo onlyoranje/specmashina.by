@@ -54,7 +54,7 @@
                         </div>
                         <div class="content">
                             <div class="top-content">
-                                <a href="{{route('rubric',$bb->rubric->id)}}" class="tag">{{$bb->rubric->title}}</a>
+                                <a href="{{route('rubric',$bb->rubric->id)}}" class="tag">{{$parent_rubric->title}} {{$bb->rubric->title_r}}</a>
                                 <h3 class="title">
                                     <a href="{{route('bb',['bb'=>$bb->id])}}">{{$bb->vendor->name}} {{$bb->title}}</a>
                                 </h3>

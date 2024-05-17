@@ -62,8 +62,10 @@ class BbsController extends Controller
         return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title, 'reasons'=>$reasons]);
     }
     public function approve(Bb $bb,Request $request){
-        BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>'Объявление прошло модерацию']);
-        $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>'Объявление прошло модерацию']);
+        $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
+        $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
+        BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>'Объявление '.$title.' прошло модерацию']);
+        $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>'Объявление '.$title.' прошло модерацию']);
         $active_status = Status_bb::where('status','S')->get()->value('id');
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
         event(new NewMessageNotification('new_message',$msg ,Auth::id(),$bb->user->id));
@@ -71,7 +73,9 @@ class BbsController extends Controller
         return redirect()->route('admin_dashboard');
     }
     public function reject(Bb $bb,Request $request){
-        $comment = 'Объявление не прошло модерацию<br>';
+        $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
+        $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
+        $comment = 'Объявление '.$title.' не прошло модерацию<br>';
         if ($request->reasons){
             foreach ($request->reasons as $reason)
             {

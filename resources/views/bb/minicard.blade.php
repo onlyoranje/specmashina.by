@@ -22,7 +22,7 @@
                 @endif
         </div>
         <div class="content">
-            <a href="javascript:void(0)" class="tag">{{$subparent_rubric->title}}</a>
+            <a href="javascript:void(0)" class="tag">{{$parent_rubric->title}} {{$subparent_rubric->title_r}}</a>
             <h3 class="title">
                 <a href="{{route('bb',['bb'=>$bb_widget->id])}}">{{$title}} </a>
             </h3>
