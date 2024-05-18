@@ -5,6 +5,7 @@ use App\Models\BbContact;
 use App\Models\BbPrice;
 use App\Models\Location;
 use App\Models\Rubric;
+use App\Models\Status_bb;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->text('search_text')->nullable();
             $table->foreignId('status_bb_id')->nullable()->constrained();
+            $table->string('active',1)->default('N');
             $table->dateTime('lifted_at')->nullable();
             $table->dateTime('premium_until')->nullable();
             $table->timestamps();
@@ -41,7 +43,7 @@ return new class extends Migration
         for ($i = 1; $i < 300; $i++) {
             $rubric = Rubric::where('level',2)->inRandomOrder()->limit(1)->first();
             $location = Location::where('level',1)->inRandomOrder()->limit(1)->first();
-
+            $status_bb = Status_bb::inRandomOrder()->limit(1)->first();
             $bb = Bb::create([
                 'title'=>strtoupper(Str::random(rand(3,6))),
                 'content'=>$faker->text(),
@@ -49,7 +51,8 @@ return new class extends Migration
                 'vendor_id'=>rand(1,143),
                 'location_id'=>$location->id,
                 'user_id'=>rand(1,32),
-                'status_bb_id'=>rand(1,10)
+                'status_bb_id'=>$status_bb->id,
+                'active'=>$status_bb->active
             ]);
 
 

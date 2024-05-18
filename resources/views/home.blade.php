@@ -7,9 +7,5 @@
     @include('home.actual')
     @include('home.city')
     @include('home.trending')
-<script type="javascript">
 
-
-
-</script>
 @endsection('main')
