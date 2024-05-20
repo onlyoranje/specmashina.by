@@ -104,7 +104,11 @@
                         </div>
                         <div class="button header-button">
                             @if(Auth::user())
+                                @if(Auth::user()->organization)
                             <a href="{{route('addForm')}}" class="btn">Добавить объявления</a>
+                                @else
+                                    <a href="{{route('my_organization')}}" class="btn">Добавить объявления</a>
+                                @endif
                                 @else
                                 <a href="{{route('dashboard')}}" class="btn">Добавить объявление</a>
                             @endif

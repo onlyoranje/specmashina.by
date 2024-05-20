@@ -44,13 +44,15 @@ return new class extends Migration
             $rubric = Rubric::where('level',2)->inRandomOrder()->limit(1)->first();
             $location = Location::where('level',1)->inRandomOrder()->limit(1)->first();
             $status_bb = Status_bb::inRandomOrder()->limit(1)->first();
+            $user = User::where('id',rand(1,32))->limit(1)->first();
             $bb = Bb::create([
-                'title'=>strtoupper(Str::random(rand(3,6))),
+                'title'=>$faker->word(),
                 'content'=>$faker->text(),
                 'rubric_id'=>$rubric->id,
                 'vendor_id'=>rand(1,143),
                 'location_id'=>$location->id,
-                'user_id'=>rand(1,32),
+                'user_id'=>$user->id,
+                'organization_id'=>$user->organization->id,
                 'status_bb_id'=>$status_bb->id,
                 'active'=>$status_bb->active
             ]);

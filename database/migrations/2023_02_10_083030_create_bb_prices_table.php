@@ -24,7 +24,7 @@ return new class extends Migration
 
         });
         for ($i = 1; $i < 300; $i++) {
-            BbPrice::create(['bb_id' => $i, 'price_type_id' => 1, 'price' => rand(1, 9999999)]);
+            BbPrice::create(['bb_id' => $i, 'price_type_id' => 1, 'price' => rand(1, 99999)]);
         }
     }
 

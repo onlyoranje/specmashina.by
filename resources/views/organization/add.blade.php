@@ -12,10 +12,14 @@
                 <!-- Start Dashboard Sidebar -->
                 </div>
                 <div class="col-lg-9 col-md-12 col-12">
+                    <div class="alert alert-warning" role="alert">
+                        Для размещения объявления на сайте, Вам нужно внести информацию об организации/ИП
+                    </div>
                     <div class="main-content">
                         <!-- Start Profile Settings Area -->
+
                         <div class="dashboard-block mt-0 profile-settings-block">
-                            <h3 class="block-title">Моя организация</h3>
+                            <h3 class="block-title">Моя организация/ИП</h3>
                             <div class="inner-block">
 
 
@@ -24,7 +28,7 @@
                                         <div class="row">
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-group">
-                                                    <label>Название организации</label>
+                                                    <label>Название организации/ИП</label>
                                                     <input name="title" type="text" >
                                                 </div>
                                             </div>

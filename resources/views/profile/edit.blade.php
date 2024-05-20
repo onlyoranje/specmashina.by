@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <!-- End Profile Settings Area -->
-                            <div class="dashboard-block  profile-settings-block">
+                           {{-- <div class="dashboard-block  profile-settings-block">
                                 <h3 class="block-title">Реквизиты организации</h3>
                                 <div class="inner-block">
 
@@ -151,12 +151,12 @@
                                                 </div>
                                             </div>
 
-                                            {{--<div class="col-12">
+                                            --}}{{--<div class="col-12">
                                                 <div class="form-group message">
                                                     <label>About You*</label>
                                                     <textarea name="message" placeholder="Enter about yourself"></textarea>
                                                 </div>
-                                            </div>--}}
+                                            </div>--}}{{--
                                             <div class="col-12">
                                                 <div class="form-group button mb-0 mt-5">
                                                     <button type="submit" class="btn ">Обновить</button>
@@ -165,7 +165,7 @@
                                         </div>
                                     </form>
                                 </div>
-                            </div>
+                            </div>--}}
                         <!-- Start Password Change Area -->
                         <div class="dashboard-block password-change-block">
                             <h3 class="block-title">Изменить пароль</h3>
