@@ -34,6 +34,9 @@ Route::get('/dashboard/organization/delete', [App\Http\Controllers\ProfileContro
 Route::post('/dashboard/organization', [App\Http\Controllers\ProfileController::class, 'addOrganizationToDB'])->name('addOrganizationToDB')->middleware('auth');
 Route::patch('/dashboard/organization/000',[App\Http\Controllers\ProfileController::class, 'updateOrganization'])->name('organization_update')->middleware('auth');
 Route::delete('/dashboard/organization', [App\Http\Controllers\ProfileController::class, 'destroyOrganization'])->name('organization_destroy')->middleware('auth');
+Route::get('organizations', [App\Http\Controllers\OrganizationController::class, 'list'])->name('organizations');
+Route::get('organization/{id}', [App\Http\Controllers\OrganizationController::class, 'detail'])->name('organization');
+
 
 Route::get('/dashboard/mybb',[App\Http\Controllers\ProfileController::class, 'mybb'])->name('mybb');
 Route::get('/dashboard/mybb/add', [App\Http\Controllers\ProfileController::class, 'addForm'])->name('addForm');

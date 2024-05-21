@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('logo')->nullable();
             $table->string('phone')->nullable();
+            $table->string('active')->default('Y');
+            $table->string('approve')->default('N');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

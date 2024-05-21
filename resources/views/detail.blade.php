@@ -148,7 +148,7 @@ use App\Models\Bb;
                                             <span>{{$contact_info['user_name']}}</span>
                                         </a>
                                     </li>
-                                    <li>
+                                   {{-- <li>
                                         <a class="mail" data-bs-toggle="modal" data-bs-target="#imModal">
                                             <i class="lni lni-envelope"></i>
                                         </a>
@@ -163,7 +163,7 @@ use App\Models\Bb;
                                                 </div>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li>--}}
                                 </ul>
                             </div>
                             <div class="social-share">
@@ -187,7 +187,7 @@ use App\Models\Bb;
                         @if ($bb->content)
                         <div class="single-block description">
                             <h3>Описание</h3>
-                            {!!  $bb->content!!}
+                            {!!  nl2br(e($bb->content))!!}
                         </div>
                         @endif
                         <!-- End Single Block -->
@@ -290,7 +290,12 @@ use App\Models\Bb;
                             <div class="single-block author">
                                 <h3>Организация</h3>
                                 <div class="content">
-                                    <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
+
+                                    @if ($bb->user->organization->logo)
+                                        <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
+                                        @else
+                                        <img src="http://placehold.it/40x40&text={{$bb->user->organization->title}}" alt="{{$bb->user->organization->title}}">
+                                    @endif
                                     <h4>{{$bb->user->organization->title}}</h4>
                                     <span>{{$bb->user->organization->location->title}}@if ($bb->user->organization->address), {{$bb->user->organization->address}} @endif</span>
                                     <a href="javascript:void(0)" class="see-all">Все объявления организации</a>

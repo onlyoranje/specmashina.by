@@ -152,6 +152,12 @@ border-radius: 3px;
 .item-details-sidebar .single-block.author img {
     height: auto;
     width: 50px;
-   border-radius: unsetq;
+   border-radius: unset;
+}
+.items-grid .single-grid .image .author .author-image img {
+    height: auto;
+    width: 40px;
+    border-radius: unset;
+    display: inline-block;
 }
 

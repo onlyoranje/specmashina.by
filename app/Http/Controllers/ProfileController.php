@@ -195,10 +195,10 @@ class ProfileController extends Controller
             }
 
         }
-        if ($request->organization){
+
             $bb->fill(['organization_id'=>Auth::user()->organization->id]);
             $bb->save();
-        }
+
 
         return redirect()->route('mybb');
     }
@@ -344,14 +344,11 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
 
             BbParameters::where('bb_id', $bb->id)->whereIn('parameter_id', array_diff($parameters_old,$parameters_new))->delete();
         }
-        if ($request->organization=='Y'){
+
             $bb->fill(['organization_id'=>Auth::user()->organization->id]);
             $search_text[] = Auth::user()->organization->title;
             $bb->save();
-        } else {
-            $bb->fill(['organization_id'=>null]);
-            $bb->save();
-        }
+
         $bb->bbprice->fill(['price'=>$request->price,'price_type_id'=>$request->price_type]);
         $bb->bbprice->save();
         //dd($parameters_old);

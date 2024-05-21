@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -11,7 +12,10 @@ class OrganizationController extends Controller
         return view('organization.my_organization');
 
     }
-    public function add(){
-        return view('organization.add');
-    }
+
+    public function list()
+{
+    $organizations = Organization::where('active','Y')->orderBy('title','asc')->paginate(20);
+    return view('organization.list',['organizations'=>$organizations,'title'=>'Организации']);
+}
 }

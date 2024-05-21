@@ -56,7 +56,7 @@
                                 @endforeach
 
                                 <li class="nav-item">
-                                    <a href="javascript:void(0)" aria-label="Toggle navigation">Categories</a>
+                                    <a href="{{route('organizations')}}" aria-label="Toggle navigation">Организации</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class=" dd-menu collapsed" href="javascript:void(0)"

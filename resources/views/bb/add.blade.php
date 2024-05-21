@@ -321,7 +321,7 @@
                                                             </div>
                                                         </div>
 
-                                                            @if (Auth::user()->organization)
+                                                          {{--  @if (Auth::user()->organization)
                                                                 <div class="col-12">
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckDefault">
@@ -330,7 +330,7 @@
                                                                         </label>
                                                                     </div>
                                                                 </div>
-                                                            @endif
+                                                            @endif--}}
                                                             <div class="col-12">
                                                                 <div class="form-group button mb-0">
                                                                     <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Назад</button>
