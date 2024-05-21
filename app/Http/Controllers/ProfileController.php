@@ -430,6 +430,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
 
         $old_files = json_decode($request['fileuploader-list-file'],true);
         $validated = $request->validate(self::ORG_VALIDATOR,self::ORG_ERROR_MESSAGES);
+        $organization = Auth::user()->organization;
         $organization->fill([
             'title'=>$validated['title'],
             'address'=>$validated['address'],

@@ -40,7 +40,12 @@
                             <div class="author">
                                 @if ($bb->organization_id)
                                 <div class="author-image">
-                                    <a href="javascript:void(0)"><img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
+                                    <a href="javascript:void(0)">
+                                        @if ($bb->user->organization->logo)
+                                        <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
+                                        @else
+                                            <img src="http://placehold.it/40x40&text={!! mb_substr($bb->user->organization->title,0,1) !!}" alt="{{$bb->user->organization->title}}">
+                                            @endif
                                         <span>{{$bb->user->organization->title}}</span></a>
                                 </div>
                                 @endif
