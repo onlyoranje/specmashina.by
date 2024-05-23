@@ -57,23 +57,28 @@
                 <div class="col-lg-3 col-md-6 col-12">
                     <!-- Single Widget -->
                     <div class="single-footer f-link">
-                        <h3>Locations</h3>
+                        <h3>Города</h3>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-12">
                                 <ul>
-                                    <li><a href="javascript:void(0)">Chicago</a></li>
-                                    <li><a href="javascript:void(0)">New York City</a></li>
-                                    <li><a href="javascript:void(0)">San Francisco</a></li>
-                                    <li><a href="javascript:void(0)">Washington</a></li>
-                                    <li><a href="javascript:void(0)">Boston</a></li>
+                                    @php(
+    $bbs_city = App\Models\Location::withCount('bbs')->where('level',1)->orderBy('bbs_count','desc')->limit(10)->inRandomOrder()->get()
+)
+                                    @foreach($bbs_city as $key=>$city)
+                                        @if ($key<5)
+                                        <li><a href="{{route('location',$city->id)}}">{{$city->title}}</a></li>
+                                        @endif
+                                    @endforeach
+
                                 </ul>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
                                 <ul>
-                                    <li><a href="javascript:void(0)">Los Angeles</a></li>
-                                    <li><a href="javascript:void(0)">Seattle</a></li>
-                                    <li><a href="javascript:void(0)">Las Vegas</a></li>
-                                    <li><a href="javascript:void(0)">San Diego</a></li>
+                                    @foreach($bbs_city as $key=>$city)
+                                        @if ($key>4)
+                                            <li><a href="{{route('location',$city->id)}}">{{$city->title}}</a></li>
+                                        @endif
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -83,11 +88,11 @@
                 <div class="col-lg-3 col-md-6 col-12">
                     <!-- Single Widget -->
                     <div class="single-footer f-link">
-                        <h3>Quick Links</h3>
+                        <h3>Популярное</h3>
                         <ul>
-                            <li><a href="javascript:void(0)">About Us</a></li>
-                            <li><a href="javascript:void(0)">How It's Works</a></li>
-                            <li><a href="javascript:void(0)">Login</a></li>
+                            <li><a href="{{route('rubric',1)}}">Аренда техники</a></li>
+                            <li><a href="{{route('rubric',118)}}">Продажа техники</a></li>
+                            <li><a href="{{route('organizations')}}">Организации</a></li>
                             <li><a href="javascript:void(0)">Signup</a></li>
                             <li><a href="javascript:void(0)">Help &amp; Support</a></li>
                         </ul>

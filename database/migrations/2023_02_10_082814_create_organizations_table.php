@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('logo')->nullable();
             $table->string('phone')->nullable();
+            $table->text('content')->nullable();
             $table->string('active')->default('Y');
             $table->string('approve')->default('N');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -41,6 +42,8 @@ return new class extends Migration
                     'phone'=>$faker->phoneNumber(),
                     'email'=>$faker->email(),
                     'address' => $faker->address(),
+                    'content'=>$faker->text(),
+
                     'unp' => rand(100000000,799999999),
                     'user_id'=>$user->id
                 ]);

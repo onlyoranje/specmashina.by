@@ -65,19 +65,30 @@
                                                     <textarea name="address" cols="1" >{{$organization->address}}</textarea>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-12">
+                                            <div class="col-lg-4 col-12">
                                                 <div class="form-group">
                                                     <label>Телефон</label>
                                                     <input type="text"  id="phone" name="phone"  value="{{$organization->phone}}">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-12">
+                                            <div class="col-lg-4 col-12">
                                                 <div class="form-group">
                                                     <label>E-mail</label>
                                                     <input type="email"  name="email"  value="{{$organization->email}}">
                                                 </div>
                                             </div>
-
+                                            <div class="col-lg-4 col-12">
+                                                <div class="form-group">
+                                                    <label>Сайт</label>
+                                                    <input type="text"  name="site"  value="{{$organization->site}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group mt-30">
+                                                    <label>Описание</label>
+                                                    <textarea name="description" placeholder="">{{$organization->content}}</textarea>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-12 col-12">
                                                 <div class="form-group upload-image">
                                                     <?php
@@ -97,11 +108,11 @@
                                                     <button type="submit" class="btn ">Обновить</button>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            {{--<div class="col-6">
                                                 <div class="form-group button mb-0">
                                                     <a href="{{route('organization_delete')}}" class="btn btт-danger">Удалить организацию</a>
                                                 </div>
-                                            </div>
+                                            </div>--}}
                                         </div>
                                     </form>
                                 @else

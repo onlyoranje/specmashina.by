@@ -401,18 +401,20 @@
 
             @endforeach
             $("input[name*='parameter']").change(function () {
+                var value_par = parseInt($(this).attr('value'))
+
                 if (typeof ($(this).attr("min"))!= "undefined")
                 {
                     var min = $(this).attr("min");
-                    if ($(this).val()<=min) $(this).val(min)
-                    console.log(min+' '+$(this).val)
+                    if (value_par<=min) $(this).val(min)
+
                 }
 
                 if (typeof ($(this).attr("max"))!= "undefined")
                 {
                     var max = $(this).attr("max");
-                    if ($(this).val()>=max) $(this).val(max)
-                    console.log(max+' '+$(this).val)
+                    if (value_par>max) $(this).val(max)
+
                 }
             });
             /*$('.input-images').imageUploader();*/

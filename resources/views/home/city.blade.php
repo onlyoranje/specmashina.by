@@ -45,6 +45,9 @@
                 </div>
                 <!-- Start Single City -->
             </div>
+               @if ($key==4)
+                    @break;
+                @endif
             @endforeach
 
         </div>

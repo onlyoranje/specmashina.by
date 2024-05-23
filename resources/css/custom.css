@@ -160,4 +160,18 @@ border-radius: 3px;
     border-radius: unset;
     display: inline-block;
 }
-
+.title-organization{
+    border-top: unset !important;
+}
+.location-organization{
+    margin-bottom: 10px !important;
+}
+.organization-info ul li{
+    display: block;
+    margin-bottom: 6px;
+}
+.organization-info ul li span{
+    display: inline-block;
+    font-weight: 500;
+    min-width: 100px;
+}

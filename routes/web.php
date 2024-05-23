@@ -36,6 +36,7 @@ Route::patch('/dashboard/organization/000',[App\Http\Controllers\ProfileControll
 Route::delete('/dashboard/organization', [App\Http\Controllers\ProfileController::class, 'destroyOrganization'])->name('organization_destroy')->middleware('auth');
 Route::get('organizations', [App\Http\Controllers\OrganizationController::class, 'list'])->name('organizations');
 Route::get('organization/{id}', [App\Http\Controllers\OrganizationController::class, 'detail'])->name('organization');
+Route::get('organization/{id}/site', [App\Http\Controllers\OrganizationController::class, 'organization_site_redirect'])->name('organization_site_redirect');
 
 
 Route::get('/dashboard/mybb',[App\Http\Controllers\ProfileController::class, 'mybb'])->name('mybb');

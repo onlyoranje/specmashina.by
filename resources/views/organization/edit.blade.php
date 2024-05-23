@@ -43,6 +43,12 @@
                                     <label for="exampleInputEmail1" class="form-label">Сайт</label>
                                     <input type="text" class="form-control" name="site" value="{{old('title',$organization->site)}}">
                                 </div>
+                                    <div class="col-12">
+                                        <div class="form-group mt-30">
+                                            <label>Описание</label>
+                                            <textarea name="description" placeholder="">{{old('description')}}</textarea>
+                                        </div>
+                                    </div>
                                 <div class="mb-3">
                                     <?php
 

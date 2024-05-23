@@ -32,7 +32,7 @@ class BbsController extends Controller
             ])->orderBy('bbstatistic_count','desc')->limit(8)->get(),
             'rubrics'=>Rubric::orderBy('sort')->orderBy('title')->get()->toTree(),
             'rubrics_slider'=>Rubric::withCount('bbs')->where('level',2)->orderBy('bbs_count','desc')->limit(12)->inRandomOrder()->get(),
-            'bbs_city'=>Location::withCount('bbs')->where('level',1)->orderBy('bbs_count','desc')->limit(5)->inRandomOrder()->get()
+            'bbs_city'=>Location::withCount('bbs')->where('level',1)->orderBy('bbs_count','desc')->limit(10)->inRandomOrder()->get()
 
         ];
         return view('home', $context);

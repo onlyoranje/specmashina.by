@@ -298,7 +298,7 @@ use App\Models\Bb;
                                     @endif
                                     <h4>{{$bb->user->organization->title}}</h4>
                                     <span>{{$bb->user->organization->location->title}}@if ($bb->user->organization->address), {{$bb->user->organization->address}} @endif</span>
-                                    <a href="javascript:void(0)" class="see-all">Все объявления организации</a>
+                                    <a href="{{route('organization',$bb->organization_id)}}" class="see-all">Все объявления организации</a>
                                 </div>
                             </div>
 

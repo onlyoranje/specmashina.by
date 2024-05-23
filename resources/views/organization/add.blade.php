@@ -56,19 +56,30 @@
                                                     <textarea name="address" cols="1" ></textarea>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-12">
+                                            <div class="col-lg-4 col-12">
                                                 <div class="form-group">
                                                 <label>Телефон</label>
                                                 <input type="text"  id="phone" name="phone">
                                             </div>
                                             </div>
-                                            <div class="col-lg-6 col-12">
+                                            <div class="col-lg-4 col-12">
                                                 <div class="form-group">
                                                     <label>E-mail</label>
                                                     <input type="email"  name="email">
                                                 </div>
                                             </div>
-
+                                            <div class="col-lg-4 col-12">
+                                                <div class="form-group">
+                                                    <label>Сайт</label>
+                                                    <input type="text"  name="site">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group mt-30">
+                                                    <label>Описание</label>
+                                                    <textarea name="description" placeholder=""></textarea>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-6 col-12">
                                                 <div class="form-group upload-image">
                                                     <label>Лого</label>
