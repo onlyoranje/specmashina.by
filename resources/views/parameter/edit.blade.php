@@ -40,11 +40,11 @@
                                                 </div>
                                                 <div class="col-lg-3 col-12">
                                                     <div class="form-group">
-                                                        <label>Вид данных</label>
+                                                        <label>Вид данных {{$parameter->type}}</label>
                                                         <select class="form-select" name='type' required>
-                                                            <option selected disabled>- выбрать -</option>
+                                                            <option  disabled>- выбрать -</option>
                                                             @foreach($types as $type)
-                                                                <option value="{{$type->type}}" <?php if ($type->type==old('type',$parameter->type)) echo 'selected' ?>>{{$type->type_name}}</option>
+                                                                <option value="{{$type->type}}" <?php if ($type->type_name==old('type',$parameter->type)) echo 'selected' ?>>{{$type->type_name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

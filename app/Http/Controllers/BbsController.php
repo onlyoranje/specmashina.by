@@ -13,6 +13,7 @@ use App\Models\RejectReasons;
 use App\Models\Rubric;
 use App\Models\Status_bb;
 use App\Models\UserFile;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,11 @@ class BbsController extends Controller
             ])->orderBy('bbstatistic_count','desc')->limit(8)->get(),
             'rubrics'=>Rubric::orderBy('sort')->orderBy('title')->get()->toTree(),
             'rubrics_slider'=>Rubric::withCount('bbs')->where('level',2)->orderBy('bbs_count','desc')->limit(12)->inRandomOrder()->get(),
-            'bbs_city'=>Location::withCount('bbs')->where('level',1)->orderBy('bbs_count','desc')->limit(10)->inRandomOrder()->get()
+            'bbs_city'=>Location::withCount([
+                'bbs' => function (Builder $query) {
+                    $query->where('active', 'Y');
+                },
+            ])->where('level',1)->orderBy('bbs_count','desc')->limit(10)->get()
 
         ];
         return view('home', $context);

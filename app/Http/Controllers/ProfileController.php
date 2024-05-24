@@ -392,7 +392,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             'address'=>$validated['address'],
             'unp'=>$validated['unp'],
             'location_id'=>$request->location_id,
-            'content' => $request->description,
+            'content' => mb_substr($request->description,0,1000),
             'phone'=>$request->phone,
             'site'=>$request->site,
             'email'=>$request->email
@@ -436,7 +436,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             'location_id'=>$request->location_id,
             'phone'=>$request->phone,
             'site'=>$request->site,
-            'content' => $request->description,
+            'content' => mb_substr($request->description,0,1000),
             'email'=>$request->email
         ]);
         $organization->save();

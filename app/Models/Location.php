@@ -28,6 +28,10 @@ class Location extends Model
     public function level(){
         return $this->belongsTo(self::class,'level');
     }
+    public function parent_location(){
+        $parent = Location::where('id',$this->parent_id)->first();
+        return $parent;
+    }
     public function resizeImage($url,$w,$h)
     {
         $size = getimagesize(Storage::path('/public/').$url);

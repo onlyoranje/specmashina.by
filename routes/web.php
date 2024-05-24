@@ -58,7 +58,7 @@ Route::patch('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsControll
 Route::get('/dashboard/rubric/{rubric}/delete', [App\Http\Controllers\RubricsController::class, 'delete'])->name('rubric_dashboard_delete')->middleware('isadmin');
 Route::delete('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'destroyRubric'])->name('rubric_dashboard_destroy')->middleware('isadmin');
 
-Route::get('/location', [App\Http\Controllers\LocationsController::class, 'location'])->name('locations');
+Route::get('/location', [App\Http\Controllers\LocationsController::class, 'list'])->name('locations');
 Route::get('/location/{location}', [App\Http\Controllers\RubricsController::class, 'location'])->name('location');
 Route::get('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'locations'])->name('location_dashboard')->middleware('isadmin');
 Route::post('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'addLocation'])->name('addLocationToDB')->middleware('isadmin');

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Bb;
 use App\Models\Location;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class LocationsController extends Controller
@@ -22,6 +24,20 @@ class LocationsController extends Controller
 
         return view('location.edit', ['location'=>$location,'locations'=>$locations,'depth'=>$depth]);
 
+    }
+    public function list(Request $request)
+    {
+
+        $locations_letter = Location::select(DB::raw('substring(title,1,1) as loc_letter'))->where('level',1)->groupBy('loc_letter')->orderBy('loc_letter','asc')->pluck('loc_letter');
+
+        $locations = Location::withCount([
+            'bbs' => function (Builder $query) {
+                $query->where('active', 'Y');
+            },
+        ])
+            ->where('title',"LIKE", $request->letter."%" )
+            ->where('level',1)->orderBy('title','asc')->paginate(10);
+        return view('location.list',['title'=>'Города','locations'=>$locations,'request'=>$request,'locations_letter'=>$locations_letter]);
     }
     public function location($id){
         $location     = Location::find($id);

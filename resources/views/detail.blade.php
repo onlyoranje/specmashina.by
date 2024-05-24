@@ -118,7 +118,7 @@ use App\Models\Bb;
                                 <span>Объявление <mark class="mark-N">не прошло модерацию</mark></span>
                             @endif
                             <h2 class="title">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</h2>
-                            <p class="location"><i class="lni lni-map-marker"></i><a href="javascript:void(0)">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
+                            <p class="location"><i class="lni lni-map-marker"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
                             <h3 class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</h3>
                             <div class="list-info">
                                 <h4>Информация</h4>

@@ -184,10 +184,17 @@
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                             <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                             </label>
-                                                                            <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control" @if ($parameter->max) max="{{$parameter->max}}" @endif @if ($parameter->min)min="{{$parameter->min}}" @endif>
+                                                                            <input type="{{$parameter->type}}" step="0.01" name="parameter[{{$parameter->id}}]" class="form-control" @if ($parameter->max) max="{{$parameter->max}}" @endif @if ($parameter->min)min="{{$parameter->min}}" @endif>
                                                                         </div>
                                                                     </div>
-
+                                                                @elseif ($parameter->type == 'year')
+                                                                    <div class="col-6">
+                                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                            <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            </label>
+                                                                            <input type="number"  name="parameter[{{$parameter->id}}]" class="form-control" max="{!! date('Y') !!}" @if ($parameter->min)min="{{$parameter->min}}" @endif>
+                                                                        </div>
+                                                                    </div>
                                                                 @else
                                                                     <div class="col-6">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">

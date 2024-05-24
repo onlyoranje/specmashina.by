@@ -62,7 +62,11 @@
                             <div class="col-lg-6 col-md-6 col-12">
                                 <ul>
                                     @php(
-    $bbs_city = App\Models\Location::withCount('bbs')->where('level',1)->orderBy('bbs_count','desc')->limit(10)->inRandomOrder()->get()
+    $bbs_city = App\Models\Location::withCount([
+                'bbs' => function (Illuminate\Database\Eloquent\Builder $query) {
+                    $query->where('active', 'Y');
+                },
+            ])->where('level',1)->orderBy('bbs_count','desc')->limit(10)->get()
 )
                                     @foreach($bbs_city as $key=>$city)
                                         @if ($key<5)

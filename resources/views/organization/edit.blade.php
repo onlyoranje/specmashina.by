@@ -45,8 +45,8 @@
                                 </div>
                                     <div class="col-12">
                                         <div class="form-group mt-30">
-                                            <label>Описание</label>
-                                            <textarea name="description" placeholder="">{{old('description')}}</textarea>
+                                            <label>Описание (не более 1000 символов)</label>
+                                            <textarea name="description" placeholder="" maxlength="1000">{{old('description')}}</textarea>
                                         </div>
                                     </div>
                                 <div class="mb-3">

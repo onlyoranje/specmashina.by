@@ -59,15 +59,7 @@
                                     <a href="{{route('organizations')}}" aria-label="Toggle navigation">Организации</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class=" dd-menu collapsed" href="javascript:void(0)"
-                                       data-bs-toggle="collapse" data-bs-target="#submenu-1-3"
-                                       aria-controls="navbarSupportedContent" aria-expanded="false"
-                                       aria-label="Toggle navigation">Listings</a>
-                                    <ul class="sub-menu collapse" id="submenu-1-3">
-                                        <li class="nav-item"><a href="javascript:void(0)">Ad Grid</a></li>
-                                        <li class="nav-item"><a href="javascript:void(0)">Ad Listing</a></li>
-                                        <li class="nav-item"><a href="javascript:void(0)">Ad Details</a></li>
-                                    </ul>
+                                    <a href="{{route('locations')}}" aria-label="Toggle navigation">Города</a>
                                 </li>
 
                                 <li class="nav-item">

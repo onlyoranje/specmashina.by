@@ -76,8 +76,8 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group mt-30">
-                                                    <label>Описание</label>
-                                                    <textarea name="description" placeholder=""></textarea>
+                                                    <label>Описание (не более 1000 символов)</label>
+                                                    <textarea name="description" placeholder="" maxlength="1000"></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-12">

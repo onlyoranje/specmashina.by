@@ -40,7 +40,7 @@
                             <div class="author">
                                 @if ($bb->organization_id)
                                 <div class="author-image">
-                                    <a href="javascript:void(0)">
+                                    <a href="{{route('organization',$bb->user->organization->id)}}">
                                         @if ($bb->user->organization->logo)
                                         <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
                                         @else

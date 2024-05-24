@@ -85,8 +85,8 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group mt-30">
-                                                    <label>Описание</label>
-                                                    <textarea name="description" placeholder="">{{$organization->content}}</textarea>
+                                                    <label>Описание (не более 1000 символов)</label>
+                                                    <textarea name="description" placeholder="" maxlength="1000">{{$organization->content}}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-12">

@@ -37,12 +37,12 @@
                         </div>
                         @if ($organization->content)
                         <h3>Об организации</h3>
-                        <p>{{$organization->content}}</p>
+                        <p>{!!  nl2br(e($organization->content)) !!}</p>
                         @endif
                         <!-- End Heading -->
                     </div>
                 </div>
-                <div class="col-12 mt-5">
+                <div class="col-12 mt-3">
                     <div class="single-block ">
                         {{-- <h3>Location</h3>--}}
                         <div class="mapouter">
@@ -68,12 +68,10 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-    </section>
-    <section class="items-tab section">
-    <div class="container">
-        <div class="row">
+
+
+        <div class="row mt-5">
             <div class="col-12">
                 <div class="section-title">
                     <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">Объявления организации</h2>
@@ -96,6 +94,6 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
     </section>
 @endsection

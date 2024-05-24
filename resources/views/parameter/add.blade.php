@@ -40,7 +40,7 @@
                                                     <div class="form-group">
                                                         <label>Вид данных</label>
                                                         <select class="form-select" name='type' required>
-                                                            <option selected disabled>- выбрать -</option>
+                                                            <option  disabled>- выбрать -</option>
                                                             @foreach($types as $type)
                                                                 <option value="{{$type->type}}" @if ($type->type==old('type')) selected @endif>{{$type->type_name}}</option>
                                                             @endforeach
