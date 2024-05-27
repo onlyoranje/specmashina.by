@@ -141,5 +141,7 @@ Route::patch('/read_alert/{id}', [App\Http\Controllers\NotificationController::c
 Route::patch('/new_msg', [App\Http\Controllers\ImsController::class, 'new_msg'])->middleware(['auth', 'verified'])->name('new_msg');
 Route::patch('/notification', [App\Http\Controllers\NotificationController::class, 'index'])->middleware(['auth', 'verified'])->name('notification');
 
+Route::patch('/bookmarked', [App\Http\Controllers\BookmarkController::class, 'bookmarked'])->middleware(['auth', 'verified'])->name('bookmarked');
+
 
 

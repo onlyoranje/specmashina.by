@@ -618,9 +618,36 @@ window.readAlert = function (id) {
 }
 $(document).ready(function () {
 
-    document.getElementById("toastbtn").onclick = function () {
+    $('.like').on("click", function () {
+        var id = $(this).data('bbId');
+        var bookmark = $(this).data('bookmark');
 
-    };
+        let _token = $('meta[name="csrf-token"]').attr('content');
+        let _url = `/bookmarked`;
+        $.ajax({
+            url:_url,
+            type:"PATCH",
+            data: {
+                _token:_token,
+                id:id,
+                bookmark:bookmark
+            },
+            success: function (response) {
+                if (response=='add'){
+                    $('*[data-bb-id='+id+']').html('<a><i class="fa-solid fa-bookmark"></i></a>')
+                    $('*[data-bb-id='+id+']').data('bookmark','true')
+                } else {
+                    $('*[data-bb-id='+id+']').html('<a><i class="fa-regular fa-bookmark"></i></a>')
+                    $('*[data-bb-id='+id+']').data('bookmark','false')
+                }
+
+                console.log(response)
+            },
+            error: function (response) {
+alert ("Error ")
+            }
+        })
+})
 })
 
 
