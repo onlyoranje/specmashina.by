@@ -175,3 +175,17 @@ border-radius: 3px;
     font-weight: 500;
     min-width: 100px;
 }
+.single-item-grid .content .info .like_u {
+    float: right;
+}
+.single-item-grid .content .info .like_u a {
+    color: #888;
+    font-size: 14px;
+    height: 35px;
+    width: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: block;
+    border: 1px solid #eee;
+    border-radius: 50%;
+}

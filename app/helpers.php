@@ -34,3 +34,6 @@ function url_parameters($request){
     }
     return $result;
 }
+function FakeImage($width=640,$height=480,$blur=0,$grayscale=0){
+
+}

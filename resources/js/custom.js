@@ -644,7 +644,7 @@ $(document).ready(function () {
                 console.log(response)
             },
             error: function (response) {
-alert ("Error ")
+//alert ("Error")
             }
         })
 })

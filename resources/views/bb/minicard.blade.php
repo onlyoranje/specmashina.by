@@ -25,21 +25,7 @@
                     </i>{{$bb_widget->location->title}}</a></p>
             <ul class="info">
                 <li class="price">{{$bb_widget->bbprice->price}} {{$bb_widget->bbprice->pricetype->type}}</li>
-                @if (\Maize\Markable\Models\Bookmark::has($bb_widget, Auth::user()))
-                <li class="like" data-bb-id="{{$bb_widget->id}}" data-bookmark="true">
-                    <a>
-
-                            <i class="fa-solid fa-bookmark"></i>
-                    </a>
-                </li>
-                @else
-                    <li class="like" data-bb-id="{{$bb_widget->id}}" data-bookmark="false">
-                        <a>
-                    <i class="fa-regular fa-bookmark"></i>
-                        </a>
-                    </li>
-
-                @endif
+                {{$bb_widget->like()}}
             </ul>
         </div>
     </div>

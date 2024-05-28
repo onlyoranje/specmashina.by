@@ -1,6 +1,6 @@
 import "@popperjs/core"
 import './bootstrap'
-/*import './pixel'*/
+import './popper.min'
 import "./jquery-3.6.4.min"
 import '../sass/app.scss'
 /*import "./image-uploader"*/

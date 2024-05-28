@@ -90,4 +90,17 @@ public function parent_rubric(){
         $images = UserFile::where('bb_id',$this->id)->orderBy('sort')->get();
         return $images;
     }
+    public function like(){
+        if (Auth::user()){
+            if (Bookmark::has($this, Auth::user())) {
+                echo  "<li class='like' data-bb-id='".$this->id."' data-bookmark='true'><a><i class='fa-solid fa-bookmark'></i></a></li>";
+            }else {
+                echo "<li class='like' data-bb-id='".$this->id."' data-bookmark='false'><a><i class='fa-regular fa-bookmark'></i></a></li>";
+
+            }
+        } else {
+            echo "<li class='like_u' data-bb-id='".$this->id."' data-bookmark='false'  data-bs-toggle='tooltip' data-bs-placement='bottom' title='Tooltip on bottom'><a><i class='fa-regular fa-bookmark'></i></a></li>";
+        }
+
+    }
 }
