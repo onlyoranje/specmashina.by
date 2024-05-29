@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title">
-                    <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">Browse By Cities</h2>
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">Аренда и продажа техники по городам</h2>
                     <p class="wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">There are many variations of passages of Lorem
                         Ipsum available, but the majority have suffered alteration in some form.</p>
                 </div>
@@ -29,7 +29,8 @@
                             @if ($city->image)
                                 <img src="{{Storage::url($city->resizeImage($city->image,635,325))}}" alt="{{ $city->title }}">
                             @else
-                                <img src="http://placehold.it/635x325&text={{ $city->title }}" alt="{{ $city->title }}">
+                                {{--<img src="http://placehold.it/635x325&text={{ $city->title }}" alt="{{ $city->title }}">--}}
+                                {!! FakeImage(635,325,4,0,$city->title) !!}
                             @endif
                         </div>
                         <div class="content">

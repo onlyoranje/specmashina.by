@@ -2,24 +2,34 @@
 use Illuminate\Http\Client\Request;
 function timesince($datetime)
 {
-    $now = new \DateTime();
-    $ago = new \DateTime($datetime);
-    $diff = $now->diff($ago);
-    $interval_day = $diff->format('%a');
-    $interval = $diff->format('%a');
-    if ($interval == 0) {
-        return 'Сегодня';
-    } elseif ($interval == 1) {
-        return 'Вчера';
-    } elseif ($interval < 365) {
-        return $diff->format('%a дней назад');
-    } /*elseif ($interval < 30) {
-        return $diff->format('%W недель назад');
-    }elseif ($interval < 365) {
-        return $diff->format('%M месяцев назад');
-    }*/  else {
-        return $diff->format('%Y лет назад');
+    $targetTime = strtotime($datetime);
+    $currentTime = strtotime("now");
+    $interval =  $currentTime-$targetTime;
+    switch ($interval){
+        //секунды
+        case($interval<60 and substr($interval,-1)==1 and $interval!==11):return $interval." секунду назад";
+        case($interval<60 and substr($interval,-1)<4 and substr($interval,-1)>1):return $interval." секунды назад";
+        case($interval<60): return $interval." секунд назад";
+        // минуты
+        case($interval<60*60 and substr(floor($interval/60),-1)==1 and floor($interval/60)!==11):return floor($interval/60)." минуту назад";
+        case($interval<60*60 and substr(floor($interval/60),-1)<4 and substr($interval/60,-1)>1):return floor($interval/60)." минуты назад";
+        case($interval<60*60 and $interval>59): return floor($interval/60)." минут назад";
+        //часы
+        case($interval<60*60*24 and substr(floor($interval/60*60),-1)==1 and floor($interval/60*60)!==11):return floor($interval/60*60)." час назад";
+        case($interval<60*60*24 and substr(floor($interval/60*60),-1)<4 and substr(floor($interval/60*60),-1)>1):return floor($interval/60*60)." часа назад";
+        case($interval<60*60*24 and $interval>=60*60): return floor($interval/60*60)." часов назад";
+        // дни
+        case($interval<60*60*24*30 and substr(floor($interval/60*60*24),-1)==1 and floor($interval/60*60*24)!==11):return floor($interval/60*60*24)." день назад";
+        case($interval<60*60*24*30 and substr(floor($interval/60*60*24),-1)<4 and substr(floor($interval/60*60*24),-1)>1):return floor($interval/60*60*24)." дня назад";
+        case($interval<60*60*24*30 and $interval>=60*60*24): return floor($interval/60*60*24)." дней назад";
+        //default: return $interval." секунд назад";
+
+
+
+
     }
+
+
 }
 function url_parameters($request){
     $lkl = $request->toArray();
@@ -34,6 +44,7 @@ function url_parameters($request){
     }
     return $result;
 }
-function FakeImage($width=640,$height=480,$blur=0,$grayscale=0){
-
+function FakeImage($width=640,$height=480,$blur=0,$grayscale=0,$title='Аренда и продажа техники в Беларуси'){
+ $img = '<img src="/storage/test/image.jpg" alt="'.$title.'" style="filter: blur('.$blur.'px)  grayscale('.$grayscale.'%);top:50%;left:50%;  width:'.$width.'px; height:'.$height.'px; -o-object-fit:cover; object-fit:cover;">';
+ return $img;
 }

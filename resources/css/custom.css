@@ -189,3 +189,9 @@ border-radius: 3px;
     border: 1px solid #eee;
     border-radius: 50%;
 }
+.browse-cities {
+    padding-top: 0px;
+}
+.section-title h2 {
+ text-transform: none;
+}
