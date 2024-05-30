@@ -33,6 +33,7 @@ $user = Auth::user();
                 <li><a class="{{ Request::routeIs('price_type_dashboard') ? 'active' : null }}"  href="{{route('price_type_dashboard')}}"><i class="lni lni-trash"></i> Виды цен</a></li>
                 <li><a class="{{ Request::routeIs('contact_type_dashboard') ? 'active' : null }}"  href="{{route('contact_type_dashboard')}}"><i class="lni lni-printer"></i> Типы контатков</a></li>
                 <li><a class="{{ Request::routeIs('status_dashboard') ? 'active' : null }}"  href="{{route('status_dashboard')}}"><i class="lni lni-printer"></i> Статусы объявлений</a></li>
+                <li><a class="{{ Request::routeIs('posts_dashboard') ? 'active' : null }}"  href="{{route('posts_dashboard')}}"><i class="lni lni-printer"></i> Новости</a></li>
                 @endif
             </ul>
             <div class="button">

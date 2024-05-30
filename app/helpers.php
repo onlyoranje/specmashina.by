@@ -15,13 +15,21 @@ function timesince($datetime)
         case($interval<60*60 and substr(floor($interval/60),-1)<4 and substr($interval/60,-1)>1):return floor($interval/60)." минуты назад";
         case($interval<60*60 and $interval>59): return floor($interval/60)." минут назад";
         //часы
-        case($interval<60*60*24 and substr(floor($interval/60*60),-1)==1 and floor($interval/60*60)!==11):return floor($interval/60*60)." час назад";
-        case($interval<60*60*24 and substr(floor($interval/60*60),-1)<4 and substr(floor($interval/60*60),-1)>1):return floor($interval/60*60)." часа назад";
-        case($interval<60*60*24 and $interval>=60*60): return floor($interval/60*60)." часов назад";
+        case($interval<60*60*24 and substr(floor($interval/(60*60)),-1)==1 and floor($interval/(60*60))!==11):return floor($interval/(60*60))." час назад";
+        case($interval<60*60*24 and substr(floor($interval/(60*60)),-1)<4 and substr(floor($interval/(60*60)),-1)>1):return floor($interval/(60*60))." часа назад";
+        case($interval<60*60*24 and $interval>=60*60): return floor($interval/(60*60))." часов назад";
         // дни
-        case($interval<60*60*24*30 and substr(floor($interval/60*60*24),-1)==1 and floor($interval/60*60*24)!==11):return floor($interval/60*60*24)." день назад";
-        case($interval<60*60*24*30 and substr(floor($interval/60*60*24),-1)<4 and substr(floor($interval/60*60*24),-1)>1):return floor($interval/60*60*24)." дня назад";
-        case($interval<60*60*24*30 and $interval>=60*60*24): return floor($interval/60*60*24)." дней назад";
+        case($interval<60*60*24*30 and substr(floor($interval/(60*60*24)),-1)==1 and floor($interval/(60*60*24))!==11):return floor($interval/(60*60*24))." день назад";
+        case($interval<60*60*24*30 and substr(floor($interval/(60*60*24)),-1)<4 and substr(floor($interval/(60*60*24)),-1)>1):return floor($interval/(60*60*24))." дня назад";
+        case($interval<60*60*24*30 and $interval>=60*60*24): return floor($interval/(60*60*24))." дней назад";
+        //Месяцы
+        case($interval<60*60*24*30*12 and substr(floor($interval/(60*60*24*30)),-1)==1 and floor($interval/(60*60*24*30))!==11):return floor($interval/(60*60*24*30))." месяц назад";
+        case($interval<60*60*24*30*12 and substr(floor($interval/(60*60*24*30)),-1)<4 and substr(floor($interval/(60*60*24*30)),-1)>1):return floor($interval/(60*60*24*30))." месяца назад";
+        case($interval<60*60*24*30*12 and $interval>=60*60*24*30): return floor($interval/(60*60*24*30))." месяцев назад";
+        //годы
+        case(substr(floor($interval/(60*60*24*30*12)),-1)==1 and floor($interval/(60*60*24*30*12))!==11):return floor($interval/(60*60*24*30*12))." год назад";
+        case(substr(floor($interval/(60*60*24*30*12)),-1)<4 and substr(floor($interval/(60*60*24*30*12)),-1)>1):return floor($interval/(60*60*24*30*12))." года назад";
+        case($interval>=60*60*24*30*12): return floor($interval/(60*60*24*30*12))." лет назад";
         //default: return $interval." секунд назад";
 
 

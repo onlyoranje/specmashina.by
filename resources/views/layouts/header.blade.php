@@ -61,20 +61,10 @@
                                 <li class="nav-item">
                                     <a href="{{route('locations')}}" aria-label="Toggle navigation">Города</a>
                                 </li>
-
                                 <li class="nav-item">
-                                    <a class=" dd-menu collapsed" href="javascript:void(0)"
-                                       data-bs-toggle="collapse" data-bs-target="#submenu-1-5"
-                                       aria-controls="navbarSupportedContent" aria-expanded="false"
-                                       aria-label="Toggle navigation">Blog</a>
-                                    <ul class="sub-menu collapse" id="submenu-1-5">
-                                        <li class="nav-item"><a href="javascript:void(0)">Blog Grid Sidebar</a>
-                                        </li>
-                                        <li class="nav-item"><a href="javascript:void(0)">Blog Single</a></li>
-                                        <li class="nav-item"><a href="javascript:void(0)">Blog Single
-                                                Sibebar</a></li>
-                                    </ul>
+                                    <a href="{{route('posts')}}" aria-label="Toggle navigation">Новости</a>
                                 </li>
+
                             </ul>
                         </div> <!-- navbar collapse -->
                         <div class="login-button">
