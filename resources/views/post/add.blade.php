@@ -40,7 +40,7 @@
                                                 <div class="col-12">
                                                     <div class="form-group mt-30">
                                                         <label>Tекст</label>
-                                                        <textarea name="content" placeholder="" maxlength="1000">{{old('content')}}</textarea>
+                                                        <textarea name="content" placeholder="" id="editor">{{old('content')}}</textarea>
                                                     </div>
                                                 </div>
 
