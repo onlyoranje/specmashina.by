@@ -10,6 +10,7 @@
         "ably/ably-php-laravel": "^1.0",
         "algolia/algoliasearch-client-php": "^3.4",
         "blade-ui-kit/blade-ui-kit": "^0.3.4",
+        "ckfinder/ckfinder-laravel-package": "^5.0",
         "cmgmyr/messenger": "^2.30",
         "doctrine/dbal": "^3.8",
         "fakerphp/faker": "^1.23",

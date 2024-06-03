@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('active')->default('Y');
             $table->string('title');
-            $table->text('preview_text');
+            $table->text('preview_text')->nullable();
 
             $table->text('content');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

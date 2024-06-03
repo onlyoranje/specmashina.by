@@ -38,8 +38,8 @@
                                                         <i class="lni lni-flag-alt"></i>
                                                     </div>
                                                     <a href="" class="title">{{$post->title}}</a>
-                                                    <span class="time"><a href='{{route('location_dashboard_edit', ['location' => $location->id])}}'>Редактировать </a></span>
-                                                    <span class="time"><a href='{{route('location_dashboard_delete', ['location' => $location->id])}}'>Удалить </a></span>
+                                                    <span class="time"><a href='{{route('edit_post', ['id' => $post->id])}}'>Редактировать </a></span>
+                                                    <span class="time"><a href='{{route('delete_post', ['id' => $post->id])}}'>Удалить </a></span>
 
 
                                                 </li>

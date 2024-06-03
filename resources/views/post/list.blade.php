@@ -6,22 +6,29 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-7 col-12">
+                    @if (count($posts)>0)
+
                     <div class="row">
+@foreach($posts as $post)
                         <div class="col-lg-6 col-12">
                             <!-- Single News -->
                             <div class="single-news wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
                                 <div class="image">
-                                    <a href="blog-single-sidebar.html"><img class="thumb" src="assets/images/blog/blog1.jpg" alt="#"></a>
+                                    <a href="{{route('post',$post->id)}}">
+                                        @if (isset($post->image))
+                                            <img class="thumb" src="{{Storage::url($post->resizeImage($post->image,635,325))}}" alt="{{ $post->title }}">
+                                        @else
+                                            <img src="http://placehold.it/635x325&text={{ $post->title }}" alt="{{ $post->title }}">
+
+                                        @endif
+                                    </a>
                                 </div>
                                 <div class="content-body">
-                                    <h4 class="title"><a href="blog-single-sidebar.html">10 Things Successful Mompreneurs Do
-                                            Different</a></h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis soluta libero
-                                        molestiae,
-                                        id reiciendis ipsum. </p>
+                                    <h4 class="title"><a href="{{route('post',$post->id)}}">{{$post->title}}</a></h4>
+                                    <p>{{$post->preview_text}}</p>
                                     <div class="meta-details">
                                         <ul>
-                                            <li><a href="javascript:void(0)">Jan 24,2023</a></li>
+                                            <li><a href="javascript:void(0)">{{date('d.m.Y',strtotime($post->created_at))}}</a></li>
                                             <li><a href="javascript:void(0)">Technology</a></li>
                                         </ul>
                                     </div>
@@ -29,162 +36,7 @@
                             </div>
                             <!-- End Single News -->
                         </div>
-                        <div class="col-lg-6 col-12">
-                            <!-- Single News -->
-                            <div class="single-news wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
-                                <div class="image">
-                                    <a href="blog-single-sidebar.html"><img class="thumb" src="assets/images/blog/blog2.jpg" alt="#"></a>
-                                </div>
-                                <div class="content-body">
-                                    <h4 class="title"><a href="blog-single-sidebar.html">A digital prescription for the
-                                            industry.</a>
-                                    </h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis soluta libero
-                                        molestiae,
-                                        id reiciendis ipsum. </p>
-                                    <div class="meta-details">
-                                        <ul>
-                                            <li><a href="javascript:void(0)">Feb 20,2023</a></li>
-                                            <li><a href="javascript:void(0)">Magazine</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single News -->
-                        </div>
-                        <div class="col-lg-6 col-12">
-                            <!-- Single News -->
-                            <div class="single-news wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                                <div class="image">
-                                    <a href="blog-single-sidebar.html"><img class="thumb" src="assets/images/blog/blog3.jpg" alt="#"></a>
-                                </div>
-                                <div class="content-body">
-                                    <h4 class="title"><a href="blog-single-sidebar.html">Strategic &amp; commercial approach with
-                                            issues.</a></h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis soluta libero
-                                        molestiae,
-                                        id reiciendis ipsum. </p>
-                                    <div class="meta-details">
-                                        <ul>
-                                            <li><a href="javascript:void(0)">Mar 15,2023</a></li>
-                                            <li><a href="javascript:void(0)">Technology</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single News -->
-                        </div>
-                        <div class="col-lg-6 col-12">
-                            <!-- Single News -->
-                            <div class="single-news wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
-                                <div class="image">
-                                    <a href="blog-single-sidebar.html"><img class="thumb" src="assets/images/blog/blog1.jpg" alt="#"></a>
-                                </div>
-                                <div class="content-body">
-                                    <h4 class="title"><a href="blog-single-sidebar.html">The Internet Is A Job Seeker
-                                            Most Crucial Success</a></h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis soluta libero
-                                        molestiae,
-                                        id reiciendis ipsum. </p>
-                                    <div class="meta-details">
-                                        <ul>
-                                            <li><a href="javascript:void(0)">May 28,2023</a></li>
-                                            <li><a href="javascript:void(0)">Online Jobs</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single News -->
-                        </div>
-                        <div class="col-lg-6 col-12">
-                            <!-- Single News -->
-                            <div class="single-news wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
-                                <div class="image">
-                                    <a href="blog-single-sidebar.html"><img class="thumb" src="assets/images/blog/blog2.jpg" alt="#"></a>
-                                </div>
-                                <div class="content-body">
-                                    <h4 class="title"><a href="blog-single-sidebar.html">Today From Connecting With Potential
-                                            Employers</a></h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis soluta libero
-                                        molestiae,
-                                        id reiciendis ipsum. </p>
-                                    <div class="meta-details">
-                                        <ul>
-                                            <li><a href="javascript:void(0)">Dec 22,2023</a></li>
-                                            <li><a href="javascript:void(0)">Jobs</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single News -->
-                        </div>
-                        <div class="col-lg-6 col-12">
-                            <!-- Single News -->
-                            <div class="single-news wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
-                                <div class="image">
-                                    <a href="blog-single-sidebar.html"><img class="thumb" src="assets/images/blog/blog1.jpg" alt="#"></a>
-                                </div>
-                                <div class="content-body">
-                                    <h4 class="title"><a href="blog-single-sidebar.html">The Internet Is A Job Seeker
-                                            Most Crucial Success</a></h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis soluta libero
-                                        molestiae,
-                                        id reiciendis ipsum. </p>
-                                    <div class="meta-details">
-                                        <ul>
-                                            <li><a href="javascript:void(0)">May 28,2023</a></li>
-                                            <li><a href="javascript:void(0)">Online Jobs</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single News -->
-                        </div>
-                        <div class="col-lg-6 col-12">
-                            <!-- Single News -->
-                            <div class="single-news wow fadeInUp" data-wow-delay=".4s" style="visibility: hidden; animation-delay: 0.4s; animation-name: none;">
-                                <div class="image">
-                                    <a href="blog-single-sidebar.html"><img class="thumb" src="assets/images/blog/blog3.jpg" alt="#"></a>
-                                </div>
-                                <div class="content-body">
-                                    <h4 class="title"><a href="blog-single-sidebar.html">We’ve Weeded Through Hundreds Of Job
-                                            Hunting</a></h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis soluta libero
-                                        molestiae,
-                                        id reiciendis ipsum. </p>
-                                    <div class="meta-details">
-                                        <ul>
-                                            <li><a href="javascript:void(0)">Jan 23,2023</a></li>
-                                            <li><a href="javascript:void(0)">Career</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single News -->
-                        </div>
-                        <div class="col-lg-6 col-12">
-                            <!-- Single News -->
-                            <div class="single-news wow fadeInUp" data-wow-delay=".4s" style="visibility: hidden; animation-delay: 0.4s; animation-name: none;">
-                                <div class="image">
-                                    <a href="blog-single-sidebar.html"><img class="thumb" src="assets/images/blog/blog2.jpg" alt="#"></a>
-                                </div>
-                                <div class="content-body">
-                                    <h4 class="title"><a href="blog-single-sidebar.html">A digital prescription for the
-                                            industry.</a>
-                                    </h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis soluta libero
-                                        molestiae,
-                                        id reiciendis ipsum. </p>
-                                    <div class="meta-details">
-                                        <ul>
-                                            <li><a href="javascript:void(0)">Feb 20,2023</a></li>
-                                            <li><a href="javascript:void(0)">Magazine</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single News -->
-                        </div>
+@endforeach
                     </div>
                     <!-- Pagination -->
                     <div class="pagination left blog-grid-page">
@@ -196,6 +48,7 @@
                             <li><a href="javascript:void(0)"><i class="lni lni-chevron-right"></i></a></li>
                         </ul>
                     </div>
+                    @endif
                     <!--/ End Pagination -->
                 </div>
                 <aside class="col-lg-4 col-md-5 col-12">

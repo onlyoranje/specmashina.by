@@ -40,7 +40,7 @@
                                                 <div class="col-12">
                                                     <div class="form-group mt-30">
                                                         <label>Tекст</label>
-                                                        <textarea name="content" placeholder="" id="editor">{{old('content')}}</textarea>
+                                                        <textarea name="text" placeholder="" id="editor">{{old('text')}}</textarea>
                                                     </div>
                                                 </div>
 
@@ -75,7 +75,23 @@
     </section>
 
 
+    <script>
+        window.addEventListener("load", function(){
 
+        ClassicEditor
+            .create( document.querySelector( '#editor' ), {
+
+                ckfinder: {
+                    uploadUrl: '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+                },
+
+
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+            } );
+    </script>
 
 @endsection
 

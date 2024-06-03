@@ -9,7 +9,7 @@
                         src="{{Storage::url($bb_widget->images()[0]->resize(600, 400))}}" alt="{{$bb_widget->title()}}"></a>
             @else
                 <a href="{{route('bb',['bb'=>$bb_widget->id])}}"><img
-                        src="http://placehold.it/600x400&text={{ $title }}" alt="{{ $bb_widget->title() }}"></a>
+                        src="http://placehold.it/600x400&text={{ $bb_widget->title() }}" alt="{{ $bb_widget->title() }}"></a>
             @endif
                 @if (isset($bb_widget->status_bb->premium_status_days))
                     <i class=" cross-badge lni lni-bolt"></i>
