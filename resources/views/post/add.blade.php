@@ -53,7 +53,7 @@
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form-group button mb-0 mt-5">
-                                                        <button type="submit" class="btn ">Добавить</button>
+                                                        <button type="submit" class="btn " id="addpost">Добавить</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -78,19 +78,23 @@
     <script>
         window.addEventListener("load", function(){
 
-        ClassicEditor
-            .create( document.querySelector( '#editor' ), {
+            ClassicEditor
+                .create( document.querySelector( '#editor' ), {
 
-                ckfinder: {
-                    uploadUrl: '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
-                },
+                    ckfinder: {
+                        uploadUrl: '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+                    },
 
 
-            } )
-            .catch( error => {
-                console.error( error );
+                } )
+                .catch( error => {
+                    console.error( error );
+                } );
+            ClassicEditor.replace( 'Resolution', {
+                height: 400
             } );
-            } );
+
+        } );
     </script>
 
 @endsection

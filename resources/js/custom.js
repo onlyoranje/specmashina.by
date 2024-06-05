@@ -477,6 +477,9 @@ $(document).ready(function () {
         document.cookie = 'tablist=' + $(this).attr('aria-controls') + '; max-age=3600000';
         console.log($(this).attr('aria-controls'))
     })
+
+    //add post validate
+
 })
 $(document).ready(function () {
     $('.hero-search').on("click", function () {
