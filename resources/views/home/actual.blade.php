@@ -33,7 +33,7 @@
                                             src="{{Storage::url($images[0]->resize(600, 400))}}" alt="{{ $bb->title }}">
                                 @else
                                     <img
-                                            src="http://placehold.it/600x400&text={{ $bb->id}}" alt="{{ $bb->title }}">
+                                            src="https://placehold.it/600x400&text={{ $bb->id}}" alt="{{ $bb->title }}">
                                 @endif
                             </a>
 
@@ -44,7 +44,7 @@
                                         @if ($bb->user->organization->logo)
                                         <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
                                         @else
-                                            <img src="http://placehold.it/40x40&text={!! mb_substr($bb->user->organization->title,0,1) !!}" alt="{{$bb->user->organization->title}}">
+                                            <img src="https://placehold.it/40x40&text={!! mb_substr($bb->user->organization->title,0,1) !!}" alt="{{$bb->user->organization->title}}">
                                             @endif
                                         <span>{{$bb->user->organization->title}}</span></a>
                                 </div>

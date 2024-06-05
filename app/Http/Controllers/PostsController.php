@@ -34,4 +34,8 @@ class PostsController extends Controller
         return redirect()->route('posts_dashboard');
 
     }
+    public function post_dashboard(Post $post){
+        $title = 'Редактирование новости '.$post->title;
+        return view('post.edit',['title'=>$title,'post'=>$post]);
+    }
 }
