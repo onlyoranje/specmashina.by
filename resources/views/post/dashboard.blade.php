@@ -42,6 +42,7 @@
                                                     <span class="time"><a href='{{route('delete_post', ['post' => $post->id])}}'>Удалить </a></span>
 
 
+
                                                 </li>
 
                                             @endforeach

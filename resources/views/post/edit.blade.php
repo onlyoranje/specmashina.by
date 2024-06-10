@@ -49,6 +49,7 @@
                                                         $old_image ='{"name":"'.$post->title.'","id":'.$post->id.',"file":"'.$post->id.'","local":"'.Storage::url($post->image).'","data":{"url":"'.Storage::url($post->image).'","thumbnail":"'.Storage::url($post->image) .'","readerForce":true}}';
                                                     }
 
+
                                                     ?>
                                                     <label for="exampleInputEmail1" class="form-label">Лого</label>
                                                     <input type="file" class="form-control" name="file" data-fileuploader-limit="1"
