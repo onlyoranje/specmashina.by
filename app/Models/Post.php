@@ -10,8 +10,10 @@ use Intervention\Image\Facades\Image;
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable=['title','content','user_id', 'image','preview_text'];
-
+    protected $fillable=['title','content','user_id', 'image','preview_text','category','tags'];
+    public function poststatistic(){
+        return $this->hasMany(PostStatistic::class);
+    }
     public function resizeImage($url,$w,$h)
     {
         $size = getimagesize(Storage::path('/public/').$url);
@@ -36,5 +38,9 @@ class Post extends Model
             $thumbnail->save(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$url);
         }
         return 'thumbnails/'.$w.'x'.$h.'/'.$url;
+    }
+    public function count_views(){
+        $views = PostStatistic::where('post_id',$this->id)->sum('views');
+        return $views;
     }
 }

@@ -25,10 +25,36 @@
 
                                         <div class="inner-block">
                                             <div class="row">
-                                                <div class="col-lg-6 col-12">
+                                                <div class="col-12">
                                                     <div class="form-group">
                                                         <label>Заголовок</label>
                                                         <input type="text" value="{{old('title')}}"  name="title"  required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-12">
+
+                                                    <div class="form-group">
+                                                        <label>Категория</label>
+                                                        <div class="selector-head">
+                                                            <span class="arrow"><i class="lni lni-chevron-down"></i></span>
+                                                            <select class="user-chosen-select" name="category">
+                                                                <option value="none">Select a Category</option>
+                                                                @if (isset($categories))
+                                                                    @foreach ($categories as $category)
+                                                                <option value="{{$category}}">{{$category}}</option>
+                                                            @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="col-lg-6 col-12">
+                                                    <div class="form-group">
+                                                        <label>Новая категория</label>
+                                                        <input type="text" value="{{old('new_category')}}"  name="new_category">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
@@ -49,6 +75,12 @@
                                                     <div class="form-group upload-image">
                                                         <label>Обложка</label>
                                                         <input type="file"  name="file">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-12">
+                                                    <div class="form-group">
+                                                        <label>Теги</label>
+                                                        <input type="text" value="{{old('tags')}}"  name="tags">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">

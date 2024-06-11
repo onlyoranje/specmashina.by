@@ -72,7 +72,7 @@
                             </div>
                             <div class="bottom-content">
                                 <p class="price">Цена: <span>{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span></p>
-                                <a href="javascript:void(0)" class="like"><i class="lni lni-heart"></i></a>
+                                <a href="javascript:void(0)" class="like" data-bbId="{{$bb->id}}"><i class="lni lni-heart"></i></a>
                             </div>
                         </div>
                     </div>

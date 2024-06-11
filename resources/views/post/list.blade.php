@@ -29,7 +29,7 @@
                                     <div class="meta-details">
                                         <ul>
                                             <li><a href="javascript:void(0)">{{date('d.m.Y',strtotime($post->created_at))}}</a></li>
-                                            <li><a href="javascript:void(0)">Technology</a></li>
+                                            <li><a href="javascript:void(0)">{{$post->category}}</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -39,15 +39,11 @@
 @endforeach
                     </div>
                     <!-- Pagination -->
-                    <div class="pagination left blog-grid-page">
-                        <ul class="pagination-list">
-                            <li><a href="javascript:void(0)"><i class="lni lni-chevron-left"></i></a></li>
-                            <li class="active"><a href="javascript:void(0)">2</a></li>
-                            <li><a href="javascript:void(0)">3</a></li>
-                            <li><a href="javascript:void(0)">4</a></li>
-                            <li><a href="javascript:void(0)"><i class="lni lni-chevron-right"></i></a></li>
-                        </ul>
-                    </div>
+                        <div class="col-12">
+                            <!-- Pagination -->
+                        {{ $posts->onEachSide(1)->links() }}
+                        <!--/ End Pagination -->
+                        </div>
                     @endif
                     <!--/ End Pagination -->
                 </div>
