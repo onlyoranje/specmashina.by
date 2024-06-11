@@ -175,3 +175,27 @@ border-radius: 3px;
     font-weight: 500;
     min-width: 100px;
 }
+.single-item-grid .content .info .like_u {
+    float: right;
+}
+.single-item-grid .content .info .like_u a {
+    color: #888;
+    font-size: 14px;
+    height: 35px;
+    width: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: block;
+    border: 1px solid #eee;
+    border-radius: 50%;
+}
+.browse-cities {
+    padding-top: 0px;
+}
+.section-title h2 {
+ text-transform: none;
+}
+.ck-editor__editable_inline:not(.ck-comment__input *) {
+    height: 300px;
+    overflow-y: auto;
+}

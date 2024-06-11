@@ -7,13 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 use App\Models\User;
+use Maize\Markable\Markable;
+use Maize\Markable\Models\Bookmark;
+use Maize\Markable\Models\Like;
 use Symfony\Component\HttpFoundation\Request;
 
 class Bb extends Model
 {
     use Searchable;
+    use Markable;
 
     protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','active'];
+    protected static $marks = [
+        Bookmark::class,
+    ];
     public function user() {
         return $this->belongsTo(User::class);
     }
@@ -64,6 +71,36 @@ class Bb extends Model
     public function admin_comment(){
         return $this->hasMany(BbAdminComments::class);
     }
+public function title(){
+    $title =$this->parent_rubric()->title." ".$this->rubric->title_r." ".$this->vendor->name." ".$this->title;
+    return $title;
+}
+public function parent_rubric(){
+    $parent_rubrics = Rubric::whereAncestorOrSelf($this->rubric_id)->orderBy('level')->get();
+    $parent_rubric = $parent_rubrics[0];
 
+    return $parent_rubric;
+}
+    public function subparent_rubric(){
+        $parent_rubrics = Rubric::whereAncestorOrSelf($this->rubric_id)->orderBy('level')->get();
+        $subparent_rubric = $parent_rubrics[1];
+        return $subparent_rubric;
+    }
+    public function images(){
+        $images = UserFile::where('bb_id',$this->id)->orderBy('sort')->get();
+        return $images;
+    }
+    public function like(){
+        if (Auth::user()){
+            if (Bookmark::has($this, Auth::user())) {
+                echo  "<li class='like' data-bb-id='".$this->id."' data-bookmark='true'><a><i class='fa-solid fa-bookmark'></i></a></li>";
+            }else {
+                echo "<li class='like' data-bb-id='".$this->id."' data-bookmark='false'><a><i class='fa-regular fa-bookmark'></i></a></li>";
 
+            }
+        } else {
+            echo "<li class='like_u' data-bb-id='".$this->id."' data-bookmark='false'  data-bs-toggle='tooltip' data-bs-placement='bottom' title='Tooltip on bottom'><a><i class='fa-regular fa-bookmark'></i></a></li>";
+        }
+
+    }
 }

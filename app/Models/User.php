@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Maize\Markable\Markable;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use Markable;
 
     /**
      * The attributes that are mass assignable.
