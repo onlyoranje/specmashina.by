@@ -64,7 +64,24 @@ class PostsController extends Controller
         }
         return view('post.detail',['title'=>$title,'post'=>$post]);
     }
-    public function edit_post(Post $post){
+    public function edit_post(Post $post,Request $request){
         $post->fill(['title'=>$request->title,'preview_text'=>$request->preview_text,'content'=>$request->text,'tags'=>$request->tags]);
+        $post->save();
+        if ($request->new_category){
+            $post->fill(['category'=> $request->new_category]);
+            $post->save();
+        } else {
+            $post->fill(['category'=> $request->category]);
+            $post->save();
+        }
+        if ($request->file) {
+
+            $filename = $request->file->store('public');
+            $file_name = explode('/', $filename);
+            $post->fill(['image'=> $file_name[1]]);
+            $post->save();
+
+        }
+        return redirect()->route('posts_dashboard');
     }
 }

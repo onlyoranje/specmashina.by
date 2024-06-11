@@ -71,14 +71,24 @@
                                                     <?php
 
                                                     if ($post->image){
-                                                        $old_image ='{"name":"'.$post->title.'","id":'.$post->id.',"file":"'.$post->id.'","local":"'.Storage::url($post->image).'","data":{"url":"'.Storage::url($post->image).'","thumbnail":"'.Storage::url($post->image) .'","readerForce":true}}';
+                                                        $old_image = Array(
+                                                            'name'=>$post->title,
+                                                            'id'=>$post->id,
+                                                            'file'=>$post->id,
+                                                            'local'=>Storage::url($post->image),
+                                                            'data'=>Array(
+                                                                'url'=>Storage::url($post->image),
+                                                        'thumbnail'=>Storage::url($post->image),
+                                                                'readerForce'=>true
+                                                            ));
+
                                                     }
 
 
                                                     ?>
                                                     <label for="exampleInputEmail1" class="form-label">Лого</label>
                                                     <input type="file" class="form-control" name="file" data-fileuploader-limit="1"
-                                                           <?php if ($post->image) {?> data-fileuploader-files='[<?= $old_image ?>]'<?php }?>>
+                                                 <?php if ($post->image) {?> data-fileuploader-files='[{{json_encode($old_image)}} ]'<?php }?>>
                                                 </div>
                                                 <div class="col-lg-12 col-12">
                                                     <div class="form-group">
