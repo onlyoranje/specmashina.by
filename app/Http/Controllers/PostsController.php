@@ -25,7 +25,7 @@ class PostsController extends Controller
         return view('post.add',['title'=>'Новости','categories'=>$categories]);
     }
     public function post_add_db(Request $request){
-        $post = Post::create(['title'=>$request->title,'preview_text'=>$request->preview_text,'content'=>$request->text,'user_id'=>Auth::id()]);
+        $post = Post::create(['title'=>$request->title,'preview_text'=>$request->preview_text,'content'=>$request->text,'user_id'=>Auth::id(),'tags'=>$request->tags]);
         if ($request->new_category){
             $post->fill(['category'=> $request->new_category]);
             $post->save();
@@ -45,8 +45,9 @@ class PostsController extends Controller
 
     }
     public function post_dashboard(Post $post){
+        $categories = Post::whereNotNull('category')->groupBy('category')->pluck('category');
         $title = 'Редактирование новости '.$post->title;
-        return view('post.edit',['title'=>$title,'post'=>$post]);
+        return view('post.edit',['title'=>$title,'post'=>$post,'categories'=>$categories]);
     }
     public function post(Post $post){
         $title = $post->title;
@@ -62,5 +63,8 @@ class PostsController extends Controller
             $stat->save();
         }
         return view('post.detail',['title'=>$title,'post'=>$post]);
+    }
+    public function edit_post(Post $post){
+        $post->fill(['title'=>$request->title,'preview_text'=>$request->preview_text,'content'=>$request->text,'tags'=>$request->tags]);
     }
 }

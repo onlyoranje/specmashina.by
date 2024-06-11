@@ -22,10 +22,35 @@
                                         @method('PATCH')
                                         <div class="inner-block">
                                             <div class="row">
-                                                <div class="col-lg-6 col-12">
+                                                <div class="col-lg-12 col-12">
                                                     <div class="form-group">
                                                         <label>Заголовок</label>
                                                         <input type="text" value="{{old('title',$post->title)}}"  name="title"  required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-12">
+
+                                                    <div class="form-group">
+                                                        <label>Категория</label>
+                                                        <div class="selector-head">
+                                                            <span class="arrow"><i class="lni lni-chevron-down"></i></span>
+                                                            <select class="user-chosen-select" name="category">
+                                                                <option value="none">Select a Category</option>
+                                                                @if (isset($categories))
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{$category}}" {{($post->category==$category) ? "selected" : ""}}>{{$category}}</option>
+                                                                    @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="col-lg-6 col-12">
+                                                    <div class="form-group">
+                                                        <label>Новая категория</label>
+                                                        <input type="text" value="{{old('new_category')}}"  name="new_category">
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
@@ -54,6 +79,12 @@
                                                     <label for="exampleInputEmail1" class="form-label">Лого</label>
                                                     <input type="file" class="form-control" name="file" data-fileuploader-limit="1"
                                                            <?php if ($post->image) {?> data-fileuploader-files='[<?= $old_image ?>]'<?php }?>>
+                                                </div>
+                                                <div class="col-lg-12 col-12">
+                                                    <div class="form-group">
+                                                        <label>Теги</label>
+                                                        <input type="text" value="{{old('tags', $post->tags)}}"  name="tags">
+                                                    </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form-group button mb-0 mt-5">
