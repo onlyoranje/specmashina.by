@@ -87,34 +87,7 @@
                             </div>
                         </div>
                         <!-- End Single Widget -->
-                        <!-- Start Single Widget -->
-                        <div class="widget categories-widget">
-                            <h5 class="widget-title"><span>Categories</span></h5>
-                            <ul class="custom">
-                                <li>
-                                    <a href="javascript:void(0)">Hotel &amp; Travels<span>26</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Services <span>30</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Pets <span>71</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Restaurants <span>56</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Real Estate<span>15</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Jobs <span>12</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Electronics <span>17</span></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- End Single Widget -->
+                    @include('widgets.top_category_post')
                         <!-- Start Single Widget -->
                         <div class="widget popular-tag-widget">
                             <h5 class="widget-title"><span>Popular Tags</span></h5>
