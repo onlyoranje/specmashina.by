@@ -11,9 +11,15 @@ use Illuminate\Support\Facades\Session;
 class PostsController extends Controller
 {
     //
-    public function posts()
+    public function posts(Request $request)
     {
-        $posts=Post::where('active','Y')->orderBy('id','desc')->paginate(10);
+        $posts=Post::where('active','Y')->where(function($query)
+        {
+            global $request;
+            if ($request->category) $query->where('category', $request->category );
+            if ($request->tag) $query->where('tags', 'like', '%' .$request->tag. '%' );
+
+        })->orderBy('id','desc')->paginate(10);
         return view('post.list',['posts'=>$posts,'title'=>'Новости']);
     }
     public function posts_dashboard(){

@@ -29,19 +29,20 @@ return new class extends Migration
         });
 
 
-        $faker = Faker\Factory::create('be_BY');
-        /*$cats = $faker->words(20,false);
-        $tags = $faker->words(100,false);*/
-        for ($i = 1; $i < 300; $i++) {
+        $faker = Faker\Factory::create('en_US');
+        $cats = array("Новинки","Выставки","Обзоры","Интервью","Рынок труда","Технологии");
+        $tags = $faker->words(30,false);
+        for ($i = 1; $i < 150; $i++) {
 //$cat  = array_rand($cats,1);
 
-/*$tag = implode(' ,',$faker->words(10));*/
+$tag = implode(',',$faker->words(10,false));
             $post = Post::create([
-                'title'=>$faker->sentence(5,true),
-                'content'=>$faker->paragraphs(10, false),
-                'preview_text'=>$faker->paragraphs(1, false),
-                /*'category'=>$cats[$cat],*/
-                /*'tags'=>$tag*/
+                'title'=>$faker->text(50),
+                'content'=>implode('<br>',$faker->paragraphs(20)),
+                'preview_text'=>$faker->text(100),
+                'category'=>$cats[rand(0,5)],
+                'user_id'=>1,
+                'tags'=>$tag
 
             ]);
 

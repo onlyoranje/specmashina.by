@@ -204,3 +204,28 @@ border-radius: 3px;
     width: 100%;
     height: auto;
 }
+.detail-inner p img {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.post-details .single-block {
+    background-color: #fff;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-top: 30px;
+}
+
+.post-details .single-block.tags ul li {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 8px;
+}
+.post-details .single-block.tags ul li a {
+    padding: 8px 15px;
+    border: 1px solid #eee;
+    color: #888;
+    border-radius: 4px;
+}

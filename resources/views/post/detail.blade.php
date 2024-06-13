@@ -17,7 +17,7 @@
                         <div class="post-details">
                             <div class="detail-inner">
                                 <h2 class="post-title">
-                                    <a href="blog-single.html">{{ $post->title }}</a>
+                                    <a href="{{route('post',$post->id)}}">{{ $post->title }}</a>
                                 </h2>
                                 <!-- post meta -->
                                 <ul class="custom-flex post-meta">
@@ -78,6 +78,15 @@
                                     </ul>
                                 </div>
                                 <!-- Post Social Share -->
+                            </div>
+
+                            <div class="single-block tags">
+                                <h3>Tags</h3>
+                                <ul>
+                                    @foreach(explode(',',$post->tags) as $tag)
+                                    <li><a href="{{route('posts')}}?tag={{$tag}}">{{$tag}}</a></li>
+                                    @endforeach
+                                </ul>
                             </div>
                             <!-- Comments -->
                           {{--  <div class="post-comments">
@@ -179,88 +188,15 @@
                         </div>
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
-                        <div class="widget popular-feeds">
-                            <h5 class="widget-title"><span>Popular Feeds</span></h5>
-                            <div class="popular-feed-loop">
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <h6 class="post-title"><a href="javascript:void(0)">Tips to write an impressive resume online for
-                                                beginner</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 05th Nov 2023</span>
-                                    </div>
-                                </div>
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <h6 class="post-title"><a href="javascript:void(0)">10 most important SEO focus areas for
-                                                colleges
-                                                and universities</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 24th March 2023</span>
-                                    </div>
-                                </div>
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <h6 class="post-title"><a href="javascript:void(0)">7 things you should never say to your boss in
-                                                your joblife</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 30th Jan 2023</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    @include('widgets.top_posts')
                         <!-- End Single Widget -->
+                    @include('widgets.top_category_post')
+                    <!-- Start Single Widget -->
+                    @include('widgets.top_tags_post')
+                    <!-- End Single Widget -->
                         <!-- Start Single Widget -->
-                        <div class="widget categories-widget">
-                            <h5 class="widget-title"><span>Categories</span></h5>
-                            <ul class="custom">
-                                <li>
-                                    <a href="javascript:void(0)">Hotel &amp; Travels<span>26</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Services <span>30</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Pets <span>71</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Restaurants <span>56</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Real Estate<span>15</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Jobs <span>12</span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">Electronics <span>17</span></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- End Single Widget -->
-                        <!-- Start Single Widget -->
-                        <div class="widget popular-tag-widget">
-                            <h5 class="widget-title"><span>Popular Tags</span></h5>
-                            <div class="tags">
-                                <a href="javascript:void(0)">Jobpress</a>
-                                <a href="javascript:void(0)">Design</a>
-                                <a href="javascript:void(0)">HR</a>
-                                <a href="javascript:void(0)">Recruiter</a>
-                                <a href="javascript:void(0)">Interview</a>
-                                <a href="javascript:void(0)">Employee</a>
-                                <a href="javascript:void(0)">Labor</a>
-                                <a href="javascript:void(0)">Salary</a>
-                                <a href="javascript:void(0)">Consult</a>
-                                <a href="javascript:void(0)">Business</a>
-                                <a href="javascript:void(0)">Candidates</a>
-                            </div>
-                        </div>
-                        <!-- End Single Widget -->
-                        <!-- Start Single Widget -->
-                        <div class="widget sidebar-as">
-                            <h5 class="widget-title"><span>Advertisement</span></h5>
-                            <a href="javascript:void(0)">
-                                <img src="assets/images/banner/banner.jpg" alt="#">
-                            </a>
-                        </div>
-                        <!-- End Single Widget -->
+                    @include('widgets.banner_sidebar')
+                    <!-- End Single Widget -->
                     </div>
                 </aside>
             </div>
