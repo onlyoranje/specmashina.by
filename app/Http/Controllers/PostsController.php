@@ -90,4 +90,12 @@ class PostsController extends Controller
         }
         return redirect()->route('posts_dashboard');
     }
+    public function delete_post(Post $post){
+        $title = "Удалить новость ".$post->title;
+        return view('post.delete',['title'=>$title,'post'=>$post]);
+    }
+    public function destroy_post(Post $post){
+        $post->delete();
+        return redirect()->route('posts_dashboard');
+    }
 }
