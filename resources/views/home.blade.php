@@ -7,5 +7,6 @@
     @include('home.actual')
     @include('home.city')
     @include('home.trending')
+    @include('home.latest_news')
 
 @endsection('main')

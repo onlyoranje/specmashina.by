@@ -31,7 +31,13 @@ class PostsController extends Controller
         return view('post.add',['title'=>'Новости','categories'=>$categories]);
     }
     public function post_add_db(Request $request){
-        $post = Post::create(['title'=>$request->title,'preview_text'=>$request->preview_text,'content'=>$request->text,'user_id'=>Auth::id(),'tags'=>$request->tags]);
+        $trim_tag=Array();
+        $tags = explode(',',$request->tags);
+        foreach ($tags as $tag){
+            $trim_tag[]=trim($tag);
+        }
+        $trim_tag = implode(',',$trim_tag);
+        $post = Post::create(['title'=>$request->title,'preview_text'=>$request->preview_text,'content'=>$request->text,'user_id'=>Auth::id(),'tags'=>$trim_tag]);
         if ($request->new_category){
             $post->fill(['category'=> $request->new_category]);
             $post->save();
@@ -71,7 +77,13 @@ class PostsController extends Controller
         return view('post.detail',['title'=>$title,'post'=>$post]);
     }
     public function edit_post(Post $post,Request $request){
-        $post->fill(['title'=>$request->title,'preview_text'=>$request->preview_text,'content'=>$request->text,'tags'=>$request->tags]);
+        $trim_tag=Array();
+        $tags = explode(',',$request->tags);
+        foreach ($tags as $tag){
+            $trim_tag[]=trim($tag);
+        }
+        $trim_tag = implode(',',$trim_tag);
+        $post->fill(['title'=>$request->title,'preview_text'=>$request->preview_text,'content'=>$request->text,'tags'=>$trim_tag]);
         $post->save();
         if ($request->new_category){
             $post->fill(['category'=> $request->new_category]);
