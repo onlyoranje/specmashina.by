@@ -34,7 +34,7 @@
                                         <ul class="pagination-list" >
 @foreach($locations_letter as $letter)
                                         <li>
-                                            <a href="http://specmashina.by/location?letter={{$letter}}">{{$letter}}</a>
+                                            <a href="{{route('locations')}}?letter={{$letter}}">{{$letter}}</a>
                                         </li>
                                             @endforeach
                                         </ul>
