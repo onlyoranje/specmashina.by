@@ -18,7 +18,7 @@
                                         @if (isset($post->image))
                                             <img class="thumb" src="{{Storage::url($post->resizeImage($post->image,640,480))}}" alt="{{ $post->title }}">
                                         @else
-                                            <img src="http://placehold.it/640x480&text={{ $post->title }}" alt="{{ $post->title }}">
+                                            <img src="/storage/test/image.jpg" alt="{{ $post->title }}">
 
                                         @endif
                                     </a>
