@@ -29,7 +29,7 @@
                                     <div class="meta-details">
                                         <ul>
                                             <li><a href="javascript:void(0)">{{date('d.m.Y',strtotime($post->created_at))}}</a></li>
-                                            <li><a href="{{route('posts')}}?category={{$category->category}}">{{$post->category}}</a></li>
+                                            <li><a href="{{route('posts')}}?category={{$post->category}}">{{$post->category}}</a></li>
                                         </ul>
                                     </div>
                                 </div>
