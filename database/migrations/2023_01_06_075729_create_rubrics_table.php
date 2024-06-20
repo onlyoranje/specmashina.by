@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('title',100);
             $table->string('title_r',100)->nullable();
+            $table->string('icon')->nullable();
             $table->tinyText('description')->nullable();
             //$table->unsignedBigInteger('parent_id')->nullable();
             //$table->foreign('parent_id')->references('id')->on('rubrics')->onDelete('restrict');

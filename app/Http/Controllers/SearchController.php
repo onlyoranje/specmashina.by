@@ -11,7 +11,7 @@ class SearchController extends Controller
 
         $query = $request->q;
         //dd($query);
-        $bbs = Bb::search($query)->paginate(15);
+        $bbs = Bb::search($query)->where('active','Y')->paginate(15);
         return view('search.result',['bbs'=>$bbs,'query'=>$query]);
     }
 }

@@ -40,7 +40,8 @@
                                         @if($organization->logo)
                                         <img src="{{Storage::url($organization->logo)}}" alt="{{$organization->title}}">
                                         @else
-                                            <img src="http://placehold.it/640x480&text={{$organization->title}}" alt="{{$organization->title}}">
+
+                                            {!! FakeImage(300,161,4,0,$organization->title) !!}
                                         @endif
                                     </a>
 
@@ -52,7 +53,7 @@
                                     <h3 class="title title-organization">
                                         <a href="{{route('organization',$organization->id)}}">{{$organization->title}}</a>
                                     </h3>
-                                    <p class="location location-organization"><a href="javascript:void(0)"><i class="fa-solid fa-location-dot"></i>{{$organization->location->title}}</a></p>
+                                    <p class="location location-organization"><a href="{{route('organizations')}}?location={{$organization->location->id}}"><i class="fa-solid fa-location-dot"></i>{{$organization->location->title}}</a></p>
                                     <a href="{{route('organization',$organization->id)}}" class="tag">Объявлений: {{$organization->count_bbs()}}</a>
                                 </div>
                             </div>

@@ -10,7 +10,7 @@ import "./jquery-ui.min"
 /*import "./wow.min"*/
 import "./jquery.fileuploader.min"
 import "./jquery.maskedinput"
-/*import  "./tiny-slider"*/
+import  "./tiny-slider"
 import "laravel-echo"
 /*import '@ckeditor/ckeditor5-build-classic'*/
 import "pusher-js"

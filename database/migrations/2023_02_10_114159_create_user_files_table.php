@@ -30,7 +30,7 @@ return new class extends Migration
         });
         //Storage::deleteDirectory('/public/bb');
         Storage::deleteDirectory('/public/thumbnails');
-        for ($i = 1; $i < 300; $i++) {
+        for ($i = 1; $i < 2000; $i++) {
             $count_images = count(Storage::files('public/bb'));
             $images = Storage::files('public/bb');
             $filename = $images[rand(0,($count_images-1))];

@@ -40,7 +40,7 @@ return new class extends Migration
         });
 
         $faker = Faker\Factory::create('be_BY');
-        for ($i = 1; $i < 300; $i++) {
+        for ($i = 1; $i < 2000; $i++) {
             $rubric = Rubric::where('level',2)->inRandomOrder()->limit(1)->first();
             $location = Location::where('level',1)->inRandomOrder()->limit(1)->first();
             $status_bb = Status_bb::inRandomOrder()->limit(1)->first();

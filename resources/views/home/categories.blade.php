@@ -29,10 +29,15 @@
                                         $subparent_rubric = $parent_rubrics[1];
                                         @endphp
                                     <a
-                                        href="category.html" class="single-cat tns-item tns-slide-cloned"
+                                        href="{{route('rubric',$rubric->id)}}" class="single-cat tns-item tns-slide-cloned"
                                         aria-hidden="true" tabindex="-1">
                                         <div class="icon">
-                                            <img src="storage/images/categories/jobs.svg" alt="{{$rubric->title}}">
+                                            @if ($rubric->icon)
+                                                <img src="{{Storage::url($rubric->icon)}}" alt="{{$parent_rubric->title}} {{$rubric->title_r}}">
+                                            @else
+                                                <img src="/images/categories/crane.svg" alt="{{$parent_rubric->title}} {{$rubric->title_r}}">
+                                            @endif
+
                                         </div>
                                         <h3>{{$parent_rubric->title}} {{$rubric->title_r}}</h3>
                                         <h5 class="total">{{$rubric->bbs_count}}</h5>
