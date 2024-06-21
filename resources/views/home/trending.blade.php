@@ -7,8 +7,8 @@ $col='col-lg-3 col-md-4 col-12';
             <div class="col-12">
                 <div class="section-title">
                     <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">Еще немного объявлений</h2>
-                    <p class="wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">There are many variations of passages of Lorem
-                        Ipsum available, but the majority have suffered alteration in some form.</p>
+                    {{--<p class="wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">There are many variations of passages of Lorem
+                        Ipsum available, but the majority have suffered alteration in some form.</p>--}}
                 </div>
             </div>
         </div>
