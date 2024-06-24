@@ -507,4 +507,12 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             $notifications = Auth::user()->notifications->sortBy('created_at')->reverse();
         return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_moderation_fail'=>$bbs_moderation_fail,'bbs_popular'=>$bbs_popular , 'bbs_admin_comments'=>$bbs_admin_comments,'notifications'=>$notifications ]);
     }
+    public function bb_edit_status(Bb $bb, $status_bb){
+
+        if (Auth::id()==$bb->user_id or Auth::user()->isAdmin()){
+            $bb->edit_status($status_bb);
+
+        }
+        return redirect()->route('mybb');
+    }
 }

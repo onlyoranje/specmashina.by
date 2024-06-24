@@ -23,19 +23,19 @@
                                 <ul class="custom-flex post-meta">
                                     <li>
                                         <a href="javascript:void(0)">
-                                            <i class="lni lni-calendar"></i>
+                                            <i class="fa-regular fa-calendar"></i>
                                             {{date('d.m.Y',strtotime($post->created_at))}}
                                         </a>
                                     </li>
-                                    {{--<li>
-                                        <a href="javascript:void(0)">
-                                            <i class="lni lni-comments"></i>
-                                            35 Comments
+                                    <li>
+                                        <a href="{{route('posts')}}?category={{$post->category}}">
+                                            <i class="fa-regular fa-folder"></i>
+                                            {{$post->category}}
                                         </a>
-                                    </li>--}}
+                                    </li>
                                     <li>
                                         <a href="javascript:void(0)">
-                                            <i class="lni lni-eye"></i>
+                                            <i class="fa-regular fa-eye"></i>
                                             Просмотров: {{$post->count_views()}}
                                         </a>
                                     </li>
@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="single-block tags">
-                                <h3>Tags</h3>
+                                <h3>Теги</h3>
                                 <ul>
                                     @foreach(explode(',',$post->tags) as $tag)
                                     <li><a href="{{route('posts')}}?tag={{$tag}}">{{$tag}}</a></li>
@@ -179,13 +179,13 @@
                 <aside class="col-lg-4 col-md-12 col-12">
                     <div class="sidebar blog-grid-page">
                         <!-- Start Single Widget -->
-                        <div class="widget search-widget">
+                      {{--  <div class="widget search-widget">
                             <h5 class="widget-title"><span>Search This Site</span></h5>
                             <form action="#">
                                 <input type="text" placeholder="Search Here...">
                                 <button type="submit"><i class="lni lni-search-alt"></i></button>
                             </form>
-                        </div>
+                        </div>--}}
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
                     @include('widgets.top_posts')

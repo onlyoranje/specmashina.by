@@ -91,10 +91,20 @@
                                             <p>{{$bb->count_views()}}</p>
                                         </div>
                                         <div class="col-lg-2 col-md-3 col-12 align-right">
-                                            <ul class="action-btn">
+                                            {{--<ul class="action-btn">
                                                 <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}"><i class="lni lni-pencil"></i></a></li>
                                                 <li><a href="{{route('bb',['bb'=>$bb->id])}}" target="_blank"><i class="lni lni-eye"></i></a></li>
                                                 <li><a href="{{route('bb_delete', ['bb'=>$bb->id]) }}"><i class="lni lni-trash"></i></a></li>
+                                            </ul>--}}
+                                            <ul>
+                                                @if ($bb->active=='Y')
+                                                    <li><a href="{{route('bb',['bb'=>$bb->id])}}" target="_blank">Просмотреть</a></li>
+                                                    <li><a href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>'P'])}}">Пауза</a></li>
+
+                                                @endif
+                                                <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}">Редактировать</a></li>
+                                                <li>111</li>
+                                                <li>111</li>
                                             </ul>
                                         </div>
                                     </div>

@@ -50,13 +50,13 @@
                 <aside class="col-lg-4 col-md-5 col-12">
                     <div class="sidebar blog-grid-page">
                         <!-- Start Single Widget -->
-                        <div class="widget search-widget">
+                        {{--<div class="widget search-widget">
                             <h5 class="widget-title"><span>Search This Site</span></h5>
                             <form action="#">
                                 <input type="text" placeholder="Search Here...">
                                 <button type="submit"><i class="lni lni-search-alt"></i></button>
                             </form>
-                        </div>
+                        </div>--}}
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
                     @include('widgets.top_posts')

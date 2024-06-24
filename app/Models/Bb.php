@@ -103,4 +103,10 @@ public function parent_rubric(){
         }
 
     }
+    public function edit_status($status_bb){
+        $status = Status_bb::where('status',$status_bb)->get()->first;
+
+        $this->fill(['status_bb_id'=>$status->id]);
+        $this->save();
+    }
 }

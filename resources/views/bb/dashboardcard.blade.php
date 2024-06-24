@@ -20,5 +20,5 @@
 @endif
 
 @if ($bb->status_bb->status=='N')
-    <a href="{{route('bb_edit',$bb->id)}}" class="btn btn-sm btn-secondary" >Исправить</a>
+    <div><a href="{{route('bb_edit',$bb->id)}}" class="btn btn-sm btn-secondary" >Исправить</a></div>
 @endif

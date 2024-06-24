@@ -96,4 +96,5 @@ class BbsController extends Controller
         Notification::create(['type'=>'new_message','user_id'=>$bb->user->id,'data'=>$msg->text]);
         return redirect()->route('admin_dashboard');
     }
+
 }
