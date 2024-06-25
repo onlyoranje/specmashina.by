@@ -12,7 +12,7 @@
                         src="http://placehold.it/600x400&text={{ $bb_widget->title() }}" alt="{{ $bb_widget->title() }}"></a>
             @endif
                 @if (isset($bb_widget->status_bb->premium_status_days))
-                    <i class=" cross-badge lni lni-bolt"></i>
+                    {{--<i class=" cross-badge lni lni-bolt"></i>--}}
                     <span class="flat-badge" style="background-color:#{{$bb_widget->status_bb->color_badge}}">{{$bb_widget->status_bb->badge_text}}</span>
                 @endif
         </div>

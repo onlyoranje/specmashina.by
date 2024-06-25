@@ -1,38 +1,13 @@
 @extends('layouts.dashboard')
-@section('title',' Удаление параметра')
+@section('title',' Удаление города/региона')
 @section('main')
-    <section class="add-resume section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 offset-lg-1 col-12">
-                    <div class="add-resume-inner box">
+    @php
+        $title= "Удалить тип цены ".$type->type;
+        $id = ['type'=>$type->id];
+        $route = 'price_type_destroy';
 
-                        <form class="form-ad" action="{{route('price_type_destroy', ['type'=>$type->id])}}" method="post">
-                            @csrf
-                            @method('DELETE')
+        $errors_form=[];
 
-
-                            <div class="row align-items-center justify-content-center">
-                                <div class="col-lg-6 col-md-5 col-12">
-                                    <div class="button">
-                                        <button type="submit" class="btn">Удалить</button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-7 col-12">
-                                    <div class="add-post-btn float-right">
-                                        <ul>
-                                            <li><a href="#" class="btn-added"><i class="lni lni-add-files"></i> Add New
-                                                    Skills</a></li>
-                                            <li><a href="#" class="btn-delete"><i class="lni lni-remove-file"></i>
-                                                    Delete This</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    @endphp
+    @include('layouts.delete_form')
 @endsection

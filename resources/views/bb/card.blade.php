@@ -22,7 +22,7 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
                         @endif
 
                     @if (isset($bb->status_bb->premium_status_days))
-                    <i class=" cross-badge lni lni-bolt"></i>
+              {{--      <i class=" cross-badge lni lni-bolt"></i>--}}
                     <span class="flat-badge" style="background-color:#{{$bb->status_bb->color_badge}}">{{$bb->status_bb->badge_text}}</span>
                             @endif
                 </div>

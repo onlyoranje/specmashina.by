@@ -109,8 +109,8 @@
                                                     <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'N'])}}">Пауза</a></li>
                                                 @endif
                                                 <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}">Редактировать</a></li>
-                                                <li>111</li>
-                                                <li>111</li>
+                                                <li><a href="{{route('bb_delete', ['bb'=>$bb->id]) }}">Удалить</a></li>
+
                                             </ul>
                                         </div>
                                     </div>
