@@ -71,7 +71,27 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>Иконка</label>
+                                                        <div class="selector-head">
+                                                            <span class="arrow"><i class="lni lni-chevron-down"></i></span>
 
+
+                                                            <select name="icon"  class="user-chosen-select">
+                                                                @foreach ($icons as $icon)
+                                                                    <option value="{{$icon}}">{{$icon}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div>
+                                                        <img class="img-fluid icon" src="{{asset("images/logo/logo.svg")}}" alt="Logo">
+                                                    </div>
+
+                                                </div>
 
                                                 <div class="col-12">
                                                     <div class="form-group button mb-0 mt-5">

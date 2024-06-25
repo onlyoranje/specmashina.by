@@ -32,6 +32,7 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->text('search_text')->nullable();
             $table->foreignId('status_bb_id')->nullable()->constrained();
+
             $table->string('active',1)->default('N');
             $table->dateTime('lifted_at')->nullable();
             $table->dateTime('premium_until')->nullable();

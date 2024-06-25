@@ -45,6 +45,7 @@ Route::get('/dashboard/mybb/add', [App\Http\Controllers\ProfileController::class
 Route::post('/dashboard/mybb', [App\Http\Controllers\ProfileController::class, 'addBb'])->name('addBbToDB');
 Route::get('/dashboard/mybb/{bb}/edit',[App\Http\Controllers\ProfileController::class, 'editBb'])->name('bb_edit')->middleware('can:update,bb');
 Route::get('/dashboard/mybb/{bb}/status/{status}',[App\Http\Controllers\ProfileController::class, 'bb_edit_status'])->name('bb_edit_status');
+Route::get('/dashboard/mybb/{bb}/active/{active}',[App\Http\Controllers\ProfileController::class, 'bb_active'])->name('bb_active');
 Route::patch('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::class, 'updateBb'])->name('bb_update')->middleware('can:update,bb');
 Route::get('/dashboard/mybb/{bb}/delete',[App\Http\Controllers\ProfileController::class, 'deleteBb'])->name('bb_delete')->middleware('can:destroy,bb');
 Route::delete('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::class, 'destroyBb'])->name('bb_destroy')->middleware('can:destroy,bb');

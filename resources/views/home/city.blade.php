@@ -40,7 +40,7 @@
                             </h4>
                         </div>
                         <div class="more-btn">
-                            <i class="lni lni-circle-plus"></i>
+                            <i class="fa-solid fa-city"></i>
                         </div>
                     </a>
                 </div>

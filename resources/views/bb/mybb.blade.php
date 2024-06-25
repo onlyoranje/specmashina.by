@@ -99,8 +99,14 @@
                                             <ul>
                                                 @if ($bb->active=='Y')
                                                     <li><a href="{{route('bb',['bb'=>$bb->id])}}" target="_blank">Просмотреть</a></li>
-                                                    <li><a href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>'P'])}}">Пауза</a></li>
 
+                                                @endif
+                                                @if ($bb->status_bb->active=='Y' and $bb->active=='N')
+                                                    <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'Y'])}}">Снять с паузы</a></li>
+                                                @endif
+
+                                                @if ($bb->status_bb->active=='Y' and $bb->active=='Y')
+                                                    <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'N'])}}">Пауза</a></li>
                                                 @endif
                                                 <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}">Редактировать</a></li>
                                                 <li>111</li>

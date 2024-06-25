@@ -9,4 +9,5 @@
     @include('home.trending')
     @include('home.latest_news')
 
+
 @endsection('main')

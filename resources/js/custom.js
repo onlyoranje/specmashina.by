@@ -115,6 +115,8 @@ window.PriceType_Rubric = function (rubric_id) {
 
 }
 $(document).ready(function () {
+
+
     $('input[name="price_type"]').change(function (e) {
         if ($(this).data('hasvalue') === 'Y') {
             $('#price').attr('required', 'required')
@@ -126,6 +128,8 @@ $(document).ready(function () {
         }
         console.log($(this).data('hasvalue'))
     })
+
+
 })
 window.selectTab = function (id, forms = false) {
     var errors = Array();

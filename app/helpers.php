@@ -56,3 +56,25 @@ function FakeImage($width=640,$height=480,$blur=0,$grayscale=0,$title='Арен�
  $img = '<img src="/storage/test/image.jpg" alt="'.$title.'" style="filter: blur('.$blur.'px)  grayscale('.$grayscale.'%);top:50%;left:50%;  width:'.$width.'px; height:'.$height.'px; -o-object-fit:cover; object-fit:cover;">';
  return $img;
 }
+function get_dir_files( $dir, $recursive = true, $include_folders = false ){
+    if( ! is_dir($dir) )
+        return array();
+
+    $files = array();
+
+    $dir = rtrim( $dir, '/\\' ); // удалим слэш на конце
+
+    foreach( glob( "$dir/{,.}[!.,!..]*", GLOB_BRACE ) as $file ){
+
+        if( is_dir( $file ) ){
+            if( $include_folders )
+                $files[] = $file;
+            if( $recursive )
+                $files = array_merge( $files, call_user_func( __FUNCTION__, $file, $recursive, $include_folders ) );
+        }
+        else
+            $files[] = $file;
+    }
+
+    return $files;
+}

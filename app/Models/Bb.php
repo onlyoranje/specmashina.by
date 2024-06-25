@@ -17,7 +17,7 @@ class Bb extends Model
     use Searchable;
     use Markable;
 
-    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','active'];
+    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','previous_status_bb_id','active'];
     protected static $marks = [
         Bookmark::class,
     ];
@@ -53,8 +53,9 @@ class Bb extends Model
         return 'bbs_index';
     }
     public function status_bb() {
-    return $this->belongsTo(Status_bb::class);
-}
+        return $this->belongsTo(Status_bb::class);
+    }
+
     public function count_views(){
        $views = BbStatistic::where('bb_id',$this->id)->sum('views');
        return $views;
@@ -104,9 +105,13 @@ public function parent_rubric(){
 
     }
     public function edit_status($status_bb){
-        $status = Status_bb::where('status',$status_bb)->get()->first;
+        $status = Status_bb::where('status',$status_bb)->first();
 
         $this->fill(['status_bb_id'=>$status->id]);
+        $this->save();
+    }
+    public function active($active){
+        $this->fill(['active'=>$active]);
         $this->save();
     }
 }

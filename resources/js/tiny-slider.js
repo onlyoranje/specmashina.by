@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    if ($('.tns-outer').length==1){
     var tns = (function () {
         var win = window;
 
@@ -3666,6 +3667,7 @@ $(document).ready(function () {
             }
         }
     });
+    }
 })
     //========= testimonial
 /*    tns({

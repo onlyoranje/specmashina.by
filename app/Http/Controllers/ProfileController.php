@@ -515,4 +515,12 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         }
         return redirect()->route('mybb');
     }
+    public function bb_active(Bb $bb, $active){
+
+        if (Auth::id()==$bb->user_id or Auth::user()->isAdmin()){
+            $bb->active($active);
+
+        }
+        return redirect()->route('mybb');
+    }
 }

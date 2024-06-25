@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\ParameterRubric;
 use App\Models\Rubric;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class RubricsController extends Controller
 {
@@ -20,8 +21,10 @@ class RubricsController extends Controller
         $rubric     = Rubric::find($id);
         $rubrics    = Rubric::orderBy('sort')->orderBy('title')->get()->toTree();
         $depth      = Rubric::descendantsAndSelf($id)->toFlatTree();
+        $icons      = Storage::disk('public')->allFiles('/categories');
 
-        return view('rubric.edit', ['rubric'=>$rubric,'rubrics'=>$rubrics,'depth'=>$depth]);
+
+        return view('rubric.edit', ['rubric'=>$rubric,'rubrics'=>$rubrics,'depth'=>$depth, 'icons'=>$icons]);
 
     }
     public function rubric(Request $request,$id ){
@@ -67,8 +70,8 @@ class RubricsController extends Controller
     }
     public function addRubricForm(){
         $rubrics = Rubric::orderBy('sort')->orderBy('title')->get()->toTree();
-
-        return view('rubric.add',compact('rubrics'));
+        $icons      = Storage::disk('public')->allFiles('/categories');
+        return view('rubric.add',['rubrics'=>$rubrics, 'icons'=>$icons]);
     }
     public function addRubric(Request $request){
         $validated = $request->validate(self::RUB_VALIDATOR,self::RUB_ERROR_MESSAGES);
@@ -76,7 +79,7 @@ class RubricsController extends Controller
             $level = (Rubric::find($request->parent_id)->level)+1;
         else
             $level=0;
-        Rubric::create(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description]);
+        Rubric::create(['title'=>$validated['title'],'icon'=>$request->icon,'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description]);
         return redirect()->route('rubric_dashboard');
     }
     public function editRubric(Request $request, Rubric $rubric){
@@ -85,7 +88,7 @@ class RubricsController extends Controller
             $level = (Rubric::find($request->parent_id)->level)+1;
         else
             $level=0;
-        $rubric->fill(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description,'sort'=>$request->sort]);
+        $rubric->fill(['title'=>$validated['title'],'icon'=>$request->icon, 'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description,'sort'=>$request->sort]);
         $rubric->save();
         return redirect()->route('rubric_dashboard');
     }
