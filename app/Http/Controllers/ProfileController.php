@@ -504,7 +504,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             $bbs_moderation = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->get();
             $bbs_moderation_fail = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','N')->get();
             $bbs_admin_comments = BbAdminComments::Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->orderBy('bb_admin_comments.created_at','desc')->get();
-            $notifications = Auth::user()->notifications->sortBy('created_at')->reverse();
+        $notifications = BbAdminComments::select('bb_admin_comments.*')->join('bbs','bb_admin_comments.bb_id','=','bbs.id')->where('bbs.user_id',Auth::id())->whereNull('read_at')->orderBy('created_at','desc')->limit(10)->get();
         return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_moderation_fail'=>$bbs_moderation_fail,'bbs_popular'=>$bbs_popular , 'bbs_admin_comments'=>$bbs_admin_comments,'notifications'=>$notifications ]);
     }
     public function bb_edit_status(Bb $bb, $status_bb){
@@ -524,7 +524,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return redirect()->route('mybb');
     }
     public function alerts(){
-        $alerts = BbAdminComments::Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->orderBy('bb_admin_comments.created_at','desc')->paginate(10);
+        $alerts = BbAdminComments::select('bb_admin_comments.*')->Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->orderBy('bb_admin_comments.created_at','desc')->paginate(10);
         return view('alerts.list',['alerts'=>$alerts,'title'=>'Уведомления']);
     }
 }

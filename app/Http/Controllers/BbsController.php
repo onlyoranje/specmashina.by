@@ -69,7 +69,7 @@ class BbsController extends Controller
     public function approve(Bb $bb,Request $request){
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
-        BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>'Объявление '.$title.' прошло модерацию']);
+        BbAdminComments::create(['bb_id'=>$bb->id,'title'=>'Объявление '.$title.' прошло модерацию','comment'=>'Объявление '.$title.' прошло модерацию']);
         $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>'Объявление '.$title.' прошло модерацию']);
         $active_status = Status_bb::where('status','S')->get()->value('id');
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
@@ -81,13 +81,14 @@ class BbsController extends Controller
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
         $comment_title = 'Объявление '.$title.' не прошло модерацию';
-        $comment = 'Причины:<br>';
+        $comment = 'Причины:<ul>';
         if ($request->reasons){
             foreach ($request->reasons as $reason)
             {
-                $comment.= RejectReasons::where('id',$reason)->value('reason').'<br>';
+                $comment.= '<li>'.RejectReasons::where('id',$reason)->value('reason').'</li>';
             }
         }
+        $comment.='</ul>';
         if ($request->comment) $comment.= $request->comment;
         BbAdminComments::create(['bb_id'=>$bb->id,'title'=>$comment_title,'comment'=>$comment]);
         $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>$comment]);

@@ -14,28 +14,25 @@
                     <div class="main-content">
 
                         <div class="row">
-                            <div class="col-6">
-                                <div class="single-block comments">
-                                    <h3>Уведомления</h3>
-                                    <!-- Start Single Comment -->
-                                    <div class="single-comment">
+                            <div class="col-12">
+                                @if (count($alerts)>0)
 
-                                        <div class="content">
-                                            <h4>Luis Havens</h4>
-                                            <span>25 Feb, 2023</span>
-                                            <p>
-                                                There are many variations of passages of Lorem Ipsum available, but the majority
-                                                have suffered alteration in some form, by injected humour, or randomised words
-                                                which don't look even slightly believable.
-                                            </p>
-                                            <a href="javascript:void(0)" class="reply"><i class="lni lni-reply"></i> Reply</a>
-                                        </div>
+
+                                    @foreach ($alerts as $alert)
+                                <div class="card card-alert">
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{$alert->title}}</h5>
+                                        <p class="card-text">{!! $alert->comment!!}</p>
+                                        @if (!$alert->read_at)
+                                        <a href="#" class="btn btn-primary  btn-sm">Пометить прочитанным</a>
+                                        @endif
                                     </div>
-                                    <!-- End Single Comment -->
                                 </div>
-                            </div>
-                            <div class="col-6">2</div>
 
+                            @endforeach
+                            @endif
+                        </div>
                     </div>
 
                     {{ $alerts->onEachSide(1)->links() }}

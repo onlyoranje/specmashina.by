@@ -248,15 +248,14 @@ border-radius: 3px;
     margin-top: 60px;
     padding: 0px 30px;
 }
-.main-content .single-block {
+.card-alert {
     background-color: #fff;
-    padding: 30px;
+    padding: 16px;
     border: 1px solid #eee;
     border-radius: 6px;
     margin-bottom: 30px;
 }
-.main-content .single-block.comments .single-comment {
-    position: relative;
-    padding-left: 110px;
-    margin-bottom: 40px;
+.card-alert .btn {
+    margin-top: 20px;
+    padding: 0px 30px;
 }
