@@ -64,7 +64,20 @@
                                 <li class="nav-item">
                                     <a href="{{route('posts')}}" aria-label="Toggle navigation">Новости</a>
                                 </li>
-
+                                @mobile
+                                @if(Auth::user())
+                                    <li class="nav-item">
+                                        <a href="{{route('dashboard')}}" aria-label="Toggle navigation">Личный кабинет</a>
+                                    </li>
+                                @else
+                                    <li class="nav-item">
+                                        <a href="{{route('dashboard')}}" aria-label="Toggle navigation">Вход</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('dashboard')}}" aria-label="Toggle navigation">Регистрация</a>
+                                    </li>
+                                @endif
+                                @endmobile
                             </ul>
                         </div> <!-- navbar collapse -->
                         <div class="login-button">
