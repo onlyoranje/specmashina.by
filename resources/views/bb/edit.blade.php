@@ -158,7 +158,7 @@
                                                                 @if (count($parameters)>0)
                                                                     @foreach($parameters as $parameter)
                                                                         @if ($parameter->type == 'options')
-                                                                            <div class="col-6">
+                                                                            <div class="col-lg-6 col-12 ">
                                                                                 <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                     <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                                     </label>
@@ -175,7 +175,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         @elseif ($parameter->type == 'checkbox')
-                                                                            <div class="col-6">
+                                                                            <div class="col-lg-6 col-12 ">
 
                                                                                 <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                     <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
@@ -188,7 +188,7 @@
 
                                                                             </div>
                                                                     @elseif ($parameter->type == 'number')
-                                                                        <div class="col-6">
+                                                                        <div class="col-lg-6 col-12 ">
                                                                             <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                 <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                                 </label>
@@ -196,7 +196,7 @@
                                                                             </div>
                                                                         </div>
                                                                     @elseif ($parameter->type == 'year')
-                                                                        <div class="col-6">
+                                                                        <div class="col-lg-6 col-12 ">
                                                                             <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                 <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                                 </label>
@@ -204,7 +204,7 @@
                                                                             </div>
                                                                         </div>
                                                                     @else
-                                                                            <div class="col-6">
+                                                                            <div class="col-lg-6 col-12 ">
                                                                                 <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                                     <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                                     </label>
@@ -320,7 +320,7 @@
                                                                     </script>
 
                                                                 @endif
-                                                                <div class="col-6">
+                                                                <div class="col-lg-6 col-12 ">
                                                                     <div class="form-group">
                                                                         <label class="form-label">{{$contact_type->name}}</label>
                                                                         <input type="text"
