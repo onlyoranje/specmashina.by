@@ -244,3 +244,19 @@ border-radius: 3px;
 .items-tab {
     background-color: #f9f9f9;
 }
+.dashboard-block .button {
+    margin-top: 60px;
+    padding: 0px 30px;
+}
+.main-content .single-block {
+    background-color: #fff;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+.main-content .single-block.comments .single-comment {
+    position: relative;
+    padding-left: 110px;
+    margin-bottom: 40px;
+}

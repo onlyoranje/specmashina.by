@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id('id');
             $table->string('type');
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->constrained()->onDelete('cascade');
+
             $table->text('data');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();

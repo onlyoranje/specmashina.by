@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Города')
 
 @section('main')
     <section class="dashboard section">

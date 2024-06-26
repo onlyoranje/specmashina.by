@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BbAdminComments extends Model
 {
     use HasFactory;
-    protected $fillable = ['bb_id', 'comment','read_at'];
+    protected $fillable = ['bb_id', 'comment','read_at','title'];
 
     public function bb()
     {

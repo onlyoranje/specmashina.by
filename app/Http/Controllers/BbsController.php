@@ -80,7 +80,8 @@ class BbsController extends Controller
     public function reject(Bb $bb,Request $request){
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
-        $comment = 'Объявление '.$title.' не прошло модерацию<br>';
+        $comment_title = 'Объявление '.$title.' не прошло модерацию';
+        $comment = 'Причины:<br>';
         if ($request->reasons){
             foreach ($request->reasons as $reason)
             {
@@ -88,7 +89,7 @@ class BbsController extends Controller
             }
         }
         if ($request->comment) $comment.= $request->comment;
-        BbAdminComments::create(['bb_id'=>$bb->id,'comment'=>$comment]);
+        BbAdminComments::create(['bb_id'=>$bb->id,'title'=>$comment_title,'comment'=>$comment]);
         $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>$comment]);
         event(new NewMessageNotification('new_message',$msg,Auth::id(),$bb->user->id));
         $active_status = Status_bb::where('status','N')->get()->value('id');

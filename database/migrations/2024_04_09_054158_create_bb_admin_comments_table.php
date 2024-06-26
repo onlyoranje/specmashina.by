@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('bb_id');
             $table->foreign('bb_id')->references('id')->on('bbs')->constrained()->onDelete('cascade');
+            $table->string('title');
             $table->text('comment')->nullable();
 
             $table->time('read_at')->nullable();
