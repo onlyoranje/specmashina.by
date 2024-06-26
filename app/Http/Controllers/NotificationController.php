@@ -21,8 +21,8 @@ class NotificationController extends Controller
         return response()->json(array('success' => true, 'html'=>$returnHTML));
 
     }
-    public function read_alert(Request $request)
+    /*public function read_alert(Request $request)
     {
         Notification::where('id',$request->id)->where('user_id',Auth::id())->update(['read_at'=>date('Y-m-d H:i:s')]);
-    }
+    }*/
 }

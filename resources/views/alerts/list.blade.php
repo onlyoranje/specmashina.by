@@ -25,7 +25,7 @@
                                         <h5 class="card-title">{{$alert->title}}</h5>
                                         <p class="card-text">{!! $alert->comment!!}</p>
                                         @if (!$alert->read_at)
-                                        <a href="#" class="btn btn-primary  btn-sm">Пометить прочитанным</a>
+                                        <a  class="btn btn-primary  btn-sm" id="alert_{{$alert->id}}" onclick="read_alert({{$alert->id}})">Пометить прочитанным</a>
                                         @endif
                                     </div>
                                 </div>

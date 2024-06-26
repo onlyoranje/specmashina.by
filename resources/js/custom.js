@@ -539,6 +539,31 @@ window.createMsg = function (chat_id) {
     }
 }
 
+window.read_alert = function (id) {
+
+
+
+        let _url = `/read_alert`;
+        let _token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            url: _url,
+            type: "PATCH",
+            data: {
+                id: id,
+                _token: _token
+            },
+            success: function (response) {
+                if (response.code == 200) {
+                $('#alert_'+id).remove()
+                }
+            },
+            error: function (response) {
+
+            }
+        });
+
+}
 
 window.chats = function (id) {
 
@@ -602,7 +627,7 @@ window.readMsg = function (id) {
     });
 
 }
-window.readAlert = function (id) {
+/*window.readAlert = function (id) {
     let _url = `/read_alert/` + id;
     let _token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
@@ -622,7 +647,7 @@ window.readAlert = function (id) {
         }
     });
 
-}
+}*/
 $(document).ready(function () {
 
     $('.like').on("click", function () {

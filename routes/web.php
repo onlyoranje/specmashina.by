@@ -51,6 +51,7 @@ Route::get('/dashboard/mybb/{bb}/delete',[App\Http\Controllers\ProfileController
 Route::delete('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::class, 'destroyBb'])->name('bb_destroy')->middleware('can:destroy,bb');
 
 Route::get('/dashboard/alerts',[App\Http\Controllers\ProfileController::class, 'alerts'])->name('alerts');
+Route::patch('/read_alert', [App\Http\Controllers\ProfileController::class, 'read_alert'])->middleware(['auth', 'verified'])->name('read_alert');
 
 Route::get('/rubric', [App\Http\Controllers\RubricsController::class, 'rubric'])->name('rubrics');
 Route::get('/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'rubric'])->name('rubric');
@@ -148,10 +149,10 @@ Route::get('/messages', [App\Http\Controllers\ImsController::class, 'index'])->m
 Route::get('/chats/{id}', [App\Http\Controllers\ImsController::class, 'chat'])->middleware(['auth', 'verified'])->name('chat');
 Route::get('/chats', [App\Http\Controllers\ImsController::class, 'chats'])->middleware(['auth', 'verified'])->name('chats');
 
-Route::patch('/read_message/{id}', [App\Http\Controllers\ImsController::class, 'read_msg'])->middleware(['auth', 'verified'])->name('read_msg');
+/*Route::patch('/read_message/{id}', [App\Http\Controllers\ImsController::class, 'read_msg'])->middleware(['auth', 'verified'])->name('read_msg');
 Route::patch('/read_alert/{id}', [App\Http\Controllers\NotificationController::class, 'read_alert'])->middleware(['auth', 'verified'])->name('read_msg');
 Route::patch('/new_msg', [App\Http\Controllers\ImsController::class, 'new_msg'])->middleware(['auth', 'verified'])->name('new_msg');
-Route::patch('/notification', [App\Http\Controllers\NotificationController::class, 'index'])->middleware(['auth', 'verified'])->name('notification');
+Route::patch('/notification', [App\Http\Controllers\NotificationController::class, 'index'])->middleware(['auth', 'verified'])->name('notification');*/
 
 Route::patch('/bookmarked', [App\Http\Controllers\BookmarkController::class, 'bookmarked'])->middleware(['auth', 'verified'])->name('bookmarked');
 

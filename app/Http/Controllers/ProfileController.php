@@ -527,4 +527,9 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         $alerts = BbAdminComments::select('bb_admin_comments.*')->Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->orderBy('bb_admin_comments.created_at','desc')->paginate(10);
         return view('alerts.list',['alerts'=>$alerts,'title'=>'Уведомления']);
     }
+    public function read_alert(Request $request){
+        $alert = BbAdminComments::select('bb_admin_comments.*')->Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->where('bb_admin_comments.id',$request->id)->update(['bb_admin_comments.read_at'=>date('Y-m-d H:i:s')]);
+        //dd($alert);
+        return response()->json(['code'=>200], 200);
+    }
 }
