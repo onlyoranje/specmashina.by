@@ -138,8 +138,9 @@ Route::get('/post/{post}', [App\Http\Controllers\PostsController::class, 'post']
 Route::get('/dashboard/banners/', [App\Http\Controllers\BannersController::class, 'banners_dashboard'])->name('banners_dashboard')->middleware('isadmin');
 Route::get('/dashboard/banner/add', [App\Http\Controllers\BannersController::class, 'banner_add'])->name('banner_add')->middleware('isadmin');
 Route::post('/dashboard/banner', [App\Http\Controllers\BannersController::class, 'banner_add_db'])->name('banner_add_db')->middleware('isadmin');
-
-
+Route::patch('/dashboard/banner/{banner}', [App\Http\Controllers\BannersController::class, 'edit_banner'])->name('edit_banner')->middleware('isadmin');
+Route::get('/dashboard/banner/{banner}/delete', [App\Http\Controllers\BannersController::class, 'delete_banner'])->name('delete_banner')->middleware('isadmin');
+Route::get('/dashboard/banner/{banner}', [App\Http\Controllers\BannersController::class, 'banner_dashboard'])->name('banner_dashboard')->middleware('isadmin');
 require __DIR__.'/auth.php';
 Route::get('/item/{bb}', [BbsController::class, 'detail'])->name('bb');
 Route::get('/item/{bb}/approve', [BbsController::class, 'approve'])->name('approve')->middleware('isadmin');
