@@ -72,7 +72,7 @@ class BbsController extends Controller
         BbAdminComments::create(['bb_id'=>$bb->id,'title'=>'Объявление '.$title.' прошло модерацию','comment'=>'Объявление '.$title.' прошло модерацию']);
         $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>'Объявление '.$title.' прошло модерацию']);
         $active_status = Status_bb::where('status','S')->get()->value('id');
-        Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status]);
+        Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status,'active'=>'Y']);
         event(new NewMessageNotification('new_message',$msg ,Auth::id(),$bb->user->id));
         Notification::create(['type'=>'new_message','user_id'=>$bb->user->id,'data'=>$msg->text]);
         return redirect()->route('admin_dashboard');
