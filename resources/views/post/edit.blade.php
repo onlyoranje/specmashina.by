@@ -127,7 +127,9 @@
                     ckfinder: {
                         uploadUrl: '/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
                     },
-
+                    mediaEmbed: {
+                        previewsInData: true
+                    }
 
                 } )
                 .catch( error => {

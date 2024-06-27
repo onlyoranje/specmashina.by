@@ -20,7 +20,10 @@ class PostsController extends Controller
             if ($request->tag) $query->where('tags', 'like', '%' .$request->tag. '%' );
 
         })->orderBy('id','desc')->paginate(10);
-        return view('post.list',['posts'=>$posts,'title'=>'Новости']);
+        $title = 'Новости';
+        if ($request->category) $title.='. Категория "'.$request->category.'"';
+        if ($request->tag) $title.=' #'.$request->tag;
+        return view('post.list',['posts'=>$posts,'title'=>$title]);
     }
     public function posts_dashboard(){
         $posts=Post::orderBy('id','desc')->paginate(10);

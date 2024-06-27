@@ -135,6 +135,11 @@ Route::delete('/dashboard/post/{post}', [App\Http\Controllers\PostsController::c
 Route::get('/posts/', [App\Http\Controllers\PostsController::class, 'posts'])->name('posts');
 Route::get('/post/{post}', [App\Http\Controllers\PostsController::class, 'post'])->name('post');
 
+Route::get('/dashboard/banners/', [App\Http\Controllers\BannersController::class, 'banners_dashboard'])->name('banners_dashboard')->middleware('isadmin');
+Route::get('/dashboard/banner/add', [App\Http\Controllers\BannersController::class, 'banner_add'])->name('banner_add')->middleware('isadmin');
+Route::post('/dashboard/banner', [App\Http\Controllers\BannersController::class, 'banner_add_db'])->name('banner_add_db')->middleware('isadmin');
+
+
 require __DIR__.'/auth.php';
 Route::get('/item/{bb}', [BbsController::class, 'detail'])->name('bb');
 Route::get('/item/{bb}/approve', [BbsController::class, 'approve'])->name('approve')->middleware('isadmin');

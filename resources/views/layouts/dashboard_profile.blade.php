@@ -42,6 +42,7 @@ $user = Auth::user();
                     <li><a class="{{ Request::routeIs('contact_type_dashboard') ? 'active' : null }}"  href="{{route('contact_type_dashboard')}}"><i class="fa-solid fa-id-badge"></i> Типы контактов</a></li>
                     <li><a class="{{ Request::routeIs('status_dashboard') ? 'active' : null }}"  href="{{route('status_dashboard')}}"><i class="fa-regular fa-star"></i> Статусы объявлений</a></li>
                     <li><a class="{{ Request::routeIs('posts_dashboard') ? 'active' : null }}"  href="{{route('posts_dashboard')}}"><i class="fa-solid fa-newspaper"></i> Новости</a></li>
+                    <li><a class="{{ Request::routeIs('banners_dashboard') ? 'active' : null }}"  href="{{route('banners_dashboard')}}"><i class="fa-solid fa-newspaper"></i> Баннеры</a></li>
                 @endif
             </ul>
             <div class="button">

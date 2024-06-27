@@ -103,20 +103,7 @@
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                             <label class="form-label">Вид цены</label>
-                                                          {{--  @if (count($price_types)>0)
-                                                                @foreach($price_types as $price_type)
-                                                                    <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
-                                                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required data-name="price_type"
-                                                                        @if (count($price_types)==1)
-                                                                        checked
-                                                                        @endif
-                                                                        >
-                                                                        <label class="form-check-label" >
-                                                                            {{$price_type->type}}
-                                                                        </label>
-                                                                    </div>
-                                                                @endforeach
-                                                            @endif--}}
+
                                                             <div class="selector-head">
                                                                 <span class="arrow"><i class="lni lni-chevron-down"></i></span>
                                                             <select class="user-chosen-select" name="price_type"  required data-name="price_type">
@@ -211,72 +198,14 @@
     <input type="file" name="file">
 </div>
 
-                                                      {{--  <div class="col-lg-6 col-12">
 
-                                                            <div class="upload-input">
-
-
-                                                                <label for="upload" class="text-center content">
-                                                                    <span class="text">
-                                                                        <span class="d-block mb-15">Drop files anywhere
-                                                                            to Upload</span>
-                                                                        <span class=" mb-15 plus-icon"><i class="lni lni-plus"></i></span>
-                                                                        <span class="main-btn d-block btn-hover">Select
-                                                                            File</span>
-                                                                        <span class="d-block">Maximum upload file size
-                                                                            10Mb</span>
-                                                                    </span>
-                                                                </label>
-                                                            </div>
-                                                        </div>--}}
-                                                        {{--<div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label class="video-label">Video Link* <span>Input only
-                                                                        YouTube &amp; Vimeo</span></label>
-                                                                <input name="video" type="text" placeholder="Input link">
-                                                                <a href="javascript:void(0)" class="add-video"><i class="lni lni-plus"></i> Add Video</a>
-                                                            </div>
-                                                        </div>--}}
                                                         <div class="col-12">
                                                             <div class="form-group mt-30">
                                                                 <label>Описание</label>
                                                                 <textarea name="description" placeholder="">{{old('description')}}</textarea>
                                                             </div>
                                                         </div>
-                                                       {{-- <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Type of Ad*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select an option</option>
-                                                                        <option value="none">Option 1</option>
-                                                                        <option value="none">Option 2</option>
-                                                                        <option value="none">Option 3</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>--}}
-                                                        {{--<div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Item Condition*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select an option</option>
-                                                                        <option value="none">Used</option>
-                                                                        <option value="none">Brand New</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>--}}
-                                                        {{--<div class="col-12">
-                                                            <div class="form-group">
-                                                                <label class="tag-label">Tags* <span>Comma(,)
-                                                                        separated</span></label>
-                                                                <input name="tag" type="text" placeholder="Type Product tag">
-                                                            </div>
-                                                        </div>--}}
+
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
                                                                 <button type="button" class="btn alt-btn"  onclick="selectTab('nav-item-info')">Назад</button>
@@ -328,20 +257,11 @@
                                                             </div>
                                                         </div>
 
-                                                          {{--  @if (Auth::user()->organization)
-                                                                <div class="col-12">
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckDefault">
-                                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                                            Разместить объявление от имени {{Auth::user()->organization->title}}
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
-                                                            @endif--}}
+
                                                             <div class="col-12">
                                                                 <div class="form-group button mb-0">
                                                                     <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Назад</button>
-                                                                    <button type="submit" class="btn ">Обновить</button>
+                                                                    <button type="submit" class="btn ">Добавить</button>
                                                                 </div>
                                                             </div>
                                                     </div>
