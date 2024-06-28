@@ -137,6 +137,8 @@ Route::get('/posts/', [App\Http\Controllers\PostsController::class, 'posts'])->n
 Route::get('/post/{post}', [App\Http\Controllers\PostsController::class, 'post'])->name('post');
 
 Route::get('/dashboard/banners/', [App\Http\Controllers\BannersController::class, 'banners_dashboard'])->name('banners_dashboard')->middleware('isadmin');
+Route::get('/banner/{banner}', [App\Http\Controllers\BannersController::class, 'banner'])->name('banner');
+
 Route::get('/dashboard/banner/add', [App\Http\Controllers\BannersController::class, 'banner_add'])->name('banner_add')->middleware('isadmin');
 Route::post('/dashboard/banner', [App\Http\Controllers\BannersController::class, 'banner_add_db'])->name('banner_add_db')->middleware('isadmin');
 Route::patch('/dashboard/banner/{banner}', [App\Http\Controllers\BannersController::class, 'edit_banner'])->name('edit_banner')->middleware('isadmin');

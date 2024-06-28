@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class BannersController extends Controller
 {
@@ -52,5 +53,9 @@ class BannersController extends Controller
 
         }
         return redirect()->route('banners_dashboard');
+    }
+    public function banner(Banner $banner){
+        $banner->update(['clicks'=>($banner->clicks+1)]);
+        return    Redirect::to($banner->url.'?utm_source=specmashina.by&utm_medium=banner&utm_campaign=banner');
     }
 }

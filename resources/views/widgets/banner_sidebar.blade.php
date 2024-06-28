@@ -1,6 +1,11 @@
+<?php
+$banner = \App\Models\Banner::all()->random();
+//if (!Auth::user()->isAdmin()){
+$banner->update(['views'=>($banner->views+1)]);
+?>
 <div class="widget sidebar-as">
     <h5 class="widget-title"><span>Реклама</span></h5>
-    <a href="javascript:void(0)">
-        <img src="//placehold.it/600x1000&text=Реклама" alt="#">
+    <a href="{{route('banner',['banner'=>$banner->id])}}" target="_blank">
+        <img src="{{Storage::url($banner->image)}}" alt="{{$banner->title}}">
     </a>
 </div>

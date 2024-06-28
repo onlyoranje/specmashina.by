@@ -34,12 +34,27 @@
 
 
                                                 <li>
-                                                    <div class="log-icon">
-                                                        <i class="lni lni-flag-alt"></i>
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="log-icon">
+                                                                <i class="lni lni-flag-alt"></i>
+                                                                <a href="" class="title">{{$banner->title}}</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            Показов: {{$banner->views}}<br>
+                                                            Кликов: {{$banner->clicks}}<br>
+                                                            CTR: {{round($banner->clicks/$banner->views*100,2)}}%
+
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <span class="time"><a href='{{route('edit_banner', ['banner' => $banner->id])}}'>Редактировать </a></span>
+                                                            <span class="time"><a href='{{route('delete_banner', ['banner' => $banner->id])}}'>Удалить </a></span>
+                                                        </div>
                                                     </div>
-                                                    <a href="" class="title">{{$banner->title}}</a>
-                                                    <span class="time"><a href='{{route('edit_banner', ['banner' => $banner->id])}}'>Редактировать </a></span>
-                                                    <span class="time"><a href='{{route('delete_banner', ['banner' => $banner->id])}}'>Удалить </a></span>
+
+
+
 
 
 
