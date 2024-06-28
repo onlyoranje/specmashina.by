@@ -60,7 +60,7 @@
                                                 <div class="col-lg-6 col-12">
                                                     <div class="form-group upload-image">
                                                         <label>Баннер </label>
-                                                        <input type="file"  name="file">
+                                                        <input type="file"  name="file1">
                                                     </div>
                                                 </div>
 

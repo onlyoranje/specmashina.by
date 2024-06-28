@@ -49,6 +49,7 @@ Route::get('/dashboard/mybb/{bb}/active/{active}',[App\Http\Controllers\ProfileC
 Route::patch('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::class, 'updateBb'])->name('bb_update')->middleware('can:update,bb');
 Route::get('/dashboard/mybb/{bb}/delete',[App\Http\Controllers\ProfileController::class, 'deleteBb'])->name('bb_delete')->middleware('can:destroy,bb');
 Route::delete('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::class, 'destroyBb'])->name('bb_destroy')->middleware('can:destroy,bb');
+Route::get('/dashboard/favorite',[App\Http\Controllers\ProfileController::class, 'favorite'])->name('favorite');
 
 Route::get('/dashboard/alerts',[App\Http\Controllers\ProfileController::class, 'alerts'])->name('alerts');
 Route::patch('/read_alert', [App\Http\Controllers\ProfileController::class, 'read_alert'])->middleware(['auth', 'verified'])->name('read_alert');

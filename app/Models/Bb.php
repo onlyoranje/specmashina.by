@@ -114,4 +114,15 @@ public function parent_rubric(){
         $this->fill(['active'=>$active]);
         $this->save();
     }
+    public function time_update(){
+        $create = $this->created_at;
+        $update = $this->updated_at;
+        if ($create<$update){
+            return 'Обновлено: '.timesince($update);
+        }
+        else
+        {
+            return 'Добавлено: '.timesince($create);
+        }
+    }
 }

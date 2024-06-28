@@ -26,6 +26,8 @@
 
                                         <div class="inner-block">
                                             <div class="row">
+                                                <div class="col-9">
+                                                    <div class="row">
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label>Заголовок</label>
@@ -58,30 +60,18 @@
                                                 </div>
 
 
-                                                <div class="col-lg-6 col-12">
-                                                    <?php
 
-                                                    use Illuminate\Support\Facades\Storage;if ($banner->image){
-                                                        $old_image = Array(
-                                                            'name'=>$banner->title,
-                                                            'id'=>$banner->id,
-                                                            'file'=>$banner->id,
-                                                            'local'=>Storage::url($banner->image),
-                                                            'data'=>Array(
-                                                                'url'=>Storage::url($banner->image),
-                                                                'thumbnail'=>Storage::url($banner->image),
-                                                                'readerForce'=>true
-                                                            ));
-
-                                                    }
-
-
-                                                    ?>
-                                                    <label for="exampleInputEmail1" class="form-label">Лого</label>
-                                                    <input type="file" class="form-control" name="file" data-fileuploader-limit="1"
-                                                           <?php if ($banner->image) {?> data-fileuploader-files='[{{json_encode($old_image)}} ]'<?php }?>>
+                                                <div class="col-9">
+                                                    <div class="form-group upload-image">
+                                                        <label>Фото профиля</label>
+                                                        <input name="file1" type="file" placeholder="Upload Image">
+                                                    </div>
                                                 </div>
-
+                                                </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <img src="{{Storage::url($banner->image)}}" class="img-fluid" alt="">
+                                                </div>
                                                 <div class="col-12">
                                                     <div class="form-group button mb-0 mt-5">
                                                         <button type="submit" class="btn " id="addpost">Обновить</button>

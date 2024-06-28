@@ -21,11 +21,16 @@
             <h3 class="title">
                 <a href="{{route('bb',['bb'=>$bb_widget->id])}}">{{$bb_widget->title()}} </a>
             </h3>
-            <p class="location"><a href="{{route('location',$bb_widget->location->id)}}"><i class="lni lni-map-marker">
-                    </i>{{$bb_widget->location->title}}</a></p>
+            <p class="location">
+                <a href="{{route('location',$bb_widget->location->id)}}"><i class="lni lni-map-marker"></i>{{$bb_widget->location->title}}</a>
+
+
+            </p>
+            <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb_widget->time_update()}}</a></p>
             <ul class="info">
                 <li class="price">{{$bb_widget->bbprice->price}} {{$bb_widget->bbprice->pricetype->type}}</li>
                 {{$bb_widget->like()}}
+
             </ul>
         </div>
     </div>

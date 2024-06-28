@@ -250,7 +250,7 @@ border-radius: 3px;
 }
 .card-alert {
     background-color: #fff;
-    padding: 16px;
+    /*padding: 16px;*/
     border: 1px solid #eee;
     border-radius: 6px;
     margin-bottom: 30px;

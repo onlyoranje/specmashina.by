@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Laravolt\Avatar\Avatar;
+use Maize\Markable\Models\Bookmark;
 use PhpParser\Node\Expr\Array_;
 
 class ProfileController extends Controller
@@ -133,6 +134,18 @@ class ProfileController extends Controller
                 'status_bb'=>$status_bb,
                 'request'=>$request,
                 'bbs_count'=>$bbs_count
+            ]);
+    }
+    //
+    public function favorite() {
+
+        $bbs = Bb::select('bbs.*')->join('markable_bookmarks','markable_bookmarks.markable_id','=','bbs.id')->where('markable_bookmarks.user_id',Auth::id())->orderBy('markable_bookmarks.created_at','desc')->paginate(10);
+
+
+        return view('bb.favorite',
+            [
+                'bbs' => $bbs,
+                'title' => 'Закладки'
             ]);
     }
     public function addForm(){

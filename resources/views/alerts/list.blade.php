@@ -20,7 +20,9 @@
 
                                     @foreach ($alerts as $alert)
                                 <div class="card card-alert">
-
+                                    <div class="card-header">
+                                        {{date('H:i:s d.m.Y', strtotime($alert->created_at))}}
+                                    </div>
                                     <div class="card-body">
                                         <h5 class="card-title">{{$alert->title}}</h5>
                                         <p class="card-text">{!! $alert->comment!!}</p>

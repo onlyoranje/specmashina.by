@@ -33,11 +33,13 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
                     <h3 class="title">
                         <a href="{{route('bb',['bb'=>$bb->id])}}">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</a>
                     </h3>
-                    <p class="location"><a href="javascript:void(0)"><i class="lni lni-map-marker">
-                            </i>{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
+                    <p class="location">
+                        <a href="javascript:void(0)"><i class="lni lni-map-marker"></i>{{$bb->location->title}}, {{$bb->location->parent->title}}</a>
+                    </p>
+                    <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb->time_update()}}</a></p>
                     <ul class="info">
                         <li class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</li>
-                        <li class="like"><a href="javascript:void(0)"><i class="lni lni-heart"></i></a>
+                        {{$bb->like()}}
                         </li>
                     </ul>
                 </div>

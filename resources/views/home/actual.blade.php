@@ -63,7 +63,7 @@
                                 <h3 class="title">
                                     <a href="{{route('bb',['bb'=>$bb->id])}}">{{$bb->vendor->name}} {{$bb->title}}</a>
                                 </h3>
-                                <p class="update-time">Обновлено: {{timesince($bb->updated_at)}}</p>
+                                <p class="update-time">{{$bb->time_update()}}</p>
 
                                 <ul class="info-list">
                                     <li><a href="{{route('location',$bb->location->id)}}"><i class="lni lni-map-marker"></i> {{$bb->location->title}}, {{$bb->location->parent->title}}</a></li>
@@ -72,7 +72,7 @@
                             </div>
                             <div class="bottom-content">
                                 <p class="price">Цена: <span>{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span></p>
-                                <a href="javascript:void(0)" class="like" data-bbId="{{$bb->id}}"><i class="lni lni-heart"></i></a>
+                                {{$bb->like()}}
                             </div>
                         </div>
                     </div>

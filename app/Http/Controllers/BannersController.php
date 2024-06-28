@@ -18,14 +18,14 @@ class BannersController extends Controller
     public function banner_add_db(Request $request){
 
 
-        $post = Banner::create(['title'=>$request->title,'url'=>$request->url,'start'=>$request->start,'end'=>$request->end,'maximum_views'=>$request->maximum_views]);
+        $banner = Banner::create(['title'=>$request->title,'url'=>$request->url,'start'=>$request->start,'end'=>$request->end,'maximum_views'=>$request->maximum_views]);
 
-        if ($request->file) {
+        if ($request->file1) {
 
-            $filename = $request->file[0]->store('public');
+            $filename = $request->file1->store('public');
             $file_name = explode('/', $filename);
-            $post->fill(['image'=> $file_name[1]]);
-            $post->save();
+            $banner->fill(['image'=> $file_name[1]]);
+            $banner->save();
 
         }
         return redirect()->route('banners_dashboard');
@@ -36,5 +36,21 @@ class BannersController extends Controller
 
         $title = 'Редактирование баннера '.$banner->title;
         return view('banner.edit',['title'=>$title,'banner'=>$banner]);
+    }
+    public function edit_banner(Banner $banner,Request $request){
+
+        $banner->fill(['title'=>$request->title,'url'=>$request->url,'start'=>$request->start,'end'=>$request->end,'maximum_views'=>$request->maximum_views]);
+        $banner->save();
+
+        if ($request->file1) {
+
+            $filename = $request->file1->store('public');
+
+            $file_name = explode('/', $filename);
+            $banner->fill(['image'=> $file_name[1]]);
+            $banner->save();
+
+        }
+        return redirect()->route('banners_dashboard');
     }
 }
