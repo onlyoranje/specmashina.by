@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('url');
             $table->string('image')->nullable();;
-            $table->integer('clicks')->nullable();
-            $table->integer('views')->nullable();
+            $table->integer('clicks')->default(0);
+            $table->integer('views')->default(0);
             $table->integer('maximum_views')->nullable();
 
             $table->dateTime('start')->nullable();

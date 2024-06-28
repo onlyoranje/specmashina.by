@@ -44,8 +44,9 @@
                                                         <div class="col-4">
                                                             Показов: {{$banner->views}}<br>
                                                             Кликов: {{$banner->clicks}}<br>
+                                                            @if($banner->views>0)
                                                             CTR: {{round($banner->clicks/$banner->views*100,2)}}%
-
+                                                            @endif
                                                         </div>
                                                         <div class="col-4">
                                                             <span class="time"><a href='{{route('edit_banner', ['banner' => $banner->id])}}'>Редактировать </a></span>
