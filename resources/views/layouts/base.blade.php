@@ -141,7 +141,7 @@
                                 <li><a href="javascript:void(0)"><i class="lni lni-twitter-original"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="lni lni-youtube"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="lni lni-linkedin-original"></i></a></li>
-                                <li> <button type="button" class="btn btn-primary" id="toastbtn">Initialize toast</button></li>
+
                             </ul>
                         </div>
                     </div>

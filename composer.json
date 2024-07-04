@@ -19,6 +19,7 @@
         "intervention/image": "^2.7",
         "jenssegers/agent": "^2.6",
         "kalnoy/nestedset": "^6.0",
+        "kudashevs/laravel-share-buttons": "^5.1",
         "laravel/framework": "^9.52",
         "laravel/sanctum": "^3.3",
         "laravel/scout": "^10.8",

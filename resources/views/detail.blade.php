@@ -2,7 +2,7 @@
 
 use App\Models\BbStatistic;
 use App\Models\Location;
-use App\Models\Bb;
+use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
 
 ?>
 @section('title', $title)
@@ -168,14 +168,32 @@ use App\Models\Bb;
                                 </ul>
                             </div>
                             <div class="social-share">
-                                <h4>Share Ad</h4>
-                                <ul>
+                                <h4>Отправить ссылку</h4>
+                                {{--<ul>
                                     <li><a href="javascript:void(0)" class="facebook"><i class="lni lni-facebook-filled"></i></a></li>
                                     <li><a href="javascript:void(0)" class="twitter"><i class="lni lni-twitter-original"></i></a></li>
                                     <li><a href="javascript:void(0)" class="google"><i class="lni lni-google"></i></a></li>
                                     <li><a href="javascript:void(0)" class="linkedin"><i class="lni lni-linkedin-original"></i></a></li>
                                     <li><a href="javascript:void(0)" class="pinterest"><i class="lni lni-pinterest"></i></a></li>
-                                </ul>
+                                </ul>--}}
+                                {!!
+                                (new Kudashevs\ShareButtons\ShareButtons)->page(URL::current(), $title, [
+                                    'block_prefix' => '<ul>',
+                                    'block_suffix' => '</ul>',
+                                    'element_prefix' => '<li>',
+                                    'element_suffix' => '</li>',
+
+                                    'title' => $title,
+                                    'rel' => 'nofollow noopener noreferrer',
+                                ])
+                                    ->copylink()
+                                    ->telegram()
+                                    ->vkontakte()
+                                    ->whatsapp()
+
+                                    ->facebook()
+
+                                    ->render()!!}
                             </div>
                         </div>
                     </div>
@@ -291,13 +309,13 @@ use App\Models\Bb;
                             <div class="single-block author">
                                 <h3>Организация</h3>
                                 <div class="content">
-
+                                    <a href="{{route('organization',$bb->organization_id)}}">
                                     @if ($bb->user->organization->logo)
                                         <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
                                         @else
                                         <img src="http://placehold.it/40x40&text={{$bb->user->organization->title}}" alt="{{$bb->user->organization->title}}">
                                     @endif
-                                    <h4>{{$bb->user->organization->title}}</h4>
+                                    <h4>{{$bb->user->organization->title}}</h4></a>
                                     <span>{{$bb->user->organization->location->title}}@if ($bb->user->organization->address), {{$bb->user->organization->address}} @endif</span>
                                     <a href="{{route('organization',$bb->organization_id)}}" class="see-all">Все объявления организации</a>
                                 </div>
