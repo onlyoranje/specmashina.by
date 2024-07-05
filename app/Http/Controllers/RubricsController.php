@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\ParameterRubric;
 use App\Models\Rubric;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Storage;
 
 class RubricsController extends Controller
@@ -27,7 +28,15 @@ class RubricsController extends Controller
         return view('rubric.edit', ['rubric'=>$rubric,'rubrics'=>$rubrics,'depth'=>$depth, 'icons'=>$icons]);
 
     }
-    public function rubric(Request $request,$id ){
+    public function rubric(Request $request,$id){
+
+        if (isset($_SERVER['HTTP_REFERER']) and !str_contains(strstr($_SERVER['HTTP_REFERER'], '?', true),$_SERVER['REDIRECT_URL'])) {
+            //unset($query);
+redirect()->route('rubric',$id);
+        }
+
+
+
         $rubric     = Rubric::find($id);
         $rubrics    = Rubric::descendantsAndSelf($id)->pluck('id');
         $bbs    = Bb::select('bbs.*')->
@@ -50,6 +59,7 @@ class RubricsController extends Controller
         $breadcrumbs= Rubric::ancestorsAndSelf($id);
         $parent_rubric = $breadcrumbs[0];
         $title = $parent_rubric->title.' '.$rubric->title_r;
+
         return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request]);
 
     }

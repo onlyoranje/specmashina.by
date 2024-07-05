@@ -29,12 +29,12 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
             </div>
             <div class="col-lg-7 col-md-5 col-12">
                 <div class="content">
-                    <a href="javascript:void(0)" class="tag">{{$subparent_rubric->title}}</a>
+                    <a href="{{route('rubric',$bb->subparent_rubric()->id)}}" class="tag">{{$subparent_rubric->title}}</a>
                     <h3 class="title">
                         <a href="{{route('bb',['bb'=>$bb->id])}}">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</a>
                     </h3>
                     <p class="location">
-                        <a href="javascript:void(0)"><i class="lni lni-map-marker"></i>{{$bb->location->title}}, {{$bb->location->parent->title}}</a>
+                        <a href="{{route('location',$bb->location->id)}}"><i class="lni lni-map-marker"></i>{{$bb->location->title}}, {{$bb->location->parent->title}}</a>
                     </p>
                     <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb->time_update()}}</a></p>
                     <ul class="info">

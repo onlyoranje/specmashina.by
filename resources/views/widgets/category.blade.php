@@ -11,7 +11,7 @@ $sub_rubrics = Rubric::where('parent_id',$rubric->id)->orderBy('sort')->get();  
         @foreach($sub_rubrics as $sub_rubric)
 
         <li>
-            <a href="{{route('rubric',$sub_rubric->id)}}{{isset($request)?url_parameters($request):''}}"><i class="lni lni-dinner"></i> {{$sub_rubric->title}}<span>
+            <a href="{{route('rubric',$sub_rubric->id)}}{{str_contains(url_parameters($request),'page')?url_parameters($request):''}}"><i class="lni lni-dinner"></i> {{$sub_rubric->title}}<span>
                     {{count(Bb::select('bbs.*')->
         Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->
 
