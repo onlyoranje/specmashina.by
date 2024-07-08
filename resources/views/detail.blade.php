@@ -118,6 +118,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                 <span>Объявление <mark class="mark-N">не прошло модерацию</mark></span>
                             @endif
                             <h2 class="title">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</h2>
+
                             <p class="location"><i class="lni lni-map-marker"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
                                 <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb->time_update()}}</a></p>
                             <h3 class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</h3>
@@ -126,6 +127,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                 <ul>
                                     <li><span>Производитель:</span> {{ $bb->vendor->name }}</li>
                                     <li><span>Модель:</span> {{ $bb->title }}</li>
+
                                 </ul>
                             </div>
                             <div class="contact-info">
@@ -149,22 +151,8 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                             <span>{{$contact_info['user_name']}}</span>
                                         </a>
                                     </li>
-                                   {{-- <li>
-                                        <a class="mail" data-bs-toggle="modal" data-bs-target="#imModal">
-                                            <i class="lni lni-envelope"></i>
-                                        </a>
-                                        <div class="modal fade" id="imModal" tabindex="-1" aria-labelledby="imModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
 
-                                                    <div class="modal-body">
-                                                        @include('im.new_message_modal')
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>--}}
+                                    {{$bb->like('mail')}}
                                 </ul>
                             </div>
                             <div class="social-share">

@@ -85,7 +85,7 @@
 
                                 @if(Auth::user())
                                 <li>
-                                    <a href="{{route('dashboard')}}"><i class="lni lni-enter"></i> Личный кабинет</a>
+                                    <a href="{{route('dashboard')}}"><i class="lni lni-enter"></i> {{Auth::user()->name}}</a>
                                 </li>
                                 @else
                                 <li>

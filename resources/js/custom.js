@@ -666,10 +666,10 @@ $(document).ready(function () {
             },
             success: function (response) {
                 if (response=='add'){
-                    $('*[data-bb-id='+id+']').html('<a><i class="fa-solid fa-bookmark"></i></a>')
+                    $('*[data-bb-id='+id+']').html('<a  class="mail"><i class="fa-solid fa-bookmark"></i></a>')
                     $('*[data-bb-id='+id+']').data('bookmark','true')
                 } else {
-                    $('*[data-bb-id='+id+']').html('<a><i class="fa-regular fa-bookmark"></i></a>')
+                    $('*[data-bb-id='+id+']').html('<a class="mail"><i class="fa-regular fa-bookmark"></i></a>')
                     $('*[data-bb-id='+id+']').data('bookmark','false')
                 }
 
