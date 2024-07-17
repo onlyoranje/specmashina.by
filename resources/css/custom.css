@@ -260,6 +260,9 @@ border-radius: 3px;
     padding: 0px 30px;
 }
 .item-details .product-info .social-share ul li a {
-    
+
     font-size: 24px;
+}
+.category-sidebar .single-widget .list .active {
+    color: #5830E0;
 }

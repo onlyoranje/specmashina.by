@@ -36,19 +36,19 @@
                 <div class="col-lg-3 col-md-6 col-12">
                     <!-- Single Widget -->
                     <div class="single-footer mobile-app">
-                        <h3>Mobile Apps</h3>
+                        <h3>Приложения (в разработке)</h3>
                         <div class="app-button">
                             <a href="javascript:void(0)" class="btn">
                                 <i class="lni lni-play-store"></i>
                                 <span class="text">
-                                        <span class="small-text">Get It On</span>
+                                        <span class="small-text">Скачать с</span>
                                         Google Play
                                     </span>
                             </a>
                             <a href="javascript:void(0)" class="btn">
                                 <i class="lni lni-apple"></i>
                                 <span class="text">
-                                        <span class="small-text">Get It On</span>
+                                        <span class="small-text">Скачать с</span>
                                         App Store
                                     </span>
                             </a>
@@ -108,10 +108,10 @@
                 <div class="col-lg-3 col-md-6 col-12">
                     <!-- Single Widget -->
                     <div class="single-footer f-contact">
-                        <h3>Contact</h3>
+                        <h3>Контакты</h3>
                         <ul>
-                            <li>23 New Design Str, Lorem Upsum 10<br> Hudson Yards, USA</li>
-                            <li>Tel. +(123) 1800-567-8990 <br> Mail. support@classigrids.com</li>
+                            <li>ул. Пустельникова, 48<br> Орша, Витебская область</li>
+                            <li>Tel. +375 (29) 116-66-00 <br> Mail. support@specmashina.by</li>
                         </ul>
                     </div>
                     <!-- End Single Widget -->
@@ -128,13 +128,13 @@
                     <div class="col-12">
                         <div class="content">
                             <ul class="footer-bottom-links">
-                                <li><a href="javascript:void(0)">Terms of use</a></li>
-                                <li><a href="javascript:void(0)"> Privacy Policy</a></li>
-                                <li><a href="javascript:void(0)">Advanced Search</a></li>
-                                <li><a href="javascript:void(0)">Site Map</a></li>
-                                <li><a href="javascript:void(0)">Information</a></li>
+                                <li><a href="javascript:void(0)">Условия использования</a></li>
+                                <li><a href="javascript:void(0)">Политика безопасности</a></li>
+                                <li><a href="javascript:void(0)">Публичная оферта</a></li>
+                                <li><a href="javascript:void(0)">Карта сайта</a></li>
+                                <li><a href="javascript:void(0)">О нас</a></li>
                             </ul>
-                            <p class="copyright-text">Designed 2and Developed by <a href="https://graygrids.com/" rel="nofollow" target="_blank">GrayGrids</a>
+                            <p class="copyright-text">Designed by <a href="https://graygrids.com/" rel="nofollow" target="_blank">GrayGrids</a>
                             </p>
                             <ul class="footer-social">
                                 <li><a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a></li>
