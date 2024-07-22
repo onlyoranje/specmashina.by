@@ -35,20 +35,24 @@
 
                                                 <li>
                                                     <div class="row">
-                                                        <div class="col-4">
+
+                                                        <div class="col-2">
                                                             <div class="log-icon">
-                                                                <i class="lni lni-flag-alt"></i>
+
                                                                 <a href="" class="title">{{$banner->title}}</a>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
+                                                            <img src="{{Storage::url($banner->image)}}" class="img-thumbnail"alt="" style="max-height: 150px">
+                                                        </div>
+                                                        <div class="col-3">
                                                             Показов: {{$banner->views}}<br>
                                                             Кликов: {{$banner->clicks}}<br>
                                                             @if($banner->views>0)
                                                             CTR: {{round($banner->clicks/$banner->views*100,2)}}%
                                                             @endif
                                                         </div>
-                                                        <div class="col-4">
+                                                        <div class="col-3">
                                                             <span class="time"><a href='{{route('edit_banner', ['banner' => $banner->id])}}'>Редактировать </a></span>
                                                             <span class="time"><a href='{{route('delete_banner', ['banner' => $banner->id])}}'>Удалить </a></span>
                                                         </div>
