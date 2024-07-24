@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('user_credits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('credits')->default(30);
+            $table->integer('credits')->default(0);
             $table->timestamps();
         });
     }

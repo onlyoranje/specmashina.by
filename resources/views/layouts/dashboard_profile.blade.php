@@ -11,7 +11,7 @@ $user = Auth::user();
             @endif
             <h3>{{$user->realname}}
 
-                <span><a href="javascript:void(0)">ID: {{$user->id}}</a></span>
+                <span><a href="javascript:void(0)">Кредиты: {{$user->credit->credits}}</a></span>
             </h3>
         </div>
         <div class="dashboard-menu">
@@ -21,6 +21,7 @@ $user = Auth::user();
                 <li><a class="{{ Request::routeIs(['mybb','bb_edit']) ? 'active' : null }}" href="{{route('mybb')}}"><i class="fa-solid fa-clone"></i> Мои объявления</a></li>
                 <li><a class="{{ Request::routeIs('addForm') ? 'active' : null }}" href="{{route('addForm')}}"><i class="fa-solid fa-plus"></i> Добавить объявление</a></li>
                 <li><a class="{{ Request::routeIs('profile.edit') ? 'active' : null }}" href="{{route('profile.update')}}"><i class="fa-solid fa-user"></i>Мой профиль</a></li>
+                <li><a class="{{ Request::routeIs('credit.dashboard') ? 'active' : null }}" href="{{route('credit.dashboard')}}"><i class="fa-solid fa-user"></i>Кредиты</a></li>
                 <li><a class="{{ Request::routeIs('my_organization') ? 'active' : null }}" href="{{route('my_organization')}}"><i class="fa-solid fa-building"></i>Моя организация</a></li>
                 <li><a class="{{ Request::routeIs('favorite') ? 'active' : null }}" href="{{route('favorite')}}"><i class='fa-solid fa-bookmark'></i>Закладки</a></li>
 

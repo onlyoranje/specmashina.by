@@ -58,6 +58,12 @@ class User extends Authenticatable
     public function organization(){
         return $this->hasOne(Organization::class);
     }
+    public function credit(){
+        return $this->hasOne(User_credit::class);
+    }
+    public function credits_log(){
+        return $this->hasMany(Credits_log::class);
+    }
     public function notifications(){
         return $this->hasMany(Notification::class);
     }

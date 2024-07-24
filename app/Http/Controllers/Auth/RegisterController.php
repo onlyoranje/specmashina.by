@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\BbAdminComments;
+use App\Models\Credits_log;
+
+use App\Models\User_credit;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -65,11 +69,15 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         if (!isset($data['realname'])) $data['realname']=$data['name'];
-        return User::create([
+        $user=User::create([
             'name' => $data['name'],
             'realname' => $data['realname'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        User_credit::create(['user_id'=>$user->id,'credits'=>10]);
+        Credits_log::create(['user_id'=>$user->id,'credits'=>10,'description'=>'Зачисление кредитов при регистрации']);
+        BbAdminComments::create(['type'=>'new_message','user_id'=>$user->id,'data'=>'Вам зачислено 10 кредитов за регистрацию']);
+        return $user;
     }
 }
