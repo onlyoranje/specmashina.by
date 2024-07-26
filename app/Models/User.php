@@ -71,6 +71,13 @@ class User extends Authenticatable
     {
         return $this->is_admin === 1;
     }
+    public function addCredits($credits=0){
+        $user_credits = User_credit::firstOrCreate(['user_id' => Auth::id()]);
+        $new_credits=$user_credits->credits+$credits;
+        $user_credits->fill(['credits'=>$new_credits]);
+        $user_credits->save();
+
+    }
     public function resizeImage($url,$w,$h)
     {
         $size = getimagesize(Storage::path('/public/').$url);

@@ -495,6 +495,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular, 'bbs_moderation_fail'=>$bbs_moderation_fail,'notifications'=>$notifications ]);
     }
     public function dashboard(){
+        if (!isset(Auth::user()->credit->credits)) Auth::user()->addCredits(0);
             $bbs = Bb::where('user_id',Auth::id())->get();
             $bbs_popular =
                 Bb::where('user_id',Auth::id())->
