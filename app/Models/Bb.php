@@ -17,7 +17,7 @@ class Bb extends Model
     use Searchable;
     use Markable;
 
-    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','previous_status_bb_id','active'];
+    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','previous_status_bb_id','active','lifted_at'];
     protected static $marks = [
         Bookmark::class,
     ];
