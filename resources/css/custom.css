@@ -266,3 +266,8 @@ border-radius: 3px;
 .category-sidebar .single-widget .list .active {
     color: #5830E0;
 }
+.my-items .single-item-list p {
+    font-size: 13px;
+    font-weight: 400;
+    color: #888;
+}

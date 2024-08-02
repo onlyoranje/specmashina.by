@@ -99,8 +99,8 @@ class BbsController extends Controller
         Notification::create(['type'=>'new_message','user_id'=>$bb->user->id,'data'=>$msg->text]);
         return redirect()->route('admin_dashboard');
     }
- public function upBb(Bb $bb){
-        $credit = -1;
+ public function upBb(Bb $bb, Request $request, $credit){
+        //$credit = -1;
         if ($bb->user->credit->credits>0){
             $bb->fill(['lifted_at'=>date('Y-m-d H:i:s')]);
             if ($bb->save()) {
@@ -110,6 +110,7 @@ class BbsController extends Controller
             }
         }
 
-     return redirect()->route('mybb');
+        //dd($request);
+     return redirect()->route('mybb',['status_id'=>$request['status_id'],'page'=>$request->page]);
  }
 }

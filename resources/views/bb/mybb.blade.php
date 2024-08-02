@@ -33,12 +33,10 @@
                                 <!-- Start Item List Title -->
                                 <div class="item-list-title">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-3 col-md-5 col-12">
+                                        <div class="col-lg-4 col-md-5 col-12">
                                             <p>Объявление</p>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-12">
-                                            <p>Категория</p>
-                                        </div>
+
                                         <div class="col-lg-2 col-md-2 col-12">
                                             <p>Статус</p>
                                         </div>
@@ -65,24 +63,30 @@
                                 <!-- Start Single List -->
                                 <div class="single-item-list">
                                     <div class="row align-items-center">
-                                        <div class="col-lg-3 col-md-5 col-12">
+                                        <div class="col-lg-4 col-md-5 col-12">
                                             <div class="item-image">
                                                 @if (count($bb->userfile)> 0)
                                                     <img   src="{{Storage::url($bb->userfile[0]->resize(100, 100))}}" alt="{{ $bb->title }}" >
                                                 @else
                                                     <img   src="http://placehold.it/100x100&text={{ $bb->title }}" alt="{{ $bb->title }}">
                                                 @endif
-                                                <div class="content">
-                                                    <h3 class="title"><a href="javascript:void(0)">{{$bb->vendor->name}} {{ $bb->title }}</a></h3>
-                                                    <span class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span>
+                                               <div class="content">
+                                                    <h3 class="title"><a href="javascript:void(0)">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{$bb->vendor->name}} {{ $bb->title }}</a></h3>
+                                                   <span class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-12">
-                                            <p>{{$parent_rubric->title}} {{$bb->rubric->title_r}}</p>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-12">
+
+                                        <div class="col-lg-3 col-md-2 col-12">
                                             <p>{{$bb->status_bb->name}}</p>
+                                            <p>Создано: {{date('d.m.Y H:i:s',strtotime($bb->created_at))}}</p>
+                                            @if ($bb->created_at!=$bb->updated_at)
+                                                <p>Обновлено: {{date('d.m.Y H:i:s',strtotime($bb->updated_at))}}</p>
+                                                @endif
+
+                                           @if ($bb->lifted_at)
+                                                <p>Поднято: {{date('d.m.Y H:i:s',strtotime($bb->lifted_at))}}</p>
+                                               @endif
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-12">
                                             <p>{{$bb->location->title}}</p>
@@ -102,17 +106,17 @@
 
                                                 @endif
                                                 @if ($bb->status_bb->active=='Y' and $bb->active=='N')
-                                                    <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'Y'])}}">Снять с паузы</a></li>
+                                                    <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'Y'])}}{{url_parameters($request)}}">Снять с паузы</a></li>
                                                 @endif
 
                                                 @if ($bb->status_bb->active=='Y' and $bb->active=='Y')
-                                                    <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'N'])}}">Пауза</a></li>
+                                                    <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'N'])}}{{url_parameters($request)}}">Пауза</a></li>
                                                 @endif
                                                 @if ($bb->user->credit->credits>0 and $bb->active=='Y')
-                                                    <li><a href="{{route('bb_up',['bb'=>$bb->id])}}">Поднять за кредит</a></li>
+                                                    <li><a href="{{route('bb_up',['bb'=>$bb->id,'credit'=>(-1)])}}{{url_parameters($request)}}">Поднять за кредит</a></li>
                                                 @endif
                                                 <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}">Редактировать</a></li>
-                                                <li><a href="{{route('bb_delete', ['bb'=>$bb->id]) }}">Удалить</a></li>
+                                                <li><a href="{{route('bb_delete', ['bb'=>$bb->id]) }}{{url_parameters($request)}}">Удалить</a></li>
 
                                             </ul>
                                         </div>
