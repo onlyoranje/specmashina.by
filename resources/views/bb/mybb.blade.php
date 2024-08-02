@@ -113,7 +113,7 @@
                                                     <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'N'])}}{{url_parameters($request)}}">Пауза</a></li>
                                                 @endif
                                                 @if ($bb->user->credit->credits>0 and $bb->active=='Y')
-                                                    <li><a href="{{route('bb_up',['bb'=>$bb->id,'credit'=>(-1)])}}{{url_parameters($request)}}">Поднять за кредит</a></li>
+                                                    <li><a href="{{route('bb_up_credit',['bb'=>$bb->id])}}{{url_parameters($request)}}">Поднять за кредит</a></li>
                                                 @endif
                                                 <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}">Редактировать</a></li>
                                                 <li><a href="{{route('bb_delete', ['bb'=>$bb->id]) }}{{url_parameters($request)}}">Удалить</a></li>

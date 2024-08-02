@@ -73,7 +73,10 @@ class User extends Authenticatable
     }
     public function addCredits($credits=0){
         $user_credits = User_credit::firstOrCreate(['user_id' => $this->id]);
-        $new_credits=$user_credits->credits+$credits;
+        $new_credits=$user_credits->credits+$credits->price;
+        if ($credits->price>=0) $action = 'Пополнение ';
+        if ($credits->price<0) $action = 'Списание ';
+        Credits_log::create(['user_id'=>$this->id,'credit'=>$credits->price,'description'=>$action.' '.$credits->price.' кр. за '.$credits->name]);
         $user_credits->fill(['credits'=>$new_credits]);
         $user_credits->save();
 

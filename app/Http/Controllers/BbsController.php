@@ -6,6 +6,7 @@ use App\Events\NewMessageNotification;
 use App\Models\Bb;
 use App\Models\BbAdminComments;
 use App\Models\BbStatistic;
+use App\Models\Credit_price;
 use App\Models\Credits_log;
 use App\Models\Im;
 use App\Models\Location;
@@ -99,13 +100,13 @@ class BbsController extends Controller
         Notification::create(['type'=>'new_message','user_id'=>$bb->user->id,'data'=>$msg->text]);
         return redirect()->route('admin_dashboard');
     }
- public function upBb(Bb $bb, Request $request, $credit){
-        //$credit = -1;
+ public function upBb_credit(Bb $bb, Request $request){
+        $credit = Credit_price::where('code','up')->get()->first();
         if ($bb->user->credit->credits>0){
             $bb->fill(['lifted_at'=>date('Y-m-d H:i:s')]);
             if ($bb->save()) {
                 $bb->user->addCredits($credit);
-                Credits_log::create(['user_id'=>$bb->user->id,'credit'=>$credit,'description'=>'Списание '.$credit.' кр. за поднятие объявления']);
+
 
             }
         }
