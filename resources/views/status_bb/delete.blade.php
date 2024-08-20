@@ -3,7 +3,7 @@
 @section('main')
     @php
         $title= "Удалить статус ".$status->name;
-        $id = ['id'=>$status->id];
+        $id = $status->id;
         $route = 'status_dashboard_destroy';
         $used = App\Models\Bb::Where('status_bb_id',$status->id)->pluck('id')->toArray();
         $errors_form=[];

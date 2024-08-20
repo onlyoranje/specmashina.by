@@ -24,8 +24,8 @@ return new class extends Migration
             $table->integer('premium_status_days')->nullable();
             $table->integer('sort')->default(500);
             $table->integer('sort_on_board')->default(500);
-            $table->string('color_bg', 6)->nullable();
-            $table->string('color_badge', 6)->nullable();
+            $table->string('color_bg', 7)->nullable();
+            $table->string('color_badge', 7)->nullable();
             $table->string('badge_text', 25)->nullable();
             $table->timestamps();
         });

@@ -62,8 +62,8 @@
                                     @endphp
                                 <!-- Start Single List -->
                                 <div class="single-item-list">
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-4 col-md-5 col-12">
+                                    <div class="row align-items-center" style="border-left: 8px solid #{{$bb->status_bb->color_badge}};">
+                                        <div class="col-lg-4 col-md-5 col-12 " >
                                             <div class="item-image">
                                                 @if (count($bb->userfile)> 0)
                                                     <img   src="{{Storage::url($bb->userfile[0]->resize(100, 100))}}" alt="{{ $bb->title }}" >
@@ -122,6 +122,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- End Single List -->
                                 @endforeach
                             @endif

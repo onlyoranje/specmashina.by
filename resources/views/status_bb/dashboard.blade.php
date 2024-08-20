@@ -38,11 +38,11 @@
 
                                                 <li>
                                                     <div class="log-icon">
-                                                        <i class="lni lni-flag-alt"></i>
+                                                        <i class="fa-solid fa-tag" style="color:#{{$status->color_badge}}"></i>
                                                     </div>
-                                                    <a href="" class="title">{{$status->name}}</a>
-                                                    <span class="time"><a href='{{route('status_dashboard_edit', ['id' => $status->id])}}'>Редактировать </a></span>
-                                                    <span class="time"><a href='{{route('status_dashboard_delete', ['id' => $status->id])}}'>Удалить </a></span>
+                                                    <a href="" class="title">{{$status->name}} </a>
+                                                    <span class="time"><a href='{{route('status_dashboard_edit', ['status' => $status])}}'>Редактировать </a></span>
+                                                    <span class="time"><a href='{{route('status_dashboard_delete', ['status' => $status])}}'>Удалить </a></span>
 
 
                                                 </li>

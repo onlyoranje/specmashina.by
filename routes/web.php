@@ -125,10 +125,10 @@ Route::delete('/dashboard/vendor/{vendor}', [App\Http\Controllers\VendorsControl
 Route::get('/dashboard/status_bb', [App\Http\Controllers\StatusBbController::class, 'statuses'])->name('status_dashboard')->middleware('isadmin');
 Route::post('/dashboard/status_bb', [App\Http\Controllers\StatusBbController::class, 'addStatus'])->name('addStatusToDB')->middleware('isadmin');
 Route::get('/dashboard/status_bb/add', [App\Http\Controllers\StatusBbController::class, 'addStatusForm'])->name('status_dashboard_add')->middleware('isadmin');
-Route::get('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbController::class, 'detail'])->name('status_dashboard_edit')->middleware('isadmin');
-Route::patch('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbController::class, 'editStatus'])->name('editStatusToDB')->middleware('isadmin');
-Route::get('/dashboard/status_bb/{id}/delete', [App\Http\Controllers\StatusBbController::class, 'delete'])->name('status_dashboard_delete')->middleware('isadmin');
-Route::delete('/dashboard/status_bb/{id}', [App\Http\Controllers\StatusBbController::class, 'destroyStatus'])->name('status_dashboard_destroy')->middleware('isadmin');
+Route::get('/dashboard/status_bb/{status}', [App\Http\Controllers\StatusBbController::class, 'detail'])->name('status_dashboard_edit')->middleware('isadmin');
+Route::patch('/dashboard/status_bb/{status}', [App\Http\Controllers\StatusBbController::class, 'editStatus'])->name('editStatusToDB')->middleware('isadmin');
+Route::get('/dashboard/status_bb/{status}/delete', [App\Http\Controllers\StatusBbController::class, 'delete'])->name('status_dashboard_delete')->middleware('isadmin');
+Route::delete('/dashboard/status_bb/{status}', [App\Http\Controllers\StatusBbController::class, 'destroyStatus'])->name('status_dashboard_destroy')->middleware('isadmin');
 
 Route::get('/dashboard/posts/', [App\Http\Controllers\PostsController::class, 'posts_dashboard'])->name('posts_dashboard')->middleware('isadmin');
 Route::post('/dashboard/post', [App\Http\Controllers\PostsController::class, 'post_add_db'])->name('post_add_db')->middleware('isadmin');

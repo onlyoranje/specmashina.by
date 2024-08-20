@@ -19,7 +19,7 @@
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
                                     <h3 class="block-title">Изменение статуса {{$status->name}}</h3>
-                                    <form class="default-form-style" action="{{route('editStatusToDB', ['id' => $status->id])}}" method="post">
+                                    <form class="default-form-style" action="{{route('editStatusToDB', ['status' => $status->id])}}" method="post">
                                         @csrf
                                         @method('PATCH')
                                         <div class="inner-block">
@@ -32,8 +32,12 @@
                                                 </div>
                                                 <div class="col-lg-2 col-12">
                                                     <div class="form-group">
-                                                        <label>Код статуса</label>
-                                                        <input type="text" value="{{old('code',$status->active_status)}}"  name="code"  required>
+                                                        <label>Активность</label>
+
+                                                        <select class="form-select" name="active"  required>
+                                                            <option value="Y" {{$status->active=='Y'?'selected':''}}>Да</option>
+                                                            <option value="N" {{$status->active=='N'?'selected':''}}>Нет</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-2 col-12">
@@ -54,7 +58,12 @@
                                                         <input type="number" value="{{old('sort',$status->sort)}}" name="sort"   required>
                                                     </div>
                                                 </div>
-
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Цвет</label>
+                                                        <input type="color" value="{{old('color_badge',$status->color_badge)}}" name="color_badge"   required>
+                                                    </div>
+                                                </div>
                                                 <div class="col-12">
                                                     <div class="form-group mt-30">
                                                         <label>Описание</label>
