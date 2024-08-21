@@ -26,7 +26,7 @@ class BbsController extends Controller
     public function index() {
 
         $context = [
-            'bbs_last' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('bbs.created_at','desc')->limit(8)->get(),
+            'bbs_last' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('bbs.id','desc')->limit(8)->get(),
             'bbs_random' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->inRandomOrder()->limit(8)->get(),
             'bbs_actual' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('lifted_at','desc')->orderBy('bbs.updated_at','desc')->limit(6)->get(),
             'bbs_popular' => Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->addSelect(['bbstatistic_count' => BbStatistic::selectRaw('sum(views) as total')
