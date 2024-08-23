@@ -87,6 +87,11 @@
                                 <li>
                                     <a href="{{route('dashboard')}}"><i class="lni lni-enter"></i> {{Auth::user()->name}}</a>
                                 </li>
+                                @if (Auth::user()->countAlerts()>0)
+                                    <li>
+                                        <a href="{{route('alerts')}}"> <span class="badge rounded-pill bg-danger"><i class="fa-solid fa-bell text-white text-small" style="font-size: 0.95em;"></i>{{Auth::user()->countAlerts()}}</span></a>
+                                    </li>
+                                    @endif
                                 @else
                                 <li>
                                     <a href="{{route('dashboard')}}"><i class="lni lni-enter"></i> Вход</a>

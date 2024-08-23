@@ -106,5 +106,8 @@ class User extends Authenticatable
         }
         return 'thumbnails/'.$w.'x'.$h.'/'.$url;
     }
-
+    public function countAlerts(){
+        $alerts = BbAdminComments::select('bb_admin_comments.*')->Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',$this->id)->whereNull('bb_admin_comments.read_at')->count();
+        return $alerts;
+    }
 }
