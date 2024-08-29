@@ -63,13 +63,13 @@ redirect()->route('rubric',$id);
         return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request]);
 
     }
-    public function location($id){
+    public function location(Request $request,$id){
         $location     = Location::find($id);
         $locations    = Location::descendantsAndSelf($id)->pluck('id');
         $bbs    = Bb::whereIn('location_id',$locations)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('lifted_at', 'desc')->paginate(12);
         $title = "Техника в ".$location->title_r;
         $breadcrumbs= Location::ancestorsAndSelf($id);
-        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title]);
+        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request]);
 
     }
     public function rubrics(){

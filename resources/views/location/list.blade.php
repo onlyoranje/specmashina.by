@@ -10,6 +10,7 @@
                     <div class="category-sidebar">
                         @include('widgets.search_mini')
 
+
                         @include('widgets.banner')
                     </div>
                 </div>
