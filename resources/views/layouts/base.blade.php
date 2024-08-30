@@ -160,7 +160,7 @@
 </body>
 @if (Auth::user())
 <script>
-    window.addEventListener("load", function(){
+/*    window.addEventListener("load", function(){
         Pusher.logToConsole = true;
 
         var pusher = new Pusher('b52b7d79e679a85bb93f', {
@@ -186,7 +186,7 @@
         })
 
 
-    });
+    });*/
 
 
 

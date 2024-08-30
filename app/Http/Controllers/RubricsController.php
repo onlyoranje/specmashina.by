@@ -58,16 +58,36 @@ redirect()->route('rubric',$id);
 
         $breadcrumbs= Rubric::ancestorsAndSelf($id);
         $parent_rubric = $breadcrumbs[0];
-        $title = $parent_rubric->title.' '.$rubric->title_r;
+        $title = $rubric->title();
 
         return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request]);
 
     }
     public function location(Request $request,$id){
+        $rubric = Rubric::find($request->rubric);
+
         $location     = Location::find($id);
         $locations    = Location::descendantsAndSelf($id)->pluck('id');
         $bbs    = Bb::whereIn('location_id',$locations)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('lifted_at', 'desc')->paginate(12);
-        $title = "Техника в ".$location->title_r;
+        $title = "Спецтехника в ".$location->title_r;
+        if ($rubric->id>0){
+            switch ($rubric->id) {
+                case 1:
+                    $title  = "Аренда спецтехники в ".$location->title_r;
+                    break;
+
+                case 118:
+                    $title  = "Продажа спецтехники в ".$location->title_r;
+                    break;
+
+                default:
+                    $title = $rubric->title()." в ".$location->title_r;
+                    break;
+
+            }
+        }
+
+
         $breadcrumbs= Location::ancestorsAndSelf($id);
         return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request]);
 

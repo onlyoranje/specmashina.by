@@ -29,4 +29,10 @@ class Rubric extends Model
     public function priceType(){
         return $this->belongsToMany(PriceTypeRubric::class);
     }
+    public function title(){
+        $breadcrumbs= Rubric::ancestorsAndSelf($this->id);
+        $parent_rubric = $breadcrumbs[0];
+        $title = $parent_rubric->title.' '.$this->title_r;
+        return $title;
+    }
 }

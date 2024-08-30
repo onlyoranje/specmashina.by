@@ -20,32 +20,37 @@ $sub_rubrics = Rubric::whereNull('parent_id')->orderBy('sort')->get();
 
                 <li>
                     <a href="{{route('location',$location->id)}}?rubric={{$sub_rubric->id}}"> {{$sub_rubric->title}}<span>
-                    {{count(Bb::select('bbs.*')->
+                @php
+                $bbc = Bb::select('bbs.*')->
         Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->
 
-        where('status_bbs.active','Y')->whereIn('rubric_id',Rubric::descendantsAndSelf($sub_rubric->id)->where('bbs.location_id',$location->id)->pluck('id'))->get())}}</span></a>
+        where('status_bbs.active','Y')->where('bbs.location_id',$location->id)->whereIn('rubric_id',Rubric::descendantsAndSelf($sub_rubric->id)->pluck('id'))->get();
+                @endphp
+                            {{count($bbc)}}
+                        </span></a>
                 </li>
             @endforeach
         </ul>
     </div>
-@else
+    {{--
+    @else
     @php($sub_rubrics = Rubric::where('parent_id',$rubric->parent_id)->orderBy('sort')->get())
-    <div class="single-widget">
-        <h3>Подкатегории</h3>
-        <ul class="list">
+        <div class="single-widget">
+            <h3>Подкатегории</h3>
+            <ul class="list">
 
 
-            @foreach($sub_rubrics as $sub_rubric)
+                @foreach($sub_rubrics as $sub_rubric)
 
-                <li>
-                    <a href="{{route('rubric',$sub_rubric->id)}}{{str_contains(url_parameters($request),'location')?url_parameters($request):''}}"
-                       class="{{$sub_rubric->id==$rubric->id? 'active':'' }}" >{{--<i class="lni lni-dinner"></i>--}} 6{{$sub_rubric->title}}<span>
-                    {{count(Bb::select('bbs.*')->
-        Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->
+                    <li>
+                        <a href="{{route('rubric',$sub_rubric->id)}}{{str_contains(url_parameters($request),'location')?url_parameters($request):''}}"
+                           class="{{$sub_rubric->id==$rubric->id? 'active':'' }}" >--}}{{--<i class="lni lni-dinner"></i>--}}{{-- 6{{$sub_rubric->title}}<span>
+                        {{count(Bb::select('bbs.*')->
+            Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->
 
-        where('status_bbs.active','Y')->whereIn('rubric_id',Rubric::descendantsAndSelf($sub_rubric->id)->pluck('id'))->where('bbs.location_id',$location->id)->get())}}</span></a>
-                </li>
-            @endforeach
-        </ul>
-    </div>
+            where('status_bbs.active','Y')->whereIn('rubric_id',Rubric::descendantsAndSelf($sub_rubric->id)->pluck('id'))->where('bbs.location_id',$location->id)->get())}}</span></a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>--}}
 @endif
