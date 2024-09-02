@@ -70,7 +70,7 @@ redirect()->route('rubric',$id);
         $locations    = Location::descendantsAndSelf($id)->pluck('id');
         $bbs    = Bb::whereIn('location_id',$locations)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('lifted_at', 'desc')->paginate(12);
         $title = "Спецтехника в ".$location->title_r;
-        if ($rubric->id>0){
+        if ($rubric){
             switch ($rubric->id) {
                 case 1:
                     $title  = "Аренда спецтехники в ".$location->title_r;
@@ -89,7 +89,7 @@ redirect()->route('rubric',$id);
 
 
         $breadcrumbs= Location::ancestorsAndSelf($id);
-        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request]);
+        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request,'rubric'=>$rubric]);
 
     }
     public function rubrics(){
