@@ -117,7 +117,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                 @elseif ($bb->status_bb->status == 'N')
                                 <span>Объявление <mark class="mark-N">не прошло модерацию</mark></span>
                             @endif
-                            <h2 class="title">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</h2>
+                            <h1 class="title">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</h1>
 
                             <p class="location"><i class="lni lni-map-marker"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
                                 <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb->time_update()}}</a></p>

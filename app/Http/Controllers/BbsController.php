@@ -65,8 +65,11 @@ class BbsController extends Controller
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
+        $breadcrumbs['route']= 'rubric';
+        $breadcrumbs['list']= Rubric::ancestorsAndSelf($bb->rubric_id);
 
-        return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title, 'reasons'=>$reasons]);
+
+        return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title, 'reasons'=>$reasons,'breadcrumbs'=>$breadcrumbs]);
     }
     public function approve(Bb $bb,Request $request){
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();

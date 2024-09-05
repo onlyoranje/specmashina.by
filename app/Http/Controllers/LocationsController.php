@@ -37,7 +37,7 @@ class LocationsController extends Controller
         ])
             ->where('title',"LIKE", $request->letter."%" )
             ->where('level',1)->orderBy('title','asc')->paginate(10);
-        return view('location.list',['title'=>'Города','locations'=>$locations,'request'=>$request,'locations_letter'=>$locations_letter]);
+        return view('location.list',['title'=>'Аренда техники в Беларуси','locations'=>$locations,'request'=>$request,'locations_letter'=>$locations_letter]);
     }
     public function location($id){
         $location     = Location::find($id);

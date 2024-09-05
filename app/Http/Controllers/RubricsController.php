@@ -56,8 +56,9 @@ redirect()->route('rubric',$id);
         paginate(12);
         $locations = Location::where('level',1)->orderBy('title')->get();
 
-        $breadcrumbs= Rubric::ancestorsAndSelf($id);
-        $parent_rubric = $breadcrumbs[0];
+        $breadcrumbs['route']= 'rubric';
+        $breadcrumbs['list']= Rubric::ancestorsAndSelf($id);
+        //$parent_rubric = $breadcrumbs[0];
         $title = $rubric->title();
 
         return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request]);
@@ -88,7 +89,8 @@ redirect()->route('rubric',$id);
         }
 
 
-        $breadcrumbs= Location::ancestorsAndSelf($id);
+        $breadcrumbs['route'] = 'location';
+        $breadcrumbs['list']= Location::ancestorsAndSelf($id);
         return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request,'rubric'=>$rubric]);
 
     }
