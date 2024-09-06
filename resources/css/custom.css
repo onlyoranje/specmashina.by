@@ -271,3 +271,6 @@ border-radius: 3px;
     font-weight: 400;
     color: #888;
 }
+.breadcrumbs .breadcrumb-nav li {
+     text-transform: unset;
+}

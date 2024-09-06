@@ -39,6 +39,7 @@ redirect()->route('rubric',$id);
 
         $rubric     = Rubric::find($id);
         $rubrics    = Rubric::descendantsAndSelf($id)->pluck('id');
+        if ($request->location) $location = Location::find($request->location);
         $bbs    = Bb::select('bbs.*')->
         Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->
 
@@ -60,7 +61,7 @@ redirect()->route('rubric',$id);
         $breadcrumbs['list']= Rubric::ancestorsAndSelf($id);
         //$parent_rubric = $breadcrumbs[0];
         $title = $rubric->title();
-
+        if ($request->location) $title.=' в '.$location->title_r;
         return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request]);
 
     }
