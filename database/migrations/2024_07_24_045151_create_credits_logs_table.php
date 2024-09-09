@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('credits_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->integer('credits')->nullable();
+            $table->smallInteger('credits')->nullable();
             $table->unsignedBigInteger('bb_id')->nullable();
             $table->string('description')->nullable();
             $table->foreign('bb_id')->references('id')->on('bbs')->cascadeOnDelete();
