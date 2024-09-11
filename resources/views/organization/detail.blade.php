@@ -18,8 +18,8 @@
                     <div class="content-right wow fadeInRight" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInRight;">
                         <!-- Heading -->
                         <span class="sub-heading">УНП {{$organization->unp}}</span>
-                        <h2>
-                            {{$organization->title}}</h2>
+                        <h1>
+                            {{$organization->title}}</h1>
                         <div class="organization-info">
                         <ul>
                             <li><span>Город:</span> {{$organization->location->title}}</li>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bb;
 use App\Models\Location;
 use App\Models\Organization;
+
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -13,7 +14,9 @@ class OrganizationController extends Controller
 
         $organization = Organization::find($id);
         $bbs = Bb::where('organization_id',$id)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
-        return view('organization.detail',['organization'=>$organization,'bbs'=>$bbs]);
+        $breadcrumbs['route']= 'organization';
+        $breadcrumbs['list'][]= Array('route'=>'organizations/','title'=>'Организации');
+        return view('organization.detail',['organization'=>$organization,'bbs'=>$bbs,'breadcrumbs'=>$breadcrumbs]);
 
     }
 

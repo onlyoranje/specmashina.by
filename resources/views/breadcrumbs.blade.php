@@ -9,19 +9,24 @@
             </div>--}}
             <div class="col-12">
                 <ul class="breadcrumb-nav">
+                    <li>
+                        <a href="/">Главная</a>
+                    </li>
                 @if (isset($breadcrumbs))
                         @foreach($breadcrumbs['list'] as $key=>$breadcrumb)
+                            @if (is_object($breadcrumb))
                     <li>
-                       {{-- @if  ($key!=(count($breadcrumbs['list'])-1))
-                            <a href="{{route($breadcrumbs['route'],$breadcrumb->id)}}">{{$breadcrumb->title}}</a>
-                        @else
-                            {{$breadcrumb->title}}
-                        @endif--}}
-                        <a href="{{route($breadcrumbs['route'],$breadcrumb->id)}}">{{$breadcrumb->title}}</a>
+                         <a href="{{route($breadcrumbs['route'],$breadcrumb->id)}}">{{$breadcrumb->title}}</a>
                     </li>
+                            @elseif (is_array($breadcrumb))
+                           <li>
+                         <a href="{{route($breadcrumb['route'])}}">{{$breadcrumb['title']}}</a>
+                    </li>
+                         @endif
                         @endforeach
-                    <li>@yield('title')</li>
+
                     @endif
+                    <li>@yield('title')</li>
                 </ul>
             </div>
         </div>
