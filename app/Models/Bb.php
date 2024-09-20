@@ -30,6 +30,9 @@ class Bb extends Model
     public function vendor() {
         return $this->belongsTo(Vendor::class);
     }
+    public function organization() {
+        return $this->belongsTo(Organization::class);
+    }
     public function location() {
         return $this->belongsTo(Location::class);
     }
@@ -124,5 +127,23 @@ public function parent_rubric(){
         {
             return 'Добавлено: '.timesince($create);
         }
+    }
+    public function search_index(){
+        $text[] = $this->title;
+        $text[] = $this->vendor->name;
+        $rubrics = Rubric::whereAncestorOrSelf($this->rubric_id)->get();
+        foreach ($rubrics as $rubric)
+        {
+            $text[] = $rubric->title;
+        }
+        $locations = Location::whereAncestorOrSelf($this->location_id)->get();
+        foreach ($locations as $location)
+        {
+            $text[] = $location->title;
+        }
+        $text[] = $this->organization->title;
+        $this->fill(['search_text'=>implode(' ',$text)]);
+        //dd($text);
+        $this->save();
     }
 }

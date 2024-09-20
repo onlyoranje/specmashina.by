@@ -61,7 +61,7 @@ class BbsController extends Controller
             $stat->save();
         }
 
-
+        $bb->search_index();
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
@@ -77,6 +77,7 @@ class BbsController extends Controller
         BbAdminComments::create(['bb_id'=>$bb->id,'title'=>'Объявление '.$title.' прошло модерацию','comment'=>'Объявление '.$title.' прошло модерацию']);
         $msg = Im::create(['user1_id'=>Auth::id(),'user2_id'=>$bb->user->id,'text'=>'Объявление '.$title.' прошло модерацию']);
         $active_status = Status_bb::where('status','S')->get()->value('id');
+        $bb->search_index();
         Bb::where('id',$bb->id)->update(['status_bb_id'=>$active_status,'active'=>'Y']);
         event(new NewMessageNotification('new_message',$msg ,Auth::id(),$bb->user->id));
         Notification::create(['type'=>'new_message','user_id'=>$bb->user->id,'data'=>$msg->text]);
