@@ -274,3 +274,11 @@ border-radius: 3px;
 .breadcrumbs .breadcrumb-nav li {
      text-transform: unset;
 }
+.title_card {
+    font-size: 30px;
+
+}
+.carousel-inner {
+    background-color: #f9fcfc;
+    border-radius: 5px;
+}

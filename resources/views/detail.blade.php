@@ -13,6 +13,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
         <div class="container">
             <div class="top-area">
                 <div class="row">
+                    <div class="col-12"> <h1 class="title title_card mb-3">{{ $title }}</h1></div>
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="product-images">
                             <main id="gallery">
@@ -117,7 +118,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                 @elseif ($bb->status_bb->status == 'N')
                                 <span>Объявление <mark class="mark-N">не прошло модерацию</mark></span>
                             @endif
-                            <h1 class="title">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}</h1>
+
 
                             <p class="location"><i class="lni lni-map-marker"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
                                 <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb->time_update()}}</a></p>
