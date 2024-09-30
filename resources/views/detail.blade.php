@@ -21,10 +21,10 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
 
                                     <div class="carousel-inner main-img" {{--style="height: 480px"--}}>
                                         @foreach($bb->userfile as $key=>$image)
-                                            <div class="carousel-item @if ($key==0) active @endif ratio ratio-1x1"
+                                            <div class="carousel-item @if ($key==0) active @endif ratio ratio-16x9"
                                             >
 
-                                                <img src="{{ Storage::url($image->resize(null, 800, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="..." style="position: absolute; top: 50%;left: 50%; margin-right: -50%;transform: translate(-50%, -50%);{{$image->resizeClass()}}">
+                                                <img src="{{ Storage::url($image->resize(null, 800, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="{{ $title }}" style="position: absolute; top: 50%;left: 50%; margin-right: -50%;transform: translate(-50%, -50%);{{$image->resizeClass()}}" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                             </div>
                                         @endforeach
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -37,12 +37,12 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                         </button>
                                     </div>
 
-                                    @if (count($bb->userfile)>1)
-                                        <div class="images">
+                                    @if (count($bb->userfile)>0)
+                                        <div class="images mt-3">
                                             @foreach($bb->userfile as $key=>$image)
-                                                <img  src="{{ Storage::url($image->resize(110, 110, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" id="carousel-thumb-{{$key}}"
+                                                <img  src="{{ Storage::url($image->resize(64, 64, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" id="carousel-thumb-{{$key}}"
                                                       @if ($key==0)
-                                                      aria-current="true" class="active carousel-thumbs"
+                                                      aria-current="true" class=" carousel-thumbs"
                                                       @else
                                                       class="carousel-thumbs"
                                                       @endif
@@ -54,6 +54,30 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                             </main>
                         </div>
                     </div>
+
+
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-images">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">{{ $title }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body row">
+                                    @foreach($bb->userfile as $key=>$image)
+                                        <div class="col-12"><img src="{{ Storage::url($image->url) }}" class="img-fluid" alt="{{ $title }}" ></div>
+
+                                    @endforeach
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Understood</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="product-info">
                             @if ($bb->status_bb->status == 'M')

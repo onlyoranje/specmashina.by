@@ -279,6 +279,51 @@ border-radius: 3px;
 
 }
 .carousel-inner {
-    background-color: #f9fcfc;
+    background-color: #f6f6f6;
     border-radius: 5px;
+}
+.item-details .product-images .images
+{
+    display: grid;
+    Grid-template-columns: repeat(8, 1fr);
+    Grid-gap: 0.25em 0.25em;
+    Margin-top: 0.25em;
+}
+.modal-dialog-images {
+    background-color: rgb(80 77 77 / 81%);;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: block;
+    pointer-events: unset;
+    padding-bottom: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 16px;
+}
+.modal-dialog-images .modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: rgb(80 77 77 / 81%);
+    background-clip: padding-box;
+
+    border-radius: .3rem;
+    outline: 0;
+}
+.modal-dialog-images .modal-title{
+    color:white;
+}
+.modal-dialog-images .modal-header{
+    border-bottom: unset;
+}
+.modal-dialog-images .modal-footer{
+    border-top: unset;
+}
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 75%;
+        margin: 1.75rem auto;
+    }
 }
