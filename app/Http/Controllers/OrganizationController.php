@@ -15,7 +15,7 @@ class OrganizationController extends Controller
         $organization = Organization::find($id);
         $bbs = Bb::where('organization_id',$id)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
         $breadcrumbs['route']= 'organization';
-        $breadcrumbs['list'][]= Array('route'=>'organizations/','title'=>'Организации');
+        $breadcrumbs['list'][]= Array('route'=>'organizations','title'=>'Организации');
         return view('organization.detail',['organization'=>$organization,'bbs'=>$bbs,'breadcrumbs'=>$breadcrumbs]);
 
     }

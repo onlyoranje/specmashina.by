@@ -801,5 +801,3 @@ channel.listen('.my-event', function(data) {
     alert(JSON.stringify(data));
 });
 */
-
-

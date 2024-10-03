@@ -63,11 +63,8 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                     <h5 class="modal-title" id="staticBackdropLabel">{{ $title }}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body row">
-                                    @foreach($bb->userfile as $key=>$image)
-                                        <div class="col-12"><img src="{{ Storage::url($image->url) }}" class="img-fluid" alt="{{ $title }}" ></div>
+                                <div class="modal-body row justify-content-center" id="full_gallery">
 
-                                    @endforeach
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -144,8 +141,9 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                             @endif
 
 
-                            <p class="location"><i class="lni lni-map-marker"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
-                                <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb->time_update()}}</a></p>
+                            <p class="location"><i class="fa-solid fa-hashtag"></i><a id="bb_id">{{$bb->id}}</a></p>
+                            <p class="location"><i class="fa-solid fa-location-dot"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
+                                <p  class="location"><a><i class="fa-solid fa-calendar-days"></i></i>{{$bb->time_update()}}</a></p>
                             <h3 class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</h3>
                             <div class="list-info">
                                 <h4>Информация</h4>
@@ -182,13 +180,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                             </div>
                             <div class="social-share">
                                 <h4>Отправить ссылку</h4>
-                                {{--<ul>
-                                    <li><a href="javascript:void(0)" class="facebook"><i class="lni lni-facebook-filled"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="twitter"><i class="lni lni-twitter-original"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="google"><i class="lni lni-google"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="linkedin"><i class="lni lni-linkedin-original"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="pinterest"><i class="lni lni-pinterest"></i></a></li>
-                                </ul>--}}
+
                                 {!!
                                 (new Kudashevs\ShareButtons\ShareButtons)->page(URL::current(), $title, [
                                     'block_prefix' => '<ul>',
@@ -369,7 +361,17 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
             </div>
         </div>
     </section>
+<script>
+    window.addEventListener("load", function(){
+        var myModalEl = document.getElementById('staticBackdrop')
+        myModalEl.addEventListener('show.bs.modal', function (event) {
+            var images = '@foreach($bb->userfile as $key=>$image)<div class="col-12"><img src="{{ Storage::url($image->url) }}" class="img-fluid modal-image" alt="{{ $title }}" ></div>@endforeach';
+console.log(images)
+             $('#full_gallery').html(images);
 
+        })
+    })
+</script>
 
 
 
