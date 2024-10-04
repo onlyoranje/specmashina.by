@@ -5,6 +5,7 @@
     <section class="section latest-news-area blog-list">
         <div class="container">
             <div class="row">
+                <div class="col-12 mb-5"><h1>{{$title}}</h1></div>
                 <div class="col-lg-8 col-md-7 col-12">
                     @if (count($posts)>0)
 

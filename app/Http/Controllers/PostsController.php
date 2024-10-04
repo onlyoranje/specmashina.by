@@ -22,7 +22,8 @@ class PostsController extends Controller
         })->orderBy('id','desc')->paginate(10);
         $title = 'Новости';
         if ($request->category) $title.='. Категория "'.$request->category.'"';
-        if ($request->tag) $title.=' #'.$request->tag;
+        if ($request->tag) $title.='. #'.$request->tag;
+        if ($request->page>1) $title.='. Страница '.$request->page;
         return view('post.list',['posts'=>$posts,'title'=>$title]);
     }
     public function posts_dashboard(){

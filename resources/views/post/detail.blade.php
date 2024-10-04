@@ -16,9 +16,9 @@
                         </div>
                         <div class="post-details">
                             <div class="detail-inner">
-                                <h2 class="post-title">
+                                <h1 class="post-title">
                                     <a href="{{route('post',$post->id)}}">{{ $post->title }}</a>
-                                </h2>
+                                </h1>
                                 <!-- post meta -->
                                 <ul class="custom-flex post-meta">
                                     <li>
@@ -42,7 +42,7 @@
                                 </ul>
                             {!! $post->content !!}
                                 <!-- Post Social Share -->
-                                <div class="post-social-media">
+                                {{--<div class="post-social-media">
                                     <h5 class="share-title">Social Share</h5>
                                     <ul>
                                         <li>
@@ -76,7 +76,7 @@
                                             </a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div>--}}
                                 <!-- Post Social Share -->
                             </div>
 
