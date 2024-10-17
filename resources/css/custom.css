@@ -332,3 +332,15 @@ border-radius: 3px;
 .logo-header{
     height: 50px;
 }
+.content .company-image {
+    position: relative;
+
+    border-bottom: 1px solid #eee;
+
+}
+
+.item-details-sidebar .single-block.author .content {
+    position: relative;
+    padding-left: 0px;
+    display: inline-flex;
+}

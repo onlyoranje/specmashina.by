@@ -314,15 +314,23 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                             <div class="single-block author">
                                 <h3>Организация</h3>
                                 <div class="content">
+
                                     <a href="{{route('organization',$bb->organization_id)}}">
-                                    @if ($bb->user->organization->logo)
-                                        <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
-                                        @else
-                                        <img src="http://placehold.it/40x40&text={{$bb->user->organization->title}}" alt="{{$bb->user->organization->title}}">
-                                    @endif
-                                    <h4>{{$bb->user->organization->title}}</h4></a>
+                                        <div class="company-image">
+                                            @if ($bb->user->organization->logo)
+                                                <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
+                                            @else
+                                                {!! Avatar::create($bb->user->organization->title)->toSvg() !!}
+                                            @endif
+                                        </div>
+<div style="
+    margin-left: 64px;
+">
+    <h4>{{$bb->user->organization->title}}</h4>
                                     <span>{{$bb->user->organization->location->title}}@if ($bb->user->organization->address), {{$bb->user->organization->address}} @endif</span>
                                     <a href="{{route('organization',$bb->organization_id)}}" class="see-all">Все объявления организации</a>
+</div>
+
                                 </div>
                             </div>
 
@@ -363,12 +371,13 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
     </section>
 <script>
     window.addEventListener("load", function(){
+        console.log(1)
         var myModalEl = document.getElementById('staticBackdrop')
         myModalEl.addEventListener('show.bs.modal', function (event) {
             var images = '@foreach($bb->userfile as $key=>$image)<div class="col-12"><img src="{{ Storage::url($image->url) }}" class="img-fluid modal-image" alt="{{ $title }}" ></div>@endforeach';
-console.log(images)
-             $('#full_gallery').html(images);
 
+            $('#full_gallery').html(images);
+            console.log(2)
         })
     })
 </script>
