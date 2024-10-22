@@ -52,9 +52,9 @@ function url_parameters($request){
     }
     return $result;
 }
-function FakeImage($width=640,$height=480,$blur=0,$grayscale=0,$title='Аренда и продажа техники в Беларуси'){
- $img = '<img src="/storage/test/image.jpg" alt="'.$title.'" style="filter: blur('.$blur.'px)  grayscale('.$grayscale.'%);top:50%;left:50%;  width:'.$width.'px; height:'.$height.'px; -o-object-fit:cover; object-fit:cover;">';
- return $img;
+function FakeImage($width=640,$height=480,$blur=0,$grayscale=0,$title='Аренда и продажа техники в Беларуси',$img='image.jpg'){
+ $image = '<img src="/storage/test/'.$img.'" alt="'.$title.'" style="filter: blur('.$blur.'px)  grayscale('.$grayscale.'%); -o-object-fit:cover; object-fit:cover;">';
+ return $image;
 }
 function get_dir_files( $dir, $recursive = true, $include_folders = false ){
     if( ! is_dir($dir) )

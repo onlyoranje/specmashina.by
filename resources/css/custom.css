@@ -344,3 +344,7 @@ border-radius: 3px;
     padding-left: 0px;
     display: inline-flex;
 }
+.browse-cities .single-city .info-box{
+    max-height:200px;
+    position: unset;
+}

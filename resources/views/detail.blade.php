@@ -24,7 +24,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                             <div class="carousel-item @if ($key==0) active @endif ratio ratio-16x9"
                                             >
 
-                                                <img src="{{ Storage::url($image->resize(null, 800, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="{{ $title }}" style="position: absolute; top: 50%;left: 50%; margin-right: -50%;transform: translate(-50%, -50%);{{$image->resizeClass()}}" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                <img src="{{ Storage::url($image->resize(null, 800, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="{{ $title }}" style="object-fit: contain" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                             </div>
                                         @endforeach
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -141,7 +141,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                             @endif
 
 
-                            <p class="location"><i class="fa-solid fa-hashtag"></i><a id="bb_id">{{$bb->id}}</a></p>
+                            <p class="location"><i class="fa-solid fa-eye"></i><a id="bb_id">{{$bb->bbstatistic_count}}</a></p>
                             <p class="location"><i class="fa-solid fa-location-dot"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
                                 <p  class="location"><a><i class="fa-solid fa-calendar-days"></i></i>{{$bb->time_update()}}</a></p>
                             <h3 class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</h3>
@@ -371,13 +371,13 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
     </section>
 <script>
     window.addEventListener("load", function(){
-        console.log(1)
+
         var myModalEl = document.getElementById('staticBackdrop')
         myModalEl.addEventListener('show.bs.modal', function (event) {
             var images = '@foreach($bb->userfile as $key=>$image)<div class="col-12"><img src="{{ Storage::url($image->url) }}" class="img-fluid modal-image" alt="{{ $title }}" ></div>@endforeach';
 
             $('#full_gallery').html(images);
-            console.log(2)
+
         })
     })
 </script>

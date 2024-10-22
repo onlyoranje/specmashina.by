@@ -30,7 +30,7 @@
                                 <img src="{{Storage::url($city->resizeImage($city->image,635,325))}}" alt="{{ $city->title }}">
                             @else
                                 {{--<img src="http://placehold.it/635x325&text={{ $city->title }}" alt="{{ $city->title }}">--}}
-                                {!! FakeImage(635,325,4,0,$city->title) !!}
+                                {!! FakeImage(400,200,8,0,$city->title,'city.jpg') !!}
                             @endif
                         </div>
                         <div class="content">

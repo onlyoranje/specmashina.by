@@ -6,7 +6,7 @@
  * License: https://innostudio.de/fileuploader/documentation/#license
  */
 $(document).ready(function() {
-	
+
 	// enable fileuploader plugin
 	var $fileuploader = $('input.gallery_media').fileuploader({
 		limit: 100,
@@ -81,7 +81,7 @@ $(document).ready(function() {
 			},
 			onImageLoaded: function(item, listEl, parentEl, newInputEl, inputEl) {
 				var api = $.fileuploader.getInstance(inputEl);
-				
+
 				// add icon
 				item.image.find('.fileuploader-item-icon i').html('')
 					.addClass('fileuploader-icon-' + (['image', 'video', 'audio'].indexOf(item.format) > -1 ? item.format : 'file'));
@@ -100,7 +100,7 @@ $(document).ready(function() {
 
 			},
 			onItemRemove: function(html) {
-				html.fadeOut(250);	
+				html.fadeOut(250);
 			}
 		},
 		dragDrop: {
@@ -230,7 +230,7 @@ $(document).ready(function() {
 						}, null, true);
 					});
 				}
-			}	
+			}
 		},
 		sorter: {
 			onSort: function(list, listEl, parentEl, newInputEl, inputEl) {
@@ -262,7 +262,7 @@ $(document).ready(function() {
 			$plusInput.on('click', function() {
 				api.open();
 			});
-            
+
             // set drop container
             api.getOptions().dragDrop.container = $plusInput;
 
@@ -347,16 +347,16 @@ $(document).ready(function() {
 			imageSizeError: 'The image ${name} is too small.',
 		})
 	});
-	
+
 	// preload the files
 	$.post('php/ajax.php?type=preload', null, function(result) {
 		var api = $.fileuploader.getInstance($fileuploader),
 			preload = [];
-		
+
 		try {
 			// preload the files
 			preload = JSON.parse(result);
-			
+
 			api.append(preload);
 		} catch(e) {}
 	});

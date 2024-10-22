@@ -156,14 +156,14 @@ $(document).ready(function () {
 
     // enable fileuploader plugin
     $('input[name="file"]').fileuploader({
-        limit: 20,
-        maxSize: 50,
+        limit: 10,
+        maxSize: 3,
         extensions: ['jpg', 'jpeg', 'png', 'webp', 'bmp'],
         changeInput: '<div class="fileuploader-input">' +
             '<div class="fileuploader-input-inner">' +
             '<div class="fileuploader-icon-main"></div>' +
             '<div class="fileuploader-input-caption"><span class="d-block mb-15">Нет фото</span></div>' +
-            '<span class="d-block mb-15">Перетащите фото сюда</span>' +
+            '<span class="d-block mb-15">Перетащите фото сюда (не более 10 фото, размер не более 3 Мб)</span>' +
             '<div class="form-group button mb-0">\n' +
             '<button type="button" class="btn">загрузить фото</button>' +
             '</div>' +
