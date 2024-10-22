@@ -168,7 +168,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                 @endphp
                                 <ul>
                                     <li>
-                                        <a href="tel:+002562352589" class="call">
+                                        <a href="tel:{{$contact_info['phone']}}" class="call">
                                             <i class="lni lni-phone-set"></i>
                                             {{$contact_info['phone']}}
                                             <span>{{$contact_info['user_name']}}</span>
