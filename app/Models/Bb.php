@@ -59,8 +59,18 @@ class Bb extends Model
         return $this->belongsTo(Status_bb::class);
     }
 
-    public function count_views(){
+    public function count_views($option=false){
        $views = BbStatistic::where('bb_id',$this->id)->sum('views');
+       if ($option=='text'){
+           switch($views) {
+               case 1: $views.= " просмотр"; break;
+               case (($views%10)>=2 and ($views%10)<=4): $views.= " просмотра";break;
+               case ($views>=12 and $views<=2): $views.= " просмотров";break;
+               default: $views.= " просмотров";
+
+           }
+
+       }
        return $views;
     }
 
