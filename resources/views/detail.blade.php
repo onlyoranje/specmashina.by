@@ -237,8 +237,8 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                     @foreach($bb->BbParameters as $parameter)
 
                                             <div class="col-6 d-flex bd-highlight">
-                                                <div class="p-2 bd-highlight">{{$parameter->parameters->name}}:</div>
-                                                <div class="ms-auto p-2 bd-highlight">{{$parameter->value}} {{$parameter->parameters->measure}}</div>
+                                                <div class="p-2 bd-highlight">{{$parameter->parameters->name}}{{ $parameter->parameters->measure ? ", ".$parameter->parameters->measure:""}}:</div>
+                                                <div class="ms-auto p-2 bd-highlight">{{$parameter->value}}</div>
                                             </div>
                                     @endforeach
 
