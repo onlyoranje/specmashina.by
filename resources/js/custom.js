@@ -482,7 +482,7 @@ $(document).ready(function () {
         console.log($(this).attr('aria-controls'))
     })
 
-    //add post validate
+
 
 })
 $(document).ready(function () {
@@ -499,7 +499,14 @@ $(document).ready(function () {
             $('.invalid-feedback-hero-form').text('Введите 3 и более символов');
         }
     })
+
+
 })
+
+window.setLocation = function (id) {
+    console.log(id)
+    $.cookie('mylocation', id, { expires: 9999 });
+}
 
 
 window.SelectLocation = function () {

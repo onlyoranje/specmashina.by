@@ -78,7 +78,9 @@ class PostsController extends Controller
             $stat->fill(['views'=>1]);
             $stat->save();
         }
-        return view('post.detail',['title'=>$title,'post'=>$post]);
+        $breadcrumbs['list'][] = Array('route'=>'posts','title'=>'Новости');
+        $breadcrumbs['list'][] = Array('route'=>'posts','title'=>$post->category,'param'=>'?category='.$post->category);
+        return view('post.detail',['title'=>$title,'post'=>$post,'breadcrumbs'=>$breadcrumbs]);
     }
     public function edit_post(Post $post,Request $request){
         $trim_tag=Array();

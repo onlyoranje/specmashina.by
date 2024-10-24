@@ -86,11 +86,11 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
                                 @if (Auth::user()->isAdmin())
 
                                         <a href="{{route('approve', $bb->id)}}" class="btn btn-primary btn-sm" type="button">Принять</a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#approveModal">
                                         Отклонить
                                     </button>
 
-                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal fade" id="approveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <form class="default-form-style" method="POST" enctype="multipart/form-data" action="{{route('reject', $bb->id)}}">
                                                 @csrf

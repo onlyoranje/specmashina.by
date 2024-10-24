@@ -19,8 +19,8 @@
                          <a href="{{route($breadcrumbs['route'],$breadcrumb->id)}}">{{$breadcrumb->title}}</a>
                     </li>
                             @elseif (is_array($breadcrumb))
-                           <li>
-                         <a href="{{route($breadcrumb['route'])}}">{{$breadcrumb['title']}}</a>
+                    <li>
+                         <a href="{{route($breadcrumb['route'])}}{{ (!empty($breadcrumb['param']))? $breadcrumb["param"]:""}}">{{$breadcrumb['title']}}</a>
                     </li>
                          @endif
                         @endforeach

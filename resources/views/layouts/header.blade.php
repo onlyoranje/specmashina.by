@@ -52,17 +52,82 @@
 
 
                                     </ul>
+
                                 </li>
                                 @endforeach
 
                                 <li class="nav-item">
                                     <a href="{{route('organizations')}}" aria-label="Toggle navigation">Организации</a>
                                 </li>
-                                <li class="nav-item">
+                               {{-- <li class="nav-item">
                                     <a href="{{route('locations')}}" aria-label="Toggle navigation">Города</a>
-                                </li>
+                                </li>--}}
                                 <li class="nav-item">
                                     <a href="{{route('posts')}}" aria-label="Toggle navigation">Новости</a>
+                                </li>
+                                <li class="nav-item" id="menu_location">
+@php
+                                    if (isset($_COOKIE['mylocation'])) $mylocation = App\Models\Location::find($_COOKIE['mylocation']);
+                                    $all_location = App\Models\Location::orderby("title")->get();
+ @endphp
+                                    <a class=" dd-menu collapsed header-location-link"
+                                       data-bs-toggle="collapse" data-bs-target="#submenu-location"
+                                       aria-controls="navbarSupportedContent" aria-expanded="false"
+                                       aria-label="Toggle navigation"><i class="lni lni-map-marker"></i>{{isset($mylocation)?$mylocation->title:"Беларусь"}}</a>
+                                    <ul class="sub-menu mega-menu collapse" id="submenu-location">
+                                        <div class=" default-form-style">
+                                        <div class="form-group">
+                                            <label>Category*</label>
+                                            <div class="selector-head">
+                                                <span class="arrow"><i class="lni lni-chevron-down"></i></span>
+                                                <select class="user-chosen-select">
+                                                    <option value="none">Выбрать регион</option>
+                                                    @foreach ($all_location as $location)
+                                                        @if (!$location->parent_id)
+                                                    <option value="none">{{$location->title}}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            </div>
+                        </div>
+                                        <div class=" default-form-style">
+                                            <div class="form-group">
+                                                <label>Category*</label>
+                                            <div class="selector-head">
+                                                <span class="arrow"><i class="lni lni-chevron-down"></i></span>
+                                                <select class="user-chosen-select">
+                                                    <option value="none">Select a Category</option>
+                                                    @foreach ($all_location as $location)
+                                                        @if ($location->parent_id)
+                                                            <option value="none" class="region{{$location->parent_id}}" style="display: none">{{$location->title}}</option>
+                                                        @endif
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        </div>
+
+
+                                            {{--   @php
+                                                if ($_COOKIE['mylocation'])
+                                                    $regions = App\Models\Location::where('parent_id',$_COOKIE['mylocation'])->orderBy('sort')->get();
+                                                else
+                                                    $regions = App\Models\Location::whereNull('parent_id')->orderBy('sort')->get();
+                                                $count_column = ceil(count($regions)/2)-1;
+                                               @endphp
+                                                @foreach ($regions as $key=>$location)
+                                                    @if ($key==0)
+                                                        <li class="single-block"><ul>
+                                                                @endif
+                                                <li class="nav-item"><a onclick="setLocation({{$location->id}})">{{$location->title}}</a></li>
+                                                                @if ($key==$count_column)
+                                                            </ul></li><li class="single-block"><ul>
+                                                        @endif
+                                                        @endforeach--}}
+                                            </ul>
+
+                                    </ul>
                                 </li>
                                 @mobile
                                 @if(Auth::user())

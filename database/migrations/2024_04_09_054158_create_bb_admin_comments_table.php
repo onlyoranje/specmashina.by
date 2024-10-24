@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('bb_admin_comments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('bb_id');
+            $table->unsignedBigInteger('bb_id')->nullable();
             $table->foreign('bb_id')->references('id')->on('bbs')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('comment')->nullable();

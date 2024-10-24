@@ -77,7 +77,7 @@ class RegisterController extends Controller
         ]);
         User_credit::create(['user_id'=>$user->id,'credits'=>10]);
         Credits_log::create(['user_id'=>$user->id,'credits'=>10,'description'=>'Зачисление кредитов при регистрации']);
-        BbAdminComments::create(['type'=>'new_message','user_id'=>$user->id,'data'=>'Вам зачислено 10 кредитов за регистрацию']);
+        BbAdminComments::create(['type'=>'new_message','user_id'=>$user->id,'title'=>'Пополнение счета','data'=>'Вам зачислено 10 кредитов за регистрацию']);
         return $user;
     }
 }
