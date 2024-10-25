@@ -503,9 +503,15 @@ $(document).ready(function () {
 
 })
 
-window.setLocation = function (id) {
-    console.log(id)
-    $.cookie('mylocation', id, { expires: 9999 });
+window.setLocation = function (loc) {
+
+    var name =  $('#location_selector option:selected').text()
+
+    $.cookie('mylocation', loc.value, { expires: 9999, path: '/'  });
+    if (loc.value=='all')  $.removeCookie('mylocation');
+    $('#my_location').text(name)
+    console.log(loc.value)
+    console.log(name)
 }
 
 

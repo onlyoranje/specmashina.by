@@ -50,7 +50,11 @@
                                 <div class="category-grid-topbar">
                                     <div class="row align-items-center">
                                         <div class="col-lg-6 col-md-6 col-12">
+                                            @if (!$alert_message)
                                             <h3 class="title">Показано {{$bbs->firstItem()}}-{{$bbs->lastItem()}} из {{$bbs->total()}} объявлений</h3>
+                                            @else
+                                            <h3  class="title"> {{$alert_message}}</h3>
+                                                @endif
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-12">
                                             <nav>
@@ -70,6 +74,7 @@
                                 </div>
                                 <div class="tab-content" id="nav-tabContent">
                                     <div class="tab-pane fade @php echo $tab_list=='nav-grid' ? 'show active' : '' @endphp" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
+
                                         <div class="row">
 
                                             @foreach ($bbs1 as $bb_widget)
@@ -77,6 +82,7 @@
                                             @endforeach
 
                                         </div>
+                                        @if (!$alert_message)
                                         <div class="row">
                                             <div class="col-12">
                                                 <!-- Pagination -->
@@ -84,6 +90,7 @@
                                                 <!--/ End Pagination -->
                                             </div>
                                         </div>
+                                            @endif
                                     </div>
                                     <div class="tab-pane fade @php echo $tab_list!='nav-grid' ? 'show active' : ''; @endphp " id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
                                         <div class="row">
@@ -92,13 +99,15 @@
                                             @endforeach
 
                                         </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <!-- Pagination -->
-                                            {{ $bbs2->onEachSide(1)->links() }}
+                                        @if (!$alert_message)
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <!-- Pagination -->
+                                                {{ $bbs2->onEachSide(1)->links() }}
                                                 <!--/ End Pagination -->
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

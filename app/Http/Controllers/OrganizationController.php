@@ -22,6 +22,7 @@ class OrganizationController extends Controller
 
     public function list(Request $request)
 {
+
     $organizations = Organization::where('active','Y')->
     where(function($query)
     {

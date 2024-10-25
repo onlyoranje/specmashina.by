@@ -1,4 +1,6 @@
 <?php
+
+use App\Models\Location;
 use Illuminate\Http\Client\Request;
 function timesince($datetime)
 {
@@ -77,4 +79,12 @@ function get_dir_files( $dir, $recursive = true, $include_folders = false ){
     }
 
     return $files;
+}
+function Distance(Location $location1,Location $location2){
+    $theta = $location1->lng - $location2->lng;
+    $distance = (sin(deg2rad($location1->lat)) * sin(deg2rad($location2->lat))) + (cos(deg2rad($location1->lat)) * cos(deg2rad($location2->lat)) * cos(deg2rad($theta)));
+    $distance = acos($distance);
+    $distance = rad2deg($distance);
+    $distance = $distance * 60 * 1.1515 * 1.609344;
+    return ceil($distance);
 }

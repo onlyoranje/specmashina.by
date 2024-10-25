@@ -391,3 +391,25 @@ border-radius: 3px;
     position: relative;
 }
 
+.navbar-nav .nav-item {
+    z-index: 1;
+    position: relative;
+    margin-right: 20px;
+}
+.content .location .sale {
+    background: #fad903;
+}
+.content .location .flat-badge {
+    color: #262626;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0.3px;
+
+}
+.content .location .flat-badge {
+
+    top: 15px;
+    right: 15px;
+}

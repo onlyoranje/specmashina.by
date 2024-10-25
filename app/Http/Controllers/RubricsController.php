@@ -30,13 +30,14 @@ class RubricsController extends Controller
     }
     public function rubric(Request $request,$id){
 
+
+        $alert_message = false;
+
         if (isset($_SERVER['HTTP_REFERER']) and !str_contains(strstr($_SERVER['HTTP_REFERER'], '?', true),$_SERVER['REDIRECT_URL'])) {
             //unset($query);
 redirect()->route('rubric',$id);
         }
-
-
-
+        $location = false;
         $rubric     = Rubric::find($id);
         $rubrics    = Rubric::descendantsAndSelf($id)->pluck('id');
         if ($request->location) $location = Location::find($request->location);
@@ -47,8 +48,13 @@ redirect()->route('rubric',$id);
         whereIn('rubric_id',$rubrics)->
         where(function($query)
         {
+
             global $request;
-            if ($request->location) $query->where('location_id', $request->location );
+            if ($request->location)
+            {
+                $query->where('location_id', $request->location );
+
+            }
 
                 })->
         orderBy('status_bbs.sort_on_board','asc')->
@@ -59,10 +65,30 @@ redirect()->route('rubric',$id);
 
         $breadcrumbs['route']= 'rubric';
         $breadcrumbs['list']= Rubric::ancestorsAndSelf($id);
+        if (count($bbs)<1) {
+            $alert_message=' Нет объявлений';
+            $bbs_near=Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->whereIn('rubric_id', $rubrics)->get();
+            $lat = $location->lat;
+            $lng = $location->lng;
+            $bbs = $bbs_near->sortBy(function($value, $key) use ($lat,$lng){
+                $theta = $lng - $value->location->lng;
+                $distance = (sin(deg2rad($lat)) * sin(deg2rad($value->location->lat))) + (cos(deg2rad($lat)) * cos(deg2rad($value->location->lat)) * cos(deg2rad($theta)));
+                $distance = acos($distance);
+                $distance = rad2deg($distance);
+                $distance = $distance * 60 * 1.1515 * 1.609344;
+                return $distance;
+
+            });
+            $bbs = $bbs->slice(0,12);
+        }
         //$parent_rubric = $breadcrumbs[0];
         $title = $rubric->title();
-        if ($request->location) $title.=' в '.$location->title_r;
-        return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request]);
+        if ($request->location) {
+            $title.=' в '.$location->title_r;
+
+        }
+
+        return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request,'alert_message'=>$alert_message,'location'=>$location]);
 
     }
     public function location(Request $request,$id){
