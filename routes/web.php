@@ -44,6 +44,7 @@ Route::get('organization/{id}/site', [App\Http\Controllers\OrganizationControlle
 
 
 Route::get('/dashboard/mybb',[App\Http\Controllers\ProfileController::class, 'mybb'])->name('mybb');
+Route::get('/dashboard/allbb',[App\Http\Controllers\ProfileController::class, 'allbb'])->name('allbb')->middleware('isadmin');;
 Route::get('/dashboard/mybb/add', [App\Http\Controllers\ProfileController::class, 'addForm'])->name('addForm');
 Route::post('/dashboard/mybb', [App\Http\Controllers\ProfileController::class, 'addBb'])->name('addBbToDB');
 Route::get('/dashboard/mybb/{bb}/edit',[App\Http\Controllers\ProfileController::class, 'editBb'])->name('bb_edit')->middleware('can:update,bb');

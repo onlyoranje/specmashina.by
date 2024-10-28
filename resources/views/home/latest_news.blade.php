@@ -24,7 +24,7 @@
                             @if (isset($post->image))
                                 <img class="thumb" src="{{Storage::url($post->resizeImage($post->image,640,480))}}" alt="{{ $post->title }}">
                             @else
-                                <img src="//placehold.it/640x480&text={{ $post->title }}" alt="{{ $post->title }}">
+                                {!! FakeImage(400,200,8,0,$post->title ) !!}
 
                             @endif
                         </a>

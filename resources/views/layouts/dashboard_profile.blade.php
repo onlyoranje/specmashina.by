@@ -35,6 +35,7 @@ $user = Auth::user();
 
                 @if(Auth::user()->isAdmin())
                     <li><a class="{{ Request::routeIs('admin_dashboard') ? 'active' : null }}"  href="{{route('admin_dashboard')}}"><i class="fa-solid fa-gauge"></i> Админ-дашборд</a></li>
+                    <li><a class="{{ Request::routeIs(['allbb']) ? 'active' : null }}" href="{{route('allbb')}}"><i class="fa-solid fa-clone"></i> Все объявления</a></li>
                     <li><a class="{{ Request::routeIs('location_dashboard') ? 'active' : null }}"  href="{{route('location_dashboard')}}"><i class="fa-solid fa-mountain-city"></i> Список городов</a></li>
                     <li><a class="{{ Request::routeIs('rubric_dashboard') ? 'active' : null }}"  href="{{route('rubric_dashboard')}}"><i class="fa-solid fa-folder-tree"></i> Список категорий</a></li>
                     <li><a class="{{ Request::routeIs('parameter_dashboard') ? 'active' : null }}"  href="{{route('parameter_dashboard')}}"><i class="fa-solid fa-list"></i> Параметры</a></li>

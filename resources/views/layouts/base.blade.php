@@ -99,8 +99,8 @@
                             <li><a href="{{route('rubric',1)}}">Аренда техники</a></li>
                             <li><a href="{{route('rubric',118)}}">Продажа техники</a></li>
                             <li><a href="{{route('organizations')}}">Организации</a></li>
-                            <li><a href="javascript:void(0)">Signup</a></li>
-                            <li><a href="javascript:void(0)">Help &amp; Support</a></li>
+                            <li><a href="{{route('posts')}}">Новости</a></li>
+                            <li><a href="{{route('dashboard')}}">Регистрация</a></li>
                         </ul>
                     </div>
                     <!-- End Single Widget -->
@@ -110,8 +110,9 @@
                     <div class="single-footer f-contact">
                         <h3>Контакты</h3>
                         <ul>
-                            <li>ул. Пустельникова, 48<br> Орша, Витебская область</li>
-                            <li>Tel. +375 (29) 116-66-00 <br> Mail. support@specmashina.by</li>
+                            <li>ООО "Терва"<br>УНП 391747684</li>
+                            <li>ул. Московская, 1/3 корп.А<br> Орша, Витебская область</li>
+                            <li>Tel. +375 (29) 116-66-00 <br> Mail. support@landi.by</li>
                         </ul>
                     </div>
                     <!-- End Single Widget -->
@@ -127,7 +128,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="content">
-                            <ul class="footer-bottom-links">
+                           {{-- <ul class="footer-bottom-links">
                                 <li><a href="javascript:void(0)">Условия использования</a></li>
                                 <li><a href="javascript:void(0)">Политика безопасности</a></li>
                                 <li><a href="javascript:void(0)">Публичная оферта</a></li>
@@ -142,7 +143,7 @@
                                 <li><a href="javascript:void(0)"><i class="lni lni-youtube"></i></a></li>
                                 <li><a href="javascript:void(0)"><i class="lni lni-linkedin-original"></i></a></li>
 
-                            </ul>
+                            </ul>--}}
                         </div>
                     </div>
                 </div>
