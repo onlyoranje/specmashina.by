@@ -194,7 +194,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,
+        Kudashevs\ShareButtons\Providers\ShareButtonsServiceProvider::class
     ],
 
     /*
@@ -210,6 +211,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Pusher' => Pusher\Pusher::class,
     ])->toArray(),
 
 ];

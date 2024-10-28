@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string("name");
             $table->string("type");
             $table->string("measure")->nullable();
+            $table->json('options')->nullable();
+            $table->integer('min')->nullable();
+            $table->integer('max')->nullable();
+            
             $table->unsignedBigInteger("sort");
             $table->timestamps();
         });

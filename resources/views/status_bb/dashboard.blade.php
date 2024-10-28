@@ -2,36 +2,71 @@
 @section('title', 'Главная')
 
 @section('main')
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="card">
 
 
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
 
-                            <a href="{{route('status_dashboard_add')}}">Добавить статус</a>
-                            <br>
-                                    @if (count($statuses)>0)
-                            @foreach($statuses as $status)
-                                        <a href='{{route('status_dashboard_edit' ,  ['id'=>$status->id])}}'>{{$status->name}}</a>
-                                        <a href='{{route('status_dashboard_edit' ,  ['id'=>$status->id])}}'>Редактировать </a>
-                                        <a href='{{route('status_dashboard_delete', ['id'=>$status->id])}}'>Удалить</a><br>
-                            @endforeach
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
+                @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Start Activity Log -->
+                                <ul class="activity-log dashboard-block mt-0">
+                                    <h3 class="block-title">Статусы</h3>
 
 
-                                    @endif
+
+
+                                    <ul>
+                                        <li>
+                                            <div class="form-group button mb-0 mt-0"><a href="{{route('status_dashboard_add')}}" class="btn ">Добавить статус</a></div>
+                                        </li>
+                                        @if (count($statuses)>0)
+
+
+                                            @foreach ($statuses as $status)
+
+
+
+                                                <li>
+                                                    <div class="log-icon">
+                                                        <i class="fa-solid fa-tag" style="color:#{{$status->color_badge}}"></i>
+                                                    </div>
+                                                    <a href="" class="title">{{$status->name}} </a>
+                                                    <span class="time"><a href='{{route('status_dashboard_edit', ['status' => $status])}}'>Редактировать </a></span>
+                                                    <span class="time"><a href='{{route('status_dashboard_delete', ['status' => $status])}}'>Удалить </a></span>
+
+
+                                                </li>
+
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                            </div>
+
+                            <!-- End Activity Log -->
                         </div>
+
                     </div>
+
+
+
                 </div>
             </div>
         </div>
-    </div>
+        </div>
+    </section>
+
+
+
+
 @endsection
 

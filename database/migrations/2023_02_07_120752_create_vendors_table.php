@@ -137,7 +137,7 @@ return new class extends Migration
         Vendor::create(['name' => 'Амкодор']);
         Vendor::create(['name' => 'БелАЗ']);
         Vendor::create(['name' => 'Беларусь']);
-        Vendor::create(['name' => '']);
+
         Vendor::create(['name' => 'ГАЗ']);
         Vendor::create(['name' => 'ДЗ']);
         Vendor::create(['name' => 'ДУ']);

@@ -3,6 +3,10 @@ AddType font/eot .eot
 AddType font/otf .otf
 AddType font/woff .woff
 AddType font/woff2 .woff2
+
+Options +FollowSymLinks
+
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -23,4 +27,6 @@ AddType font/woff2 .woff2
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+
 </IfModule>

@@ -2,8 +2,6 @@
 @section('title', 'Главная')
 @section('main')
 
-
-
     <section class="dashboard section">
         <div class="container">
             <div class="row">
@@ -68,7 +66,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12">
+                                                        <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label>Производитель</label>
                                                                     <div class="selector-head">
@@ -78,22 +76,17 @@
         use App\Models\Rubric;
         $vendors = App\Models\Vendor::get();
     @endphp
-                                                                    <select class="user-chosen-select" name="vendor_id" required>
+                                                                    <select class="user-chosen-select" name="vendor_id" data-name="vendor_id" required>
                                                                         <option selected disabled>- выбрать -</option>
 
                                                                         @foreach($vendors as $vendor)
-                                                                            <option value="{{$vendor->id}}"
-                                                                            @if (old('vendor_id')==$vendor->id)
-                                                                            selected
-                                                                                    @endif
-
-                                                                            >{{$vendor->name}}</option>
+                                                                            <option value="{{$vendor->id}}" @if (old('vendor_id')==$vendor->id) selected @endif >{{$vendor->name}}</option>
                                                                         @endforeach
                                                                     </select>
                                                             </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-12">
+                                                        <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label>Модель</label>
                                                                 <input value="{{old('title')}}" name="title" type="text" data-name="title">
@@ -104,29 +97,30 @@
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                                 <label>Цена</label>
-                                                                <input name="price" type="number" value="{{old('price')}}"   id="price">
+                                                                <input name="price" type="number" value="{{old('price')}}"   id="price" data-name="price" min="1">
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
-                                                            <label class="form-label">Цена</label>
-                                                            @if (count($price_types)>0)
+                                                            <div class="form-group">
+                                                            <label class="form-label">Вид цены</label>
+
+                                                            <div class="selector-head">
+                                                                <span class="arrow"><i class="lni lni-chevron-down"></i></span>
+                                                            <select class="user-chosen-select" name="price_type"  required data-name="price_type">
+                                                                <option selected disabled>- выбрать -</option>
+                                                                @if (count($price_types)>0)
                                                                 @foreach($price_types as $price_type)
-                                                                    <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
-                                                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required
-                                                                        @if (count($price_types)==1)
-                                                                        checked
-                                                                        @endif
-                                                                        >
-                                                                        <label class="form-check-label" >
-                                                                            {{$price_type->type}}
-                                                                        </label>
-                                                                    </div>
+
+                                                                    <option value="{{$price_type->id}}" id="pricetype_{{$price_type->id}}" class="input-pricetype" @if (old('price_type')==$price_type->id) selected @endif >{{$price_type->type}}</option>
                                                                 @endforeach
-                                                            @endif
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                        </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
-                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details',['rubric','title'])">Далее</button>
+                                                                <button type="button" class="btn " onclick="selectTab('nav-item-details',['rubric','title','vendor_id','price','price_type'])">Далее</button>
 
                                                             </div>
                                                         </div>
@@ -142,24 +136,56 @@
                                                     <div class="row">
                                                         @if (count($parameters)>0)
                                                             @foreach($parameters as $parameter)
-                                                                @if ($parameter->type == 'year')
+                                                                @if ($parameter->type == 'option')
                                                                     <div class="col-6">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                             </label>
                                                                             <select class="form-select" name="parameter[{{$parameter->id}}]" >
                                                                                 <option disabled selected>- выбрать -</option>
-                                                                                @for($year=date('Y');$year>=1950;$year--)
-                                                                                    <option value="{{$year}}">{{$year}}</option>
-                                                                                @endfor
+                                                                                @php
+                                                                                $options = json_decode($parameter->options);
+                                                                                @endphp
+                                                                                @foreach($options as $option)
+                                                                                    <option value="{{$option}}">{{$option}}</option>
+                                                                                @endforeach
                                                                             </select>
 
+                                                                        </div>
+                                                                    </div>
+                                                                @elseif ($parameter->type == 'checkbox')
+                                                                    <div class="col-6">
+
+                                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                            <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            </label>
+                                                                        <div class="form-check">
+                                                                            <input type="checkbox" class="form-check-input width-auto" name="parameter[{{$parameter->id}}]" value="Y">
+                                                                            <label class="form-check-label">Да</label>
+                                                                        </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                @elseif ($parameter->type == 'number')
+                                                                    <div class="col-6">
+                                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                            <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            </label>
+                                                                            <input type="{{$parameter->type}}" step="0.01" name="parameter[{{$parameter->id}}]" class="form-control" @if ($parameter->max) max="{{$parameter->max}}" @endif @if ($parameter->min)min="{{$parameter->min}}" @endif>
+                                                                        </div>
+                                                                    </div>
+                                                                @elseif ($parameter->type == 'year')
+                                                                    <div class="col-6">
+                                                                        <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
+                                                                            <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            </label>
+                                                                            <input type="number"  name="parameter[{{$parameter->id}}]" class="form-control" max="{!! date('Y') !!}" @if ($parameter->min)min="{{$parameter->min}}" @endif>
                                                                         </div>
                                                                     </div>
                                                                 @else
                                                                     <div class="col-6">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label for="exampleFormControlInput1" class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
                                                                             </label>
                                                                             <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
                                                                         </div>
@@ -172,75 +198,18 @@
     <input type="file" name="file">
 </div>
 
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="upload-input">
 
-
-                                                                <label for="upload" class="text-center content">
-                                                                    <span class="text">
-                                                                        <span class="d-block mb-15">Drop files anywhere
-                                                                            to Upload</span>
-                                                                        <span class=" mb-15 plus-icon"><i class="lni lni-plus"></i></span>
-                                                                        <span class="main-btn d-block btn-hover">Select
-                                                                            File</span>
-                                                                        <span class="d-block">Maximum upload file size
-                                                                            10Mb</span>
-                                                                    </span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        {{--<div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label class="video-label">Video Link* <span>Input only
-                                                                        YouTube &amp; Vimeo</span></label>
-                                                                <input name="video" type="text" placeholder="Input link">
-                                                                <a href="javascript:void(0)" class="add-video"><i class="lni lni-plus"></i> Add Video</a>
-                                                            </div>
-                                                        </div>--}}
                                                         <div class="col-12">
                                                             <div class="form-group mt-30">
-                                                                <label>Ad Description*</label>
-                                                                <textarea name="description" placeholder="Input ad description">{{old('description')}}</textarea>
+                                                                <label>Описание</label>
+                                                                <textarea name="description" placeholder="">{{old('description')}}</textarea>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Type of Ad*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select an option</option>
-                                                                        <option value="none">Option 1</option>
-                                                                        <option value="none">Option 2</option>
-                                                                        <option value="none">Option 3</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Item Condition*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select an option</option>
-                                                                        <option value="none">Used</option>
-                                                                        <option value="none">Brand New</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label class="tag-label">Tags* <span>Comma(,)
-                                                                        separated</span></label>
-                                                                <input name="tag" type="text" placeholder="Type Product tag">
-                                                            </div>
-                                                        </div>
+
                                                         <div class="col-12">
                                                             <div class="form-group button mb-0">
-                                                                <button type="button" class="btn alt-btn"  onclick="selectTab('nav-item-info')">Previous</button>
-                                                                <button type="button" class="btn "  onclick="selectTab('nav-user-info')">Next Step</button>
+                                                                <button type="button" class="btn alt-btn"  onclick="selectTab('nav-item-info')">Назад</button>
+                                                                <button type="button" class="btn "  onclick="selectTab('nav-user-info')">Далее</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -253,111 +222,48 @@
                                             <div class="step-three-content">
                                                 <div class="default-form-style" >
                                                     <div class="row">
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Name*</label>
-                                                                <input name="name" type="text" placeholder="Enter your name">
+
+
+                                                        @foreach($contact_types as $contact_type)
+                                                            @if ($contact_type->mask)
+                                                                <script>
+                                                                    window.addEventListener("load", function(){
+                                                                        $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
+                                                                    });
+                                                                </script>
+
+                                                            @endif
+                                                            <div class="col-6">
+                                                                <div class="form-group">
+                                                                <label class="form-label">{{$contact_type->name}}</label>
+                                                                <input type="text" value="" name="contact[{{$contact_type->id}}]"
+                                                                        id="contact_{{$contact_type->id}}"
+                                                                       @if ($contact_type->required == 'Y')
+                                                                       required
+                                                                    @endif
+                                                                >
+
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Mobile Numbe*</label>
-                                                                <input name="number" type="text" placeholder="Enter mobile number">
                                                             </div>
-                                                        </div>
+                                                        @endforeach
                                                         <div class="col-12">
                                                             <div class="form-group">
-                                                                <label>Country*</label>
+                                                                <label>Город</label>
                                                                 <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select a Country</option>
-                                                                        <option value="none">Afghanistan</option>
-                                                                        <option value="none">America</option>
-                                                                        <option value="none">Albania</option>
-                                                                        <option value="none">Bangladesh</option>
-                                                                        <option value="none">Brazil</option>
-                                                                        <option value="none">India</option>
-                                                                        <option value="none">South Africa</option>
-                                                                    </select>
+
+                                                                    <div id="container_location_0" class="container_location"></div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Select City*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select City</option>
-                                                                        <option value="none">New York</option>
-                                                                        <option value="none">Los Angeles</option>
-                                                                        <option value="none">Chicago</option>
-                                                                        <option value="none">San Diego</option>
-                                                                        <option value="none">San Jose</option>
-                                                                    </select>
+
+
+                                                            <div class="col-12">
+                                                                <div class="form-group button mb-0">
+                                                                    <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Назад</button>
+                                                                    <button type="submit" class="btn ">Добавить</button>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>Select State*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">Select State</option>
-                                                                        <option value="none">New York</option>
-                                                                        <option value="none">Texas</option>
-                                                                        <option value="none">Arizona</option>
-                                                                        <option value="none">Florida</option>
-                                                                        <option value="none">Washington</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>Address*</label>
-                                                                <input name="address" type="text" placeholder="Enter a location">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="google-map">
-                                                                <div class="mapouter">
-                                                                    <div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org"></a><br>
-                                                                        <style>
-                                                                            .mapouter {
-                                                                                position: relative;
-                                                                                text-align: right;
-                                                                                height: 300px;
-                                                                                width: 100%;
-                                                                            }
-                                                                        </style><a href="https://www.embedgooglemap.net">embed
-                                                                            google maps wordpress</a>
-                                                                        <style>
-                                                                            .gmap_canvas {
-                                                                                overflow: hidden;
-                                                                                background: none !important;
-                                                                                height: 300px;
-                                                                                width: 100%;
-                                                                            }
-                                                                        </style>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                                <label class="form-check-label" for="flexCheckDefault">
-                                                                    I agree to all Terms of Use &amp; Posting Rules
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-group button mb-0">
-                                                                <button type="button" class="btn alt-btn" onclick="selectTab('nav-item-details')">Previous</button>
-                                                                <button type="submit" class="btn ">Submit Ad</button>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -380,121 +286,7 @@
 
 
 
-    <section class="section section-md pb-0">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-8 text-center">
 
-                    <form class="form-ad" action="{{route('addBbToDB')}}" method="post"
-                          enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-3">
-                            <label class="my-1 me-2" for="inlineFormCustomSelectPref">Рубрика</label>
-
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Производитель</label>
-
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label">Модель</label>
-                            <input type="text" value="{{old('title')}}" name="title"
-                                   required class="form-control" placeholder="Name">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Город:</label>
-                            <div class="col-lg-12 col-md-6" id="container_location_0"></div>
-                        </div>
-                        @error('rubric_id')
-                        <span class="invalid-feedback">
-<strong>{{ $message }}</strong>
-</span>
-                        @enderror
-
-
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Цена</label>
-                            <input type="number" value="{{old('price')}}" name="price"
-                                   class="form-control" id="price">
-                        </div>
-
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Цена</label>
-                            @if (count($price_types)>0)
-                                @foreach($price_types as $price_type)
-                                    <div class="input-pricetype" id="pricetype_{{$price_type->id}}">
-                                        <input class="form-check-input" type="radio" data-hasvalue="{{$price_type->has_value}}" name="price_type" id="input_pricetype_{{$price_type->id}}" value="{{$price_type->id}}" required  >
-                                        <label class="form-check-label" >
-                                            {{$price_type->type}}
-                                        </label>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        @error('price')
-                        <span class="invalid-feedback">
-<strong>{{ $message }}</strong>
-</span>
-                        @enderror
-
-
-                        <input type="file" name="file">
-
-
-                        <div class="form-group">
-                            <label class="control-label">Description</label>
-                            <textarea class="form-control" name="description"
-                                      rows="7">{{old('description')}}</textarea>
-                        </div>
-                        @error('description')
-                        <span class="invalid-feedback">
-<strong>{{ $message }}</strong>
-</span>
-                        @enderror
-
-                        @foreach($contact_types as $contact_type)
-                            @if ($contact_type->mask)
-                                <script>
-                                   window.addEventListener("load", function(){
-                                        $("#contact_{{$contact_type->id}}").mask("{{$contact_type->mask}}")
-                                    });
-                                </script>
-
-                            @endif
-                            <div class="mb-3 col-6">
-                                <label class="form-label">{{$contact_type->name}}</label>
-                                <input type="text" value="{{old('contact',$contact_type[$contact_type->id])}}" name="contact[{{$contact_type->id}}]"
-                                       class="form-control" id="contact_{{$contact_type->id}}"
-                                       @if ($contact_type->required == 'Y')
-                                       required
-                                    @endif
->
-
-                            </div>
-                        @endforeach
-
-
-                        @if ($user->organization)
-                            <div class="mb-3 col-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="Y" name="organization" id="flexCheckChecked" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                        Подать объявление от {{$user->organization->title}}
-                                    </label>
-                                </div>
-                            </div>
-                        @endif
-                        <div class="button">
-                            <button type="submit" class="btn">Save</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </section>
 
     <script>
 
@@ -505,11 +297,25 @@
             window.json_parameter_rubric = @json($parameter_rubric);
             window.json_pricetype_rubric = @json($price_type_rubric);
 
+            $("input[name*='parameter']").change(function () {
+                if (typeof ($(this).attr("min"))!= "undefined")
+                {
+                    var min = $(this).attr("min");
+                    if ($(this).val()<=min) $(this).val(min)
+                    console.log(min+' '+$(this).val)
+                }
 
+                if (typeof ($(this).attr("max"))!= "undefined")
+                {
+                    var max = $(this).attr("max");
+                    if ($(this).val()>=max) $(this).val(max)
+                    console.log(max+' '+$(this).val)
+                }
+            });
             NewSelect('rubric');
 
             NewSelect('location');
-            $('.input-images').imageUploader();
+            //$('.input-images').imageUploader();
 
 
         })

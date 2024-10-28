@@ -2,53 +2,97 @@
 @section('title', 'Главная')
 
 @section('main')
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <section class="add-resume section">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-10 offset-lg-1 col-12">
-                                    <div class="add-resume-inner box">
-                                        <form action="{{route('editVendorToDB',['vendor'=>$vendor->id])}}" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PATCH')
-                                            <label  class="form-label">Бренд</label>
-                                            <input type="text" name="name" class="form-control" value="{{ old('name',$vendor->name)}}">
 
-                                            <?php
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
+                @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
 
-                                            if ($vendor->logo){
-                                                $old_image ='{"name":"'.$vendor->name.'","id":'.$vendor->id.',"file":"'.$vendor->id.'","local":"'.Storage::url($vendor->logo).'","data":{"url":"'.Storage::url($vendor->logo).'","thumbnail":"'.Storage::url($vendor->logo) .'","readerForce":true}}';
-                                            }
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Start Activity Log -->
+                                <div class="profile-settings-block dashboard-block mt-0">
+                                    <h3 class="block-title">Изменение статуса {{$status->name}}</h3>
+                                    <form class="default-form-style" action="{{route('editStatusToDB', ['status' => $status->id])}}" method="post">
+                                        @csrf
+                                        @method('PATCH')
+                                        <div class="inner-block">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-12">
+                                                    <div class="form-group">
+                                                        <label>Название</label>
+                                                        <input type="text" value="{{old('name',$status->name)}}"  name="name"  required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Активность</label>
 
-                                            ?>
-                                            <input type="file" name="file" data-fileuploader-limit="1"
-                                                   <?php if ($vendor->logo) {?> data-fileuploader-files='[<?= $old_image ?>]'<?php }?>>
-                                            <div class="col-lg-6 col-md-5 col-12">
-                                                <div class="button">
-                                                    <button type="submit" class="btn">Save</button>
+                                                        <select class="form-select" name="active"  required>
+                                                            <option value="Y" {{$status->active=='Y'?'selected':''}}>Да</option>
+                                                            <option value="N" {{$status->active=='N'?'selected':''}}>Нет</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Стоимость</label>
+                                                        <input type="number" value="{{old('price',$status->price)}}" name="price" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Период, дней</label>
+                                                        <input type="number" value="{{old('period',$status->premium_status_days)}}" name="period" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Сортировка</label>
+                                                        <input type="number" value="{{old('sort',$status->sort)}}" name="sort"   required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-12">
+                                                    <div class="form-group">
+                                                        <label>Цвет</label>
+                                                        <input type="color" value="{{old('color_badge',$status->color_badge)}}" name="color_badge"   required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group mt-30">
+                                                        <label>Описание</label>
+                                                        <textarea name="description" placeholder="">{{old('description',$status->description)}}</textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="form-group button mb-0 mt-5">
+                                                        <button type="submit" class="btn ">Обновить</button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
+                                        </div>
 
+                                    </form>
+                                </div>
+                                <!-- End Activity Log -->
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <script>
-
-        $(document).ready(function() {
-
-            $('.input-images').imageUploader();
+    </section>
 
 
-        })
-    </script>
 @endsection

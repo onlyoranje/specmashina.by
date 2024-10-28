@@ -4,13 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Organization extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $fillable = ['title', 'address', 'unp','site','email', 'logo','user_id','phone'];
+    protected $fillable = ['title', 'location_id','address', 'unp','site','email', 'logo','user_id','phone','content'];
     public function user() {
         return $this->belongsTo(User::class);
     }
+    public function location() {
+        return $this->belongsTo(Location::class);
+    }
+    public function count_bbs(){
+        $count_bbs = Bb::where('organization_id',$this->id)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->count();
+        return $count_bbs;
+    }
+
 }

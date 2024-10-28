@@ -4,10 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Scout\Searchable;
 use App\Models\User;
+use Maize\Markable\Markable;
+use Maize\Markable\Models\Bookmark;
+use Maize\Markable\Models\Like;
+use Symfony\Component\HttpFoundation\Request;
+
 class Bb extends Model
 {
-    protected $fillable = ['title', 'content', 'rubric_id','location_id', 'vendor_id','organization_id'];
+    use Searchable;
+    use Markable;
+
+    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','previous_status_bb_id','active','lifted_at'];
+    protected static $marks = [
+        Bookmark::class,
+    ];
     public function user() {
         return $this->belongsTo(User::class);
     }
@@ -17,11 +30,14 @@ class Bb extends Model
     public function vendor() {
         return $this->belongsTo(Vendor::class);
     }
+    public function organization() {
+        return $this->belongsTo(Organization::class);
+    }
     public function location() {
         return $this->belongsTo(Location::class);
     }
     public function userfile() {
-        return $this->hasMany(UserFile::class);
+        return $this->hasMany(UserFile::class)->orderBy('sort', 'asc');
     }
     public function bbprice(){
         return $this->hasOne(BbPrice::class);
@@ -32,5 +48,112 @@ class Bb extends Model
     public function bbcontact(){
         return $this->hasMany(BbContact::class);
     }
+    public function bbstatistic(){
+        return $this->hasMany(BbStatistic::class);
+    }
+    public function searchableAs(): string
+    {
+        return 'bbs_index';
+    }
+    public function status_bb() {
+        return $this->belongsTo(Status_bb::class);
+    }
 
+    public function count_views($option=false){
+       $views = BbStatistic::where('bb_id',$this->id)->sum('views');
+       if ($option=='text'){
+           switch($views) {
+               case 1: $views.= " просмотр"; break;
+               case (($views%10)>=2 and ($views%10)<=4): $views.= " просмотра";break;
+               case ($views>=12 and $views<=2): $views.= " просмотров";break;
+               default: $views.= " просмотров";
+
+           }
+
+       }
+       return $views;
+    }
+
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+
+        // Customize the data array...
+
+        return $array;
+    }
+    public function admin_comment(){
+        return $this->hasMany(BbAdminComments::class);
+    }
+public function title(){
+    $title =$this->parent_rubric()->title." ".$this->rubric->title_r." ".$this->vendor->name." ".$this->title;
+    return $title;
+}
+public function parent_rubric(){
+    $parent_rubrics = Rubric::whereAncestorOrSelf($this->rubric_id)->orderBy('level')->get();
+    $parent_rubric = $parent_rubrics[0];
+
+    return $parent_rubric;
+}
+    public function subparent_rubric(){
+        $parent_rubrics = Rubric::whereAncestorOrSelf($this->rubric_id)->orderBy('level')->get();
+        $subparent_rubric = $parent_rubrics[1];
+        return $subparent_rubric;
+    }
+    public function images(){
+        $images = UserFile::where('bb_id',$this->id)->orderBy('sort')->get();
+        return $images;
+    }
+    public function like($class=false){
+        if (Auth::user()){
+            if (Bookmark::has($this, Auth::user())) {
+                echo  "<li class='like' data-bb-id='".$this->id."' data-bookmark='true'><a class='$class'><i class='fa-solid fa-bookmark'></i></a></li>";
+            }else {
+                echo "<li class='like' data-bb-id='".$this->id."' data-bookmark='false'><a class='$class'><i class='fa-regular fa-bookmark'></i></a></li>";
+
+            }
+        } else {
+            echo "<li class='like' data-bb-id='".$this->id."' data-bookmark='false'  data-bs-toggle='tooltip' data-bs-placement='bottom' title='Tooltip on bottom'><a class='$class'><i class='fa-regular fa-bookmark'></i></a></li>";
+        }
+
+    }
+    public function edit_status($status_bb){
+        $status = Status_bb::where('status',$status_bb)->first();
+
+        $this->fill(['status_bb_id'=>$status->id]);
+        $this->save();
+    }
+    public function active($active){
+        $this->fill(['active'=>$active]);
+        $this->save();
+    }
+    public function time_update(){
+        $create = $this->created_at;
+        $update = $this->updated_at;
+        if ($create<$update){
+            return 'Обновлено: '.timesince($update);
+        }
+        else
+        {
+            return 'Добавлено: '.timesince($create);
+        }
+    }
+    public function search_index(){
+        $text[] = $this->title;
+        $text[] = $this->vendor->name;
+        $rubrics = Rubric::whereAncestorOrSelf($this->rubric_id)->get();
+        foreach ($rubrics as $rubric)
+        {
+            $text[] = $rubric->title;
+        }
+        $locations = Location::whereAncestorOrSelf($this->location_id)->get();
+        foreach ($locations as $location)
+        {
+            $text[] = $location->title;
+        }
+        $text[] = $this->organization->title;
+        $this->fill(['search_text'=>implode(' ',$text)]);
+        //dd($text);
+        $this->save();
+    }
 }

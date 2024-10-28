@@ -1,41 +1,18 @@
 @extends('layouts.dashboard')
 @section('title',' Удаление раздела')
+
 @section('main')
-    <section class="add-resume section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 offset-lg-1 col-12">
-                    <div class="add-resume-inner box">
-                        <div class="post-header align-items-center justify-content-center">
-                            <h3>Basic information</h3>
-                            <p>Already have an account? <a href="javacript:" data-toggle="modal" data-target="#login" class="login"> Click here to login</a></p>
-                        </div>
-                        <form class="form-ad" action="{{route('rubric_dashboard_destroy', ['rubric'=>$rubric->id])}}" method="post">
-                            @csrf
-                            @method('DELETE')
+    @php
+        $title= "Удалить категорию ".$rubric->title;
+        $id = ['rubric'=>$rubric->id];
+        $route = 'rubric_dashboard_destroy';
+        //
+        $children = App\Models\Rubric::descendantsAndSelf($rubric->id)->pluck('id')->toArray();
+        $used = App\Models\Bb::WhereIn('rubric_id',$children)->pluck('id')->toArray();
 
-
-                            <div class="row align-items-center justify-content-center">
-                                <div class="col-lg-6 col-md-5 col-12">
-                                    <div class="button">
-                                        <button type="submit" class="btn">Удалить</button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-7 col-12">
-                                    <div class="add-post-btn float-right">
-                                        <ul>
-                                            <li><a href="#" class="btn-added"><i class="lni lni-add-files"></i> Add New
-                                                    Skills</a></li>
-                                            <li><a href="#" class="btn-delete"><i class="lni lni-remove-file"></i>
-                                                    Delete This</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        $errors_form=[];
+        if ($rubric->level==0) $errors_form[] = "Нельзя удалять корневую рубрику";
+        if (count($used)>0) $errors_form[] = "Данный раздел используется в ".count($used)." объявлениях  ";
+    @endphp
+    @include('layouts.delete_form')
 @endsection

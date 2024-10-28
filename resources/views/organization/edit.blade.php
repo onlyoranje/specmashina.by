@@ -43,12 +43,19 @@
                                     <label for="exampleInputEmail1" class="form-label">Сайт</label>
                                     <input type="text" class="form-control" name="site" value="{{old('title',$organization->site)}}">
                                 </div>
+                                    <div class="col-12">
+                                        <div class="form-group mt-30">
+                                            <label>Описание (не более 1000 символов)</label>
+                                            <textarea name="description" placeholder="" maxlength="1000">{{old('description')}}</textarea>
+                                        </div>
+                                    </div>
                                 <div class="mb-3">
                                     <?php
 
                                     if ($organization->logo){
                                         $old_image ='{"name":"'.$organization->name.'","id":'.$organization->id.',"file":"'.$organization->id.'","local":"'.Storage::url($organization->logo).'","data":{"url":"'.Storage::url($organization->logo).'","thumbnail":"'.Storage::url($organization->logo) .'","readerForce":true}}';
                                     }
+
 
                                     ?>
                                     <label for="exampleInputEmail1" class="form-label">Лого</label>
@@ -64,5 +71,10 @@
             </div>
         </div>
     </div>
-
+    <script>
+        window.addEventListener("load", function(){
+            $("#phone").mask("+375 (99) 999-99-99")
+            $("#unp").mask("999999999")
+        });
+    </script>
 @endsection

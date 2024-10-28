@@ -1,0 +1,55 @@
+<section class="categories">
+    <div class="container">
+        <div class="cat-inner">
+            <div class="row">
+                <div class="col-12 p-0">
+                    <div class="tns-outer" id="tns1-ow">
+                        <div class="tns-controls" aria-label="Carousel Navigation" tabindex="0">
+                            <button type="button" data-controls="prev" tabindex="-1" aria-controls="tns1">
+                                <i class="lni lni-chevron-left"></i>
+                            </button>
+                            <button type="button" data-controls="next" tabindex="-1" aria-controls="tns1">
+                                <i class="lni lni-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="tns-liveregion tns-visually-hidden" aria-live="polite" aria-atomic="true">slide
+                            <span class="current">10 to 15</span> of 13
+                        </div>
+                        <div id="tns1-mw" class="tns-ovh">
+                            <div class="tns-inner" id="tns1-iw">
+                                <div
+                                    class="category-slider  tns-slider tns-carousel tns-subpixel tns-calc tns-horizontal"
+                                    id="tns1"
+                                    style="">
+                                    ;
+                                    @foreach ($rubrics_slider as $rubric)
+                                        @php
+                                        $parent_rubrics = App\Models\Rubric::whereAncestorOrSelf($rubric->id)->orderBy('level')->get();
+                                        $parent_rubric = $parent_rubrics[0];
+                                        $subparent_rubric = $parent_rubrics[1];
+                                        @endphp
+                                    <a
+                                        href="{{route('rubric',$rubric->id)}}" class="single-cat tns-item tns-slide-cloned"
+                                        aria-hidden="true" tabindex="-1">
+                                        <div class="icon">
+                                            @if ($rubric->icon)
+                                                <img src="{{Storage::url($rubric->icon)}}" alt="{{$parent_rubric->title}} {{$rubric->title_r}}">
+                                            @else
+                                                <img src="/images/categories/crane.svg" alt="{{$parent_rubric->title}} {{$rubric->title_r}}">
+                                            @endif
+
+                                        </div>
+                                        <h3>{{$parent_rubric->title}} {{$rubric->title_r}}</h3>
+                                        <h5 class="total">{{$rubric->bbs_count}}</h5>
+                                    </a>
+                                    @endforeach
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

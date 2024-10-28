@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('contact_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code')->nullable();
 
             $table->string('mask')->nullable();
             $table->string('icon')->nullable();
@@ -23,8 +24,8 @@ return new class extends Migration
             $table->string('required')->nullable();
             $table->timestamps();
         });
-        \App\Models\ContactType::create(['name' => 'Телефон','mask'=>'+375 99 999-99-99']);
-        \App\Models\ContactType::create(['name' => 'Viber']);
+        \App\Models\ContactType::create(['name' => 'Телефон','code'=>'phone','mask'=>'+375 99 999-99-99']);
+        \App\Models\ContactType::create(['name' => 'Контактное лицо','code'=>'user_name',]);
     }
 
     /**

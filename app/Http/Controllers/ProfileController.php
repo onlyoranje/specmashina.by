@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\BbAdminComments;
 use App\Models\BbContact;
 use App\Models\BbParameters;
 use App\Models\BbPrice;
+use App\Models\BbStatistic;
 use App\Models\ContactType;
 use App\Models\Location;
 use App\Models\Organization;
@@ -14,7 +16,9 @@ use App\Models\PriceType;
 use App\Models\PriceTypeRubric;
 use App\Models\Rubric;
 use App\Models\Bb;
+use App\Models\Status_bb;
 use App\Models\UserFile;
+use Composer\XdebugHandler\Status;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +26,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Laravolt\Avatar\Avatar;
+use Maize\Markable\Models\Bookmark;
 use PhpParser\Node\Expr\Array_;
 
 class ProfileController extends Controller
@@ -56,8 +62,10 @@ class ProfileController extends Controller
     ];
     public function edit(Request $request): View
     {
+
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $request->user(),'locations' =>Location::all()
         ]);
     }
 
@@ -66,14 +74,28 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        $user = Auth::user();
         $request->user()->fill($request->validated());
-
+//dd($request);
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
+        $request->user()->fill(['phone'=>$request->phone,'realname'=>$request->realname]);
         $request->user()->save();
+        if ($request->profileimage) {
 
+            $filename = $request->profileimage->store('public');
+            $file_name = explode('/', $filename);
+            $request->user()->fill(['avatar'=> $file_name[1]]);
+            $request->user()->save();
+
+        }
+        if ($request->remove_avatar=='remove')
+        {
+
+            $request->user()->fill(['avatar'=> null]);
+            $request->user()->save();
+        }
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
@@ -97,10 +119,54 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-    public function mybb() {
+    public function mybb(Request $request) {
+        $bbs_last =  Auth::user()->bbs()->where(function($query)
+        {
+            global $request;
+            if ($request->status_id) $query->where('status_bb_id', $request->status_id );
+
+        })->latest()->paginate(10);
+        $status_bb = Status_bb::OrderBy('sort','asc')->get();
+        $bbs_count = Auth::user()->bbs->count();
         return view('bb.mybb',
-            ['bbs' => Auth::user()->bbs()->latest()->get()]);
+            [
+                'bbs' => $bbs_last,
+                'status_bb'=>$status_bb,
+                'request'=>$request,
+                'bbs_count'=>$bbs_count
+            ]);
     }
+
+    public function allbb(Request $request) {
+        $bbs_last =  Bb::where(function($query)
+        {
+            global $request;
+            if ($request->status_id) $query->where('status_bb_id', $request->status_id );
+
+        })->latest()->paginate(10);
+        $status_bb = Status_bb::OrderBy('sort','asc')->get();
+        $bbs_count = Auth::user()->bbs->count();
+        return view('bb.allbb',
+            [
+                'bbs' => $bbs_last,
+                'status_bb'=>$status_bb,
+                'request'=>$request,
+                'bbs_count'=>$bbs_count
+            ]);
+    }
+    //
+    public function favorite() {
+
+        $bbs = Bb::select('bbs.*')->join('markable_bookmarks','markable_bookmarks.markable_id','=','bbs.id')->where('markable_bookmarks.user_id',Auth::id())->orderBy('markable_bookmarks.created_at','desc')->paginate(10);
+
+
+        return view('bb.favorite',
+            [
+                'bbs' => $bbs,
+                'title' => 'Закладки'
+            ]);
+    }
+
     public function addForm(){
         $user = Auth::user();
         $rubrics = Rubric::all();
@@ -126,21 +192,22 @@ class ProfileController extends Controller
         //dd($request);
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
-        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'vendor_id'=>$request->vendor_id,'location_id'=>$validated['location_id']]);
+        $status_bb_id = Status_bb::where('status','M')->get()->value('id');
+        $bb = Auth::user()->bbs()->create(['title'=>$validated['title'],'content'=>$description,'rubric_id'=>$validated['rubric_id'],'vendor_id'=>$request->vendor_id,'location_id'=>$validated['location_id'],'status_bb_id'=>$status_bb_id]);
         if ($request->file) {
             if (is_array($request->file) ) {
                 foreach ($request->file as $file_upload) {
                     if (!is_null($file_upload)) {
-                        $filename = $file_upload->store('public');
+                        $filename = $file_upload->store('public/bb');
                         $file_name = explode('/', $filename);
-                        UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
+                        UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1].'/'.$file_name[2],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
                     }
                 }
             } else {
 
-                $filename = $request->file->store('public');
+                $filename = $request->file->store('public/bb');
                 $file_name = explode('/', $filename);
-                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
+                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1].'/'.$file_name[2],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
 
             }}
         if ($request->parameter){
@@ -150,22 +217,22 @@ class ProfileController extends Controller
         }
 
         $bbprice = BbPrice::create(['bb_id' => $bb->id, 'price_type_id'=>$validated['price_type']]);
-        if ($bbprice->pricetype->has_value =='Y'){
+
             $bbprice->fill(['price'=>$request->price]);
             $bbprice->save();
-        }
+
         if (is_array($request->contact)) {
             foreach ($request->contact as $contact_type_id=>$contact_value) {
                 if ($contact_value)  BbContact::create(['value'=>$contact_value,'bb_id'=>$bb->id,'contact_type_id'=>$contact_type_id]);
             }
 
         }
-        if ($request->organization){
+
             $bb->fill(['organization_id'=>Auth::user()->organization->id]);
             $bb->save();
-        }
 
-        return redirect()->route('dashboard');
+
+        return redirect()->route('mybb');
     }
     public function editBb(Bb $bb){
         $user = Auth::user();
@@ -212,21 +279,33 @@ class ProfileController extends Controller
 
         $validated = $request->validate(self::BB_VALIDATOR,self::BB_ERROR_MESSAGES);
         $description = $request->description;
-        $bb->fill(['title'=>$validated['title'],'content'=>$description,'vendor_id'=>$request->vendor_id]);
+        $status_bb_id = Status_bb::where('status','M')->get()->value('id');
+        $search_text[] = $validated['title'];
+        $bb->fill(['title'=>$validated['title'],'content'=>$description,'vendor_id'=>$request->vendor_id,'status_bb_id'=>$status_bb_id]);
         $bb->save();
         if ($request->rubric_id) {
             $bb->fill(['rubric_id'=>$request->rubric_id]);
+            $rubrics = Rubric::whereAncestorOrSelf($request->rubric_id)->get();
+            foreach ($rubrics as $rubric)
+            {
+                $search_text[] = $rubric->title;
+            }
             $bb->save();
         }
         if ($request->location_id) {
             $bb->fill(['location_id'=>$request->location_id]);
+            $locations = Location::whereAncestorOrSelf($request->location_id)->get();
+            foreach ($locations as $location)
+            {
+                $search_text[] = $location->title;
+            }
             $bb->save();
         }
 
 
         if (is_array($request->contact)) {
             foreach ($request->contact as $contact_type_id=>$contact_value) {
-                if ($contact_value)  BbContact::updateOrCreate(['value'=>$contact_value,'bb_id'=>$bb->id,'contact_type_id'=>$contact_type_id]);
+                if ($contact_value)  BbContact::updateOrCreate(['bb_id'=>$bb->id,'contact_type_id'=>$contact_type_id],['value'=>$contact_value]);
             }
 
         }
@@ -235,16 +314,16 @@ class ProfileController extends Controller
             if (is_array($request->file) ) {
                 foreach ($request->file as $file_upload) {
                     if (!is_null($file_upload)) {
-                    $filename = $file_upload->store('public');
+                    $filename = $file_upload->store('public/bb');
                     $file_name = explode('/', $filename);
-                    UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
+                    UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1].'/'.$file_name[2],'type' => $file_upload->extension(),'size' => $file_upload->getSize(),'original_name' => $file_upload->getClientOriginalName()]);
                     }
                 }
             } else {
 
-                $filename = $request->file->store('public');
+                $filename = $request->file->store('public/bb');
                 $file_name = explode('/', $filename);
-                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
+                UserFile::create(['bb_id' => $bb->id, 'url' => $file_name[1].'/'.$file_name[2],'type' => $request->file->extension(),'size' => $request->file->getSize(),'original_name' => $request->file->getClientOriginalName()]);
 
         }}
         $files_before_edit=UserFile::where('bb_id',$bb->id)->pluck('id');
@@ -284,23 +363,30 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             }
         }
         if ($request->parameter) {
+            $parameters_new = [];
+            $parameters_old = BbParameters::where('bb_id',$bb->id)->pluck('parameter_id')->toArray();;
+
             foreach ($request->parameter as $parameter_id => $value) {
                 if (!is_null($value)) {
+                    $parameters_new[] = $parameter_id;
                     BbParameters::updateOrCreate(['bb_id' => $bb->id, 'parameter_id' => $parameter_id], ['value' => $value]);
-                } else {
-                    BbParameters::where('bb_id', $bb->id)->where('parameter_id', $parameter_id)->delete();
                 }
+
             }
+
+            BbParameters::where('bb_id', $bb->id)->whereIn('parameter_id', array_diff($parameters_old,$parameters_new))->delete();
         }
-        if ($request->organization=='Y'){
+
             $bb->fill(['organization_id'=>Auth::user()->organization->id]);
+            $search_text[] = Auth::user()->organization->title;
             $bb->save();
-        } else {
-            $bb->fill(['organization_id'=>null]);
-            $bb->save();
-        }
+
         $bb->bbprice->fill(['price'=>$request->price,'price_type_id'=>$request->price_type]);
         $bb->bbprice->save();
+        //dd($parameters_old);
+        $bb->fill(['search_text'=>implode(' ',$search_text)]);
+        $bb->save();
+
         return redirect()->route('mybb');
     }
     public function deleteBb(Bb $bb){
@@ -311,10 +397,23 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return redirect()->route('mybb');
     }
     public function MyOrganization(){
-        return view('organization.my_organization',['organization' => Organization::where('user_id',Auth::user()->id)->first()]);
+        $organization = Organization::where('user_id',Auth::user()->id)->first();
+        $locations = Location::all();
+        if ($organization)
+        {
+            $all_locations = Location::whereAncestorOrSelf($organization->location_id)->orderBy('level')->get();
+            return view('organization.my_organization',['organization' => Organization::where('user_id',Auth::user()->id)->first(),'locations'=>$locations,           'all_locations'=>$all_locations]);
+        }
+        else
+        {
+            return view('organization.add',['locations'=>$locations]);
+        }
+
+
     }
     public function addOrganization(){
-        return view('organization.add');
+        $locations = Location::all();
+        return view('organization.add',['locations'=>$locations]);
     }
     public function addOrganizationToDB(Request $request){
 
@@ -324,6 +423,8 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             'title'=>$validated['title'],
             'address'=>$validated['address'],
             'unp'=>$validated['unp'],
+            'location_id'=>$request->location_id,
+            'content' => mb_substr($request->description,0,1000),
             'phone'=>$request->phone,
             'site'=>$request->site,
             'email'=>$request->email
@@ -339,29 +440,35 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
 
         }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('my_organization');
+
     }
     public function editOrganization(){
+
         return view('organization.edit',['organization' => Organization::where('user_id',Auth::user()->id)->first()]);
     }
     public function deleteOrganization(Organization $organization){
+        $organization = Organization::where('user_id',Auth::user()->id)->first();
         return view('organization.delete', ['organization'=>$organization]);
     }
     public function destroyOrganization(){
         Organization::where('user_id',Auth::user()->id)->delete();
         return redirect()->route('my_organization');
     }
-    public function updateOrganization(Request $request, Organization $organization){
+    public function updateOrganization(Request $request){
 //dd($request);
 
         $old_files = json_decode($request['fileuploader-list-file'],true);
         $validated = $request->validate(self::ORG_VALIDATOR,self::ORG_ERROR_MESSAGES);
+        $organization = Auth::user()->organization;
         $organization->fill([
             'title'=>$validated['title'],
             'address'=>$validated['address'],
             'unp'=>$validated['unp'],
+            'location_id'=>$request->location_id,
             'phone'=>$request->phone,
             'site'=>$request->site,
+            'content' => mb_substr($request->description,0,1000),
             'email'=>$request->email
         ]);
         $organization->save();
@@ -373,12 +480,89 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             $organization->save();
 
         }
-        if (!is_array($old_files))
+       /* if (!is_array($old_files))
         {
             $organization->fill(['logo'=> null]);
             $organization->save();
-        }
+        }*/
         //test comment
         return redirect()->route('my_organization');
+    }
+    public function admin_dashboard(){
+        $bbs = Bb::all();
+        $bbs_popular =
+            Bb::addSelect(
+                ['status' => Status_bb::selectRaw('active')->
+                whereColumn('id','bbs.status_bb_id')]
+            )->
+            addSelect(
+                ['bbstatistic_count' =>
+                    BbStatistic::selectRaw('sum(views) as total')
+                        ->whereColumn('bb_id', 'bbs.id')
+                        ->groupBy('bb_id')
+                ]
+            )->
+
+            orderBy('bbstatistic_count','desc')->
+            limit(5)->
+            get();
+        $bbs_active = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
+        $bbs_moderation = Bb::select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->orderBy('bbs.updated_at','asc')->get();
+        $bbs_moderation_fail = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','N')->get();
+        $notifications = BbAdminComments::select('bb_admin_comments.*')->join('bbs','bb_admin_comments.bb_id','=','bbs.id')->where('bbs.user_id',Auth::id())->whereNull('read_at')->orderBy('created_at','desc')->limit(10)->get();
+
+        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular, 'bbs_moderation_fail'=>$bbs_moderation_fail,'notifications'=>$notifications ]);
+    }
+    public function dashboard(){
+        if (!isset(Auth::user()->credit->credits)) Auth::user()->addCredits(0);
+            $bbs = Bb::where('user_id',Auth::id())->get();
+            $bbs_popular =
+                Bb::where('user_id',Auth::id())->
+                addSelect(
+                    ['status' => Status_bb::selectRaw('status')->
+                    whereColumn('id','bbs.status_bb_id')]
+                )->
+                addSelect(
+                    ['bbstatistic_count' =>
+                        BbStatistic::selectRaw('sum(views) as total')
+                ->whereColumn('bb_id', 'bbs.id')
+                ->groupBy('bb_id')
+            ]
+                )->
+
+                orderBy('bbstatistic_count','desc')->
+                limit(5)->
+                get();
+            $bbs_active = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
+            $bbs_moderation = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','M')->get();
+            $bbs_moderation_fail = Bb::where('user_id',Auth::id())->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.status','N')->get();
+            $bbs_admin_comments = BbAdminComments::Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->orderBy('bb_admin_comments.created_at','desc')->get();
+        $notifications = BbAdminComments::select('bb_admin_comments.*')->join('bbs','bb_admin_comments.bb_id','=','bbs.id')->where('bbs.user_id',Auth::id())->whereNull('read_at')->orderBy('created_at','desc')->limit(10)->get();
+        return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_moderation_fail'=>$bbs_moderation_fail,'bbs_popular'=>$bbs_popular , 'bbs_admin_comments'=>$bbs_admin_comments,'notifications'=>$notifications ]);
+    }
+    public function bb_edit_status(Bb $bb, $status_bb){
+
+        if (Auth::id()==$bb->user_id or Auth::user()->isAdmin()){
+            $bb->edit_status($status_bb);
+
+        }
+        return redirect()->route('mybb');
+    }
+    public function bb_active(Bb $bb, $active){
+
+        if (Auth::id()==$bb->user_id or Auth::user()->isAdmin()){
+            $bb->active($active);
+
+        }
+        return redirect()->route('mybb');
+    }
+    public function alerts(){
+        $alerts = BbAdminComments::select('bb_admin_comments.*')->Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->orderBy('bb_admin_comments.created_at','desc')->paginate(10);
+        return view('alerts.list',['alerts'=>$alerts,'title'=>'Уведомления']);
+    }
+    public function read_alert(Request $request){
+        $alert = BbAdminComments::select('bb_admin_comments.*')->Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->where('bb_admin_comments.id',$request->id)->update(['bb_admin_comments.read_at'=>date('Y-m-d H:i:s')]);
+        //dd($alert);
+        return response()->json(['code'=>200], 200);
     }
 }

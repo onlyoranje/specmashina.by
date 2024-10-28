@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bb;
 use App\Models\Location;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class LocationsController extends Controller
 {
@@ -21,6 +25,20 @@ class LocationsController extends Controller
         return view('location.edit', ['location'=>$location,'locations'=>$locations,'depth'=>$depth]);
 
     }
+    public function list(Request $request)
+    {
+
+        $locations_letter = Location::select(DB::raw('substring(title,1,1) as loc_letter'))->where('level',1)->groupBy('loc_letter')->orderBy('loc_letter','asc')->pluck('loc_letter');
+
+        $locations = Location::withCount([
+            'bbs' => function (Builder $query) {
+                $query->where('active', 'Y');
+            },
+        ])
+            ->where('title',"LIKE", $request->letter."%" )
+            ->where('level',1)->orderBy('title','asc')->paginate(10);
+        return view('location.list',['title'=>'Аренда техники в Беларуси','locations'=>$locations,'request'=>$request,'locations_letter'=>$locations_letter]);
+    }
     public function location($id){
         $location     = Location::find($id);
         $locations    = Location::descendantsAndSelf($id)->pluck('id');
@@ -31,7 +49,8 @@ class LocationsController extends Controller
     }
     public function locations(){
 
-        $locations = Location::orderBy('sort')->get()->toTree();
+        //$locations = Location::orderBy('sort')->simplePaginate(15)->toTree();
+        $locations = Location::orderBy('title')->paginate(10);
         return view('location.dashboard',compact('locations'));
 
     }
@@ -46,7 +65,16 @@ class LocationsController extends Controller
             $level = (Location::find($request->parent_id)->level)+1;
         else
             $level=0;
-        Location::create(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
+        $location = Location::create(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
+
+        if ($request->file) {
+
+            $filename = $request->file[0]->store('public');
+            $file_name = explode('/', $filename);
+            $location->fill(['image'=> $file_name[1]]);
+            $location->save();
+
+        }
         return redirect()->route('location_dashboard');
     }
     public function editLocation(Request $request, Location $location){
@@ -55,13 +83,21 @@ class LocationsController extends Controller
             $level = (Location::find($request->parent_id)->level)+1;
         else
             $level=0;
-        $location->fill(['title'=>$validated['title'],'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
+        $location->fill(['title'=>$validated['title'],'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'sort'=>$request->sort]);
         $location->save();
+
+        if ($request->file) {
+
+            $filename = $request->file->store('public');
+            $file_name = explode('/', $filename);
+            $location->fill(['image'=> $file_name[1]]);
+            $location->save();
+
+        }
         return redirect()->route('location_dashboard');
     }
-
     public function delete(Location $location){
-        return view('delete', ['location'=>$location]);
+        return view('location.delete', ['location'=>$location]);
     }
     public function destroyLocation(Location $location){
         $location->delete();

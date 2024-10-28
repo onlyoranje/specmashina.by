@@ -1944,7 +1944,7 @@ ol {
 .hero-area.overlay::before {
   z-index: -1;
   background: #081828;
-  opacity: 0.9;
+  opacity: 0.6;
 }
 
 .hero-area.style2 {

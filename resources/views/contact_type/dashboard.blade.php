@@ -2,46 +2,67 @@
 @section('title', 'Главная')
 
 @section('main')
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="card">
 
+    <section class="dashboard section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
+                @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
 
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
-
-                            <a href="{{route('contact_type_add')}}">Добавить тип контакта</a>
-
-                            <br>
-
-                                @if (count($types)>0)
-                                <?php
-
-                                    foreach ($types as $type) {
-
-                                        echo $type->name."  <a href='".route('contact_type_edit' , [$type->id]) ."'>Редактировать </a> <a href='".route('contact_type_delete', [$type->id])."'>Удалить</a><br>";
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Start Activity Log -->
+                                <ul class="activity-log dashboard-block mt-0">
+                                    <h3 class="block-title">Типы контактов</h3>
 
 
 
-                                    }
+
+                                    <ul>
+                                        <li>
+                                            <div class="form-group button mb-0 mt-0"><a href="{{route('contact_type_add')}}" class="btn ">Добавить тип контакта</a></div>
+                                        </li>
+                                        @if (count($types)>0)
 
 
-                               ;
-                                ?>
+                                            @foreach ($types as $type)
 
 
-                                @endif
+
+                                                <li>
+                                                    <div class="log-icon">
+                                                        <i class="lni lni-flag-alt"></i>
+                                                    </div>
+                                                    <a href="" class="title">{{$type->name}}</a>
+                                                    <span class="time"><a href='{{route('contact_type_edit', ['type' => $type->id])}}'>Редактировать </a></span>
+                                                    <span class="time"><a href='{{route('contact_type_delete', ['type' => $type->id])}}'>Удалить </a></span>
+
+
+                                                </li>
+
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                            </div>
+
+                            <!-- End Activity Log -->
                         </div>
+
                     </div>
+
+
+
                 </div>
             </div>
         </div>
-    </div>
+        </div>
+    </section>
+
+
 @endsection
 

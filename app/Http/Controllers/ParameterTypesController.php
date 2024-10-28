@@ -12,33 +12,34 @@ class ParameterTypesController extends Controller
 
     public function types(){
 
-        $types = ParameterType::orderBy('type_name')->get();
+        $types = ParameterType::orderBy('type_name')->paginate(15);
         return view('parameter_type.dashboard',compact('types'));
 
     }
     public function addTypeForm($id=false){
-
-        return view('parameter_type.add');
+        $types = Array('text','number','option','checkbox');
+        return view('parameter_type.add',compact('types'));
     }
     public function addTypetoDB(Request $request){
 //dd($request);
         ParameterType::create(['type'=>$request->type,'type_name'=>$request->type_name]);
 
-        return redirect()->route('parameter_dashboard');
+        return redirect()->route('parameter_type_dashboard');
     }
     public function detail($id){
+        $types = Array('text','number','option','checkbox');
         $type     = ParameterType::find($id);
 
-        return view('parameter_type.edit', ['type'=>$type]);
+        return view('parameter_type.edit', ['type'=>$type,'types'=>$types]);
 
     }
     public function editType(Request $request, ParameterType $type){
 
-
+        //dd($type);
         $type->fill(['type'=>$request->type,'type_name'=>$request->type_name]);
         $type->save();
 
-        return redirect()->route('parameter_dashboard');
+        return redirect()->route('parameter_type_dashboard');
     }
     public function delete(ParameterType $type){
         return view('parameter_type.delete', ['type'=>$type]);
@@ -46,7 +47,7 @@ class ParameterTypesController extends Controller
     public function destroy(ParameterType $type){
 
         $type->delete();
-        return redirect()->route('parameter_dashboard');
+        return redirect()->route('parameter_type_dashboard');
     }
 
 }

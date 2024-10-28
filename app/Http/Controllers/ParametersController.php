@@ -24,7 +24,7 @@ class ParametersController extends Controller
     ];
     public function parameters(){
 
-        $parameters = Parameter::orderBy('sort')->get();
+        $parameters = Parameter::orderBy('sort')->paginate(15);
         $types = ParameterType::orderBy('type_name')->get();
         return view('parameter.dashboard',['parameters'=>$parameters,'types'=>$types]);
 
@@ -36,8 +36,15 @@ class ParametersController extends Controller
     }
     public function addParameter(Request $request){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
-        //dd($request);
-        $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort]);
+        $options = NULL;
+        $limit_min = NULL;
+        $limit_max = NULL;
+        $options_array = $request->options;
+        $options_array = array_filter($options_array, fn($n) => !is_null($n));
+        if ($request->type=='options') $options = json_encode($options_array);
+        if ($request->type=='number' and isset($request->min)) $limit_min = $request->min;
+        if ($request->type=='number' and isset($request->max)) $limit_max = $request->max;
+        $parameter = Parameter::create(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options,'min'=>$limit_min,'max'=>$limit_max]);
         $parameter->rubrics()->attach($request->rubrics);
         return redirect()->route('parameter_dashboard');
     }
@@ -51,8 +58,17 @@ class ParametersController extends Controller
     }
     public function editParameter(Request $request, Parameter $parameter){
         $validated = $request->validate(self::PAR_VALIDATOR,self::PAR_ERROR_MESSAGES);
+        $options = NULL;
+        $limit_min = NULL;
+        $limit_max = NULL;
+        if ($request->type=='number' and isset($request->min)) $limit_min = $request->min;
+        if ($request->type=='number' and isset($request->max)) $limit_max= $request->max;
+        $options_array = $request->options;
+        $options_array = array_filter($options_array, fn($n) => !is_null($n));
+        if ($request->type=='options') $options = json_encode($options_array);
 
-        $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort]);
+//dd($options);
+        $parameter->fill(['name'=>$validated['name'],'measure'=>$request->measure,'type'=>$request->type,'sort'=>$request->sort,'options'=>$options,'min'=>$limit_min,'max'=>$limit_max]);
         $parameter->save();
         $parameter_rubric = $parameter->rubrics->pluck('id');
         $parameter_rubric_update = $request->rubrics;
@@ -65,6 +81,8 @@ class ParametersController extends Controller
         foreach ($parameter_rubric_update as $pr){
             if (!in_array($pr,$parameter_rubric)) ParameterRubric::updateOrCreate(['rubric_id'=>$pr,'parameter_id'=>$parameter->id]);
         }
+
+        // dd($request);
         return redirect()->route('parameter_dashboard');
     }
     public function delete(Parameter $parameter){

@@ -1,10 +1,5 @@
 window.NewSelect = function (model, parent_id = null, level = 0, id = null, selected = false) {
-    /*console.log('model:'+model);
-    console.log('parent_id:'+parent_id);
-    console.log('level:'+level);
-    console.log('id:'+id);
-    console.log('selected:'+selected);
-    console.log('-----');*/
+
     var json
 
     var child_cat = 0;
@@ -16,7 +11,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
             }
         }
     )
-    if (level) $("#container_"+model+"_"+(level+1)).remove();
+    if (level) $("#container_" + model + "_" + (level + 1)).remove();
     $('#log').text("child_cat:" + child_cat + " parent_id:" + parent_id + " level:" + level)
     if (level > 0 && child_cat === 0) {
         $("#" + model + "_level_" + level).remove()
@@ -34,7 +29,7 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
 
         $.each(json, function (key, data) {
                 if (parent_id == data['parent_id']) {
-                    $("#" + model + "_level_" + level).append(new Option(data['title']+':'+data['id'], data['id']));
+                    $("#" + model + "_level_" + level).append(new Option(data['title'], data['id']));
                 }
             }
         );
@@ -47,67 +42,21 @@ window.NewSelect = function (model, parent_id = null, level = 0, id = null, sele
         $("#" + model + "_level_" + (level - 1)).attr('name', model + "_id")
         $("#" + model + "_level_" + (level - 1)).attr('data-name', model)
         $("#" + model + "_level_" + (level - 1)).attr('required', "required")
-console.log("#" + model + "_level_" + (level - 1))
+        console.log("#" + model + "_level_" + (level - 1))
     }
 
 }
 
 $(document).ready(function () {
-    $('input[type="checkbox"]').change(function (e) {
-
-        var checked = $(this).prop("checked"),
-            container = $(this).parent(),
-            siblings = container.siblings();
-
-        container.find('input[type="checkbox"]').prop({
-            indeterminate: false,
-            checked: checked
-        });
-
-        function checkSiblings(el) {
-
-            var parent = el.parent().parent(),
-                all = true;
-
-            el.siblings().each(function () {
-                let returnValue = all = ($(this).children('input[type="checkbox"]').prop("checked") === checked);
-                return returnValue;
-            });
-
-            if (all && checked) {
-
-                parent.children('input[type="checkbox"]').prop({
-                    indeterminate: false,
-                    checked: checked
-                });
-
-                checkSiblings(parent);
-
-            } else if (all && !checked) {
-
-                parent.children('input[type="checkbox"]').prop("checked", checked);
-                parent.children('input[type="checkbox"]').prop("indeterminate", (parent.find('input[type="checkbox"]:checked').length > 0));
-                checkSiblings(parent);
-
-            } else {
-
-                el.parents("li").children('input[type="checkbox"]').prop({
-                    indeterminate: true,
-                    checked: false
-                });
-
-            }
-
-        }
-
-        checkSiblings(container);
-
+    $("input[type='checkbox']").change(function () {
+        $(this).siblings('ul')
+            .find("input[type='checkbox']")
+            .prop('checked', this.checked);
     });
-
 })
 
 window.CheckRubrics = function (parent_id, id) {
-   // console.log(id)
+    // console.log(id)
     var child_cat = $('.parent' + parent_id).length
     var child_cat_checked = $('.parent' + parent_id + ':checked').length;
 
@@ -135,7 +84,6 @@ window.Parameter_Rubric = function (rubric_id) {
     $(".input-parameter").hide();
 
 
-
     $.each(json_parameter_rubric, function (key, data) {
 
 
@@ -147,24 +95,31 @@ window.Parameter_Rubric = function (rubric_id) {
 }
 window.PriceType_Rubric = function (rubric_id) {
     $(".input-pricetype").hide();
-
+    var arr = [];
     $.each(json_pricetype_rubric, function (key, data) {
 
         if (rubric_id == data['rubric_id']) {
-
+            arr.unshift(data['price_type_id']);
             $('#pricetype_' + data['price_type_id']).show();
             $('#input_pricetype_' + data['price_type_id']).prop('checked', false);
-            ;
+
+
 
         }
-        //console.log(rubric_id +' - ' + data['rubric_id'])
+
     })
+    if (arr.length == 1) {
+        var element_id = arr.shift();
+        $('#pricetype_' + element_id).prop('selected', true);
+    }
 
 }
 $(document).ready(function () {
+
+
     $('input[name="price_type"]').change(function (e) {
-        if ($(this).data('hasvalue')==='Y'){
-            $('#price').attr('required','required')
+        if ($(this).data('hasvalue') === 'Y') {
+            $('#price').attr('required', 'required')
             $('#price').show()
         } else {
             $('#price').removeAttr('required')
@@ -173,25 +128,23 @@ $(document).ready(function () {
         }
         console.log($(this).data('hasvalue'))
     })
+
+
 })
-window.selectTab = function (id,forms = false)
-{
+window.selectTab = function (id, forms = false) {
     var errors = Array();
-    if (id=='nav-item-details'){
-        $.each(forms,function(id,form)
-        {
-            var val_form = $('[data-name="'+form+'"]').val();
-            if (val_form == '' || val_form== null) {
+    if (id == 'nav-item-details') {
+        $.each(forms, function (id, form) {
+            var val_form = $('[data-name="' + form + '"]').val();
+            if (val_form == '' || val_form == null) {
                 errors.push(form)
-            } /*else {
-                errors.push(form)
-            }*/
-            console.log(form +"=="+val_form)
+            }
+            console.log(form + "==" + val_form)
 
         })
     }
     console.log(errors)
-    if (errors.length<1) {
+    if (errors.length < 1) {
         $('.nav-link').removeClass('active')
         $('.tab-pane').removeClass('active show')
         $('#' + id).addClass('active show')
@@ -203,14 +156,14 @@ $(document).ready(function () {
 
     // enable fileuploader plugin
     $('input[name="file"]').fileuploader({
-        limit: 20,
-        maxSize: 50,
-
+        limit: 10,
+        maxSize: 3,
+        extensions: ['jpg', 'jpeg', 'png', 'webp', 'bmp'],
         changeInput: '<div class="fileuploader-input">' +
             '<div class="fileuploader-input-inner">' +
             '<div class="fileuploader-icon-main"></div>' +
             '<div class="fileuploader-input-caption"><span class="d-block mb-15">Нет фото</span></div>' +
-            '<span class="d-block mb-15">Перетащите фото сюда</span>' +
+            '<span class="d-block mb-15">Перетащите фото сюда (не более 10 фото, размер не более 3 Мб)</span>' +
             '<div class="form-group button mb-0">\n' +
             '<button type="button" class="btn">загрузить фото</button>' +
             '</div>' +
@@ -263,9 +216,9 @@ $(document).ready(function () {
                 '<a href="${file}" class="fileuploader-action fileuploader-action-download" title="${captions.download}" download><i class="fileuploader-icon-download"></i></a>' +
                 '<div type="button" class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i class="fileuploader-icon-remove"></i></div>' +
                 '</div>' +
-                '<div class="thumbnail-holder">' +
-                '${image}' +
-                '<span class="fileuploader-action-popup"></span>' +
+                '<div class="thumbnail-holder" style="background: url(' +
+                '${data.thumbnail}' +
+                ');background-size: contain;"><span class="fileuploader-action-popup"></span>' +
                 '</div>' +
                 '<div class="content-holder"><h5 title="${name}">${name}</h5><span>${size2}</span></div>' +
                 '<div class="progress-holder">${progressBar}</div>' +
@@ -472,3 +425,392 @@ $(document).ready(function () {
     });
 
 });
+(function () {
+
+    "use strict";
+
+    //===== Prealoder
+
+    /*window.onload = function () {
+        window.setTimeout(fadeout, 200);
+    }*/
+
+
+    /* function fadeout() {
+         document.querySelector('.preloader').style.opacity = '0';
+         document.querySelector('.preloader').style.display = 'none';
+     }*/
+
+
+    /*=====================================
+    Sticky
+    ======================================= */
+    window.onscroll = function () {
+        var header_navbar = document.querySelector(".navbar-area");
+        var sticky = header_navbar.offsetTop;
+
+        if (window.pageYOffset > sticky) {
+            header_navbar.classList.add("sticky");
+        } else {
+            header_navbar.classList.remove("sticky");
+        }
+
+        // show or hide the back-top-top button
+        var backToTo = document.querySelector(".scroll-top");
+        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+            backToTo.style.display = "flex";
+        } else {
+            backToTo.style.display = "none";
+        }
+    };
+
+    //===== Mobile-menu-btn
+    let navbarToggler = document.querySelector(".mobile-menu-btn");
+    navbarToggler.addEventListener('click', function () {
+        navbarToggler.classList.toggle("active");
+    });
+
+    // WOW active
+    // new WOW().init();
+
+})();
+
+
+$(document).ready(function () {
+    $('.nav-link').on("click", function () {
+        document.cookie = 'tablist=' + $(this).attr('aria-controls') + '; max-age=3600000';
+        console.log($(this).attr('aria-controls'))
+    })
+
+
+
+})
+$(document).ready(function () {
+    $('.hero-search').on("click", function () {
+        var q = $('#keyword').val();
+        console.log(q.length)
+        if (q.length > 2) $('#hero_search').submit();
+        if (q.length == 0) {
+            $('.invalid-feedback-hero-form').show();
+            $('.invalid-feedback-hero-form').text('Пустой запрос');
+        }
+        if (3 > q.length > 0) {
+            $('.invalid-feedback-hero-form').show();
+            $('.invalid-feedback-hero-form').text('Введите 3 и более символов');
+        }
+    })
+
+
+})
+
+window.setLocation = function (loc) {
+
+    var name =  $('#location_selector option:selected').text()
+
+    $.cookie('mylocation', loc.value, { expires: 9999, path: '/'  });
+    if (loc.value=='all')  $.removeCookie('mylocation');
+    $('#my_location').text(name)
+    console.log(loc.value)
+    console.log(name)
+}
+
+
+window.SelectLocation = function () {
+    var id = $('#location').val()
+    window.location.href = '?location=' + id;
+}
+window.ShowChat = function (chat_id) {
+    $('.chat-list').hide()
+    $('#' + chat_id).show()
+}
+window.createMsg = function (chat_id) {
+
+    var msg = $('#reply_' + chat_id).val();
+    var user2 = $('#user2_' + chat_id).val();
+    if (msg) {
+
+        let _url = `/new_msg`;
+        let _token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            url: _url,
+            type: "PATCH",
+            data: {
+                user2: user2,
+                msg: msg,
+                _token: _token
+            },
+            success: function (response) {
+                if (response.code == 200) {
+                    chats(chat_id)
+                }
+            },
+            error: function (response) {
+
+            }
+        });
+    }
+}
+
+window.read_alert = function (id) {
+
+
+
+        let _url = `/read_alert`;
+        let _token = $('meta[name="csrf-token"]').attr('content');
+
+        $.ajax({
+            url: _url,
+            type: "PATCH",
+            data: {
+                id: id,
+                _token: _token
+            },
+            success: function (response) {
+                if (response.code == 200) {
+                $('#alert_'+id).remove()
+                }
+            },
+            error: function (response) {
+
+            }
+        });
+
+}
+
+window.chats = function (id) {
+
+
+    let _url = `/chats/` + id;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+
+    $.get(_url, function (data) {
+        $('.chats').html(data);
+        $('#reply_' + id).focus();
+        var pos = $('.unrd:first').position();
+        var h = $('.single-chat-head').height();
+        var h2 = $('.single-chat-head').prop("scrollHeight");
+        if (pos) {
+
+            $('.single-chat-head').scrollTop(pos.top - h)
+
+
+            $('.single-chat-head').find('.msg').each(function () {
+
+                if (($(this).position().top) >= h && $(this).attr('class') === 'left msg unrd' && ($(this).position().top) < (h + h)) {
+                    readMsg(this.id)
+                }
+
+
+            });
+
+        } else {
+            $('.single-chat-head').scrollTop(h2);
+
+        }
+        $(".single-chat-head").on("scroll", function () {
+
+        });
+        $("input[name='reply']").keyup(function (event) {
+
+            if (event.keyCode === 13) {
+                createMsg(id)
+            }
+        });
+    });
+}
+
+window.readMsg = function (id) {
+    let _url = `/read_message/` + id;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: _url,
+        type: "PATCH",
+        data: {
+            id: id,
+            _token: _token
+        },
+        success: function (response) {
+            $('#' + id).children('.text').addClass('reading_msg')
+
+        },
+        error: function (response) {
+
+        }
+    });
+
+}
+/*window.readAlert = function (id) {
+    let _url = `/read_alert/` + id;
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: _url,
+        type: "PATCH",
+        data: {
+            id: id,
+            _token: _token
+        },
+        success: function (response) {
+            $('#alert' + id).html('<i class="fa-regular fa-bell"></i>')
+            $('#alerttext' + id).removeClass('fw-bold')
+
+        },
+        error: function (response) {
+
+        }
+    });
+
+}*/
+$(document).ready(function () {
+
+    $('.like').on("click", function () {
+        var id = $(this).data('bbId');
+        var bookmark = $(this).data('bookmark');
+
+        let _token = $('meta[name="csrf-token"]').attr('content');
+        let _url = `/bookmarked`;
+        $.ajax({
+            url:_url,
+            type:"PATCH",
+            data: {
+                _token:_token,
+                id:id,
+                bookmark:bookmark
+            },
+            success: function (response) {
+                if (response=='add'){
+                    $('*[data-bb-id='+id+']').html('<a  class="mail"><i class="fa-solid fa-bookmark"></i></a>')
+                    $('*[data-bb-id='+id+']').data('bookmark','true')
+                } else {
+                    $('*[data-bb-id='+id+']').html('<a class="mail"><i class="fa-regular fa-bookmark"></i></a>')
+                    $('*[data-bb-id='+id+']').data('bookmark','false')
+                }
+
+                console.log(response)
+            },
+            error: function (response) {
+//alert ("Error")
+            }
+        })
+})
+})
+
+
+window.newNotificate = function (category, message, user1, user2) {
+
+    let _token = $('meta[name="csrf-token"]').attr('content');
+    let _url = `/notification`;
+    console.log('user' + user1)
+    $.ajax({
+        url: _url,
+        type: "PATCH",
+        data: {
+            _token: _token,
+            category: category,
+            message: message,
+            user1: user1,
+            user2: user2
+        },
+        success: function (data) {
+            $('.toast-container').html(data.html)
+//console.log(data.html)
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function (toastEl) {
+                console.log(toastEl)
+                return new window.bootstrap.Toast(toastEl)
+            });
+            toastList.forEach(toast => toast.show());
+        },
+        error: function (response) {
+
+        }
+    });
+
+}
+class MyUploadAdapter {
+    constructor( loader ) {
+        // CKEditor 5's FileLoader instance.
+        this.loader = loader;
+
+        // URL where to send files.
+        this.url = '/storage/posts';
+    }
+
+    // Starts the upload process.
+    upload() {
+        return new Promise( ( resolve, reject ) => {
+            this._initRequest();
+            this._initListeners( resolve, reject );
+            this._sendRequest();
+        } );
+    }
+
+    // Aborts the upload process.
+    abort() {
+        if ( this.xhr ) {
+            this.xhr.abort();
+        }
+    }
+
+    // Example implementation using XMLHttpRequest.
+    _initRequest() {
+        const xhr = this.xhr = new XMLHttpRequest();
+
+        xhr.open( 'POST', this.url, true );
+        xhr.responseType = 'json';
+    }
+
+    // Initializes XMLHttpRequest listeners.
+    _initListeners( resolve, reject ) {
+        const xhr = this.xhr;
+        const loader = this.loader;
+        const genericErrorText = 'Couldn\'t upload file:' + ` ${ loader.file.name }.`;
+
+        xhr.addEventListener( 'error', () => reject( genericErrorText ) );
+        xhr.addEventListener( 'abort', () => reject() );
+        xhr.addEventListener( 'load', () => {
+            const response = xhr.response;
+
+            if ( !response || response.error ) {
+                return reject( response && response.error ? response.error.message : genericErrorText );
+            }
+
+            // If the upload is successful, resolve the upload promise with an object containing
+            // at least the "default" URL, pointing to the image on the server.
+            resolve( {
+                default: response.url
+            } );
+        } );
+
+        if ( xhr.upload ) {
+            xhr.upload.addEventListener( 'progress', evt => {
+                if ( evt.lengthComputable ) {
+                    loader.uploadTotal = evt.total;
+                    loader.uploaded = evt.loaded;
+                }
+            } );
+        }
+    }
+
+    // Prepares the data and sends the request.
+    _sendRequest() {
+        const data = new FormData();
+
+        data.append( 'upload', this.loader.file );
+
+        this.xhr.send( data );
+    }
+}
+window.MyCustomUploadAdapterPlugin = function ( editor ) {
+    editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+        return new MyUploadAdapter( loader );
+    };
+}
+
+
+/*
+var channel = window.Echo.channel('115');
+channel.listen('.my-event', function(data) {
+    alert(JSON.stringify(data));
+});
+*/

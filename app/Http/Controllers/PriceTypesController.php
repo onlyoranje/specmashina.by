@@ -13,7 +13,7 @@ class PriceTypesController extends Controller
 
     public function types(){
 
-        $types = PriceType::orderBy('type')->get();
+        $types = PriceType::orderBy('id')->paginate(15);
         return view('price_type.dashboard',compact('types'));
 
     }
@@ -34,7 +34,7 @@ class PriceTypesController extends Controller
 
     }
     public function editType(Request $request, PriceType $type){
-
+//dd($type);
         if ($request->has_value) {$has_value=$request->has_value;} else {$has_value='N';}
         $type->fill(['type'=>$request->type,'has_value'=>$has_value,'sort'=>$request->sort]);
         $type->save();

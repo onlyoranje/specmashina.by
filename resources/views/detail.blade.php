@@ -1,15 +1,19 @@
+<?php
+
+use App\Models\BbStatistic;
+use App\Models\Location;
+use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
+
+?>
+@section('title', $title)
 @extends('layouts.base')
-@section('title', $bb->title)
-@extends('breadcrumbs')
 @section('main')
-    <?php
-    $parent_rubrics = App\Models\Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get();
-    $parent_rubric = $parent_rubrics[0];
-    ?>
+
     <section class="item-details section">
         <div class="container">
             <div class="top-area">
                 <div class="row">
+                    <div class="col-12"> <h1 class="title title_card mb-3">{{ $title }}</h1></div>
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="product-images">
                             <main id="gallery">
@@ -17,10 +21,10 @@
 
                                     <div class="carousel-inner main-img" {{--style="height: 480px"--}}>
                                         @foreach($bb->userfile as $key=>$image)
-                                            <div class="carousel-item @if ($key==0) active @endif"
+                                            <div class="carousel-item @if ($key==0) active @endif ratio ratio-16x9"
                                             >
 
-                                                <img src="{{ Storage::url($image->resize(null, 480, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="..." style="margin:auto">
+                                                <img src="{{ Storage::url($image->resize(null, 800, function ($constraint) { $constraint->aspectRatio();})) }}" class="" alt="{{ $title }}" style="object-fit: contain" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                             </div>
                                         @endforeach
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -33,61 +37,168 @@
                                         </button>
                                     </div>
 
-
-                                        <div class="images">
+                                    @if (count($bb->userfile)>0)
+                                        <div class="images mt-3">
                                             @foreach($bb->userfile as $key=>$image)
-                                                <img  src="{{ Storage::url($image->resize(110, 110, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" id="carousel-thumb-{{$key}}"
+                                                <img  src="{{ Storage::url($image->resize(64, 64, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" id="carousel-thumb-{{$key}}"
                                                       @if ($key==0)
-                                                      aria-current="true" class="active carousel-thumbs"
+                                                      aria-current="true" class=" carousel-thumbs"
                                                       @else
                                                       class="carousel-thumbs"
                                                       @endif
                                                       aria-label="1">
                                             @endforeach
                                         </div>
-
+                                    @endif
                                 </div>
                             </main>
                         </div>
                     </div>
+
+
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-images">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">{{ $title }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body row justify-content-center" id="full_gallery">
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="col-lg-6 col-md-12 col-12">
                         <div class="product-info">
-                            <h2 class="title">MacBook Pro 13-inch</h2>
-                            <p class="location"><i class="lni lni-map-marker"></i><a href="javascript:void(0)">New York, USA</a></p>
-                            <h3 class="price">$999</h3>
+                            @if ($bb->status_bb->status == 'M')
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    Объявление <mark>на модерации</mark>
+                                </div>
+                            <div class="col-6 d-grid gap-2 d-md-block">
+                                @if (Auth::user()->isAdmin())
+
+                                        <a href="{{route('approve', $bb->id)}}" class="btn btn-primary btn-sm" type="button">Принять</a>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#approveModal">
+                                        Отклонить
+                                    </button>
+
+                                    <div class="modal fade" id="approveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <form class="default-form-style" method="POST" enctype="multipart/form-data" action="{{route('reject', $bb->id)}}">
+                                                @csrf
+                                                @method('PATCH')
+                                            <div class="">
+
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Причины отклонения</h5>
+
+
+                                                <div class="row">
+
+                                                @foreach($reasons as $reason)
+                                                    <div class="col-12">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="{{$reason->id}}" name="reasons[]" id="flexCheck{{$reason->id}}">
+                                                            <label class="form-check-label" for="flexCheck{{$reason->id}}">
+                                                                {{$reason->reason}}
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                    @endforeach
+                                                    <div class="col-12">
+                                                        <div class="form-group mt-30">
+
+                                                            <textarea name="comment" placeholder="Комментарий"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="">
+                                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                                    <button class="btn btn-danger btn-sm" type="submit">Отклонить</button>
+                                                </div>
+
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                        {{--<a href="{{route('reject', $bb->id)}}" class="btn btn-danger btn-sm" type="button">Отклонить</a>--}}
+
+
+                                @endif
+                            </div>
+                            </div>
+
+                                @elseif ($bb->status_bb->status == 'N')
+                                <span>Объявление <mark class="mark-N">не прошло модерацию</mark></span>
+                            @endif
+
+
+                            <p class="location"><i class="fa-solid fa-eye"></i><a id="bb_id">{{$bb->count_views('text')}} </a></p>
+                            <p class="location"><i class="fa-solid fa-location-dot"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
+                                <p  class="location"><a><i class="fa-solid fa-calendar-days"></i></i>{{$bb->time_update()}}</a></p>
+                            <h3 class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</h3>
                             <div class="list-info">
-                                <h4>Informations</h4>
+                                <h4>Информация</h4>
                                 <ul>
-                                    <li><span>Condition:</span> New</li>
-                                    <li><span>Brand:</span> Apple</li>
-                                    <li><span>Model:</span> Mackbook Pro</li>
+                                    <li><span>Производитель:</span> {{ $bb->vendor->name }}</li>
+                                    <li><span>Модель:</span> {{ $bb->title }}</li>
+
                                 </ul>
                             </div>
                             <div class="contact-info">
+                                @php
+                                    $contacts = $bb->bbcontact;
+
+
+
+                                foreach($contacts as $contact)
+                                    {
+                                       $contact_info[$contact->contactType->code] = $contact->value;
+                                    }
+
+
+                                @endphp
                                 <ul>
                                     <li>
-                                        <a href="tel:+002562352589" class="call">
+                                        <a href="tel:{{$contact_info['phone']}}" class="call">
                                             <i class="lni lni-phone-set"></i>
-                                            +00 256 235 2589
-                                            <span>Call &amp; Get more info</span>
+                                            {{$contact_info['phone']}}
+                                            <span>{{$contact_info['user_name']}}</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="mailto:example@gmail.com" class="mail">
-                                            <i class="lni lni-envelope"></i>
-                                        </a>
-                                    </li>
+
+                                    {{$bb->like('mail')}}
                                 </ul>
                             </div>
                             <div class="social-share">
-                                <h4>Share Ad</h4>
-                                <ul>
-                                    <li><a href="javascript:void(0)" class="facebook"><i class="lni lni-facebook-filled"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="twitter"><i class="lni lni-twitter-original"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="google"><i class="lni lni-google"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="linkedin"><i class="lni lni-linkedin-original"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="pinterest"><i class="lni lni-pinterest"></i></a></li>
-                                </ul>
+                                <h4>Отправить ссылку</h4>
+
+                                {!!
+                                (new Kudashevs\ShareButtons\ShareButtons)->page(URL::current(), $title, [
+                                    'block_prefix' => '<ul>',
+                                    'block_suffix' => '</ul>',
+                                    'element_prefix' => '<li>',
+                                    'element_suffix' => '</li>',
+
+                                    'title' => $title,
+                                    'rel' => 'nofollow noopener noreferrer',
+                                ])
+                                    ->copylink()
+                                    ->telegram()
+                                    ->vkontakte()
+                                    ->whatsapp()
+
+                                    ->facebook()
+
+                                    ->render()!!}
                             </div>
                         </div>
                     </div>
@@ -97,26 +208,15 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-7 col-12">
                         <!-- Start Single Block -->
+                        @if ($bb->content)
                         <div class="single-block description">
-                            <h3>Description</h3>
-                            <p>
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in some form, by injected humour, or randomised words which don't
-                                look even slightly believable.
-                            </p>
-                            <ul>
-                                <li>Model: Apple MacBook Pro 13.3-Inch MYDA2</li>
-                                <li>Apple M1 chip with 8-core CPU and 8-core GPU</li>
-                                <li>8GB RAM</li>
-                                <li>256GB SSD</li>
-                                <li>13.3-inch 2560x1600 LED-backlit Retina Display</li>
-                            </ul>
-                            <p>The generated Lorem Ipsum is therefore always free from repetition, injected humour, or
-                                non-characteristic words etc.</p>
+                            <h3>Описание</h3>
+                            {!!  nl2br(e($bb->content))!!}
                         </div>
+                        @endif
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
-                        <div class="single-block tags">
+                       {{-- <div class="single-block tags">
                             <h3>Tags</h3>
                             <ul>
                                 <li><a href="javascript:void(0)">Bike</a></li>
@@ -124,105 +224,121 @@
                                 <li><a href="javascript:void(0)">Brand</a></li>
                                 <li><a href="javascript:void(0)">Popular</a></li>
                             </ul>
-                        </div>
+                        </div>--}}
                         <!-- End Single Block -->
                         <!-- Start Single Block -->
+                        @if (count($bb->BbParameters)>0)
                         <div class="single-block comments">
-                            <h3>Comments</h3>
+                            <h3>Характеристики</h3>
                             <!-- Start Single Comment -->
-                            <div class="single-comment">
-                                <img src="assets/images/testimonial/testi2.jpg" alt="#">
-                                <div class="content">
-                                    <h4>Luis Havens</h4>
-                                    <span>25 Feb, 2023</span>
-                                    <p>
-                                        There are many variations of passages of Lorem Ipsum available, but the majority
-                                        have suffered alteration in some form, by injected humour, or randomised words
-                                        which don't look even slightly believable.
-                                    </p>
-                                    <a href="javascript:void(0)" class="reply"><i class="lni lni-reply"></i> Reply</a>
+
+                                <div class="row">
+
+                                    @foreach($bb->BbParameters as $parameter)
+
+                                            <div class="col-6 d-flex bd-highlight">
+                                                <div class="p-2 bd-highlight">{{$parameter->parameters->name}}{{ $parameter->parameters->measure ? ", ".$parameter->parameters->measure:""}}:</div>
+                                                <div class="ms-auto p-2 bd-highlight">{{$parameter->value}}</div>
+                                            </div>
+                                    @endforeach
+
                                 </div>
-                            </div>
                             <!-- End Single Comment -->
                         </div>
+                        @endif
                         <!-- End Single Block -->
+                        @php
+
+
+                            $bbs_near=App\Models\Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->where('rubric_id', $bb->rubric_id)->whereNot('bbs.id', $bb->id)->get();
+                            $lat = $bb->location->lat;
+                            $lng = $bb->location->lng;
+                            $bbs_near = $bbs_near->sortBy(function($value, $key) use ($lat,$lng){
+                                $theta = $lng - $value->location->lng;
+                                $distance = (sin(deg2rad($lat)) * sin(deg2rad($value->location->lat))) + (cos(deg2rad($lat)) * cos(deg2rad($value->location->lat)) * cos(deg2rad($theta)));
+                                $distance = acos($distance);
+                                $distance = rad2deg($distance);
+                                $distance = $distance * 60 * 1.1515 * 1.609344;
+                                return $distance;
+
+                            });
+
+                        @endphp
+                        @if (count($bbs_near)>0)
+                            <div class="single-block comment-form">
+
+                                <h3>{{$bb->rubric->title}} рядом</h3>
+                                <form action="#" method="POST">
+                                    <div class="row">
+
+                                        @foreach($bbs_near->random(count ($bbs_near)>3? 3: count ($bbs_near)) as $bb_widget)
+                                            @include('bb.minicard')
+                                        @endforeach
+                                    </div>
+                                </form>
+                            </div>
+                        @endif
                         <!-- Start Single Block -->
-                        <div class="single-block comment-form">
-                            <h3>Post a comment</h3>
+                        @php
+
+
+                            $bbs_location= App\Models\Bb::select('bbs.*')->whereNot('bbs.id', $bb->id)->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->where('location_id',$bb->location_id)->orderBy('bbs.created_at','desc')->limit(3)->get();
+
+
+                        @endphp
+
+
+                        @if (isset($bbs_location) and count($bbs_location)>0)
+                       <div class="single-block comment-form">
+
+                            <h3>Еще техника в {{$bb->location->title_r}}</h3>
                             <form action="#" method="POST">
                                 <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-box form-group">
-                                            <input type="text" name="name" class="form-control form-control-custom" placeholder="Your Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-box form-group">
-                                            <input type="email" name="email" class="form-control form-control-custom" placeholder="Your Email">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-box form-group">
-                                            <textarea name="#" class="form-control form-control-custom" placeholder="Your Comments"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="button">
-                                            <button type="submit" class="btn">Post Comment</button>
-                                        </div>
-                                    </div>
+
+                                    @foreach($bbs_location->random(count ($bbs_location)>3? 3: count ($bbs_location)) as $bb_widget)
+                                        @include('bb.minicard')
+                                    @endforeach
                                 </div>
                             </form>
                         </div>
+                    @endif
+
+
+
                         <!-- End Single Block -->
                     </div>
                     <div class="col-lg-4 col-md-5 col-12">
                         <div class="item-details-sidebar">
                             <!-- Start Single Block -->
+                            @if ($bb->organization_id)
                             <div class="single-block author">
-                                <h3>Author</h3>
+                                <h3>Организация</h3>
                                 <div class="content">
-                                    <img src="assets/images/testimonial/testi3.jpg" alt="#">
-                                    <h4>Miliya Jessy</h4>
-                                    <span>Member Since May 15,2023</span>
-                                    <a href="javascript:void(0)" class="see-all">See All Ads</a>
+
+                                    <a href="{{route('organization',$bb->organization_id)}}">
+                                        <div class="company-image">
+                                            @if ($bb->user->organization->logo)
+                                                <img src="{{Storage::url($bb->user->organization->logo)}}" alt="{{$bb->user->organization->title}}">
+                                            @else
+                                                {!! Avatar::create($bb->user->organization->title)->toSvg() !!}
+                                            @endif
+                                        </div>
+<div style="
+    margin-left: 64px;
+">
+    <h4>{{$bb->user->organization->title}}</h4>
+                                    <span>{{$bb->user->organization->location->title}}@if ($bb->user->organization->address), {{$bb->user->organization->address}} @endif</span>
+                                    <a href="{{route('organization',$bb->organization_id)}}" class="see-all">Все объявления организации</a>
+</div>
+
                                 </div>
                             </div>
-                            <!-- End Single Block -->
-                            <!-- Start Single Block -->
-                            <div class="single-block contant-seller comment-form ">
-                                <h3>Contact Seller</h3>
-                                <form action="#" method="POST">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-box form-group">
-                                                <input type="text" name="name" class="form-control form-control-custom" placeholder="Your Name">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-box form-group">
-                                                <input type="email" name="email" class="form-control form-control-custom" placeholder="Your Email">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-box form-group">
-                                                <textarea name="#" class="form-control form-control-custom" placeholder="Your Message"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="button">
-                                                <button type="submit" class="btn">Send Message</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- End Single Block -->
-                            <!-- Start Single Block -->
+
+
                             <div class="single-block ">
-                                <h3>Location</h3>
+                               {{-- <h3>Location</h3>--}}
                                 <div class="mapouter">
-                                    <div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://putlocker-is.org"></a><br>
+                                    <div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q={{$bb->user->organization->address}},%20{{$bb->user->organization->location->title}}&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
                                         <style>
                                             .mapouter {
                                                 position: relative;
@@ -243,282 +359,29 @@
                                 </div>
                             </div>
                             <!-- End Single Block -->
+                            @endif
+                            <div class="single-block">
+                            @include('widgets.banner')
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+<script>
+    window.addEventListener("load", function(){
+
+        var myModalEl = document.getElementById('staticBackdrop')
+        myModalEl.addEventListener('show.bs.modal', function (event) {
+            var images = '@foreach($bb->userfile as $key=>$image)<div class="col-12"><img src="{{ Storage::url($image->url) }}" class="img-fluid modal-image" alt="{{ $title }}" ></div>@endforeach';
+
+            $('#full_gallery').html(images);
+
+        })
+    })
+</script>
 
 
-
-    <section class="section-header pb-10 pb-lg-11 mb-4 mb-lg-6 bg-primary text-white">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 text-center mb-4 mb-lg-5"><h1
-                        class="display-2 font-weight-extreme mb-4">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{ $bb->vendor->name }} {{ $bb->title }}
-                    </h1>
-                    <div class="d-flex flex-column flex-lg-row justify-content-center"><span
-                            class="h5 mb-3 mb-lg-0"><span class="fas fa-map-marker-alt"></span><span
-                                class="ms-3">{{$bb->location->title}}</span></span>
-                        <span class="ms-lg-5 mb-3 mb-lg-0 h5"><span class="fas fa-user-tie"></span><span class="ms-3">Full Time</span></span>
-                        <span class="ms-lg-5 mb-3 mb-lg-0 h5"><span class="fas fa-file-invoice-dollar"></span><span
-                                class="ms-3">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span></span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="pattern bottom"></div>
-    </section>
-    <section class="section section-lg pt-0">
-        <div class="container mt-n8 mt-lg-n11 z-2">
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-8">
-                    <div class="card border-gray-300 p-3 p-md-5">
-
-                        <div id="carouselExampleIndicators" class="carousel  /*carousel-dark*/ slide "  data-bs-interval="false">
-
-                            <div class="carousel-inner" style="height: 480px">
-                                @foreach($bb->userfile as $key=>$image)
-                                <div class="carousel-item @if ($key==0) active @endif"
-                                    >
-                                    <img src="{{ Storage::url($image->resize(null, 480, function ($constraint) { $constraint->aspectRatio();})) }}" class="d-block " alt="..." style="margin:auto">
-                                </div>
-                                @endforeach
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-
-                            <div class="carousel-indicators">
-                                <div class="car-thumbs">
-                                @foreach($bb->userfile as $key=>$image)
-                                    <img  src="{{ Storage::url($image->resize(64, 64, function ($constraint) { $constraint->aspectRatio();})) }}" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$key}}" id="carousel-thumb-{{$key}}"
-                                          @if ($key==0)
-                                          aria-current="true" class="active carousel-thumbs"
-                                          @else
-                                          class="carousel-thumbs"
-                                          @endif
-                                          aria-label="1">
-                                @endforeach
-                                </div>
-                            </div>
-                        </div>
-
-                        <script>
-                           /* $( ".carousel-thumbs" ).on( "click", function() {
-
-                            var marginleft =(parseInt($(this).data('bs-slide-to'))-1)*58;
-                            var thumbswidth1 =parseInt($('.carousel-indicators').width());
-                            var thumbswidth2 =parseInt($('.car-thumbs').width());
-                            if (marginleft<0) marginleft=0;
-                            if ((thumbswidth2-marginleft)>thumbswidth1) $('.car-thumbs').css({'transform':'translate3d(-'+marginleft+'px, 0px, 0px)','transition-duration':'500ms'});
-
-                            });*/
-                        </script>
-
-                        <p class="lead mb-5"><strong
-                                class="font-weight-extreme">Rocket</strong> is currently seeking a Frontend Engineer to
-                            join our Digital Team focusing on wines &amp; spirits, beauty and lifestyle brands. In this
-                            position you will be responsible for effectively managing multiple accounts and team
-                            members, including serving as key client contact. The successful candidate is an established
-                            leader viewed as a seasoned professional in the digital + social space; respected by senior
-                            clients, with a proven track record that demonstrates team growth by leading, maintaining
-                            and winning new business.</p>
-                        <p class="lead mb-5">Ideal candidates will have 3+ years of full time experience building social
-                            media channels for brands, as well creating digital identity, leading content creation,
-                            developing an audience, working on event activations and strategic partnerships.</p>
-                        <h2>Responsibilities:</h2>
-                        <ul class="list-unstyled mb-5">
-                            <li class="py-3 lead">
-                                <div class="d-flex"><span class="icon icon-sm me-3"><span
-                                            class="fas fa-arrow-alt-circle-right"></span></span>
-                                    <div>Work with our leadership team to drive strategic planning and prioritization
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="py-3 lead">
-                                <div class="d-flex"><span class="icon icon-sm me-3"><span
-                                            class="fas fa-arrow-alt-circle-right"></span></span>
-                                    <div>Partner with cross-functional teams to drive flawless execution of global
-                                        initiatives, including the definition and rollout of our international plan
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="py-3 lead">
-                                <div class="d-flex"><span class="icon icon-sm me-3"><span
-                                            class="fas fa-arrow-alt-circle-right"></span></span>
-                                    <div>Own the end-to-end process: build work plans, synthesize relevant data, lead
-                                        analyses and develop recommendations
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <h2>Requirements:</h2>
-                        <ul class="list-unstyled mb-5">
-                            <li class="py-3 lead">
-                                <div class="d-flex"><span class="icon icon-sm me-3"><span
-                                            class="fas fa-plus-circle"></span></span>
-                                    <div>3+ years of related work experience at a high-performing technology company or
-                                        management consulting; enterprise experience strongly preferred
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="py-3 lead">
-                                <div class="d-flex"><span class="icon icon-sm me-3"><span
-                                            class="fas fa-plus-circle"></span></span>
-                                    <div>Advanced analytical skills (including data modeling) and business insight</div>
-                                </div>
-                            </li>
-                            <li class="py-3 lead">
-                                <div class="d-flex"><span class="icon icon-sm me-3"><span
-                                            class="fas fa-plus-circle"></span></span>
-                                    <div>Experience dealing with unstructured business issues and successfully leading
-                                        teams to resolve these issues
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <h2>We offer great benefits too!</h2>
-                        <ul class="list-unstyled mb-5">
-                            <li class="py-3 lead">
-                                <div class="d-flex"><span class="icon icon-sm text-success me-3"><span
-                                            class="fas fa-check-circle"></span></span>
-                                    <div>Generous vacation package that increases with tenure in addition to sick days,
-                                        personal days and your birthday off too!
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="py-3 lead">
-                                <div class="d-flex"><span class="icon icon-sm text-success me-3"><span
-                                            class="fas fa-check-circle"></span></span>
-                                    <div>Strong company culture and happy work environment!</div>
-                                </div>
-                            </li>
-                        </ul>
-                        <div id="apply" class="row">
-                            <div class="col">
-                                <div class="card bg-gray-200 border-gray-300 text-black py-4 p-lg-5">
-                                    <div class="card-body p-3 p-md-4">
-                                        <div class="mb-5 mb-lg-6 text-center"><h2 class="h1">Apply for this Job</h2>
-                                        </div>
-                                        <form action="#">
-                                            <div class="row">
-                                                <div class="col-12 col-md-6">
-                                                    <div class="mb-3"><label for="firstNameLabel">First Name <span
-                                                                class="text-danger">*</span></label>
-                                                        <div class="input-group"><span class="input-group-text"
-                                                                                       id="basic-addon1"><span
-                                                                    class="fas fa-user-alt"></span></span> <input
-                                                                type="text" class="form-control" id="firstNameLabel"
-                                                                placeholder="First Name" aria-label="name"
-                                                                aria-describedby="basic-addon1" required=""></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="mb-3"><label for="lastNameLabel">Last Name <span
-                                                                class="text-danger">*</span></label>
-                                                        <div class="input-group"><span class="input-group-text"
-                                                                                       id="basic-addon2"><span
-                                                                    class="fas fa-user-alt"></span></span> <input
-                                                                type="text" class="form-control" id="lastNameLabel"
-                                                                placeholder="Last Name" aria-label="last name"
-                                                                aria-describedby="basic-addon2" required=""></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="mb-3"><label for="EmailLabel">Email <span
-                                                                class="text-danger">*</span></label>
-                                                        <div class="input-group"><span class="input-group-text"
-                                                                                       id="basic-addon3"><span
-                                                                    class="fas fa-envelope"></span></span> <input
-                                                                type="text" class="form-control" id="EmailLabel"
-                                                                placeholder="Can we get your email?" aria-label="email"
-                                                                aria-describedby="basic-addon3" required=""></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="mb-3"><label for="portfolioLabel">Portfolio <span
-                                                                class="text-danger">*</span></label>
-                                                        <div class="input-group"><span class="input-group-text"
-                                                                                       id="basic-addon4"><span
-                                                                    class="fas fa-link"></span></span> <input
-                                                                type="text" class="form-control" id="portfolioLabel"
-                                                                placeholder="Linkedin" aria-label="portfolio"
-                                                                aria-describedby="basic-addon4" required=""></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="mb-3"><label for="phonenumberLabel">Phone Number <span
-                                                                class="text-danger">*</span></label>
-                                                        <div class="input-group"><span class="input-group-text"
-                                                                                       id="basic-addon5"><span
-                                                                    class="fas fa-phone-square-alt"></span></span>
-                                                            <input type="text" class="form-control"
-                                                                   id="phonenumberLabel" placeholder="Phone Number"
-                                                                   aria-label="Search" aria-describedby="basic-addon5"
-                                                                   required=""></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-6">
-                                                    <div class="mb-3"><label for="formFile" class="form-label">Choose
-                                                            File <span class="text-danger">*</span></label> <input
-                                                            class="form-control" type="file" id="formFile"></div>
-                                                </div>
-                                                <div class="col col-12 mt-4">
-                                                    <div><label class="form-label text-muted" for="phonenumberLabel">Few
-                                                            words... <span class="text-danger">*</span></label>
-                                                        <textarea class="form-control"
-                                                                  placeholder="How'd you hear about Themesberg?"
-                                                                  id="message-2" rows="8" required=""></textarea></div>
-                                                    <div class="text-center">
-                                                        <button type="submit" class="btn btn-secondary mt-4"><span
-                                                                class="me-2"><span
-                                                                    class="fas fa-paper-plane"></span></span> Submit
-                                                            Application
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4"></div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <div class="container">
-        <h1 class="my-3 text-center">Объявления</h1>
-        <h2>{{ $bb->title }}</h2>
-        <h4>{{ $bb->rubric->title }}</h4>
-        <h4>{{ $bb->location->title }}</h4>
-        <p>Автор: {{  $bb->user->name }}</p>
-        <p><?= nl2br($bb->content) ?> </p>
-        @foreach($bb->BbParameters as $BbParameter)
-
-            {{$BbParameter->parameters->name}}:{{$BbParameter->value}}
-        @endforeach
-        @foreach($bb->userfile as $image)
-            <img src="{{ Storage::url($image->resize(640, 320)) }}" alt="Иллюстрация">
-        @endforeach
-
-        <p>{{ $bb->bbprice->price}} {{ $bb->bbprice->pricetype->type}}</p>
-
-
-        <p><a href="/">На перечень объявлений</a></p>
-    </div>
 
 @endsection('main')
