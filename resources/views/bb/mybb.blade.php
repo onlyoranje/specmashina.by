@@ -105,12 +105,12 @@
                                                     <li><a href="{{route('bb',['bb'=>$bb->id])}}" target="_blank">Просмотреть</a></li>
 
                                                 @endif
-                                                @if ($bb->status_bb->active=='Y' and $bb->active=='N')
-                                                    <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'Y'])}}{{url_parameters($request)}}">Снять с паузы</a></li>
+                                                @if ($bb->status_bb->status=='P')
+                                                    <li><a href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>$bb->previus_status])}}{{url_parameters($request)}}">Снять с паузы</a></li>
                                                 @endif
 
-                                                @if ($bb->status_bb->active=='Y' and $bb->active=='Y')
-                                                    <li><a href="{{route('bb_active',['bb'=>$bb->id,'active'=>'N'])}}{{url_parameters($request)}}">Пауза</a></li>
+                                                @if ($bb->status_bb->active=='Y')
+                                                    <li><a href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>'P'])}}{{url_parameters($request)}}">Пауза</a></li>
                                                 @endif
                                                 @if ($bb->user->credit->credits>0 and $bb->active=='Y')
                                                     <li><a href="{{route('bb_up_credit',['bb'=>$bb->id])}}{{url_parameters($request)}}">Поднять за кредит</a></li>

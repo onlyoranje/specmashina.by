@@ -26,10 +26,7 @@ return new class extends Migration
         });
 
         $faker = Faker\Factory::create('ru_RU');
-        for ($i = 1; $i < 2000; $i++) {
-            BbContact::create(['value' => $faker->name(), 'bb_id' => $i, 'contact_type_id' => 2]);
-            BbContact::create(['value' => $faker->phoneNumber(), 'bb_id' => $i, 'contact_type_id' => 1]);
-        }
+       
     }
 
     /**

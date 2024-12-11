@@ -52,9 +52,8 @@
                             </div>
                             <div class="socila-login">
                                 <ul>
-                                    <li><a href="javascript:void(0)" class="facebook"><i class="lni lni-facebook-original"></i>Войти через
-                                            Facebook</a></li>
-                                    <li><a href="javascript:void(0)" class="google"><i class="lni lni-google"></i>Войти через Google
+
+                                    <li><a href="{{route('google.redirect')}}" class="google"><i class="lni lni-google"></i>Войти через Google
                                             </a>
                                     </li>
                                 </ul>

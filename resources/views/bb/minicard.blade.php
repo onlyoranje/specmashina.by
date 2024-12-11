@@ -29,7 +29,7 @@
             <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb_widget->time_update()}}</a></p>
             <ul class="info">
                 <li class="price">{{$bb_widget->bbprice->price}} {{$bb_widget->bbprice->pricetype->type}}</li>
-                {{$bb_widget->like()}}
+               {{-- {{$bb_widget->like()}}--}}
 
             </ul>
         </div>

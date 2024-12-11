@@ -29,14 +29,7 @@ return new class extends Migration
 
         });
         //Storage::deleteDirectory('/public/bb');
-        Storage::deleteDirectory('/public/thumbnails');
-        for ($i = 1; $i < 2000; $i++) {
-            $count_images = count(Storage::files('public/bb'));
-            $images = Storage::files('public/bb');
-            $filename = $images[rand(0,($count_images-1))];
-            $file_name = explode('/', $filename);
-            UserFile::create(['bb_id' => $i, 'url' => $file_name[1].'/'.$file_name[2],'type' => 'jpg','size' => 123,'original_name' => $filename]);
-        }
+       
     }
 
     /**

@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('realname');
+            $table->string('realname')->nullable();;
             $table->string('email')->nullable();;
             $table->string('phone')->nullable();;
             $table->string('avatar')->nullable();;
@@ -27,16 +27,15 @@ return new class extends Migration
             $table->unsignedBigInteger('organization_id')->nullable();
             $table->boolean('is_admin')->default('0');
             $table->rememberToken();
+            $table->string("google_id")->nullable();
             $table->timestamps();
+
         });
 
         User::create(['name' => 'admin', 'realname' => 'Максим','email' => '47@terwa.by','password' => Hash::make('12345678'),'is_admin'=>'1']);
         User::create(['name' => 'user', 'realname' => 'Вова','email' => '48@terwa.by','password' => Hash::make('12345678')]);
 
-        $faker = Faker\Factory::create('ru_RU');
-        for ($i = 0; $i < 30; $i++) {
-            User::create(['name' => Str::random(8), 'phone'=>$faker->phoneNumber(), 'email'=>$faker->email(), 'realname' => $faker->name(),'email' => $faker->email(),'password' => Hash::make(Str::random(8))]);
-        }
+     
     }
 
     /**

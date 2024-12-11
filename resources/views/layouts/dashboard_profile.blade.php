@@ -11,16 +11,17 @@ $user = Auth::user();
             @endif
             <h3>{{$user->realname}}
 
-                <span><a href="javascript:void(0)">Кредиты: {{$user->credit->credits}}</a></span>
+                <span><a href="javascript:void(0)">Кредиты: {{ $user->credit->credits ?? ''}}</a></span>
             </h3>
         </div>
         <div class="dashboard-menu">
             <ul>
                 <li><a class="{{ Request::routeIs(['dashboard']) ? 'active' : null }}" href="{{route('dashboard')}}"><i class="fa-solid fa-gauge"></i> Дашборд</a></li>
-                <li><a class="{{ Request::routeIs(['alerts']) ? 'active' : null }}" href="{{route('alerts')}}"><i class="fa-solid fa-bell"></i> Уведомления</a></li>
+
                 <li><a class="{{ Request::routeIs(['mybb','bb_edit']) ? 'active' : null }}" href="{{route('mybb')}}"><i class="fa-solid fa-clone"></i> Мои объявления</a></li>
                 <li><a class="{{ Request::routeIs('addForm') ? 'active' : null }}" href="{{route('addForm')}}"><i class="fa-solid fa-plus"></i> Добавить объявление</a></li>
                 <li><a class="{{ Request::routeIs('profile.edit') ? 'active' : null }}" href="{{route('profile.update')}}"><i class="fa-solid fa-user"></i>Мой профиль</a></li>
+                <li><a class="{{ Request::routeIs(['alerts']) ? 'active' : null }}" href="{{route('alerts')}}"><i class="fa-solid fa-bell"></i> Уведомления</a></li>
                 <li><a class="{{ Request::routeIs('credit.dashboard') ? 'active' : null }}" href="{{route('credit.dashboard')}}"><i class="fa-solid fa-user"></i>Кредиты</a></li>
                 <li><a class="{{ Request::routeIs('my_organization') ? 'active' : null }}" href="{{route('my_organization')}}"><i class="fa-solid fa-building"></i>Моя организация</a></li>
                 <li><a class="{{ Request::routeIs('favorite') ? 'active' : null }}" href="{{route('favorite')}}"><i class='fa-solid fa-bookmark'></i>Закладки</a></li>
@@ -36,6 +37,7 @@ $user = Auth::user();
                 @if(Auth::user()->isAdmin())
                     <li><a class="{{ Request::routeIs('admin_dashboard') ? 'active' : null }}"  href="{{route('admin_dashboard')}}"><i class="fa-solid fa-gauge"></i> Админ-дашборд</a></li>
                     <li><a class="{{ Request::routeIs(['allbb']) ? 'active' : null }}" href="{{route('allbb')}}"><i class="fa-solid fa-clone"></i> Все объявления</a></li>
+                    <li><a class="{{ Request::routeIs(['allusers']) ? 'active' : null }}" href="{{route('allusers')}}"><i class="fa-solid fa-clone"></i> Пользователи</a></li>
                     <li><a class="{{ Request::routeIs('location_dashboard') ? 'active' : null }}"  href="{{route('location_dashboard')}}"><i class="fa-solid fa-mountain-city"></i> Список городов</a></li>
                     <li><a class="{{ Request::routeIs('rubric_dashboard') ? 'active' : null }}"  href="{{route('rubric_dashboard')}}"><i class="fa-solid fa-folder-tree"></i> Список категорий</a></li>
                     <li><a class="{{ Request::routeIs('parameter_dashboard') ? 'active' : null }}"  href="{{route('parameter_dashboard')}}"><i class="fa-solid fa-list"></i> Параметры</a></li>

@@ -31,7 +31,13 @@ class OrganizationController extends Controller
 
     })->orderBy('title','asc')->paginate(10);
     $locations = Location::where('level',1)->orderBy('title')->get();
-    return view('organization.list',['organizations'=>$organizations,'title'=>'Организации','locations'=>$locations,'request'=>$request]);
+    $title = 'Организации';
+    if ($request->location)
+    {
+        $location = Location::where('id',$request->location)->first();
+        $title .=" в ".$location->title_r;
+    }
+    return view('organization.list',['organizations'=>$organizations,'title'=>$title ,'locations'=>$locations,'request'=>$request]);
 }
 public function organization_site_redirect($id){
         $site = Organization::where('id',$id)->pluck('site')->first();

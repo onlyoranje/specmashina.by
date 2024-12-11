@@ -58,8 +58,7 @@
                                     <div class="col-12">
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input width-auto" id="exampleCheck1">
-                                            <label class="form-check-label">Agree to our <a href="javascript:void(0)">Terms and
-                                                    Conditions</a></label>
+                                            <label class="form-check-label">Согласен с <a href="javascript:void(0)">Условиями использования сайта</a></label>
                                         </div>
                                     </div>
                                 </div>

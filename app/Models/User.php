@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -31,7 +32,9 @@ class User extends Authenticatable
         'phone',
         'avatar',
         'password',
-        'is_admin'
+        'google_id',
+        'is_admin',
+        'active'
     ];
 
     /**
@@ -73,10 +76,10 @@ class User extends Authenticatable
     }
     public function addCredits($credits=0){
         $user_credits = User_credit::firstOrCreate(['user_id' => $this->id]);
-        $new_credits=$user_credits->credits+$credits->price;
-        if ($credits->price>=0) $action = 'Пополнение ';
-        if ($credits->price<0) $action = 'Списание ';
-        Credits_log::create(['user_id'=>$this->id,'credits'=>$credits->price,'description'=>$action.' '.$credits->price.' кр. за '.$credits->name]);
+        $new_credits=$user_credits->credits+$credits;
+        if ($credits>=0) $action = 'Пополнение ';
+        if ($credits<0) $action = 'Списание ';
+        Credits_log::create(['user_id'=>$this->id,'credits'=>$credits,'description'=>$action.' '.$credits.' кр.  ']);
         $user_credits->fill(['credits'=>$new_credits]);
         $user_credits->save();
 
@@ -109,5 +112,17 @@ class User extends Authenticatable
     public function countAlerts(){
         $alerts = BbAdminComments::select('bb_admin_comments.*')->Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',$this->id)->whereNull('bb_admin_comments.read_at')->count();
         return $alerts;
+    }
+    public function sendEmail($body,$subject="Уведомление от landi.by",$from=false){
+        if (!$from) $from='info@landi.by';
+        $to_name = $this->realname;
+        $to_email = $this->email;
+        $data = array('name'=>$to_name, "body" => $body);
+        Mail::send('emails', $data, function($message) use ($to_name, $to_email,$subject,$from) {
+
+            $message->to($to_email, $to_name)->subject($subject);
+            $message->from($from,'Landi.by');
+        });
+
     }
 }

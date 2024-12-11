@@ -18,4 +18,8 @@ class Status_bb extends Model
         $bbs = Auth::user()->bbs()->where('status_bb_id',$this->id)->get();
         return $bbs->count();
     }
+    public function getIStatusId($code){
+        $status= Status_bb::where('status',$code)->first();
+        return $status->id;
+    }
 }

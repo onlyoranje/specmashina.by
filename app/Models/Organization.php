@@ -19,6 +19,8 @@ class Organization extends Model
     }
     public function count_bbs(){
         $count_bbs = Bb::where('organization_id',$this->id)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->count();
+        
+        if (!isset($count_bbs)) $count_bbs=0;
         return $count_bbs;
     }
 

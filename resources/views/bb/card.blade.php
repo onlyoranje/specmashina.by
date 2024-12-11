@@ -35,14 +35,14 @@ $images = App\Models\UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
                     </h3>
                     <p class="location">
                         <a href="{{route('location',$bb->location->id)}}"><i class="lni lni-map-marker"></i>{{$bb->location->title}}, {{$bb->location->parent->title}}</a>
-@if ($location)
-                            <span class="flat-badge sale">{{Distance($bb->location,$location)>3 ? "~".Distance($bb->location,$location)." км":""}}</span>
+@if (!empty($location))
+                            {!!Distance($bb->location,$location)>3 ? "<span class=\"flat-badge sale\">~".Distance($bb->location,$location)." км</span> ":""!!}
                         @endif
                     </p>
                     <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb->time_update()}}</a></p>
                     <ul class="info">
                         <li class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</li>
-                        {{$bb->like()}}
+                        {{--{{$bb->like()}}--}}
                         </li>
                     </ul>
                 </div>

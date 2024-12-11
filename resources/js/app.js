@@ -1,3 +1,4 @@
+
 import "@popperjs/core"
 import './bootstrap'
 import "./jquery-3.6.4.min"
@@ -17,6 +18,9 @@ import "laravel-echo"
 import "pusher-js"
 import "./custom"
 
-
+ const router = createRouter({
+    history: createWebHistory(),
+    routes, // short for `routes: routes`
+});
 
 

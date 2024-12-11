@@ -72,7 +72,7 @@
                             </div>
                             <div class="bottom-content">
                                 <p class="price">Цена: <span>{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span></p>
-                                {{$bb->like()}}
+                                {{--{{$bb->like()}}--}}
                             </div>
                         </div>
                     </div>

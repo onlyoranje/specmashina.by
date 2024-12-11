@@ -75,9 +75,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+        systemEmailSend("Зарегистрирован новый пользователь {$user->name}");
         User_credit::create(['user_id'=>$user->id,'credits'=>10]);
         Credits_log::create(['user_id'=>$user->id,'credits'=>10,'description'=>'Зачисление кредитов при регистрации']);
         BbAdminComments::create(['type'=>'new_message','user_id'=>$user->id,'title'=>'Пополнение счета','data'=>'Вам зачислено 10 кредитов за регистрацию']);
+
         return $user;
     }
 }

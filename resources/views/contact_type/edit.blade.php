@@ -32,7 +32,7 @@
                                                 <div class="col-lg-6 col-12">
                                                     <div class="form-group">
                                                         <label>Маска</label>
-                                                        <input type="number" value="{{old('mask',$type->mask)}}" name="period" >
+                                                        <input type="text" value="{{old('mask',$type->mask)}}" name="mask" >
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-12">

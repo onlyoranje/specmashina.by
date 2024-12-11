@@ -23,9 +23,7 @@ return new class extends Migration
             $table->timestamps();
 
         });
-        for ($i = 1; $i < 2000; $i++) {
-            BbPrice::create(['bb_id' => $i, 'price_type_id' => 1, 'price' => rand(1, 99999)]);
-        }
+       
     }
 
     /**

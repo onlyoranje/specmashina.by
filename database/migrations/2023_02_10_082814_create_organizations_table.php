@@ -32,22 +32,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
-        $faker = Faker\Factory::create('ru_RU');
-        for ($i = 1; $i < 33; $i++) {
-            $location = Location::where('level',1)->inRandomOrder()->limit(1)->first();
-            $user = User::where('id',$i)->limit(1)->first();
-            Organization::create(
-                ['title' => $faker->company,
-                    'location_id'=>$location->id,
-                    'phone'=>$faker->phoneNumber(),
-                    'email'=>$faker->email(),
-                    'address' => $faker->address(),
-                    'content'=>$faker->text(),
-
-                    'unp' => rand(100000000,799999999),
-                    'user_id'=>$user->id
-                ]);
-        }
+       
     }
 
     /**

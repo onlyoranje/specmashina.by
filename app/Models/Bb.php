@@ -17,7 +17,7 @@ class Bb extends Model
     use Searchable;
     use Markable;
 
-    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','previous_status_bb_id','active','lifted_at'];
+    protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','previus_status','previous_status_bb_id','active','lifted_at'];
     protected static $marks = [
         Bookmark::class,
     ];
@@ -118,9 +118,12 @@ public function parent_rubric(){
 
     }
     public function edit_status($status_bb){
-        $status = Status_bb::where('status',$status_bb)->first();
+        if (is_numeric($status_bb))
+        $status = Status_bb::where('id',$status_bb)->first();
+        else
+            $status = Status_bb::where('status',$status_bb)->first();
 
-        $this->fill(['status_bb_id'=>$status->id]);
+        $this->fill(['status_bb_id'=>$status->id,'previus_status'=>$this->status_bb_id,'active'=>$status->active]);
         $this->save();
     }
     public function active($active){

@@ -2,9 +2,11 @@
 @section('title', 'Города')
 
 @section('main')
+
     <section class="dashboard section">
         <div class="container">
             <div class="row">
+                
                 <div class="col-lg-3 col-md-12 col-12">
                     <!-- Start Dashboard Sidebar -->
                 @include('layouts.dashboard_profile')

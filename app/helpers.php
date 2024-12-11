@@ -55,7 +55,7 @@ function url_parameters($request){
     return $result;
 }
 function FakeImage($width=640,$height=480,$blur=0,$grayscale=0,$title='Аренда и продажа техники в Беларуси',$img='image.jpg'){
- $image = '<img src="/storage/test/'.$img.'" alt="'.$title.'" style="filter: blur('.$blur.'px)  grayscale('.$grayscale.'%); -o-object-fit:cover; object-fit:cover;">';
+ $image = '<img src="/storage/'.$img.'" alt="'.$title.'" style="filter: blur('.$blur.'px)  grayscale('.$grayscale.'%); -o-object-fit:cover; object-fit:cover;">';
  return $image;
 }
 function get_dir_files( $dir, $recursive = true, $include_folders = false ){
@@ -87,4 +87,15 @@ function Distance(Location $location1,Location $location2){
     $distance = rad2deg($distance);
     $distance = $distance * 60 * 1.1515 * 1.609344;
     return ceil($distance);
+}
+function systemEmailSend($body){
+    $from='info@landi.by';
+    $to_name = 'Admin';
+    $to_email = '47@terwa.by';
+    $data = array('name'=>$to_name, "body" => $body);
+    Mail::send('emails', $data, function($message) use ($to_name, $to_email,$from) {
+
+        $message->to($to_email, $to_name)->subject("Служебное уведомление");
+        $message->from($from,'Landi.by');
+    });
 }

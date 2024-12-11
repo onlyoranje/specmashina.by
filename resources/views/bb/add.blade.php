@@ -14,7 +14,7 @@
                     <div class="main-content">
                         <!-- Start Post Ad Block Area -->
                         <div class="dashboard-block mt-0">
-                            <h3 class="block-title">Post Ad</h3>
+                            <h3 class="block-title">Новое объявление</h3>
                             <form  action="{{route('addBbToDB')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                             <div class="inner-block">
@@ -26,17 +26,17 @@
                                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                             <button class="nav-link active" id="nav-item-info-tab" data-bs-toggle="tab" data-bs-target="#nav-item-info" type="button" role="tab" aria-controls="nav-item-info" aria-selected="true">
                                                 <span class="serial">01</span>
-                                                Step
+                                                Шаг
                                                 <span class="sub-title">Общая информация</span>
                                             </button>
                                             <button class="nav-link" id="nav-item-details-tab" data-bs-toggle="tab" data-bs-target="#nav-item-details" type="button" role="tab" aria-controls="nav-item-details" aria-selected="false">
                                                 <span class="serial">02</span>
-                                                Step
+                                                Шаг
                                                 <span class="sub-title">Фото и описание</span>
                                             </button>
                                             <button class="nav-link" id="nav-user-info-tab" data-bs-toggle="tab" data-bs-target="#nav-user-info" type="button" role="tab" aria-controls="nav-user-info" aria-selected="false">
                                                 <span class="serial">03</span>
-                                                Step
+                                                Шаг
                                                 <span class="sub-title">Контактные данные</span>
                                             </button>
                                         </div>
@@ -97,7 +97,7 @@
                                                         <div class="col-6">
                                                             <div class="form-group">
                                                                 <label>Цена</label>
-                                                                <input name="price" type="number" value="{{old('price')}}"   id="price" data-name="price" min="1">
+                                                                <input name="price" type="number" step="0.01" value="{{old('price')}}"   id="price" data-name="price" min="1">
                                                             </div>
                                                         </div>
                                                         <div class="col-6">

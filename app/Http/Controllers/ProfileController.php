@@ -18,7 +18,9 @@ use App\Models\Rubric;
 use App\Models\Bb;
 use App\Models\Status_bb;
 use App\Models\UserFile;
+use App\Models\User;
 use Composer\XdebugHandler\Status;
+//use http\Client\Curl\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -216,9 +218,9 @@ class ProfileController extends Controller
             }
         }
 
-        $bbprice = BbPrice::create(['bb_id' => $bb->id, 'price_type_id'=>$validated['price_type']]);
-
-            $bbprice->fill(['price'=>$request->price]);
+            $bbprice = BbPrice::create(['bb_id' => $bb->id, 'price_type_id'=>$validated['price_type']]);
+            $price = str_replace(',','.',$request->price);
+            $bbprice->fill(['price'=>$price]);
             $bbprice->save();
 
         if (is_array($request->contact)) {
@@ -514,7 +516,11 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular, 'bbs_moderation_fail'=>$bbs_moderation_fail,'notifications'=>$notifications ]);
     }
     public function dashboard(){
-        if (!isset(Auth::user()->credit->credits)) Auth::user()->addCredits(0);
+        if (!isset(Auth::user()->credit->credits)) Auth::user()->addCredits(30);
+        if (!isset(Auth::user()->realname)) {
+            Auth::user()->fill(['realname'=> Auth::user()->name]);
+            Auth::user()->save();
+        }
             $bbs = Bb::where('user_id',Auth::id())->get();
             $bbs_popular =
                 Bb::where('user_id',Auth::id())->
@@ -543,12 +549,13 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
     public function bb_edit_status(Bb $bb, $status_bb){
 
         if (Auth::id()==$bb->user_id or Auth::user()->isAdmin()){
+
             $bb->edit_status($status_bb);
 
         }
         return redirect()->route('mybb');
     }
-    public function bb_active(Bb $bb, $active){
+    public function bb_active(Bb $bb, $status){
 
         if (Auth::id()==$bb->user_id or Auth::user()->isAdmin()){
             $bb->active($active);
@@ -564,5 +571,18 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         $alert = BbAdminComments::select('bb_admin_comments.*')->Join('bbs','bbs.id','=','bb_admin_comments.bb_id')->where('bbs.user_id',Auth::id())->where('bb_admin_comments.id',$request->id)->update(['bb_admin_comments.read_at'=>date('Y-m-d H:i:s')]);
         //dd($alert);
         return response()->json(['code'=>200], 200);
+    }
+    public function allusers(){
+        $users = User::latest()->paginate(10);
+        return view('layouts.users',['users'=>$users,'title' => 'Пользователи']);
+    }
+    public function changeUserStatus($user_id,$status){
+        $user = User::find($user_id);
+
+        $user->fill(['active'=> $status]);
+        $user->save();
+        $user->sendEmail("1122");
+        systemEmailSend("Статус Аккаунта {$user->name} изменен");
+        return redirect()->route('allusers');
     }
 }

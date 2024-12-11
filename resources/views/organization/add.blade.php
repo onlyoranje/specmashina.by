@@ -170,7 +170,7 @@
                                         </div>--}}
     <script>
         window.addEventListener("load", function(){
-            $("#phone").mask("+375 (99) 999-99-99")
+            $("#phone").mask("+375 99 999-99-99")
             $("#unp").mask("999999999")
             window.json_location = @json($locations);
             NewSelect('location');

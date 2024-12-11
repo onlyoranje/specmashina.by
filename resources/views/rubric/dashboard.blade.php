@@ -20,7 +20,7 @@
                                     <h3 class="block-title">Категории</h3>
 
                                     @if (count($rubrics)>0)
-                                        <?
+                                        <?php
                                         $traverse = function ($rubrics, $prefix = '&emsp;') use (&$traverse) {
                                         foreach ($rubrics as $rubric){
                                         ?>
@@ -41,7 +41,7 @@
                                     </ul>
 
 
-                                <?
+                                <?php
 
 
 

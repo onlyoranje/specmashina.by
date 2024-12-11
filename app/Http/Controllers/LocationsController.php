@@ -93,6 +93,9 @@ class LocationsController extends Controller
             $location->fill(['image'=> $file_name[1]]);
             $location->save();
 
+        } else {
+            $location->fill(['image'=> null]);
+            $location->save();
         }
         return redirect()->route('location_dashboard');
     }

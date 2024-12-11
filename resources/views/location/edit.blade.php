@@ -51,7 +51,9 @@
 
                                                         <select name="parent_id" id="select_category" class="user-chosen-select">
                                                             <option value="">Корневая категория</option>
-                                                            <?
+                                                            <?php
+
+
                                                             $traverse = function ($locations, $prefix = '-') use (&$traverse) {
                                                                 foreach ($locations as $locationl) {
                                                                     echo "<option value=".$locationl->id." ";
@@ -152,7 +154,7 @@
                                         <label class="control-label">Родительская категория</label>
                                         <select name="parent_id" id="select_category" class="user-chosen-select">
                                             <option value="">Корневая категория</option>
-                                            <?
+                                            <?php
                                             $traverse = function ($locations, $prefix = '-') use (&$traverse) {
                                                 foreach ($locations as $locationl) {
                                                     echo "<option value=".$locationl->id." ";

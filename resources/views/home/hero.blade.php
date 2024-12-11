@@ -5,12 +5,12 @@
                 <div class="hero-text text-center">
                     <!-- Start Hero Text -->
                     <div class="section-heading">
-                        <h2 class="wow fadeInUp" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">Добро пожаловать!</h2>
-                        <p class="wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">Сдавайте в аренду и ищите технику на нашем сайте <br>Дорожная техника, краны, экскаваторы и прочее</p>
+                        <h1 class=" text-white" {{--data-wow-delay=".3s"--}} style="visibility: visible; ">Портал объявлений об аренде и продаже<br>строительной техники и инструмента</h1>
+                        {{--<p class="wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">Сдавайте в аренду и ищите технику на нашем сайте <br>Дорожная техника, краны, экскаваторы и прочее</p>--}}
                     </div>
                     <!-- End Search Form -->
                     <!-- Start Search Form -->
-                    <div class="search-form wow fadeInUp" data-wow-delay=".7s" style="visibility: visible; animation-delay: 0.7s; animation-name: fadeInUp;">
+                    <div class="search-form " {{--data-wow-delay=".7s"--}} style="visibility: visible; animation-delay: 0.7s; animation-name: fadeInUp;">
                         <form action="{{route('search')}}" id='hero_search' method="GET" enctype="text/plain">
                             <div class="row">
                             <div class="col-lg-10 col-md-10 col-12 p-0">

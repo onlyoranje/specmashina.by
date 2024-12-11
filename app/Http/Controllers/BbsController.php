@@ -50,12 +50,12 @@ class BbsController extends Controller
         if ($bb->active != 'Y' and Auth::user()->isAdmin()==false and $bb->user->id!=Auth::id()) abort(404);
         $reasons = RejectReasons::all();
         $stat = BbStatistic::updateOrCreate(['bb_id'=>$bb->id,'user_token'=> Session::getId()]);
-        if ($stat->updated_at < date('Y-m-d H:i:s',strtotime('-1 minute')) and $stat->user_token==Session::getId())
+        if ($stat->updated_at < date('Y-m-d H:i:s',strtotime('-1 day')) and $stat->user_token==Session::getId() and Auth::user()->is_admin!=1)
         {
             $stat->fill(['views'=>$stat->views+1]);
             $stat->save();
         }
-        elseif ($stat->user_token!=Session::getId())
+        elseif ($stat->user_token!=Session::getId() and Auth::user()->is_admin!=1)
         {
             $stat->fill(['views'=>1]);
             $stat->save();

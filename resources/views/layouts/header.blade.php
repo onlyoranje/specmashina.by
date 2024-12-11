@@ -1,6 +1,7 @@
 <header class="header navbar-area">
     <div class="container">
         <div class="row align-items-center">
+            <div class="col-12"style="width:100%; background-color: yellow; color:black; text-align: center; font-weight: 400">Портал работает в режиме тестирования. Некоторые функции могут быть не доступны.</div>
             <div class="col-lg-12">
                 <div class="nav-inner">
 

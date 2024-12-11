@@ -100,7 +100,7 @@
                                                             <div class="col-6">
                                                                 <div class="form-group">
                                                                     <label>Цена</label>
-                                                                    <input name="price" type="number" value="{{old('price',$bb->bbprice->price)}}"   id="price" data-name="price" min="1">
+                                                                    <input name="price" type="number" step="0.01" value="{{old('price',$bb->bbprice->price)}}"   id="price" data-name="price" min="1">
                                                                 </div>
                                                             </div>
                                                             <div class="col-6">

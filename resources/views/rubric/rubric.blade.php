@@ -38,7 +38,9 @@
                     @include('widgets.options')--}}
                         <!-- End Single Widget -->
                         <!-- Start Single Widget -->
+                        @desktop
                     @include('widgets.banner')
+                        @enddesktop
                         <!-- End Single Widget -->
                     </div>
                 </div>
@@ -111,9 +113,11 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>

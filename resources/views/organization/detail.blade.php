@@ -4,7 +4,7 @@
     <section class="about-us section">
         <div class="container">
             <div class="row align-items-center justify-content-center">
-                <div class="col-lg-4 col-md-12 col-12">
+                <div class="col-lg-2 col-md-2 col-12">
                     <div class="content-left wow fadeInLeft" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
                         @if($organization->logo)
                             <img src="{{Storage::url($organization->logo)}}" alt="{{$organization->title}}">
@@ -13,7 +13,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-lg-8 col-md-12 col-12">
+                <div class="col-lg-10 col-md-10 col-12">
                     <!-- content-1 start -->
                     <div class="content-right wow fadeInRight" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInRight;">
                         <!-- Heading -->

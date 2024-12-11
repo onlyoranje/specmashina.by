@@ -45,6 +45,9 @@ Route::get('organization/{id}/site', [App\Http\Controllers\OrganizationControlle
 
 Route::get('/dashboard/mybb',[App\Http\Controllers\ProfileController::class, 'mybb'])->name('mybb');
 Route::get('/dashboard/allbb',[App\Http\Controllers\ProfileController::class, 'allbb'])->name('allbb')->middleware('isadmin');;
+Route::get('/dashboard/allusers',[App\Http\Controllers\ProfileController::class, 'allusers'])->name('allusers')->middleware('isadmin');;
+Route::get('/dashboard/user/{user}',[App\Http\Controllers\ProfileController::class, 'user'])->name('user')->middleware('isadmin');;
+Route::get('/dashboard/user/{user}/{status}',[App\Http\Controllers\ProfileController::class, 'changeUserStatus'])->name('change_user_status')->middleware('isadmin');;
 Route::get('/dashboard/mybb/add', [App\Http\Controllers\ProfileController::class, 'addForm'])->name('addForm');
 Route::post('/dashboard/mybb', [App\Http\Controllers\ProfileController::class, 'addBb'])->name('addBbToDB');
 Route::get('/dashboard/mybb/{bb}/edit',[App\Http\Controllers\ProfileController::class, 'editBb'])->name('bb_edit')->middleware('can:update,bb');
@@ -170,7 +173,9 @@ Route::patch('/notification', [App\Http\Controllers\NotificationController::clas
 
 Route::patch('/bookmarked', [App\Http\Controllers\BookmarkController::class, 'bookmarked'])->middleware(['auth', 'verified'])->name('bookmarked');
 
+# Google Auth routes
+Route::get('/google-auth/redirect', [App\Http\Controllers\GoogleAuthController::class, 'redirect'])->name("google.redirect");
+Route::get('/google-auth/callback', [App\Http\Controllers\GoogleAuthController::class, 'callback'])->name("google.callback");
 
 
-
-
+//Route::get('sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);

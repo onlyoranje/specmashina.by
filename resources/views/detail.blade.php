@@ -6,6 +6,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
 
 ?>
 @section('title', $title)
+@section('description', $title.". ".$bb->user->organization->title.". ".$bb->bbprice->price." ".$bb->bbprice->pricetype->type)
 @extends('layouts.base')
 @section('main')
 
@@ -143,7 +144,7 @@ use App\Models\Bb;use Kudashevs\ShareButtons\ShareButtons;
 
                             <p class="location"><i class="fa-solid fa-eye"></i><a id="bb_id">{{$bb->count_views('text')}} </a></p>
                             <p class="location"><i class="fa-solid fa-location-dot"></i><a href="{{route('location',$bb->location->id)}}">{{$bb->location->title}}, {{$bb->location->parent->title}}</a></p>
-                                <p  class="location"><a><i class="fa-solid fa-calendar-days"></i></i>{{$bb->time_update()}}</a></p>
+                                <p  class="location"><a><i class="fa-solid fa-calendar-days"></i>{{$bb->time_update()}}</a></p>
                             <h3 class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</h3>
                             <div class="list-info">
                                 <h4>Информация</h4>

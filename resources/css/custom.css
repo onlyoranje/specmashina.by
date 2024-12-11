@@ -413,3 +413,8 @@ border-radius: 3px;
     top: 15px;
     right: 15px;
 }
+
+.browse-cities .single-city .image img {
+    -o-object-fit:cover!important;;
+    object-fit:cover!important;
+}

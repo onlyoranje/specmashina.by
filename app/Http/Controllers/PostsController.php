@@ -68,7 +68,7 @@ class PostsController extends Controller
     public function post(Post $post){
         $title = $post->title;
         $stat = PostStatistic::updateOrCreate(['post_id'=>$post->id,'user_token'=> Session::getId()]);
-        if ($stat->updated_at < date('Y-m-d H:i:s',strtotime('-1 minute')) and $stat->user_token==Session::getId())
+        if ($stat->updated_at < date('Y-m-d H:i:s',strtotime('-1 day')) and $stat->user_token==Session::getId())
         {
             $stat->fill(['views'=>$stat->views+1]);
             $stat->save();

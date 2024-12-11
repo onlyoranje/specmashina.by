@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Storage;
 class RubricsController extends Controller
 {
     private const RUB_VALIDATOR = [
-        'title'=> 'required|max:100'
+        'title'=> 'required|max:100',
+        'title_r'=> 'required|max:100'
     ];
     private const RUB_ERROR_MESSAGES = [
         'max'=>' Значение не долно быть длиннее :max символов'
@@ -65,7 +66,7 @@ redirect()->route('rubric',$id);
 
         $breadcrumbs['route']= 'rubric';
         $breadcrumbs['list']= Rubric::ancestorsAndSelf($id);
-        if (count($bbs)<1) {
+        if (count($bbs)<1 and $location) {
             $alert_message=' Нет объявлений';
             $bbs_near=Bb::select('bbs.*')->join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->whereIn('rubric_id', $rubrics)->get();
             $lat = $location->lat;
@@ -93,10 +94,16 @@ redirect()->route('rubric',$id);
     }
     public function location(Request $request,$id){
         $rubric = Rubric::find($request->rubric);
-
+        $rubrics    = Rubric::descendantsAndSelf($request->rubric)->pluck('id');
+        //dd($rubrics);
+        $alert_message = false;
         $location     = Location::find($id);
-        $locations    = Location::descendantsAndSelf($id)->pluck('id');
+        $locations    = Location::ancestorsAndSelf($id)->pluck('id');
         $bbs    = Bb::whereIn('location_id',$locations)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('lifted_at', 'desc')->paginate(12);
+
+        if ($request->rubric){
+            $bbs    = Bb::whereIn('location_id',$locations)->whereIn('rubric_id',$rubrics)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->orderBy('lifted_at', 'desc')->paginate(12);
+        }
         $title = "Спецтехника в ".$location->title_r;
         if ($rubric){
             switch ($rubric->id) {
@@ -118,7 +125,7 @@ redirect()->route('rubric',$id);
 
         $breadcrumbs['route'] = 'location';
         $breadcrumbs['list']= Location::ancestorsAndSelf($id);
-        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request,'rubric'=>$rubric]);
+        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request,'rubric'=>$rubric,'alert_message'=>$alert_message]);
 
     }
     public function rubrics(){
@@ -138,7 +145,7 @@ redirect()->route('rubric',$id);
             $level = (Rubric::find($request->parent_id)->level)+1;
         else
             $level=0;
-        Rubric::create(['title'=>$validated['title'],'icon'=>$request->icon,'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description]);
+        Rubric::create(['title'=>$validated['title'],'title_r'=>$validated['title_r'],'icon'=>$request->icon,'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description]);
         return redirect()->route('rubric_dashboard');
     }
     public function editRubric(Request $request, Rubric $rubric){
