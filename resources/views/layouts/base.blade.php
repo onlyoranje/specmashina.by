@@ -196,8 +196,8 @@
                     <div class="col-12">
                         <div class="content">
                             <ul class="footer-bottom-links">
-                                <li><a href="javascript:void(0)">Условия использования</a></li>
-                                <li><a href="javascript:void(0)">Политика безопасности</a></li>
+                                <li><a href="https://landi.by/page/1">ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ</a></li>
+                                <li><a href="https://landi.by/page/2">ПОЛИТИКА ОБРАБОТКИ ПЕРСОНАЛЬНЫХ ДАННЫХ</a></li>
                                 <li><a href="javascript:void(0)">Публичная оферта</a></li>
                                 <li><a href="javascript:void(0)">Карта сайта</a></li>
                                 <li><a href="javascript:void(0)">О нас</a></li>
@@ -227,7 +227,7 @@
 
 @include('cookie-consent::index')
 </body>
-@if (Request::routeIs(['post_add','post_dashboard']))
+@if (Request::routeIs(['post_add','post_dashboard','page_add','page_dashboard']))
 <script src="/assets/vendor/ckeditor5/build/ckeditor.js"></script>
     <script type="text/javascript" src="/js/ckfinder/ckfinder.js"></script>
 <script>CKFinder.config( { connectorPath: '/ckfinder/connector' } );</script>

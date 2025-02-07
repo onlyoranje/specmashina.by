@@ -36,7 +36,7 @@
                         <div class="content">
                             <h4 class="name">
                                 {{$city->title}}
-                                <span>Объявлений: {{$city->bbs_count}}</span>
+                                <span>{{bbs_count_title($city->bbs_count)}}</span>
                             </h4>
                         </div>
                         <div class="more-btn">

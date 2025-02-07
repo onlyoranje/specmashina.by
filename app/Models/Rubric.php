@@ -33,6 +33,15 @@ class Rubric extends Model
         $breadcrumbs= Rubric::ancestorsAndSelf($this->id);
         $parent_rubric = $breadcrumbs[0];
         $title = $parent_rubric->title.' '.$this->title_r;
+        if ($this->level==0)$title = $parent_rubric->title.' строительной техники и инструмента';
         return $title;
+    }
+    public function description(){
+
+        $breadcrumbs= Rubric::ancestorsAndSelf($this->id);
+        $parent_rubric = $breadcrumbs[0];
+        $description = 'Объявления '.$parent_rubric->title_r.' '.$this->title_r;
+        //if ($this->description) $description = $this->description;
+        return $description;
     }
 }

@@ -417,3 +417,6 @@ border-radius: 3px;
     -o-object-fit:cover;
     object-fit:cover;
 }
+.single-cat h3{
+    min-height: 52px;
+}

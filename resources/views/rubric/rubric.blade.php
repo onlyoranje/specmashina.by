@@ -1,5 +1,6 @@
 @extends('layouts.base')
 @section('title', $title)
+@section('description', $description)
 @section('main')
 
     @php

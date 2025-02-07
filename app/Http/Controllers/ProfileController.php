@@ -179,6 +179,7 @@ class ProfileController extends Controller
         $parameter_rubric = DB::table('parameter_rubric')->get();
         $price_type_rubric = PriceTypeRubric::select('*','price_types.sort as sort')->join('price_types','price_type_rubric.price_type_id','=','price_types.id')->orderBy('sort')->get();
         //dd($price_type_rubric);
+        if (!Auth::user()->organization) return view('organization.add',['locations'=>$locations]);
         return view('bb.add',[
             'user'=>$user,
             'rubrics'=>$rubrics,
@@ -576,13 +577,32 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         $users = User::latest()->paginate(10);
         return view('layouts.users',['users'=>$users,'title' => 'Пользователи']);
     }
+
+    public function allorganizations(){
+        $organizations = Organization::latest()->paginate(10);
+        return view('layouts.organizations',['organizations'=>$organizations,'title' => 'Все организации']);
+    }
     public function changeUserStatus($user_id,$status){
         $user = User::find($user_id);
 
         $user->fill(['active'=> $status]);
         $user->save();
-        $user->sendEmail("1122");
+        if ($status=='Y') {
+            $mess = "Ваш аккаунт активирован";
+        } else {
+            $mess = "Ваш аккаунт деактивирован";
+        }
+        $user->sendEmail($mess);
         systemEmailSend("Статус Аккаунта {$user->name} изменен");
         return redirect()->route('allusers');
+    }
+    public function changeOrganizationStatus($organization_id,$status){
+        $organization = Organization::find($organization_id);
+
+        $organization->fill(['active'=> $status]);
+        $organization->save();
+        $organization->user->sendEmail("1122");
+        systemEmailSend("Статус организации {$organization->title} изменен");
+        return redirect()->route('allorganizations');
     }
 }

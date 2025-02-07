@@ -6,7 +6,7 @@ use App\Models\Post;
 $tags = Post::where('active','Y')->pluck('tags')->toArray();
 
 $tags = implode(',',$tags);
-$tags = explode(',',$tags);
+$tags = explode(',',mb_strtolower($tags));
 
 $tags = array_count_values($tags);
 $tags = array_slice($tags, 0, 15);

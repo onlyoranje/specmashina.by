@@ -46,8 +46,10 @@ Route::get('organization/{id}/site', [App\Http\Controllers\OrganizationControlle
 Route::get('/dashboard/mybb',[App\Http\Controllers\ProfileController::class, 'mybb'])->name('mybb');
 Route::get('/dashboard/allbb',[App\Http\Controllers\ProfileController::class, 'allbb'])->name('allbb')->middleware('isadmin');;
 Route::get('/dashboard/allusers',[App\Http\Controllers\ProfileController::class, 'allusers'])->name('allusers')->middleware('isadmin');;
+Route::get('/dashboard/allorganizations',[App\Http\Controllers\ProfileController::class, 'allorganizations'])->name('allorganizations')->middleware('isadmin');;
 Route::get('/dashboard/user/{user}',[App\Http\Controllers\ProfileController::class, 'user'])->name('user')->middleware('isadmin');;
 Route::get('/dashboard/user/{user}/{status}',[App\Http\Controllers\ProfileController::class, 'changeUserStatus'])->name('change_user_status')->middleware('isadmin');;
+Route::get('/dashboard/organization/{organization}/{status}',[App\Http\Controllers\ProfileController::class, 'changeOrganizationStatus'])->name('change_organization_status')->middleware('isadmin');;
 Route::get('/dashboard/mybb/add', [App\Http\Controllers\ProfileController::class, 'addForm'])->name('addForm');
 Route::post('/dashboard/mybb', [App\Http\Controllers\ProfileController::class, 'addBb'])->name('addBbToDB');
 Route::get('/dashboard/mybb/{bb}/edit',[App\Http\Controllers\ProfileController::class, 'editBb'])->name('bb_edit')->middleware('can:update,bb');
@@ -176,6 +178,18 @@ Route::patch('/bookmarked', [App\Http\Controllers\BookmarkController::class, 'bo
 # Google Auth routes
 Route::get('/google-auth/redirect', [App\Http\Controllers\GoogleAuthController::class, 'redirect'])->name("google.redirect");
 Route::get('/google-auth/callback', [App\Http\Controllers\GoogleAuthController::class, 'callback'])->name("google.callback");
+
+
+# Static Pages
+Route::get('/page/{page}', [App\Http\Controllers\StaticPageController::class, 'page'])->name('page');
+Route::get('/dashboard/pages/', [App\Http\Controllers\StaticPageController::class, 'pages_dashboard'])->name('pages_dashboard')->middleware('isadmin');
+Route::post('/dashboard/page', [App\Http\Controllers\StaticPageController::class, 'page_add_db'])->name('page_add_db')->middleware('isadmin');
+Route::get('/dashboard/page/add', [App\Http\Controllers\StaticPageController::class, 'page_add'])->name('page_add')->middleware('isadmin');
+Route::get('/dashboard/page/{page}', [App\Http\Controllers\StaticPageController::class, 'page_dashboard'])->name('page_dashboard')->middleware('isadmin');
+Route::patch('/dashboard/page/{page}', [App\Http\Controllers\StaticPageController::class, 'edit_page'])->name('edit_page')->middleware('isadmin');
+Route::get('/dashboard/page/{page}/delete', [App\Http\Controllers\StaticPageController::class, 'delete_page'])->name('delete_page')->middleware('isadmin');
+Route::delete('/dashboard/page/{page}', [App\Http\Controllers\StaticPageController::class, 'destroy_page'])->name('destroy_page')->middleware('isadmin');
+Route::get('/pages/', [App\Http\Controllers\StaticPageController::class, 'pages'])->name('pages');
 
 
 //Route::get('sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);

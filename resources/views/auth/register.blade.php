@@ -12,8 +12,8 @@
                             @csrf
                             <div class="socila-login">
                                 <ul>
-                                    <li><a href="javascript:void(0)" class="facebook"><i class="lni lni-facebook-original"></i>Регистрация через Facebook</a></li>
-                                    <li><a href="javascript:void(0)" class="google"><i class="lni lni-google"></i>Регистрация через  Google
+
+                                    <li><a href="{{route('google.redirect')}}" class="google"><i class="lni lni-google"></i>Регистрация через  Google
                                             </a>
                                     </li>
                                 </ul>
@@ -40,7 +40,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Пароль</label>
+                                <label>Пароль (минимум 8 символов)</label>
                                 <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                 @error('password')
@@ -58,7 +58,7 @@
                                     <div class="col-12">
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input width-auto" id="exampleCheck1">
-                                            <label class="form-check-label">Согласен с <a href="javascript:void(0)">Условиями использования сайта</a></label>
+                                            <label class="form-check-label">Согласен с <a href="https://landi.by/page/1">Условиями использования сайта</a></label>
                                         </div>
                                     </div>
                                 </div>

@@ -99,3 +99,16 @@ function systemEmailSend($body){
         $message->from($from,'Landi.by');
     });
 }
+function bbs_count_title($bbs){
+    switch ($bbs){
+        case 0: return 'Ваше объявление будет первым!';
+        case 1: return $bbs.' объявление';
+        case ($bbs>1 and $bbs<5): return $bbs.' объявления';
+        case ($bbs>4 and $bbs<21): return $bbs.' объявлений';
+        case ($bbs>20 and substr($bbs,-1)==1): return $bbs.' объявление';
+        case ($bbs>20 and substr($bbs,-1)==2): return $bbs.' объявления';
+        case ($bbs>20 and substr($bbs,-1)==3): return $bbs.' объявления';
+        case ($bbs>20 and substr($bbs,-1)==4): return $bbs.' объявления';
+        default: return $bbs.' объявлений';
+    }
+}

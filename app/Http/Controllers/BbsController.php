@@ -39,7 +39,7 @@ class BbsController extends Controller
                 'bbs' => function (Builder $query) {
                     $query->where('active', 'Y');
                 },
-            ])->where('level',1)->orderBy('bbs_count','desc')->limit(10)->get()
+            ])->where('level',1)->orderBy('bbs_count','desc')->orderBy('image','desc')->limit(10)->get()
 
         ];
         return view('home', $context);

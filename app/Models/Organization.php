@@ -10,7 +10,7 @@ class Organization extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $fillable = ['title', 'location_id','address', 'unp','site','email', 'logo','user_id','phone','content'];
+    protected $fillable = ['title', 'location_id','address', 'unp','site','email', 'logo','user_id','phone','content','active'];
     public function user() {
         return $this->belongsTo(User::class);
     }

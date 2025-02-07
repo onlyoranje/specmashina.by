@@ -63,7 +63,7 @@ redirect()->route('rubric',$id);
         orderBy('bbs.created_at','desc')->
         paginate(12);
         $locations = Location::where('level',1)->orderBy('title')->get();
-
+        $description = $rubric->description();
         $breadcrumbs['route']= 'rubric';
         $breadcrumbs['list']= Rubric::ancestorsAndSelf($id);
         if (count($bbs)<1 and $location) {
@@ -86,10 +86,11 @@ redirect()->route('rubric',$id);
         $title = $rubric->title();
         if ($request->location) {
             $title.=' в '.$location->title_r;
-
+            $description.= ' в '.$location->title_r;
         }
+        $description.= ". ".bbs_count_title(count($bbs));
 
-        return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request,'alert_message'=>$alert_message,'location'=>$location]);
+        return view('rubric.rubric', ['rubric'=>$rubric,'rubrics'=>$rubrics,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'locations'=>$locations,'request'=>$request,'alert_message'=>$alert_message,'location'=>$location,'description'=>$description]);
 
     }
     public function location(Request $request,$id){
@@ -122,10 +123,11 @@ redirect()->route('rubric',$id);
             }
         }
 
-
+        $description = $title;
+        $description.= ". ".bbs_count_title(count($bbs));
         $breadcrumbs['route'] = 'location';
         $breadcrumbs['list']= Location::ancestorsAndSelf($id);
-        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request,'rubric'=>$rubric,'alert_message'=>$alert_message]);
+        return view('rubric.rubric', ['location'=>$location,'locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'bbs'=>$bbs,'title'=>$title,'request'=>$request,'rubric'=>$rubric,'alert_message'=>$alert_message,'description'=>$description]);
 
     }
     public function rubrics(){

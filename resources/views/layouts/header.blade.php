@@ -1,7 +1,7 @@
 <header class="header navbar-area">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-12"style="width:100%; background-color: yellow; color:black; text-align: center; font-weight: 400">Портал работает в режиме тестирования. Некоторые функции могут быть не доступны.</div>
+         {{--   <div class="col-12"style="width:100%; background-color: yellow; color:black; text-align: center; font-weight: 400">Портал работает в режиме тестирования. Некоторые функции могут быть не доступны.</div>--}}
             <div class="col-lg-12">
                 <div class="nav-inner">
 
@@ -141,7 +141,7 @@
                                         <a href="{{route('dashboard')}}" aria-label="Toggle navigation">Вход</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{route('dashboard')}}" aria-label="Toggle navigation">Регистрация</a>
+                                        <a href="{{route('register')}}" aria-label="Toggle navigation">Регистрация</a>
                                     </li>
                                 @endif
                                 @endmobile
@@ -164,7 +164,7 @@
                                     <a href="{{route('dashboard')}}"><i class="lni lni-enter"></i> Вход</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('dashboard')}}"><i class="lni lni-user"></i> Регистрация</a>
+                                    <a href="{{route('register')}}"><i class="lni lni-user"></i> Регистрация</a>
                                 </li>
                                 @endif
                             </ul>

@@ -38,6 +38,7 @@ $user = Auth::user();
                     <li><a class="{{ Request::routeIs('admin_dashboard') ? 'active' : null }}"  href="{{route('admin_dashboard')}}"><i class="fa-solid fa-gauge"></i> Админ-дашборд</a></li>
                     <li><a class="{{ Request::routeIs(['allbb']) ? 'active' : null }}" href="{{route('allbb')}}"><i class="fa-solid fa-clone"></i> Все объявления</a></li>
                     <li><a class="{{ Request::routeIs(['allusers']) ? 'active' : null }}" href="{{route('allusers')}}"><i class="fa-solid fa-clone"></i> Пользователи</a></li>
+                    <li><a class="{{ Request::routeIs(['allorganizations']) ? 'active' : null }}" href="{{route('allorganizations')}}"><i class="fa-solid fa-clone"></i> Организации</a></li>
                     <li><a class="{{ Request::routeIs('location_dashboard') ? 'active' : null }}"  href="{{route('location_dashboard')}}"><i class="fa-solid fa-mountain-city"></i> Список городов</a></li>
                     <li><a class="{{ Request::routeIs('rubric_dashboard') ? 'active' : null }}"  href="{{route('rubric_dashboard')}}"><i class="fa-solid fa-folder-tree"></i> Список категорий</a></li>
                     <li><a class="{{ Request::routeIs('parameter_dashboard') ? 'active' : null }}"  href="{{route('parameter_dashboard')}}"><i class="fa-solid fa-list"></i> Параметры</a></li>
@@ -47,6 +48,7 @@ $user = Auth::user();
                     <li><a class="{{ Request::routeIs('contact_type_dashboard') ? 'active' : null }}"  href="{{route('contact_type_dashboard')}}"><i class="fa-solid fa-id-badge"></i> Типы контактов</a></li>
                     <li><a class="{{ Request::routeIs('status_dashboard') ? 'active' : null }}"  href="{{route('status_dashboard')}}"><i class="fa-regular fa-star"></i> Статусы объявлений</a></li>
                     <li><a class="{{ Request::routeIs('posts_dashboard') ? 'active' : null }}"  href="{{route('posts_dashboard')}}"><i class="fa-solid fa-newspaper"></i> Новости</a></li>
+                    <li><a class="{{ Request::routeIs('pages_dashboard') ? 'active' : null }}"  href="{{route('pages_dashboard')}}"><i class="fa-solid fa-newspaper"></i> Статические страницы</a></li>
                     <li><a class="{{ Request::routeIs('banners_dashboard') ? 'active' : null }}"  href="{{route('banners_dashboard')}}"><i class="fa-solid fa-newspaper"></i> Баннеры</a></li>
                 @endif
             </ul>
