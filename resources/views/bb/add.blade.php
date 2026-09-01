@@ -139,7 +139,7 @@
                                                                 @if ($parameter->type == 'option')
                                                                     <div class="col-6" style="display:none">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label  class="form-label">{{$parameter->name}}<?php if ($parameter->measure) echo ', '.$parameter->measure?>
                                                                             </label>
                                                                             <select class="form-select" name="parameter[{{$parameter->id}}]" >
                                                                                 <option disabled selected>- выбрать -</option>
@@ -157,7 +157,7 @@
                                                                     <div class="col-6" style="display:none">
 
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label  class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label  class="form-label">{{$parameter->name}}<?php  if ($parameter->measure) {echo ', '.$parameter->measure;}?>
                                                                             </label>
                                                                         <div class="form-check">
                                                                             <input type="checkbox" class="form-check-input width-auto" name="parameter[{{$parameter->id}}]" value="Y">
@@ -169,7 +169,7 @@
                                                                 @elseif ($parameter->type == 'number')
                                                                     <div class="col-6" style="display:none">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label class="form-label">{{$parameter->name}}<?php  if ($parameter->measure) {echo ', '.$parameter->measure;}?>
                                                                             </label>
                                                                             <input type="{{$parameter->type}}" step="0.01" name="parameter[{{$parameter->id}}]" class="form-control" @if ($parameter->max) max="{{$parameter->max}}" @endif @if ($parameter->min)min="{{$parameter->min}}" @endif>
                                                                         </div>
@@ -177,7 +177,7 @@
                                                                 @elseif ($parameter->type == 'year')
                                                                     <div class="col-6" style="display:none">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label class="form-label">{{$parameter->name}}<?php  if ($parameter->measure) {echo ', '.$parameter->measure;}?>
                                                                             </label>
                                                                             <input type="number"   name="parameter[{{$parameter->id}}]" class="form-control" max="{!! date('Y') !!}" @if ($parameter->min)min="{{$parameter->min}}" @endif>
                                                                         </div>
@@ -185,7 +185,7 @@
                                                                 @else
                                                                     <div class="col-6">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
-                                                                            <label class="form-label">{{$parameter->name}}<? if ($parameter->measure) echo', '.$parameter->measure?>
+                                                                            <label class="form-label">{{$parameter->name}} <?php if ($parameter->measure) {echo ', '.$parameter->measure;}?>
                                                                             </label>
                                                                             <input type="{{$parameter->type}}" name="parameter[{{$parameter->id}}]" class="form-control">
                                                                         </div>

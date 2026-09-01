@@ -2,6 +2,8 @@
 
 use App\Models\Location;
 use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Mail;
+
 function timesince($datetime)
 {
     $targetTime = strtotime($datetime);
