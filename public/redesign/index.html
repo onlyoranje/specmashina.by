@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#D92323">
+  <title>СпецМашина — аренда и продажа строительной техники в Беларуси</title>
+  <meta name="description" content="landi.by — открытая площадка объявлений аренды и продажи строительной спецтехники в Беларуси. Сотни объявлений от собственников в одном месте, бесплатное размещение, поиск по городам и категориям машин.">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/redesign/home.css">
+</head>
+<body>
+
+  <!-- ================= ШАПКА ================= -->
+  <header class="header">
+    <div class="container header__inner">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="burger" aria-label="Открыть меню"><span></span></label>
+
+      <a class="logo" href="/">
+        <span class="logo__mark" aria-hidden="true"></span>спец<span class="logo__accent">машина</span><span class="logo__tld">.by</span>
+      </a>
+
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#categories">Каталог</a>
+        <a href="#rent">Аренда</a>
+        <a href="#sale">Продажа</a>
+        <a href="#advantages">Преимущества</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+
+      <div class="header__actions">
+        <a class="header__phone" href="tel:+37529116660">+375 (29) 116-66-00</a>
+        <a class="btn btn--primary btn--sm" href="#contacts">Оставить заявку</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="eyebrow">Аренда и продажа спецтехники</p>
+          <h1 class="hero__title">Строительная техника без простоев и переплат</h1>
+          <p class="hero__lead">Экскаваторы, погрузчики, автокраны и самосвалы из собственного парка. Подадим машину на объект в день заявки — с оператором или без.</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#catalog">Смотреть каталог</a>
+            <a class="btn btn--ghost" href="#rent">Условия аренды</a>
+          </div>
+          <dl class="hero__stats">
+            <div class="hero__stat"><dt>120+</dt><dd>единиц техники в парке</dd></div>
+            <div class="hero__stat"><dt>12 лет</dt><dd>на рынке Беларуси</dd></div>
+            <div class="hero__stat"><dt>24/7</dt><dd>подача на объект</dd></div>
+          </dl>
+        </div>
+
+        <figure class="hero__media">
+          <picture>
+            <source srcset="/images/hero/hero-bg.webp" type="image/webp">
+            <img src="/images/hero/hero-bg.jpg" alt="Экскаватор-погрузчик и строитель на объекте">
+          </picture>
+          <figcaption class="hero__badge">
+            <span class="hero__badge-name">Экскаватор-погрузчик JCB 3CX</span>
+            <span class="hero__badge-price">от 130 BYN/сутки</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+    <!-- ================= КАТЕГОРИИ ================= -->
+    <section class="section section--light" id="categories">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Каталог</p>
+            <h2>Категории техники</h2>
+          </div>
+          <a class="section__link" href="#catalog">Весь каталог
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <div class="cats">
+          <a class="cat-card" href="#catalog">
+            <svg class="cat-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="14" cy="37" r="3.5"/><circle cx="26" cy="37" r="3.5"/><path d="M9 33v-8h13"/><path d="M22 25l9-11 8 4"/><path d="M39 18l4 4-5 5-4-4z"/></svg>
+            <span class="cat-card__name">Экскаваторы</span>
+            <span class="cat-card__count">14 единиц</span>
+          </a>
+
+          <a class="cat-card" href="#catalog">
+            <svg class="cat-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="15" cy="37" r="3.5"/><circle cx="28" cy="37" r="3.5"/><path d="M10 33v-9h9v9"/><path d="M19 26h7l8 7"/><path d="M34 33h8v-8l-8 2z"/></svg>
+            <span class="cat-card__name">Погрузчики</span>
+            <span class="cat-card__count">9 единиц</span>
+          </a>
+
+          <a class="cat-card" href="#catalog">
+            <svg class="cat-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="14" cy="38" r="3"/><circle cx="23" cy="38" r="3"/><circle cx="32" cy="38" r="3"/><path d="M10 35v-9h9v9"/><path d="M19 26V6"/><path d="M9 13l10-7 20 7"/><path d="M9 13v4h4"/><path d="M33 13v9"/><path d="M31 22h4l-2 4z"/></svg>
+            <span class="cat-card__name">Автокраны</span>
+            <span class="cat-card__count">7 единиц</span>
+          </a>
+
+          <a class="cat-card" href="#catalog">
+            <svg class="cat-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="14" cy="38" r="3"/><circle cx="24" cy="38" r="3"/><circle cx="35" cy="38" r="3"/><path d="M9 35v-8h8l3 8"/><path d="M25 35l-3-11 12-4 6 15z"/></svg>
+            <span class="cat-card__name">Самосвалы</span>
+            <span class="cat-card__count">12 единиц</span>
+          </a>
+
+          <a class="cat-card" href="#catalog">
+            <svg class="cat-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="14" cy="38" r="3"/><circle cx="26" cy="38" r="3"/><rect x="8" y="16" width="28" height="18" rx="2"/><path d="M36 16v-6h5"/><path d="M24 21l-5 6h6l-5 6"/></svg>
+            <span class="cat-card__name">Генераторы</span>
+            <span class="cat-card__count">18 единиц</span>
+          </a>
+
+          <a class="cat-card" href="#catalog">
+            <svg class="cat-card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="14" cy="35" r="6"/><path d="M20 35h6"/><circle cx="28" cy="38" r="3"/><circle cx="36" cy="38" r="3"/><path d="M22 29h10l3 6"/></svg>
+            <span class="cat-card__name">Дорожная техника</span>
+            <span class="cat-card__count">10 единиц</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- ================= ПОПУЛЯРНАЯ ТЕХНИКА ================= -->
+    <section class="section" id="catalog">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Востребовано сейчас</p>
+            <h2>Популярная техника</h2>
+          </div>
+          <a class="section__link" href="#">Все объявления
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card__media">
+              <span class="card__tag">Аренда</span>
+              <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="14" cy="37" r="3.5"/><circle cx="26" cy="37" r="3.5"/><path d="M9 33v-8h13"/><path d="M22 25l9-11 8 4"/><path d="M39 18l4 4-5 5-4-4z"/></svg>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title"><a href="#">Экскаватор-погрузчик JCB 3CX</a></h3>
+              <ul class="card__specs">
+                <li>Ковш 1,2 м³</li>
+                <li>Глубина копания 4,24 м</li>
+                <li>Мощность 81 кВт</li>
+              </ul>
+              <div class="card__foot">
+                <p class="card__price">от 130 <span>BYN / сутки</span></p>
+                <a class="btn btn--primary btn--sm" href="#catalog">Арендовать</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__media">
+              <span class="card__tag">Аренда</span>
+              <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="14" cy="38" r="3"/><circle cx="23" cy="38" r="3"/><circle cx="32" cy="38" r="3"/><path d="M10 35v-9h9v9"/><path d="M19 26V6"/><path d="M9 13l10-7 20 7"/><path d="M9 13v4h4"/><path d="M33 13v9"/><path d="M31 22h4l-2 4z"/></svg>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title"><a href="#">Автокран Ивановец КС-45717</a></h3>
+              <ul class="card__specs">
+                <li>Грузоподъёмность 25 т</li>
+                <li>Длина стрелы 21,7 м</li>
+                <li>Шасси KamAZ 65115</li>
+              </ul>
+              <div class="card__foot">
+                <p class="card__price">от 35 <span>BYN / час</span></p>
+                <a class="btn btn--primary btn--sm" href="#catalog">Арендовать</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__media">
+              <span class="card__tag">Аренда</span>
+              <svg class="card__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 42h38"/><circle cx="14" cy="38" r="3"/><circle cx="24" cy="38" r="3"/><circle cx="35" cy="38" r="3"/><path d="M9 35v-8h8l3 8"/><path d="M25 35l-3-11 12-4 6 15z"/></svg>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title"><a href="#">Самосвал HOWO SX3255</a></h3>
+              <ul class="card__specs">
+                <li>Объём кузова 18 м³</li>
+                <li>Колёсная формула 6×4</li>
+                <li>Грузоподъёмность 20 т</li>
+              </ul>
+              <div class="card__foot">
+                <p class="card__price">от 110 <span>BYN / сутки</span></p>
+                <a class="btn btn--primary btn--sm" href="#catalog">Арендовать</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- ================= ПРЕИМУЩЕСТВА (маркетплейс) ================= -->
+    <section class="section" id="advantages">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Почему landi.by</p>
+            <h2>Маркетплейс спецтехники Беларуси</h2>
+          </div>
+        </div>
+
+        <div class="adv">
+          <div class="adv__item">
+            <svg class="adv__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="15" height="15" rx="2"/><rect x="27" y="6" width="15" height="15" rx="2"/><rect x="6" y="27" width="15" height="15" rx="2"/><rect x="27" y="27" width="15" height="15" rx="2"/></svg>
+            <h3 class="adv__title">Огромный выбор</h3>
+            <p class="adv__text">Сотни арендодателей по всей Беларуси в одном месте.</p>
+          </div>
+          <div class="adv__item">
+            <svg class="adv__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="15" r="8"/><path d="M8 42c2.5-9.5 8.5-14 16-14s13.5 4.5 16 14"/></svg>
+            <h3 class="adv__title">Прямые контакты</h3>
+            <p class="adv__text">Общайтесь напрямую с владельцами техники — без посредников и комиссий сайта.</p>
+          </div>
+          <div class="adv__item">
+            <svg class="adv__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22l36-12v24L6 28v-6z"/><path d="M24 34a7 7 0 1 1-13-4"/></svg>
+            <h3 class="adv__title">Бесплатное размещение</h3>
+            <p class="adv__text">Для собственников техники публикация объявлений абсолютно бесплатна.</p>
+          </div>
+          <div class="adv__item">
+            <svg class="adv__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="22" cy="22" r="13"/><path d="M32 32l9 9"/></svg>
+            <h3 class="adv__title">Быстрый поиск</h3>
+            <p class="adv__text">Фильтры по городам РБ и категориям машин — как при поиске авиабилетов.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= ФУТЕР (Norwegian Air, светлый) ================= -->
+  <footer class="footer" id="contacts">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a class="logo" href="/">
+            LANDI<span class="logo__dot">.</span>BY
+          </a>
+          <p>Открытая площадка объявлений аренды и продажи строительной техники в Беларуси.</p>
+        </div>
+
+        <nav class="footer__col" aria-label="Разделы">
+          <h4>Разделы</h4>
+          <ul>
+            <li><a href="#catalog">Каталог</a></li>
+            <li><a href="#advantages">Преимущества</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+          </ul>
+        </nav>
+
+        <nav class="footer__col" aria-label="Категории техники">
+          <h4>Техника</h4>
+          <ul>
+            <li><a href="#catalog">Экскаваторы</a></li>
+            <li><a href="#catalog">Погрузчики</a></li>
+            <li><a href="#catalog">Автокраны</a></li>
+            <li><a href="#catalog">Самосвалы</a></li>
+          </ul>
+        </nav>
+
+        <div class="footer__col">
+          <h4>Контакты</h4>
+          <ul>
+            <li>г. Минск, ул. Промышленная, 12</li>
+            <li><a href="tel:+37529116660">+375 (29) 116-66-00</a></li>
+            <li><a href="mailto:info@specmashina.by">info@specmashina.by</a></li>
+            <li>Ежедневно 8:00–20:00</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <nav class="footer__legal" aria-label="Правовые документы">
+          <a href="#user-agreement">Пользовательское соглашение</a>
+          <a href="#privacy-policy">Политика обработки персональных данных</a>
+          <a href="#offer">Публичная оферта</a>
+        </nav>
+        <p class="footer__legal-info">Зарегистрирован в реестре рекламораспространителей под номером 4682</p>
+        <p class="footer__legal-owner">© 2026 LANDI.BY. ООО «[Название компании]», УНП [000000000]. Свидетельство о государственной регистрации выдано [Кем и когда]. В Торговом реестре РБ с [Дата].</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+
+

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
 use Maize\Markable\Markable;
 
 class User extends Authenticatable
@@ -86,7 +86,11 @@ class User extends Authenticatable
     }
     public function resizeImage($url,$w,$h)
     {
-        $size = getimagesize(Storage::path('/public/').$url);
+        $filePath = Storage::path('/public/').$url;
+        if (!file_exists($filePath)) {
+            return 'images/placeholder/no-image.svg';
+        }
+        $size = getimagesize($filePath);
         $w_orig = $size[0];
         $h_orig = $size[1];
         $pr = $w_orig/$h_orig;
@@ -98,14 +102,21 @@ class User extends Authenticatable
         }
 
         if (!file_exists(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$url)){
+            if (!extension_loaded('gd')) {
+                return $url;
+            }
             $save_path= Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/';
             if (!file_exists($save_path)) {
-                mkdir($save_path, 755, true);
+                mkdir($save_path, 0755, true);
             }
-            //$thumbnail = Image::make(Storage::path('/public/').$this->$url);
-            $thumbnail = Image::make(Storage::path('/public/').$url);
-            $thumbnail->fit($w, $h);
-            $thumbnail->save(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$url);
+            try {
+                ImageManager::gd()
+                    ->read($filePath)
+                    ->cover($w, $h)
+                    ->save(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$url);
+            } catch (\Throwable $e) {
+                return $url;
+            }
         }
         return 'thumbnails/'.$w.'x'.$h.'/'.$url;
     }

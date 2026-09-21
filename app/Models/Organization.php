@@ -17,6 +17,10 @@ class Organization extends Model
     public function location() {
         return $this->belongsTo(Location::class);
     }
+    // Объявления компании (withCount активных — в каталоге организаций)
+    public function bbs() {
+        return $this->hasMany(Bb::class);
+    }
     public function count_bbs(){
         $count_bbs = Bb::where('organization_id',$this->id)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->count();
         

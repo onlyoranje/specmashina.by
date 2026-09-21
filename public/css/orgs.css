@@ -1,0 +1,619 @@
+/* ==========================================================================
+   SPECMASHINA.BY — РАЗДЕЛ «ОРГАНИЗАЦИИ» (редизайн 2026)
+   Стиль: скандинавский лоукост-минимализм (ref. norwegian.com)
+   --------------------------------------------------------------------------
+   Подключается ПОСЛЕ /css/style.css (токены, reset, .btn, .container, .eq-card).
+   Разметка: resources/views/organizations/index.blade.php · роут organizations
+             resources/views/organizations/show.blade.php  · роут organization
+
+   Палитра (токены style.css):
+     --norwegian-red #D92323  — кнопки, счётчики объявлений, активные акценты
+     --text-dark     #1A2238  — заголовки и текст
+     --text-muted    #6C7A93  — второстепенный текст
+     --border-color  #E4E8EE  — тонкие линии-разделители
+
+   Содержание:
+     1. Контейнеры страниц
+     2. Хлебные крошки
+     3. Hero списка + счётчик
+     4. Панель фильтрации (поиск + город)
+     5. Строки-карточки компаний (.org-row)
+     6. Пагинация
+     7. Шапка профиля (.org-hero): логотип, название, УНП, контакты
+     8. Двухколоночный макет профиля
+     9. «О компании» (.org-about)
+    10. Сайдбар: «Адрес и база» + карта (.org-map)
+    11. Адаптивность
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. КОНТЕЙНЕРЫ СТРАНИЦ
+   -------------------------------------------------------------------------- */
+
+.orgs-page {
+  padding-top: 40px;
+  padding-bottom: 72px;
+}
+
+.org-page {
+  padding-top: 40px;
+  padding-bottom: 72px;
+}
+
+/* --------------------------------------------------------------------------
+   2. ХЛЕБНЫЕ КРОШКИ
+   -------------------------------------------------------------------------- */
+
+.org-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+.org-crumbs a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition-speed) ease;
+}
+.org-crumbs a:hover { color: var(--norwegian-red); }
+.org-crumbs__sep { color: var(--border-color); }
+.org-crumbs__current { color: var(--text-dark); }
+
+/* --------------------------------------------------------------------------
+   3. HERO СПИСКА + СЧЁТЧИК
+   -------------------------------------------------------------------------- */
+
+.orgs-hero { margin-bottom: 32px; }
+
+.orgs-hero__title {
+  margin: 0;
+  max-width: 760px;
+  color: var(--text-dark);
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.orgs-hero__count {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   4. ПАНЕЛЬ ФИЛЬТРАЦИИ: поиск по названию + выбор города
+   -------------------------------------------------------------------------- */
+
+.orgs-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-light);
+}
+
+.orgs-filter__input {
+  flex: 1 1 240px;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+}
+.orgs-filter__input::placeholder { color: var(--text-muted); }
+.orgs-filter__input:focus {
+  outline: none;
+  border-color: var(--norwegian-red);
+}
+
+.orgs-filter__select {
+  flex: 0 1 200px;
+  min-width: 0;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+}
+.orgs-filter__select:focus {
+  outline: none;
+  border-color: var(--norwegian-red);
+}
+
+.orgs-filter__btn {
+  height: 44px;
+  padding: 0 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--norwegian-red);
+  color: var(--bg-white);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease;
+}
+.orgs-filter__btn:hover { background-color: var(--norwegian-red-hover); }
+
+.orgs-filter__reset {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color var(--transition-speed) ease;
+}
+.orgs-filter__reset:hover { color: var(--norwegian-red); }
+
+/* --------------------------------------------------------------------------
+   5. СТРОКИ-КАРТОЧКИ КОМПАНИЙ (.org-row) — «билеты» в стиле norwegian.com
+   -------------------------------------------------------------------------- */
+
+.orgs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.org-row {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  height: 128px;                    /* фиксированная высота строки (десктоп) */
+  padding: 0 24px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  text-decoration: none;
+  transition: box-shadow var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+.org-row:hover {
+  box-shadow: var(--shadow-soft);
+  border-color: var(--border-color);
+}
+
+/* Логотип: белый квадрат 80×80 с тонкой рамкой, вписан целиком */
+.org-row__logo {
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  overflow: hidden;
+}
+.org-row__logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.org-row__logo svg {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius);
+}
+
+.org-row__body { min-width: 0; }
+
+.org-row__name {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--transition-speed) ease;
+}
+.org-row:hover .org-row__name { color: var(--norwegian-red); }
+
+.org-row__info {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Зона действий: красный счётчик + плоская кнопка со стрелкой */
+.org-row__action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.org-row__count {
+  color: var(--norwegian-red);
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.org-row__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--text-dark);
+  border-radius: var(--border-radius);
+  color: var(--text-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all var(--transition-speed) ease;
+}
+.org-row__btn svg { width: 14px; height: 14px; }
+.org-row:hover .org-row__btn {
+  border-color: var(--norwegian-red);
+  color: var(--norwegian-red);
+}
+
+.orgs-empty {
+  padding: 48px 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. ПАГИНАЦИЯ (разметка $organizations->links(), Paginator::useBootstrap)
+   -------------------------------------------------------------------------- */
+
+.orgs-pagination { margin-top: 48px; }
+
+.orgs-pagination .pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.orgs-pagination .page-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);   /* квадратные кнопки без заливки */
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition: border-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+.orgs-pagination a.page-link:hover,
+.orgs-pagination a.page-link:focus {
+  border-color: var(--norwegian-red);
+  color: var(--norwegian-red);
+}
+.orgs-pagination .active .page-link {
+  border-color: var(--norwegian-red);
+  color: var(--norwegian-red);
+  cursor: default;
+}
+.orgs-pagination .disabled .page-link {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   7. ШАПКА ПРОФИЛЯ (.org-hero): бренд слева, контакты справа
+   -------------------------------------------------------------------------- */
+
+.org-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;   /* бренд · контактный блок */
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 32px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+}
+
+.org-hero__brand {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+}
+
+.org-hero__logo {
+  flex: 0 0 auto;
+  width: 120px;
+  height: 120px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  overflow: hidden;
+}
+.org-hero__logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.org-hero__logo svg { width: 100%; height: 100%; }
+
+.org-hero__name { min-width: 0; }
+
+.org-hero__title {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: clamp(1.5rem, 2.6vw, 2.125rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.org-hero__unp {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.org-hero__contacts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.org-hero__phone {
+  color: var(--text-dark);
+  font-size: 1.375rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--transition-speed) ease;
+}
+.org-hero__phone:hover { color: var(--norwegian-red); }
+
+/* Кнопка «Показать телефон» — ярко-красная кнопка лоукостера */
+.org-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: var(--border-radius);
+  background-color: var(--norwegian-red);
+  color: var(--bg-white);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color var(--transition-speed) ease;
+}
+.org-hero__cta svg { width: 16px; height: 16px; }
+.org-hero__cta:hover { background-color: var(--norwegian-red-hover); }
+
+/* Ссылки на сайт и e-mail */
+.org-hero__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dark);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-color);
+  transition: color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+.org-hero__link svg { width: 15px; height: 15px; }
+.org-hero__link:hover {
+  color: var(--norwegian-red);
+  border-bottom-color: var(--norwegian-red);
+}
+
+/* --------------------------------------------------------------------------
+   8. ДВУХКОЛОНОЧНЫЙ МАКЕТ ПРОФИЛЯ (~65% / ~35%)
+   -------------------------------------------------------------------------- */
+
+.org-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 48px;
+  align-items: start;
+}
+
+.org-main { min-width: 0; }
+.org-side { min-width: 0; }
+
+/* --------------------------------------------------------------------------
+   9. БЛОКИ ЛЕВОЙ КОЛОНКИ: «О компании» и объявления
+   -------------------------------------------------------------------------- */
+
+.org-block + .org-block { margin-top: 48px; }
+
+.org-block__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.org-block__title {
+  margin: 0;
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.org-block__count {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+/* Описание: крупный сбалансированный текст без рамок */
+.org-about {
+  color: var(--text-dark);
+  font-size: 1.0625rem;
+  line-height: 1.6;                 /* увеличенный межстрочный интервал */
+}
+.org-about p { margin: 0 0 16px; }
+
+.org-empty {
+  padding: 16px 0;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+/* --------------------------------------------------------------------------
+   10. САЙДБАР: «Адрес и база» + плоский виджет карты
+   -------------------------------------------------------------------------- */
+
+.org-side__block {
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+}
+
+.org-side__title {
+  margin: 0 0 14px;
+  color: var(--text-dark);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.org-side__address {
+  margin: 0 0 16px;
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+/* Карта: квадратный блок с тонкой рамкой */
+.org-map iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-light);
+}
+
+/* Минималистичная кнопка маршрута */
+.org-map__route {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 11px 18px;
+  border: 1px solid var(--text-dark);
+  border-radius: var(--border-radius);
+  color: var(--text-dark);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+.org-map__route svg { width: 15px; height: 15px; }
+.org-map__route:hover {
+  border-color: var(--norwegian-red);
+  color: var(--norwegian-red);
+}
+
+/* --------------------------------------------------------------------------
+   11. АДАПТИВНОСТЬ
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .orgs-page,
+  .org-page {
+    padding-top: 24px;
+    padding-bottom: 48px;
+  }
+
+  /* Всё в одну вертикальную ленту */
+  .org-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  /* Шапка профиля: логотип, название и «Показать телефон» — в самом верху
+     (DOM-порядок: бренд → контакты), описание и карта уходят ниже */
+  .org-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+  .org-hero__brand { gap: 16px; }
+  .org-hero__logo { width: 88px; height: 88px; padding: 8px; }
+  .org-hero__contacts { align-items: flex-start; }
+  .org-hero__phone { font-size: 1.25rem; }
+  .org-hero__cta {
+    width: 100%;
+    justify-content: center;      /* крупная кнопка — удобно нажать со смартфона */
+  }
+
+  /* Строка-карточка: логотип меньше, действия — отдельной строкой снизу */
+  .org-row {
+    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-areas:
+      "logo body"
+      "action action";
+    height: auto;
+    padding: 16px;
+    gap: 12px 16px;
+  }
+  .org-row__logo { grid-area: logo; width: 64px; height: 64px; padding: 6px; }
+  .org-row__body { grid-area: body; }
+  .org-row__name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
+  .org-row__info { white-space: normal; }
+  .org-row__action {
+    grid-area: action;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .orgs-filter { padding: 12px; }
+  .orgs-filter__input,
+  .orgs-filter__select,
+  .orgs-filter__btn { flex: 1 1 100%; }
+
+  /* Карта на мобильных — не квадрат, чтобы не съедала экран */
+  .org-map iframe { aspect-ratio: 4 / 3; }
+}
+
+@media (max-width: 480px) {
+  .org-hero__title { font-size: 1.375rem; }
+  .org-hero__cta { padding: 14px 16px; }
+  .org-row__btn { padding: 9px 12px; font-size: 0.8125rem; }
+}

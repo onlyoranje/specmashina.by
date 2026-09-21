@@ -1,0 +1,802 @@
+/* ==========================================================================
+   SPECMASHINA.BY — СТРАНИЦА КАТАЛОГА (редизайн 2026)
+   Стиль: скандинавский лоукост-минимализм (ref. norwegian.com)
+   --------------------------------------------------------------------------
+   Подключается ПОСЛЕ /css/style.css (токены, reset, .btn, .container).
+   Шрифт Inter и дизайн-токены (--norwegian-red, --text-dark ...) уже заданы
+   в style.css — здесь только стили страницы каталога и карточек.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. КОНТЕЙНЕР СТРАНИЦЫ — «воздух» между шапкой сайта и контентом
+   -------------------------------------------------------------------------- */
+
+.catalog-page {
+  padding-top: 48px;    /* ощутимый отступ контентной области от шапки */
+  padding-bottom: 72px;
+}
+
+/* --------------------------------------------------------------------------
+   1. ХЛЕБНЫЕ КРОШКИ + H1 + СЧЁТЧИК
+   -------------------------------------------------------------------------- */
+
+.catalog-header {
+  margin-bottom: 32px;
+}
+
+/* Цепочка: Главная / {pageTitle} */
+.catalog-breadcrumbs {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+.breadcrumb-link {
+  color: var(--text-muted);
+  transition: color var(--transition-speed) ease;
+}
+.breadcrumb-link:hover {
+  color: var(--norwegian-red);
+}
+.breadcrumb-sep {
+  color: var(--border-color);
+  font-weight: 600;
+}
+.breadcrumb-current {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* H1 + «Найдено: N» */
+.catalog-title {
+  margin-top: 20px;                /* воздух между крошками и заголовком */
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+}
+/* Плоский счётчик: без плашки, мелкий приглушённый серый */
+.catalog-counter {
+  display: inline-block;
+  padding: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-muted);
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. ДВУХКОЛОННЫЙ МАКЕТ (CSS Grid: фильтр · контент)
+   -------------------------------------------------------------------------- */
+
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);  /* фильтры · контент */
+  gap: 40px;
+  align-items: start;                            /* колонки выровнены по верхней линии */
+}
+
+/* --------------------------------------------------------------------------
+   3. ЛЕВАЯ КОЛОНКА — панель фильтров (лоукостер-виджет, ~280px)
+   -------------------------------------------------------------------------- */
+
+.catalog-sidebar {
+  width: 100%;
+}
+
+/* Скрываемая/раскрываемая плашка на мобильных (CSS-only через <details>) */
+.filter-block {
+  margin-bottom: 16px;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: box-shadow var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+.filter-block[open] {
+  box-shadow: var(--shadow-soft);
+}
+
+/* Шапка-переключатель (видна только на мобильных) */
+.filter-summary {
+  display: list-item;
+  padding: 14px 18px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  list-style: none;
+  /* Убираем дефолтный треугольник браузера — рисуем свой */
+}
+.filter-summary::-webkit-details-marker {
+  display: none;
+}
+.filter-summary::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  transform: rotate(45deg);
+  transition: transform var(--transition-speed) ease;
+}
+.filter-block[open] .filter-summary::before {
+  transform: rotate(225deg);
+}
+
+/* На десктопе плашки всегда раскрыты — переключатель не нужен */
+@media (min-width: 769px) {
+  .filter-summary {
+    display: none;
+  }
+}
+
+.filter-body {
+  padding: 14px 18px 18px;
+}
+
+/* --- Города: плоский select с аккуратной кастомной стрелкой --- */
+.city-filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.city-filter-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.catalog-select {
+  width: 100%;
+  height: 42px;
+  padding: 0 40px 0 14px;          /* внутренние отступы + место под стрелку */
+  border: 1px solid #E2E8F0;       /* минимальная серая рамка */
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  /* Кастомная стрелка (SVG data-URI) — вместо системного вида */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236C7A93' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+.catalog-select:hover {
+  border-color: #CBD5E1;
+}
+.catalog-select:focus,
+.catalog-select:focus-visible {
+  outline: none;                   /* вместо дефолтного контура — тонкая красная рамка */
+  border-color: var(--norwegian-red);
+  box-shadow: 0 0 0 3px rgba(217, 35, 53, 0.10);
+}
+
+/* --- Категории: чистые кликабельные строки, без маркеров-точек --- */
+.catalog-categories {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;                /* полностью убираем маркерные точки */
+}
+.catalog-category {
+  list-style: none;                /* страховка от дефолтных bullets */
+}
+
+.catalog-category__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;              /* ровная кликабельная строка на всю ширину */
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+.catalog-category__name {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.catalog-category__count {
+  flex: 0 0 auto;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: color var(--transition-speed) ease;
+}
+/* Наведение: ультра-светлый серый фон + более тёмный текст */
+.catalog-category__link:hover {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+.catalog-category__link:hover .catalog-category__count {
+  color: var(--text-dark);
+}
+/* Активная категория — тёмный текст и красный счётчик */
+.catalog-category__link.is-active {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+.catalog-category__link.is-active .catalog-category__count {
+  color: var(--norwegian-red);
+}
+/* Категории без объявлений приглушены, чтобы не создавать визуальный шум */
+.catalog-category--empty .catalog-category__link {
+  opacity: 0.55;
+}
+.catalog-category--empty .catalog-category__link:hover {
+  opacity: 1;
+}
+/* Возврат к полному списку секции (внутри открытой подкатегории) */
+.catalog-category--back .catalog-category__link {
+  color: var(--norwegian-red);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.catalog-category--back .catalog-category__link:hover {
+  background-color: var(--bg-light);
+  color: var(--norwegian-red);
+}
+/* Индикатор открытой категории: span вместо ссылки — курсор не «рука» */
+span.catalog-category__link {
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+   4. ПРАВАЯ КОЛОНКА — контент + сетка
+   -------------------------------------------------------------------------- */
+
+.catalog-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;                       /* тулбар вплотную к карточкам — единый блок */
+  min-width: 0;
+}
+
+/* --- Верхняя панель: лаконичная строка сортировки над списком --- */
+.catalog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 0 12px;
+  background-color: transparent;   /* снят «коробочный» вид — не отрывается от карточек */
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0;
+}
+
+.toolbar-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.sort-label {
+  margin-right: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+/* Тонкие текстовые переключатели сортировки */
+.sort-link {
+  padding: 2px 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+.sort-link:hover {
+  color: var(--text-dark);
+}
+.sort-link.is-active {
+  color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+/* --- Переключатель вида: лёгкие иконки без подложки --- */
+.toolbar-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+.view-btn:hover {
+  color: var(--text-dark);
+  background-color: var(--bg-light);
+}
+.view-btn.is-active {
+  color: var(--norwegian-red);
+}
+.view-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;              /* иконка следует за цветом состояния */
+}
+
+/* --------------------------------------------------------------------------
+   5. СЕТКА ОБЪЯВЛЕНИЙ + КАРТОЧКА-БИЛЕТ (карточка = строка-билет)
+   -------------------------------------------------------------------------- */
+
+/* Сетка — ровный вертикальный стек карточек-строк */
+.equipment-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Карточка-строка: жёсткая сетка, фиксированная высота, тень на hover */
+.catalog-ticket {
+  position: relative;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;                 /* фото наследует скругление углов карточки */
+  transition: all 0.3s ease;
+}
+.catalog-ticket:hover {
+  transform: translateY(-2px);
+  border-color: var(--norwegian-red);
+  box-shadow: 0 12px 28px rgba(26, 34, 56, 0.10);
+}
+
+/* Одна кликабельная область = 3 зоны 25% / 55% / 20% */
+.catalog-ticket__link {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  height: 180px;                    /* фиксированная высота карточки */
+  text-decoration: none;
+  color: inherit;
+}
+
+/* --- Зона 1 (25%): фотография на всю высоту карточки --- */
+.ct__media {
+  flex: 0 0 25%;
+  max-width: 25%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-light);
+}
+.ct__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                /* ровная нарезка без искажений */
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+.catalog-ticket:hover .ct__img {
+  transform: scale(1.03);
+}
+
+/* --- Зона 2 (55%): название + гео + дата --- */
+.ct__body {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 18px 24px;
+}
+.ct__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;            /* не более двух строк — карточки ровные */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-dark);
+}
+.ct__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin-bottom: 0;                 /* гасим глобальный p { margin-bottom: 1em } явно */
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+.ct__city,
+.ct__date {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* --- Зона 3 (20%): цена + плоская кнопка, отделены тонкой линией --- */
+.ct__price-zone {
+  flex: 0 0 20%;
+  max-width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 14px;
+  padding: 18px 20px;
+  border-left: 1px solid #EDF2F7;   /* аккуратный вертикальный разделитель */
+}
+.ct__price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ct__price-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;                 /* плотная строка: подпись не «разъезжается» */
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.ct__price-amount {
+  font-size: 1.375rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--norwegian-red);      /* крупная ярко-красная цена */
+}
+.ct__price-unit {
+  display: block;
+  margin-top: 4px;                  /* явный отрыв цены от единицы тарификации */
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;                 /* не полагаемся на наследование от .ct__price-amount */
+  color: var(--text-muted);
+}
+/* Кнопка «Подробнее» — плоский прямоугольник, а не голый текст со стрелкой */
+.ct__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-dark);
+  transition: all 0.3s ease;
+}
+.catalog-ticket:hover .ct__action {
+  border-color: var(--norwegian-red);
+  color: var(--norwegian-red);
+}
+
+/* --------------------------------------------------------------------------
+   6. ПАГИНАЦИЯ
+   Чистые квадратные кнопки без заливки; активная страница — красный фон.
+   -------------------------------------------------------------------------- */
+
+.catalog-pagination {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 0;
+}
+.catalog-pagination .pagination {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Bootstrap-5 (.page-item/.page-link) + default Laravel (.pagination > li) */
+.catalog-pagination .pagination > li,
+.catalog-pagination .page-item {
+  margin: 0;
+}
+.catalog-pagination .pagination > li > a,
+.catalog-pagination .pagination > li > span,
+.catalog-pagination .page-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  text-decoration: none;
+  background-color: transparent;  /* без заливки — чисто лоукостер */
+  transition: background-color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease,
+              color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+.catalog-pagination .pagination > li > a:hover,
+.catalog-pagination .page-link:hover {
+  background-color: var(--bg-light);
+  border-color: var(--text-muted);
+  color: var(--text-dark);
+}
+
+/* Активная страница — фирменный красный фон + белый текст */
+.catalog-pagination .pagination > .active > a,
+.catalog-pagination .pagination > .active > span,
+.catalog-pagination .page-item.active .page-link,
+.catalog-pagination .page-item.active span {
+  background-color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+  color: var(--bg-white);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(217, 35, 53, 0.25);
+}
+
+/* Неактивные (маркер «текущая», разделитель «...») */
+.catalog-pagination .pagination > .disabled > a,
+.catalog-pagination .pagination > .disabled > span,
+.catalog-pagination .page-item.disabled .page-link,
+.catalog-pagination .page-item.disabled span {
+  color: var(--text-muted);
+  border-color: var(--border-color);
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+   7. СОСТОЯНИЕ «ПУСТО»
+   -------------------------------------------------------------------------- */
+
+.catalog-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+.catalog-empty__icon {
+  width: 64px;
+  height: 64px;
+  opacity: 0.5;
+}
+
+/* --------------------------------------------------------------------------
+   8. АДАПТИВНОСТЬ  (max-width: 768px — мобильные/планшеты)
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .catalog-page {
+    padding-top: 28px;
+    padding-bottom: 48px;
+  }
+
+  /* Одна колонка: фильтр сверху, контент — снизу */
+  .catalog-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Верхняя панель — в одну колонку */
+  .catalog-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  /* Переключатель вида скрыт: на мобильных карточки и так вертикальные */
+  .toolbar-view {
+    display: none;
+  }
+
+  /* Карточка: вертикальная плашка, высота по контенту */
+  .catalog-ticket__link {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .ct__media {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .ct__body {
+    flex: 1 1 auto;
+    padding: 16px 18px 10px;
+  }
+  .ct__title {
+    font-size: 1.0625rem;
+  }
+
+  /* Ценовая зона: вертикальная линия → горизонтальная (border-top) */
+  .ct__price-zone {
+    flex: 0 0 auto;
+    max-width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px 16px;
+    border-left: none;
+    border-top: 1px solid #EDF2F7;
+  }
+
+  /* Пагинация — компактнее */
+  .catalog-pagination .pagination {
+    gap: 2px;
+  }
+  .catalog-pagination .pagination > li > a,
+  .catalog-pagination .pagination > li > span,
+  .catalog-pagination .page-link {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+    padding: 0 6px;
+  }
+}
+
+/* --- Режим «Сетка» (desktop, min-width: 769px): вертикальные карточки-плитки --- */
+@media (min-width: 769px) {
+  .equipment-grid.is-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .equipment-grid.is-grid .catalog-ticket__link {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .equipment-grid.is-grid .ct__media {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .equipment-grid.is-grid .ct__body {
+    flex: 1 1 auto;
+    padding: 16px 18px 12px;
+  }
+
+  .equipment-grid.is-grid .ct__price-zone {
+    flex: 0 0 auto;
+    max-width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px 16px;
+    border-left: none;
+    border-top: 1px solid #EDF2F7;
+  }
+  .equipment-grid.is-grid .ct__price-amount {
+    font-size: 1.25rem;
+  }
+
+}
+
+/* --------------------------------------------------------------------------
+   7. AJAX-ФИЛЬТРЫ: индикатор загрузки и вспомогательные состояния
+   Все переключатели (город, категория, сортировка, вид, пагинация) — обычные
+   ссылки и формы, поэтому без JS страница работает как раньше. Поверх них
+   public/js/catalog-filters.js подгружает фрагменты и переключает эти классы.
+   -------------------------------------------------------------------------- */
+
+/* Статус для скринридеров: «обновлено N объявлений» */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Полоса-индикатор под списком: видна, пока идёт AJAX-запрос */
+.catalog-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 0 4px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+.catalog-loading[hidden] {
+  display: none;                 /* перекрываем display: flex у [hidden] */
+}
+.catalog-loading__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--norwegian-red);
+  border-radius: 50%;
+  animation: catalog-spin 0.7s linear infinite;
+}
+@keyframes catalog-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Во время запроса результаты приглушены и не кликаются: исключает переходы
+   по устаревшей разметке. Сайдбар остаётся активным — фильтр можно
+   переключить сразу, предыдущий запрос будет отменён (AbortController). */
+.catalog-page.is-loading #catalog-main {
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+/* Активная строка сайдбара без ссылки («текущая категория»): тот же вид,
+   что у ссылки, но клик не подразумевается */
+.catalog-category__link.is-active {
+  cursor: default;
+}
+
+/* Ссылки-переключатели (сортировка, вид списка) — без подчёркивания */
+.catalog-page a.sort-link,
+.catalog-page a.view-btn {
+  text-decoration: none;
+}
+
+/* «← Все категории» — строка сайдбара с красным акцентом и отступом */
+.catalog-category--back {
+  margin-bottom: 6px;
+}
+
+@media (max-width: 768px) {
+  .catalog-loading__text {
+    display: none;               /* на узких экранах достаточно спиннера */
+  }
+}

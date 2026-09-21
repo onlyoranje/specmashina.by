@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
 
 class UserFile extends Model
 {
@@ -20,7 +20,11 @@ class UserFile extends Model
     }
     public function resize($w,$h)
     {
-        $size = getimagesize(Storage::path('/public/').$this->url);
+        $filePath = Storage::path('/public/').$this->url;
+        if (!file_exists($filePath)) {
+            return 'images/placeholder/no-image.svg';
+        }
+        $size = getimagesize($filePath);
         $w_orig = $size[0];
         $h_orig = $size[1];
         $pr = $w_orig/$h_orig;
@@ -32,20 +36,31 @@ class UserFile extends Model
         }
 
         if (!file_exists(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$this->url)){
+            if (!extension_loaded('gd')) {
+                return $this->url;
+            }
             $save_path= Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/bb';
             if (!file_exists($save_path)) {
-                mkdir($save_path, 755, true);
+                mkdir($save_path, 0755, true);
             }
-            $thumbnail = Image::make(Storage::path('/public/').$this->url);
-            $thumbnail->fit($w, $h);
-            $thumbnail->save(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$this->url);
-
+            try {
+                ImageManager::gd()
+                    ->read($filePath)
+                    ->cover($w, $h)
+                    ->save(Storage::path('/public/').'thumbnails/'.$w.'x'.$h.'/'.$this->url);
+            } catch (\Throwable $e) {
+                return $this->url;
+            }
         }
         return 'thumbnails/'.$w.'x'.$h.'/'.$this->url;
     }
     public function resizeClass()
     {
-        $size = getimagesize(Storage::path('/public/').$this->url);
+        $filePath = Storage::path('/public/').$this->url;
+        if (!file_exists($filePath)) {
+            return 'width: 100%; height: auto';
+        }
+        $size = getimagesize($filePath);
         $w = $size[0];
         $h = $size[1];
         if ($w>$h){

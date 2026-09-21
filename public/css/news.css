@@ -1,0 +1,690 @@
+/* ==========================================================================
+   SPECMASHINA.BY — НОВОСТНОЙ РАЗДЕЛ (редизайн 2026)
+   Стиль: скандинавский лоукост-минимализм (ref. norwegian.com)
+   --------------------------------------------------------------------------
+   Подключается ПОСЛЕ /css/style.css (токены, reset, .btn, .container).
+   Разметка: resources/views/news/index.blade.php · роут news.index
+             resources/views/news/show.blade.php  · роут news.show
+
+   Палитра (токены style.css):
+     --norwegian-red #D92323  — акценты: категории, активные элементы
+     --text-dark     #1A2238  — заголовки и основной текст
+     --text-muted    #6C7A93  — второстепенный текст, даты
+     --border-color  #E4E8EE  — тонкие линии-разделители
+
+   Содержание:
+     1. Контейнеры страниц
+     2. Hero + лента категорий (список новостей)
+     3. Двухколоночный макет списка (~75% / ~25%)
+     4. Главная новость (featured)
+     5. Сетка карточек новостей
+     6. Сайдбар: «Популярные теги» и «Популярное»
+     7. Пагинация
+     8. Детальная статья: крошки, шапка, мета, изображение
+     9. Типографика статьи (.news-content)
+    10. Теги статьи · «Поделиться» · «Читайте также»
+    11. Адаптивность
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. КОНТЕЙНЕРЫ СТРАНИЦ
+   -------------------------------------------------------------------------- */
+
+.news-page {
+  padding-top: 48px;
+  padding-bottom: 72px;
+}
+
+.article-page {
+  padding-top: 48px;
+  padding-bottom: 72px;
+}
+
+/* --------------------------------------------------------------------------
+   2. HERO + ЛЕНТА КАТЕГОРИЙ
+   -------------------------------------------------------------------------- */
+
+.news-hero { margin-bottom: 40px; }
+
+.news-hero__eyebrow {
+  margin: 0 0 12px;
+  color: var(--norwegian-red);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.news-hero__title {
+  margin: 0;
+  max-width: 720px;
+  color: var(--text-dark);
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.news-categories {
+  display: flex;
+  gap: 28px;
+  margin-top: 28px;
+  overflow-x: auto;                 /* горизонтальная лента на узких экранах */
+  scrollbar-width: none;
+}
+.news-categories::-webkit-scrollbar { display: none; }
+
+.news-categories__link {
+  flex: 0 0 auto;
+  padding-bottom: 12px;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+.news-categories__link:hover { color: var(--text-dark); }
+
+/* Активная категория: жирный шрифт + нижнее красное подчеркивание */
+.news-categories__link.is-active {
+  color: var(--text-dark);
+  font-weight: 700;
+  border-bottom-color: var(--norwegian-red);
+}
+
+/* --------------------------------------------------------------------------
+   3. ДВУХКОЛОНОЧНЫЙ МАКЕТ СПИСКА (~75% / ~25%)
+   -------------------------------------------------------------------------- */
+
+.news-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 48px;
+  align-items: start;
+}
+
+.news-feed { min-width: 0; }
+
+.news-empty {
+  padding: 40px 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. ГЛАВНАЯ НОВОСТЬ: крупный горизонтальный блок
+   -------------------------------------------------------------------------- */
+
+.news-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 40px;
+  text-decoration: none;
+}
+
+.news-featured__media {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  background-color: var(--bg-light);
+}
+.news-featured__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.news-featured:hover .news-featured__media img { transform: scale(1.03); }
+
+.news-featured__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.news-featured__category {
+  color: var(--norwegian-red);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.news-featured__date {
+  padding: 3px 10px;
+  border-radius: var(--border-radius);
+  background-color: var(--bg-light);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.news-featured__title {
+  margin: 14px 0 12px;
+  color: var(--text-dark);
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.25;
+  transition: color var(--transition-speed) ease;
+}
+.news-featured:hover .news-featured__title { color: var(--norwegian-red); }
+
+.news-featured__preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   5. СЕТКА КАРТОЧЕК НОВОСТЕЙ
+   -------------------------------------------------------------------------- */
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 32px;
+}
+
+.news-card {
+  display: block;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  transition: transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+.news-card:hover {
+  transform: translateY(-4px);       /* плавный подъём карточки */
+  box-shadow: var(--shadow-soft);
+}
+
+.news-card__media {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  background-color: var(--bg-light);
+}
+.news-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                 /* кадрирование под сетку */
+  transition: transform 0.3s ease;
+}
+.news-card:hover .news-card__media img { transform: scale(1.03); }
+
+/* Заглушка «нет фото» — тонкий линейный значок в рамке 3:2 */
+.news-media-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+.news-media-empty svg { width: 56px; height: 56px; }
+
+.news-card__body { padding-top: 16px; }
+
+.news-card__category {
+  display: block;
+  color: var(--norwegian-red);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.news-card__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 8px 0 10px;
+  color: var(--text-dark);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  transition: color var(--transition-speed) ease;
+}
+.news-card:hover .news-card__title { color: var(--norwegian-red); }
+
+.news-card__date {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+.news-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 12px;
+}
+.news-card__tag {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. САЙДБАР: «Популярные теги» и «Популярное»
+   -------------------------------------------------------------------------- */
+
+.news-side { min-width: 0; }
+
+.news-side__block + .news-side__block { margin-top: 40px; }
+
+.news-side__title {
+  margin: 0 0 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-dark);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+/* Облако тегов: плоские серые плашки со скруглением 4px */
+.news-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.news-tags__link {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: var(--border-radius);
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+.news-tags__link:hover,
+.news-tags__link.is-active {
+  background-color: var(--norwegian-red);
+  color: var(--bg-white);
+}
+
+/* «Популярное»: текстовый список с тонкими линиями-разделителями */
+.news-popular {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.news-popular__item {
+  display: block;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);
+  text-decoration: none;
+}
+.news-popular li:first-child .news-popular__item { padding-top: 0; }
+
+.news-popular__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.45;
+  transition: color var(--transition-speed) ease;
+}
+.news-popular__item:hover .news-popular__title { color: var(--norwegian-red); }
+
+.news-popular__date {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. ПАГИНАЦИЯ (разметка $news->links(), Paginator::useBootstrap)
+   -------------------------------------------------------------------------- */
+
+.news-pagination { margin-top: 56px; }
+
+.news-pagination .pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.news-pagination .page-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition: border-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+.news-pagination a.page-link:hover,
+.news-pagination a.page-link:focus {
+  border-color: var(--norwegian-red);
+  color: var(--norwegian-red);
+}
+.news-pagination .active .page-link {
+  background-color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+  color: var(--bg-white);
+  cursor: default;
+}
+.news-pagination .disabled .page-link {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   8. ДЕТАЛЬНАЯ СТАТЬЯ: крошки, шапка, мета, изображение
+   -------------------------------------------------------------------------- */
+
+.article {
+  max-width: 800px;                 /* комфортная ширина для чтения */
+  margin: 0 auto;
+}
+
+/* Хлебные крошки: Главная / Новости / Категория */
+.news-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+.news-crumbs a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition-speed) ease;
+}
+.news-crumbs a:hover { color: var(--norwegian-red); }
+.news-crumbs__sep { color: var(--border-color); }
+
+/* Категория (красный uppercase) + дата публикации */
+.article-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.article-eyebrow__category {
+  color: var(--norwegian-red);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--transition-speed) ease;
+}
+.article-eyebrow__category:hover { color: var(--norwegian-red-hover); }
+.article-eyebrow__date {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.article-title {
+  margin: 14px 0 20px;
+  color: var(--text-dark);
+  font-size: clamp(1.75rem, 3.4vw, 2.625rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+/* Мета-данные в линию: время чтения · просмотры */
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0 0 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+  list-style: none;
+}
+.article-meta__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+.article-meta__icon {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}
+
+/* Главное изображение: широкоформатное, скругление 4px */
+.article-figure { margin: 0 0 40px; }
+.article-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+
+/* --------------------------------------------------------------------------
+   9. ТИПОГРАФИКА СТАТЬИ (.news-content)
+   -------------------------------------------------------------------------- */
+
+.news-content {
+  --news-body: #3D4557;             /* мягкий угольный вместо едко-чёрного */
+  color: var(--news-body);
+  font-size: 1.0625rem;
+}
+
+.news-content p {
+  margin: 0 0 20px;
+  line-height: 1.7;                 /* большой межстрочный интервал */
+}
+.news-content h2 {
+  margin: 40px 0 16px;
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.news-content h3 {
+  margin: 32px 0 12px;
+  color: var(--text-dark);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.news-content ul,
+.news-content ol {
+  margin: 0 0 20px;
+  padding-left: 24px;
+}
+.news-content li {
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+/* Цитата: левая красная полоса 3px */
+.news-content blockquote {
+  margin: 28px 0;
+  padding: 4px 0 4px 24px;
+  border-left: 3px solid var(--norwegian-red);
+  color: var(--text-muted);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.news-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+.news-content a { color: var(--norwegian-red); }
+.news-content strong { color: var(--text-dark); }
+
+/* --------------------------------------------------------------------------
+   10. ТЕГИ СТАТЬИ · «ПОДЕЛИТЬСЯ» · «ЧИТАЙТЕ ТАКЖЕ»
+   -------------------------------------------------------------------------- */
+
+.article-tags {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Панель «Поделиться»: монохромные круглые SVG-иконки */
+.article-share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+}
+.article-share__label {
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.share-row {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  color: var(--text-dark);
+  transition: border-color var(--transition-speed) ease,
+              color var(--transition-speed) ease,
+              background-color var(--transition-speed) ease;
+}
+.share-btn svg { width: 16px; height: 16px; }
+.share-btn:hover {
+  border-color: var(--norwegian-red);
+  color: var(--norwegian-red);
+  background-color: #FBEFEF;
+}
+.share-btn:focus-visible {
+  outline: 2px solid var(--norwegian-red);
+  outline-offset: 2px;
+}
+
+/* «Читайте также»: сетка из 3 минималистичных карточек */
+.article-related {
+  max-width: 1080px;
+  margin: 56px auto 0;
+}
+.article-related__title {
+  margin: 0 0 24px;
+  color: var(--text-dark);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+.related-card {
+  display: block;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);   /* тонкий разделитель сверху */
+  text-decoration: none;
+}
+.related-card__category {
+  display: block;
+  color: var(--norwegian-red);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.related-card__title {
+  margin: 10px 0 12px;
+  color: var(--text-dark);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+  transition: color var(--transition-speed) ease;
+}
+.related-card:hover .related-card__title { color: var(--norwegian-red); }
+.related-card__date {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+/* --------------------------------------------------------------------------
+   11. АДАПТИВНОСТЬ
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .news-page,
+  .article-page {
+    padding-top: 32px;
+    padding-bottom: 48px;
+  }
+
+  /* Двухколоночные макеты → одна вертикальная лента */
+  .news-layout {
+    grid-template-columns: minmax(0, 1fr);   /* сайдбар уходит под ленту */
+    gap: 48px;
+  }
+  .news-featured {
+    grid-template-columns: minmax(0, 1fr);   /* фото над текстом */
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .news-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .related-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+
+  .news-hero { margin-bottom: 32px; }
+  .news-hero__title { font-size: clamp(1.5rem, 6vw, 2rem); }
+  .news-categories { gap: 20px; margin-top: 20px; }
+  .news-featured__preview { -webkit-line-clamp: 2; }
+
+  .article-title { font-size: clamp(1.5rem, 6vw, 2.125rem); }
+  .article-meta { gap: 8px 16px; margin-bottom: 24px; }
+  .article-figure { margin-bottom: 28px; }
+  .news-content h2 { margin-top: 32px; }
+  .article-related { margin-top: 40px; }
+}
+
+@media (max-width: 480px) {
+  .news-grid { gap: 28px; }
+  .news-card__tags { gap: 4px 12px; }
+  .news-pagination { margin-top: 40px; }
+  .news-pagination .page-link {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+  }
+}
+

@@ -1,0 +1,673 @@
+/* ==========================================================================
+   SPECMASHINA.BY — ЛОКАЦИОННЫЙ ХАБ КАТАЛОГА (город)
+   Стиль: региональный хаб Norwegian Air (norwegian.com)
+   --------------------------------------------------------------------------
+   Подключается ПОСЛЕ /css/style.css (токены, reset, .btn, .container):
+   --norwegian-red #D92323 · --text-dark #1A2238 · --bg-light #F2F4F7
+   --text-muted #6C7A93 · --border-radius 4px.
+   Тонкие линии — 1px solid #EDF2F7, много «воздуха», плоские элементы.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. КОНТЕЙНЕР СТРАНИЦЫ
+   -------------------------------------------------------------------------- */
+
+.location-page {
+  padding-top: 48px;
+  padding-bottom: 72px;
+}
+
+/* --------------------------------------------------------------------------
+   1. ГЕО-ШАПКА: крошки + H1 + счётчик (чистая типографика, без плашек)
+   -------------------------------------------------------------------------- */
+
+.location-header {
+  margin-bottom: 32px;
+}
+
+.location-breadcrumbs {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+.breadcrumb-link {
+  color: var(--text-muted);
+  transition: color var(--transition-speed) ease;
+}
+.breadcrumb-link:hover {
+  color: var(--norwegian-red);
+}
+.breadcrumb-sep {
+  color: var(--border-color);
+  font-weight: 600;
+}
+.breadcrumb-current {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* H1 — крупный, строгий, без фоновых плашек */
+.location-title {
+  margin-top: 20px;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+}
+
+/* Подзаголовок-счётчик — мелкий приглушённый серый */
+.location-counter {
+  margin-top: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   2. ДВУХКОЛОННЫЙ МАКЕТ (CSS Grid: сайдбар ~280px · лента ~75%)
+   -------------------------------------------------------------------------- */
+
+.location-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+/* --------------------------------------------------------------------------
+   3. ЛЕВАЯ КОЛОНКА — локальные фильтры
+   -------------------------------------------------------------------------- */
+
+.location-sidebar {
+  width: 100%;
+}
+
+/* Плоский блок фильтра: тонкая линия, без тени и заливки */
+.filter-block {
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: var(--bg-white);
+  border: 1px solid #EDF2F7;
+  border-radius: var(--border-radius);
+}
+
+.filter-block__title {
+  margin-bottom: 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* --- Категории города: вертикальный список текстовых ссылок --- */
+.location-categories {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.location-category {
+  list-style: none;
+}
+.location-category__link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-dark);          /* тёмно-синее название категории */
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+/* Полупрозрачный серый счётчик в скобках: «Экскаваторы (12)» */
+.location-category__count {
+  flex: 0 0 auto;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.65;
+  white-space: nowrap;
+}
+/* Hover: строка плавно окрашивается в ультра-светлый серый */
+.location-category__link:hover {
+  background-color: var(--bg-light);
+}
+.location-category--empty .location-category__link {
+  color: var(--text-muted);
+  cursor: default;
+}
+
+/* --- Радиус поиска: минималистичный select с кастомной стрелкой --- */
+.radius-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.location-select {
+  width: 100%;
+  height: 42px;
+  padding: 0 40px 0 14px;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236C7A93' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+.location-select:hover {
+  border-color: #CBD5E1;
+}
+.location-select:focus,
+.location-select:focus-visible {
+  outline: none;
+  border-color: var(--norwegian-red);
+  box-shadow: 0 0 0 3px rgba(217, 35, 35, 0.10);
+}
+
+/* --------------------------------------------------------------------------
+   4. ТУЛБАР: переключение вида (Сетка/Список) + сортировка цен
+   -------------------------------------------------------------------------- */
+
+.location-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid #EDF2F7;
+  margin-bottom: 18px;
+}
+.toolbar-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.sort-label {
+  margin-right: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.sort-link {
+  padding: 2px 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+.sort-link:hover {
+  color: var(--text-dark);
+}
+.sort-link.is-active {
+  color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+.toolbar-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+.view-btn:hover {
+  color: var(--text-dark);
+  background-color: var(--bg-light);
+}
+.view-btn.is-active {
+  color: var(--norwegian-red);
+}
+.view-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* --------------------------------------------------------------------------
+   5. ЛЕНТА ОБЪЯВЛЕНИЙ: карточки-строки «билет» (3 зоны: фото / тело / цена)
+   -------------------------------------------------------------------------- */
+
+/* Лента — ровный вертикальный стек строк; режим «Сетка» — плитки */
+.location-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.location-ticket {
+  background-color: var(--bg-white);
+  border: 1px solid #EDF2F7;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.location-ticket:hover {
+  transform: translateY(-2px);
+  border-color: var(--norwegian-red);
+  box-shadow: 0 12px 28px rgba(26, 34, 56, 0.10);
+}
+
+/* Одна кликабельная область: горизонтальные 3 зоны */
+.location-ticket__link {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  height: 180px;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* --- Зона 1 (лево, 25%): фото + бэйдж владельца --- */
+.lt__media {
+  position: relative;
+  flex: 0 0 25%;
+  max-width: 25%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-light);
+}
+.lt__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                /* ровная нарезка без искажений */
+  object-position: center;
+  border-radius: 4px;               /* скругление углов фото */
+  transition: transform 0.3s ease;
+}
+.location-ticket:hover .lt__img {
+  transform: scale(1.03);
+}
+/* Маленький плоский бэйдж: «Частное» / «Компания» */
+.lt__owner-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 8px;
+  border-radius: 2px;
+  background-color: rgba(242, 244, 247, 0.92);  /* плоский серый */
+  color: var(--text-dark);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* --- Зона 2 (центр, 55%): название + район + статус сделки --- */
+.lt__body {
+  flex: 1 1 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 18px 24px;
+}
+.lt__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text-dark);
+}
+.lt__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin-bottom: 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+.lt__deal-type {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border: 1px solid #EDF2F7;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* --- Зона 3 (право, 20%): цена + кнопка, отделены тонкой линией --- */
+.lt__price-zone {
+  flex: 0 0 20%;
+  max-width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 14px;
+  padding: 18px 20px;
+  border-left: 1px solid #EDF2F7;   /* тонкий вертикальный разделитель */
+}
+.lt__price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.lt__price-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.lt__price-amount {
+  font-size: 1.375rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--norwegian-red);      /* крупная ярко-красная цена */
+}
+.lt__price-unit {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-muted);
+}
+/* Плоская красная кнопка — главное действие лоукостера */
+.lt__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--norwegian-red);
+  color: var(--bg-white);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+.lt__action:hover {
+  background-color: var(--norwegian-red-hover);
+  box-shadow: 0 4px 12px rgba(217, 35, 35, 0.25);
+}
+
+/* --- Режим «Сетка» (desktop, min-width: 769px): вертикальные плитки --- */
+@media (min-width: 769px) {
+  .location-grid.is-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .location-grid.is-grid .location-ticket__link {
+    flex-direction: column;
+    height: auto;
+  }
+  .location-grid.is-grid .lt__media {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  .location-grid.is-grid .lt__img {
+    border-radius: 0;               /* фото во всю ширину плитки */
+  }
+  .location-grid.is-grid .lt__body {
+    flex: 1 1 auto;
+    padding: 16px 18px 12px;
+  }
+  .location-grid.is-grid .lt__price-zone {
+    flex: 0 0 auto;
+    max-width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px 16px;
+    border-left: none;
+    border-top: 1px solid #EDF2F7;
+  }
+  .location-grid.is-grid .lt__price-amount {
+    font-size: 1.25rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. ПАГИНАЦИЯ: чистые квадратные кнопки без заливки, активная — красная
+   -------------------------------------------------------------------------- */
+
+.location-pagination {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 0;
+}
+.location-pagination .pagination {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.location-pagination .pagination > li,
+.location-pagination .page-item {
+  margin: 0;
+}
+.location-pagination .pagination > li > a,
+.location-pagination .pagination > li > span,
+.location-pagination .page-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 8px;
+  border: 1px solid #EDF2F7;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  text-decoration: none;
+  background-color: transparent;   /* без заливки — чисто лоукостер */
+  transition: background-color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease,
+              color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+.location-pagination .pagination > li > a:hover,
+.location-pagination .page-link:hover {
+  background-color: var(--bg-light);
+  border-color: var(--text-muted);
+  color: var(--text-dark);
+}
+/* Активная страница — фирменный красный фон + белый текст */
+.location-pagination .pagination > .active > a,
+.location-pagination .pagination > .active > span,
+.location-pagination .page-item.active .page-link,
+.location-pagination .page-item.active span {
+  background-color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+  color: var(--bg-white);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(217, 35, 35, 0.25);
+}
+.location-pagination .pagination > .disabled > a,
+.location-pagination .pagination > .disabled > span,
+.location-pagination .page-item.disabled .page-link,
+.location-pagination .page-item.disabled span {
+  color: var(--text-muted);
+  border-color: #EDF2F7;
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+   7. ПУСТОЕ СОСТОЯНИЕ
+   -------------------------------------------------------------------------- */
+
+.location-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  border: 1px solid #EDF2F7;
+  border-radius: var(--border-radius);
+}
+
+/* --------------------------------------------------------------------------
+   8. КАРТА РЕГИОНА: плоский минималистичный виджет с тонкими границами
+   -------------------------------------------------------------------------- */
+
+.location-map-wrapper {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid #EDF2F7;    /* тонкая линия-разделитель секций */
+}
+.location-map-title {
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text-dark);
+}
+.location-map {
+  height: 420px;
+  border: 1px solid #EDF2F7;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background-color: var(--bg-light);
+}
+.location-map__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: grayscale(0.15);          /* лёгкая «скандинавская» приглушённость */
+}
+
+/* --------------------------------------------------------------------------
+   9. АДАПТИВНОСТЬ (max-width: 768px)
+   Сайдбар фильтров скрыт, карточки перестраиваются в вертикальные плитки,
+   карта уходит в самый низ (DOM-порядок это уже обеспечивает).
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .location-page {
+    padding-top: 28px;
+    padding-bottom: 48px;
+  }
+
+  /* Одна колонка; сайдбар скрыт по требованию */
+  .location-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .location-sidebar {
+    display: none;
+  }
+
+  /* Тулбар — в одну колонку, переключатель вида скрыт */
+  .location-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .toolbar-view {
+    display: none;
+  }
+
+  /* Карточка: горизонтальная строка → вертикальная плитка */
+  .location-ticket__link {
+    flex-direction: column;
+    height: auto;
+  }
+  .lt__media {
+    flex: 0 0 auto;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+  .lt__img {
+    border-radius: 4px 4px 0 0;     /* скругление только сверху */
+  }
+  .lt__body {
+    flex: 1 1 auto;
+    padding: 16px 18px 10px;
+  }
+  /* Ценовая зона: вертикальная линия → горизонтальная (border-top) */
+  .lt__price-zone {
+    flex: 0 0 auto;
+    max-width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px 16px;
+    border-left: none;
+    border-top: 1px solid #EDF2F7;
+  }
+  .lt__price-amount {
+    font-size: 1.25rem;
+  }
+  .lt__action {
+    flex: 0 0 auto;
+  }
+
+  /* Пагинация и карта — компактнее */
+  .location-pagination .pagination {
+    gap: 2px;
+  }
+  .location-pagination .pagination > li > a,
+  .location-pagination .pagination > li > span,
+  .location-pagination .page-link {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+    padding: 0 6px;
+  }
+  .location-map-wrapper {
+    margin-top: 32px;
+    padding-top: 24px;
+  }
+  .location-map {
+    height: 300px;
+  }
+}

@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BbsController;
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\NewsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,7 +18,107 @@ use App\Http\Controllers\BbsController;
 |
 */
 Auth::routes();
-Route::get('/', [BbsController::class, 'index'])->name('home');
+
+// Новая главная (редизайн 2026): blade-шаблоны resources/views/redesign.
+// В hero-виджет передаём категории ВЕРХНЕГО уровня (рубрики level 1,
+// отсортированные по алфавиту) и областные города Беларуси из БД. Для каждой
+// категории берём и корневую рубрику секции (root_id/root_title: «Аренда»
+// id 1, «Продажа» id 118) — шаблон группирует их в <optgroup> и показывает
+// в списке только категории активной вкладки Аренда/Продажа.
+Route::get('/', function () {
+    $categories = App\Models\Rubric::query()
+        ->where('rubrics.level', 1)
+        ->join('rubrics as root', 'root.id', '=', 'rubrics.parent_id')
+        ->orderBy('root.sort')
+        ->orderBy('rubrics.title') // алфавитный порядок в выпадающем списке
+        ->select('rubrics.id', 'rubrics.title', 'rubrics.parent_id', 'root.id as root_id', 'root.title as root_title')
+        ->get();
+
+    $cities = App\Models\Location::query()
+        ->whereIn('title', ['Минск', 'Брест', 'Витебск', 'Гомель', 'Гродно', 'Могилев'])
+        ->orderBy('id')
+        ->get(['id', 'title']);
+
+    // Блок «Категории техники»: рубрики 1-го уровня с числом АКТИВНЫХ
+    // объявлений (с учётом потомков), сортировка по количеству по убыванию.
+    // Показываем только категории, где объявления есть, — максимум 6 блоков.
+    // Колонка qualified (rubrics.level): scopeWithAdsCount делает self-join.
+    // parent_rubric.title — название родительской категории («Аренда» /
+    // «Продажа») для подписи карточек «Аренда погрузчика» и т.п.
+    $cats = App\Models\Rubric::query()
+        ->where('rubrics.level', 1)
+        ->withAdsCount()
+        ->join('rubrics as parent_rubric', 'parent_rubric.id', '=', 'rubrics.parent_id')
+        ->addSelect('parent_rubric.title as parent_title')
+        ->orderByDesc('ads_count')
+        ->orderBy('rubrics.title') // qualified: в запросе теперь и parent_rubric.title
+        ->having('ads_count', '>', 0) // фильтр по алиасу COALESCE из withAdsCount
+        ->limit(6)
+        ->get();
+
+    // Секция «Популярная техника»: активные объявления с наибольшим
+    // количеством просмотров (сумма по bb_statistics).
+    $popular = App\Models\Bb::query()
+        ->whereHas('status_bb', fn ($q) => $q->where('active', 'Y'))
+        ->with(['location', 'bbprice.pricetype', 'BbParameters.parameters'])
+        ->withSum('bbstatistic', 'views')        // → атрибут bbstatistic_sum_views
+        ->orderByDesc('bbstatistic_sum_views')
+        ->orderByDesc('lifted_at')
+        ->limit(3)
+        ->get();
+
+    // Секция «Актуальные объявления»: те же карточки,
+    // сортировка по дате обновления.
+    $actual = App\Models\Bb::query()
+        ->whereHas('status_bb', fn ($q) => $q->where('active', 'Y'))
+        ->with(['location', 'bbprice.pricetype', 'BbParameters.parameters'])
+        ->orderByDesc('updated_at')
+        ->orderByDesc('id')
+        ->limit(3)
+        ->get();
+
+    // Секция «Новости»: последние активные публикации.
+    $posts = App\Models\Post::query()
+        ->where('active', 'Y')
+        ->orderByDesc('created_at')
+        ->orderByDesc('id')
+        ->limit(3)
+        ->get();
+
+    return view('redesign.home', [
+        'categories' => $categories,
+        'cities'     => $cities,
+        'cats'       => $cats,
+        'popular'    => $popular,
+        'actual'     => $actual,
+        'posts'      => $posts,
+    ]);
+})->name('home');
+
+// Старая главная (доска объявлений) — временно доступна для отката редизайна.
+// Чтобы вернуть её на «/», просто поменяйте местами эти два маршрута.
+Route::get('/old-home', [BbsController::class, 'index'])->name('home.old');
+
+/*
+|--------------------------------------------------------------------------
+| Разделы нового фронтенда (редизайн 2026)
+|--------------------------------------------------------------------------
+| Страницы-заглушки: наполняем контентом на следующих шагах редизайна.
+| Нужны уже сейчас, чтобы шапка (<x-header>) ссылалась на валидные
+| маршруты, а request()->routeIs() корректно подсвечивал active.
+*/
+// Каталог: «Аренда» и «Продажа» — общий шаблон resources/views/catalog/index.blade.php.
+Route::get('/rent/{rubric?}', [CatalogController::class, 'index'])->name('rent.index');
+Route::get('/sale/{rubric?}',  [CatalogController::class, 'index'])->name('sale.index');
+// «Весь каталог»: страница со всеми категориями (рубрики 1-го уровня обеих секций).
+Route::get('/catalog', [CatalogController::class, 'categories'])->name('catalog.all');
+// «Все объявления»: полный список активных объявлений без привязки к секции.
+Route::get('/ads', [CatalogController::class, 'ads'])->name('ads.index');
+// Новости (Блог): список + детальная страница в стиле редизайна.
+// Шаблоны: resources/views/news/{index,show}.blade.php · стили: /css/news.css.
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::get('/news/{article}', [NewsController::class, 'show'])->name('news.show');
+
 
 Route::get('/dashboard', [App\Http\Controllers\ProfileController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard/admin', [App\Http\Controllers\ProfileController::class, 'admin_dashboard'])->middleware(['auth', 'verified'])->name('admin_dashboard');
@@ -75,7 +177,7 @@ Route::get('/dashboard/rubric/{rubric}/delete', [App\Http\Controllers\RubricsCon
 Route::delete('/dashboard/rubric/{rubric}', [App\Http\Controllers\RubricsController::class, 'destroyRubric'])->name('rubric_dashboard_destroy')->middleware('isadmin');
 
 Route::get('/location', [App\Http\Controllers\LocationsController::class, 'list'])->name('locations');
-Route::get('/location/{location}', [App\Http\Controllers\RubricsController::class, 'location'])->name('location');
+Route::get('/location/{location}', [App\Http\Controllers\LocationCatalogController::class, 'show'])->name('location');
 Route::get('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'locations'])->name('location_dashboard')->middleware('isadmin');
 Route::post('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'addLocation'])->name('addLocationToDB')->middleware('isadmin');
 Route::get('/dashboard/location/add', [App\Http\Controllers\LocationsController::class, 'addLocationForm'])->name('location_dashboard_add')->middleware('isadmin');
@@ -156,6 +258,21 @@ Route::get('/dashboard/banner/{banner}/delete', [App\Http\Controllers\BannersCon
 Route::get('/dashboard/banner/{banner}', [App\Http\Controllers\BannersController::class, 'banner_dashboard'])->name('banner_dashboard')->middleware('isadmin');
 require __DIR__.'/auth.php';
 Route::get('/item/{bb}', [BbsController::class, 'detail'])->name('bb');
+
+// Псевдоним для нового фронтенда (редизайн 2026): карточки объявлений
+// (<x-equipment-card>) ссылаются на listings.show.
+Route::get('/listing/{bb}', [BbsController::class, 'detail'])->name('listings.show');
+
+/*
+|--------------------------------------------------------------------------
+| Правовые документы (редизайн 2026)
+|--------------------------------------------------------------------------
+| Страницы-заглушки: наполняются текстами документов позже.
+| Ссылки на них выводятся в футере (<x-footer />).
+*/
+Route::view('/legal/user-agreement', 'redesign.placeholder', ['section' => 'Пользовательское соглашение'])->name('legal.user-agreement');
+Route::view('/legal/privacy-policy', 'redesign.placeholder', ['section' => 'Политика обработки персональных данных'])->name('legal.privacy-policy');
+Route::view('/legal/offer', 'redesign.placeholder', ['section' => 'Публичная оферта'])->name('legal.offer');
 Route::get('/item/{bb}/approve', [BbsController::class, 'approve'])->name('approve')->middleware('isadmin');
 Route::patch('/item/{bb}/reject', [BbsController::class, 'reject'])->name('reject')->middleware('isadmin');
 

@@ -69,7 +69,7 @@ class BbsController extends Controller
         $breadcrumbs['list']= Rubric::ancestorsAndSelf($bb->rubric_id);
 
 
-        return view('detail', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title, 'reasons'=>$reasons,'breadcrumbs'=>$breadcrumbs]);
+        return view('listings.show', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title, 'reasons'=>$reasons,'breadcrumbs'=>$breadcrumbs]);
     }
     public function approve(Bb $bb,Request $request){
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();

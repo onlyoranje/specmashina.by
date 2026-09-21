@@ -1,0 +1,757 @@
+/* ==========================================================================
+   SPECMASHINA.BY — главная страница (редизайн 2026)
+   Стиль: скандинавский минимализм (norwegian.com)
+   Подключается ПОСЛЕ базового /css/style.css (токены, reset, .btn, .container)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Модификаторы кнопок (расширяют базу из style.css)
+   -------------------------------------------------------------------------- */
+
+.btn--sm {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+/* Инвертированная кнопка для тёмных/красных панелей */
+.btn.btn--invert {
+  background-color: transparent;
+  border-color: var(--bg-white);
+  color: var(--bg-white);
+}
+
+.btn.btn--invert:hover {
+  background-color: var(--bg-white);
+  border-color: var(--bg-white);
+  color: var(--primary-dark);
+}
+
+/* --------------------------------------------------------------------------
+   ШАПКА
+   -------------------------------------------------------------------------- */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg-white);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  height: 76px;
+}
+
+.nav-toggle {
+  position: absolute;
+  opacity: 0;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--primary-dark);
+  white-space: nowrap;
+}
+
+.logo:hover {
+  color: var(--primary-dark);
+}
+
+.logo__mark {
+  align-self: center;
+  width: 10px;
+  height: 26px;
+  margin-right: 8px;
+  background-color: var(--primary-red);
+  border-radius: 2px;
+  transform: skewX(-10deg);
+}
+
+.logo__accent {
+  color: var(--primary-red);
+}
+
+.logo__tld {
+  margin-left: 2px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-gray);
+}
+
+.nav {
+  display: flex;
+  gap: 1.75rem;
+  margin-left: auto;
+}
+
+.nav a {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--primary-dark);
+}
+
+.nav a:hover {
+  color: var(--primary-red);
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.header__phone {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  white-space: nowrap;
+}
+
+.header__phone:hover {
+  color: var(--primary-red);
+}
+
+/* Бургер: скрыт на десктопе, работает без JS (checkbox + label) */
+.burger {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.burger span,
+.burger::before,
+.burger::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--primary-dark);
+  transition: transform var(--transition-speed) ease,
+              opacity var(--transition-speed) ease;
+}
+
+/* --------------------------------------------------------------------------
+   HERO
+   -------------------------------------------------------------------------- */
+
+.hero {
+  padding: 72px 0 88px;
+  overflow: hidden;
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.eyebrow {
+  margin-bottom: 16px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary-red);
+}
+
+.hero__title {
+  margin-bottom: 20px;
+}
+
+.hero__lead {
+  max-width: 34rem;
+  margin-bottom: 32px;
+  font-size: 1.125rem;
+  color: var(--text-gray);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.hero__stats {
+  display: flex;
+  gap: 40px;
+}
+
+.hero__stat dt {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.hero__stat dd {
+  font-size: 0.875rem;
+  color: var(--text-gray);
+}
+
+.hero__media {
+  position: relative;
+}
+
+.hero__media img {
+  width: 100%;
+  border-radius: var(--border-radius);
+}
+
+.hero__badge {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  display: grid;
+  gap: 2px;
+  padding: 14px 18px;
+  background-color: var(--bg-white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero__badge-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.hero__badge-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--primary-red);
+}
+/* --------------------------------------------------------------------------
+   КАРКАС СЕКЦИЙ
+   -------------------------------------------------------------------------- */
+
+.section {
+  padding: 88px 0;
+}
+
+.section__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.section__head .eyebrow {
+  margin-bottom: 8px;
+}
+
+.section__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--primary-red);
+  white-space: nowrap;
+}
+
+.section__link svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-speed) ease;
+}
+
+.section__link:hover {
+  color: var(--primary-red-hover);
+}
+
+.section__link:hover svg {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   КАТЕГОРИИ
+   -------------------------------------------------------------------------- */
+
+.cats {
+  display: grid;
+  /* min(170px, 100%) — сетка не вылезает за контейнер на очень узких экранах */
+  grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+  gap: 16px;
+}
+
+.cat-card {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  justify-items: start;
+  /* min-width: 0 — разрешаем карточке сжиматься: без него длинное название
+     распирает грид-трек и вылезает за границу карточки */
+  min-width: 0;
+  padding: 24px;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-speed) ease,
+              transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+.cat-card__icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 10px;
+  color: var(--primary-dark);
+  transition: color var(--transition-speed) ease;
+}
+
+.cat-card__name {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  /* Перенос длинных названий в узких карточках: сначала переносы по правилам
+     языка (html lang="ru"), в крайнем случае — разрыв слова. */
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  color: var(--primary-dark);
+}
+
+.cat-card__count {
+  font-size: 0.875rem;
+  color: var(--text-gray);
+}
+
+.cat-card:hover {
+  border-color: var(--primary-red);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.cat-card:hover .cat-card__icon {
+  color: var(--primary-red);
+}
+
+/* --------------------------------------------------------------------------
+   КАРТОЧКИ ОБЪЯВЛЕНИЙ
+   -------------------------------------------------------------------------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: transform var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.card__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  background-color: var(--bg-light);
+}
+
+.card__icon {
+  width: 96px;
+  height: 96px;
+  color: var(--primary-dark);
+  opacity: 0.5;
+  transition: color var(--transition-speed) ease,
+              opacity var(--transition-speed) ease;
+}
+
+.card:hover .card__icon {
+  color: var(--primary-red);
+  opacity: 1;
+}
+
+.card__tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 10px;
+  border-radius: 2px;
+  background-color: var(--primary-red);
+  color: var(--bg-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 16px;
+  padding: 24px;
+}
+
+.card__title {
+  font-size: 1.125rem;
+  line-height: 1.35;
+}
+
+.card__title a {
+  color: var(--primary-dark);
+}
+
+.card__title a:hover {
+  color: var(--primary-red);
+}
+
+.card__specs {
+  display: grid;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-gray);
+}
+
+.card__specs li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.card__specs li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--primary-red);
+}
+
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.card__price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.card__price span {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-gray);
+}
+
+/* --------------------------------------------------------------------------
+   ПРЕИМУЩЕСТВА (маркетплейс: выгода для ищущих и для размещающих)
+   Чистый белый фон, «воздух», минимум рамок — стиль Norwegian Air.
+   -------------------------------------------------------------------------- */
+
+/* 4 колонки на десктопе, 2х2 на планшете, 1 колонка на мобильных */
+.adv {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 48px;
+}
+
+.adv__item {
+  display: grid;
+  justify-items: start;
+  align-content: start;
+  gap: 14px;
+}
+
+/* Минималистичная иконка — единственный красный акцент пункта */
+.adv__icon {
+  width: 44px;
+  height: 44px;
+  color: var(--norwegian-red);
+}
+
+.adv__title {
+  margin-top: 10px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-dark);
+}
+
+.adv__text {
+  max-width: 26rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--text-gray);
+}
+
+/* Планшет: две колонки */
+@media (max-width: 1024px) {
+  .adv {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Мобильные: одна колонка */
+@media (max-width: 640px) {
+  .adv {
+    grid-template-columns: 1fr;
+  }
+}
+/* --------------------------------------------------------------------------
+   ФУТЕР (Norwegian Air: светлый фон, тонкие линии, «воздух»)
+   -------------------------------------------------------------------------- */
+
+.footer {
+  padding-top: 64px;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-white);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 40px;
+  padding-bottom: 48px;
+}
+
+.footer__brand .logo {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text-dark);
+}
+
+.footer__brand .logo .logo__dot {
+  color: var(--norwegian-red);
+}
+
+.footer__brand p {
+  max-width: 18rem;
+  margin-top: 16px;
+}
+
+.footer h4 {
+  margin-bottom: 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+
+.footer__col ul {
+  display: grid;
+  gap: 10px;
+}
+
+.footer__col li {
+  color: var(--text-muted);
+}
+
+.footer__col a {
+  color: var(--text-muted);
+  transition: color var(--transition-speed) ease;
+}
+
+.footer__col a:hover {
+  color: var(--norwegian-red);
+}
+
+/* --- Нижняя плашка: документы и юридическая информация --- */
+.footer__bottom {
+  display: grid;
+  gap: 12px;
+  padding: 32px 0 40px;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
+
+.footer__legal a {
+  position: relative;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color var(--transition-speed) ease;
+}
+
+.footer__legal a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background-color: var(--norwegian-red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--transition-speed) ease;
+}
+
+.footer__legal a:hover {
+  color: var(--norwegian-red);
+}
+
+.footer__legal a:hover::after {
+  transform: scaleX(1);
+}
+
+.footer__legal-info,
+.footer__legal-owner {
+  max-width: 62rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* --- Адаптив футера --- */
+@media (max-width: 1024px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer__bottom {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .footer__legal {
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   АДАПТИВ
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 960px) {
+  .header__inner {
+    justify-content: space-between;
+  }
+
+  .logo {
+    order: 1;
+  }
+
+  .header__actions {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .burger {
+    order: 3;
+    display: inline-flex;
+    margin-left: 8px;
+  }
+
+  .header__phone {
+    display: none;
+  }
+
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    margin-left: 0;
+    background-color: var(--bg-white);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .nav a {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  #nav-toggle:checked ~ .nav {
+    display: flex;
+  }
+
+  #nav-toggle:checked ~ .burger span {
+    opacity: 0;
+  }
+
+  #nav-toggle:checked ~ .burger::before {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  #nav-toggle:checked ~ .burger::after {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 48px 0 64px;
+  }
+
+  .hero__stats {
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .section {
+    padding: 64px 0;
+  }
+
+  .section__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+

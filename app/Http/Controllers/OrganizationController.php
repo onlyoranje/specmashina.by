@@ -10,35 +10,46 @@ use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
 {
-    public function detail($id){
+    // Профиль организации (редизайн 2026) + сетка активных объявлений.
+    public function detail($id)
+    {
+        $organization = Organization::findOrFail($id);
 
-        $organization = Organization::find($id);
-        $bbs = Bb::where('organization_id',$id)->select('bbs.*')->Join('status_bbs','bbs.status_bb_id','=','status_bbs.id')->where('status_bbs.active','Y')->get();
-        $breadcrumbs['route']= 'organization';
-        $breadcrumbs['list'][]= Array('route'=>'organizations','title'=>'Организации');
-        return view('organization.detail',['organization'=>$organization,'bbs'=>$bbs,'breadcrumbs'=>$breadcrumbs]);
+        $listings = Bb::where('organization_id', $organization->id)
+            ->whereHas('status_bb', fn ($q) => $q->where('active', 'Y'))
+            ->with(['location', 'bbprice.pricetype', 'BbParameters.parameters'])
+            ->orderByDesc('id')
+            ->get();
 
+        return view('organizations.show', [
+            'organization' => $organization,
+            'listings'     => $listings,
+        ]);
     }
 
+    // Каталог компаний (редизайн 2026): поиск по названию + фильтр по городу.
     public function list(Request $request)
-{
-
-    $organizations = Organization::where('active','Y')->
-    where(function($query)
     {
-        global $request;
-        if ($request->location) $query->where('location_id', $request->location );
+        $organizations = Organization::where('active', 'Y')
+            ->when($request->filled('q'), fn ($q) => $q->where('title', 'like', '%'.$request->q.'%'))
+            ->when($request->filled('city_id'), fn ($q) => $q->where('location_id', $request->city_id))
+            // Число АКТИВНЫХ объявлений компании (связь status_bb — как на главной)
+            ->withCount(['bbs as listings_count' => fn ($q) => $q
+                ->whereHas('status_bb', fn ($s) => $s->where('active', 'Y'))])
+            ->orderBy('title', 'asc')
+            ->paginate(10)
+            ->appends($request->query());
 
-    })->orderBy('title','asc')->paginate(10);
-    $locations = Location::where('level',1)->orderBy('title')->get();
-    $title = 'Организации';
-    if ($request->location)
-    {
-        $location = Location::where('id',$request->location)->first();
-        $title .=" в ".$location->title_r;
+        // Областные и крупные города РБ для фильтра (как на главной странице)
+        $cities = Location::whereIn('title', ['Минск', 'Брест', 'Витебск', 'Гомель', 'Гродно', 'Могилев'])
+            ->orderBy('id')
+            ->get(['id', 'title']);
+
+        return view('organizations.index', [
+            'organizations' => $organizations,
+            'cities'        => $cities,
+        ]);
     }
-    return view('organization.list',['organizations'=>$organizations,'title'=>$title ,'locations'=>$locations,'request'=>$request]);
-}
 public function organization_site_redirect($id){
         $site = Organization::where('id',$id)->pluck('site')->first();
 

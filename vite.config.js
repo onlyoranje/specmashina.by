@@ -24,7 +24,8 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel([
-            'resources/sass/app.scss',
+            'resources/sass/app.scss', // легаси-монолит старого сайта (Bootstrap и пр.)
+            'resources/css/app.css',   // глобальные стили редизайна 2026 (source of truth)
             'resources/js/app.js',
         ]),
     ],

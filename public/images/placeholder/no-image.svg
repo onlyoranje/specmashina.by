@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect fill="#e9ecef" width="400" height="300"/>
+  <rect fill="#dee2e6" x="50" y="50" width="300" height="200" rx="10"/>
+  <text fill="#6c757d" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" x="200" y="150">No Image</text>
+  <text fill="#adb5bd" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" x="200" y="180">Image not found</text>
+</svg>

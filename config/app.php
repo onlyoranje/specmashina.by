@@ -195,8 +195,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,
-        Kudashevs\ShareButtons\Providers\ShareButtonsServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class
+        Kudashevs\ShareButtons\Providers\ShareButtonsServiceProvider::class
     ],
 
     /*
@@ -212,8 +211,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
-        'Pusher' => Pusher\Pusher::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class
+        'Pusher' => Pusher\Pusher::class
     ])->toArray(),
 
 ];
