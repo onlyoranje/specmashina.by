@@ -1,19 +1,28 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Редактирование организации')
 
 @section('main')
 
-
-    <div class="section section-lg pt-5 pt-md-7 bg-gray-200">
+    <section class="dashboard section">
         <div class="container">
-            <div class="row pt-5 pt-md-0">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <!-- Start Dashboard Sidebar -->
                 @include('layouts.dashboard_profile')
+                <!-- Start Dashboard Sidebar -->
+                </div>
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
 
-                <div class="col-12 col-lg-8">
-                    <div class="row justify-content-center">
-
-
-                        <form class="form-ad" action="{{route('organization_update',['organization'=>$organization->id])}}" method="post"
+                        <div class="profile-settings-block dashboard-block mt-0">
+                            <div class="block-head">
+                                <h3 class="block-title">Редактирование организации</h3>
+                                <div class="block-actions">
+                                    <a class="btn alt-btn" href="{{route('my_organization')}}">К моей организации</a>
+                                </div>
+                            </div>
+                            <div class="inner-block">
+                        <form class="form-ad default-form-style" action="{{route('organization_update',['organization'=>$organization->id])}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
@@ -63,14 +72,18 @@
                                            <?php if ($organization->logo) {?> data-fileuploader-files='[<?= $old_image ?>]'<?php }?>>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn">Сохранить</button>
+                                <a href="{{route('my_organization')}}" class="btn alt-btn">Отмена</a>
                             </div>
                         </form>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <script>
         window.addEventListener("load", function(){
             $("#phone").mask("+375 99 999-99-99")

@@ -81,7 +81,7 @@ window.CheckRubrics = function (parent_id, id) {
 }
 
 window.Parameter_Rubric = function (rubric_id) {
-    $(".input-parameter").hide();
+    $(".input-parameter").parent().hide();
 
 
     $.each(json_parameter_rubric, function (key, data) {
@@ -89,7 +89,7 @@ window.Parameter_Rubric = function (rubric_id) {
 
         if (rubric_id == data['rubric_id']) {
 
-            $('#parameter_' + data['parameter_id']).show()
+            $('#parameter_' + data['parameter_id']).parent().show()
         }
     })
 }

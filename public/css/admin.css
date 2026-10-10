@@ -1,0 +1,3095 @@
+/* Шрифт публичной части сайта — Inter (public/css/style.css, строка 30 @import).
+   @import обязан идти раньше всех правил, поэтому стоит самым первым. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ==========================================================================
+   SPECMASHINA.BY — админ-панель (личный кабинет + разделы администратора)
+   Стиль: Norwegian Air (norwegian.com) — скандинавский лоукост-минимализм
+   --------------------------------------------------------------------------
+   Подключается в resources/views/layouts/base.blade.php ПОСЛЕ main.css,
+   только на страницах адинки (/dashboard*, /post*, /page*, /banner*).
+   Переопределяет легаси-стили дашборда из main.css (фиолетовые акценты
+   #5830E0 и градиенты) на фирменную палитру Norwegian.
+
+   Палитра (токены public/css/style.css):
+     --norwegian-red  #D92323 — акцент: активный пункт меню, CTA, иконки
+     --text-dark      #1A2238 — заголовки и основной текст
+     --bg-light       #F2F4F7 — фон страницы
+     --bg-white       #FFFFFF — карточки и блоки
+     --text-muted     #6C7A93 — второстепенный текст
+     --border-color   #E4E8EE — границы карточек и инпутов
+     --border-radius  4px     — строгая геометрия, минимальные скругления
+   ========================================================================== */
+
+/* Токены объявлены локально: на страницах админки базовый style.css может
+   не подключаться, поэтому объявляем их здесь независимо. */
+:root {
+  --norwegian-red: #D92323;
+  --norwegian-red-hover: #B82020;
+  --text-dark: #1A2238;
+  --bg-light: #F2F4F7;
+  --bg-white: #FFFFFF;
+  --text-muted: #6C7A93;
+  --border-color: #E4E8EE;
+  --border-radius: 4px;
+  --shadow-soft: 0 2px 8px rgba(26, 34, 56, 0.08);
+  --adm-transition: 0.2s ease;
+  /* Токен публичной шапки (components/header.blade.php) — иначе её transition
+     без значения. Значение совпадает со style.css (--transition-speed). */
+  --transition-speed: 0.2s;
+}
+
+/* --------------------------------------------------------------------------
+   1. ОБЩАЯ СТРАНИЦА АДМИНКИ
+   Фон — ультра-светлый серый, карточки белые с тонкой рамкой (как на
+   norwegian.com «Manage booking»). Мягкая тень, строгие скругления 4px.
+   -------------------------------------------------------------------------- */
+
+.dashboard.section {
+  background: var(--bg-light);
+  font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+/* Фон всей админки — ультра-светлый серый, как у секции контента (секция 1):
+   так крошки, контент и промежутки лежат на одном фоне, а шапка (белая)
+   читается отдельно. Геометрию контейнера задаёт секция 16. */
+.admin-area {
+  background-color: var(--bg-light);
+}
+
+/* Блоки контента (activity-log, recent-items, dashboard-block и т.д.) */
+.dashboard-block,
+.dashboard .main-content .activity-log,
+.dashboard .main-content .recent-items,
+.dashboard .main-content .details-lists .single-list {
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.dashboard-block {
+  margin-top: 30px;
+  padding-bottom: 10px;
+  transition: box-shadow var(--adm-transition);
+}
+
+.dashboard-block:hover {
+  box-shadow: 0 4px 16px rgba(26, 34, 56, 0.12);
+}
+
+/* Заголовки блоков: строгая типографика Norwegian — тёмно-синий, 600,
+   без декора; отделены тонкой линией цвета --border-color. */
+.dashboard-block .block-title,
+.dashboard .main-content .activity-log .block-title,
+.dashboard .main-content .recent-items .block-title {
+  padding: 20px 30px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* --------------------------------------------------------------------------
+   2. САЙДБАР АДМИНА (dashboard_profile.blade.php)
+   Белая карточка, активный пункт — фирменный красный с левой плашкой 3px,
+   ровно как навигация norwegian.com. Убираем фиолетовый #5830E0.
+   -------------------------------------------------------------------------- */
+
+.dashboard-sidebar {
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+/* Шапка сайдбара — тёмно-синий блок */
+.dashboard-sidebar .user-image {
+  position: relative;
+  padding: 24px 24px 24px 86px;
+  background: var(--text-dark);
+  border-bottom: none;
+}
+
+.dashboard-sidebar .user-image img,
+.dashboard-sidebar .user-image svg {
+  height: 44px !important;
+  width: 44px !important;
+  border-radius: 50%;   /* круглая аватарка (svg — фолбэк без фото) */
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.dashboard-sidebar .user-image h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.dashboard-sidebar .user-image h3 span {
+  display: block;
+  margin-top: 4px;
+}
+
+.dashboard-sidebar .user-image h3 span a {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.dashboard-sidebar .user-image h3 span a:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+/* Меню */
+.dashboard-sidebar .dashboard-menu {
+  padding: 16px 0;
+}
+
+.dashboard-sidebar .dashboard-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dashboard-sidebar .dashboard-menu ul li {
+  margin-bottom: 2px;
+}
+
+.dashboard-sidebar .dashboard-menu ul li:last-child {
+  margin-bottom: 0;
+}
+
+.dashboard-sidebar .dashboard-menu ul li a {
+  display: block;
+  position: relative;
+  padding: 9px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  border-radius: 0;
+  transition: color var(--adm-transition), background var(--adm-transition);
+}
+
+.dashboard-sidebar .dashboard-menu ul li a i {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+  color: inherit;
+}
+
+/* Левая красная плашка — фирменный приём Norwegian */
+.dashboard-sidebar .dashboard-menu ul li a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  border-radius: 0;
+  background: var(--norwegian-red);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--adm-transition), visibility var(--adm-transition);
+}
+
+.dashboard-sidebar .dashboard-menu ul li a:hover {
+  color: var(--text-dark);
+  background: var(--bg-light);
+}
+
+.dashboard-sidebar .dashboard-menu ul li a.active {
+  color: var(--norwegian-red);
+  font-weight: 600;
+  background: var(--bg-light);
+}
+
+.dashboard-sidebar .dashboard-menu ul li a.active::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Кнопка «Выход» в сайдбаре */
+.dashboard-sidebar .dashboard-menu .button {
+  margin-top: 24px;
+  padding: 0 24px;
+}
+
+.dashboard-sidebar .dashboard-menu .button .btn {
+  width: 100%;
+  padding: 11px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: all var(--adm-transition);
+}
+
+.dashboard-sidebar .dashboard-menu .button .btn:hover {
+  color: #FFFFFF;
+  background: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+/* --------------------------------------------------------------------------
+   3. КАРТОЧКИ-ПОКАЗАТЕЛИ (details-lists .single-list)
+   Вместо цветных градиентных иконок — строгие красные на светло-красной
+   плашке, счётчик крупным тёмно-синим (стиль «статусов рейса» Norwegian).
+   -------------------------------------------------------------------------- */
+
+.dashboard .main-content .details-lists .single-list {
+  padding: 28px 24px 28px 100px;
+}
+
+.dashboard .main-content .details-lists .single-list .list-icon {
+  height: 52px;
+  width: 52px;
+  line-height: 52px;
+  left: 24px;
+  background: rgba(217, 35, 35, 0.08);
+  border: none;
+  border-radius: var(--border-radius);
+}
+
+.dashboard .main-content .details-lists .single-list .list-icon i {
+  font-size: 22px;
+  color: var(--norwegian-red);
+  -webkit-text-fill-color: var(--norwegian-red);
+  background-image: none;
+}
+
+/* Все три карточки в единой строгой гамме — цветовые градиенты убраны */
+.dashboard .main-content .details-lists .single-list.two .list-icon,
+.dashboard .main-content .details-lists .single-list.three .list-icon {
+  background: rgba(217, 35, 35, 0.08);
+  border-color: transparent;
+}
+
+.dashboard .main-content .details-lists .single-list.two .list-icon i,
+.dashboard .main-content .details-lists .single-list.three .list-icon i {
+  color: var(--norwegian-red);
+  -webkit-text-fill-color: var(--norwegian-red);
+  background-image: none;
+}
+
+.dashboard .main-content .details-lists .single-list h3 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-dark);
+}
+
+.dashboard .main-content .details-lists .single-list h3 span {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   4. СПИСКИ (activity-log, recent-items) — строки таблицей, hover серый,
+   иконки красные, служебные ссылки в цвете бренда.
+   -------------------------------------------------------------------------- */
+
+.dashboard .main-content .activity-log ul,
+.dashboard .main-content .recent-items ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dashboard .main-content .activity-log ul li,
+.dashboard .main-content .recent-items ul li {
+  padding: 14px 30px;
+  background: transparent;
+  border-bottom: 1px solid var(--border-color);
+  transition: background var(--adm-transition);
+}
+
+.dashboard .main-content .activity-log ul li:last-child,
+.dashboard .main-content .recent-items ul li:last-child {
+  border-bottom: none;
+}
+
+.dashboard .main-content .activity-log ul li:hover,
+.dashboard .main-content .recent-items ul li:hover {
+  background: var(--bg-light);
+}
+
+.dashboard .main-content .activity-log ul li .log-icon {
+  left: 30px;
+  top: 15px;
+}
+
+.dashboard .main-content .activity-log ul li .log-icon i {
+  color: var(--norwegian-red);
+}
+
+.dashboard .main-content .activity-log ul li .title,
+.dashboard .main-content .recent-items ul li .title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.dashboard .main-content .activity-log ul li .title:hover,
+.dashboard .main-content .recent-items ul li .title:hover {
+  color: var(--norwegian-red);
+}
+
+.dashboard .main-content .activity-log ul li .time,
+.dashboard .main-content .recent-items ul li .time {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.dashboard .main-content .activity-log ul li .time a,
+.dashboard .main-content .recent-items ul li .time a {
+  color: var(--norwegian-red);
+  font-weight: 500;
+}
+
+.dashboard .main-content .activity-log ul li .time a:hover,
+.dashboard .main-content .recent-items ul li .time a:hover {
+  color: var(--norwegian-red-hover);
+  text-decoration: underline;
+}
+
+/* Красная кнопка-«крестик» у строк — приводим к палитре бренда */
+.dashboard .main-content .activity-log ul li .remove a,
+.dashboard .main-content .recent-items ul li .remove a {
+  background: var(--norwegian-red);
+  border-radius: var(--border-radius);
+}
+
+.dashboard .main-content .activity-log ul li .remove a:hover,
+.dashboard .main-content .recent-items ul li .remove a:hover {
+  background: var(--norwegian-red-hover);
+}
+
+/* Превью в списках недавних объявлений */
+.dashboard .main-content .recent-items ul li .image img {
+  height: 48px;
+  width: 48px;
+  border-radius: var(--border-radius);
+}
+
+/* --------------------------------------------------------------------------
+   5. КНОПКИ (.btn) — фирменный красный Norwegian: #D92323, hover #B82020.
+   -------------------------------------------------------------------------- */
+
+.dashboard .btn:not(.alt-btn):not([class*="fileuploader"]),
+.form-group.button .btn:not(.alt-btn) {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: var(--norwegian-red);
+  border: 1px solid var(--norwegian-red);
+  border-radius: var(--border-radius);
+  transition: background var(--adm-transition), border-color var(--adm-transition);
+}
+
+.dashboard .btn:not(.alt-btn):not([class*="fileuploader"]):hover,
+.form-group.button .btn:not(.alt-btn):hover {
+  color: #FFFFFF;
+  background: var(--norwegian-red-hover);
+  border-color: var(--norwegian-red-hover);
+}
+
+/* Вторичная (outline) кнопка */
+.dashboard .btn.alt-btn,
+.form-group.button .btn.alt-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: all var(--adm-transition);
+}
+
+.dashboard .btn.alt-btn:hover,
+.form-group.button .btn.alt-btn:hover {
+  color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+  background: var(--bg-white);
+}
+
+/* --------------------------------------------------------------------------
+   6. ФОРМЫ (default-form-style) — инпуты 48px, рамка --border-color,
+   фокус — фирменный красный (замена фиолетового #5830E0 из main.css).
+   -------------------------------------------------------------------------- */
+
+.default-form-style .form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.default-form-style .form-group input,
+.default-form-style .form-group select,
+.default-form-style .form-group textarea {
+  height: 48px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-dark);
+  font-size: 14px;
+  background: var(--bg-white);
+  transition: border-color var(--adm-transition), box-shadow var(--adm-transition);
+}
+
+.default-form-style .form-group textarea {
+  height: auto;
+  min-height: 120px;
+  padding: 12px 16px;
+}
+
+.default-form-style .form-group input:focus,
+.default-form-style .form-group select:focus,
+.default-form-style .form-group textarea:focus {
+  outline: none;
+  border-color: var(--norwegian-red);
+  box-shadow: 0 0 0 3px rgba(217, 35, 35, 0.12);
+}
+
+.default-form-style .form-group .arrow {
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   7. КАРТОЧКИ ПОЛЬЗОВАТЕЛЕЙ / ОРГАНИЗАЦИЙ (.adm-page: layouts.users / organizations)
+   Строгие карточки-строки в стиле Norwegian: превью слева, данные справа,
+   действия — текстовыми ссылками. Состояние записи показано цветной левой
+   плашкой (приём из листингов norwegian.com: зелёный — активно, красный — нет).
+   -------------------------------------------------------------------------- */
+
+/* Контейнер списка карточек */
+.adm-page .adm-cards {
+  padding-top: 8px;
+}
+
+.adm-page .adm-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 12px;
+  transition: border-color var(--adm-transition), box-shadow var(--adm-transition);
+}
+
+.adm-page .adm-card:hover {
+  border-color: #CBD3DF;
+  border-left-color: var(--norwegian-red);
+  box-shadow: 0 4px 16px rgba(26, 34, 56, 0.12);
+}
+
+/* Цветная плашка по состоянию записи */
+.adm-page .adm-card.is-active {
+  border-left-color: #0B7A45;
+}
+
+.adm-page .adm-card.is-blocked {
+  border-left-color: var(--norwegian-red);
+}
+
+/* Превью (аватар / логотип) */
+.adm-page .adm-card-media {
+  flex: 0 0 auto;
+  width: 84px;
+  line-height: 0;
+}
+
+.adm-page .adm-card-media img,
+.adm-page .adm-card-media svg {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  background: var(--bg-light);
+}
+
+/* Тело карточки */
+.adm-page .adm-card-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.adm-page .adm-card-title {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+  border-top: none;
+  padding-top: 0;
+}
+
+.adm-page .adm-card-title a {
+  color: var(--text-dark);
+}
+
+.adm-page .adm-card-title a:hover {
+  color: var(--norwegian-red);
+}
+
+/* Служебные строки: организация, количество объявлений */
+.adm-page .adm-card-meta {
+  margin: 0 0 2px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.adm-page .adm-card-meta a {
+  color: var(--text-muted);
+}
+
+.adm-page .adm-card-meta a:hover {
+  color: var(--norwegian-red);
+}
+
+.adm-page .adm-card-meta b {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* Нижняя строка карточки: состояние + действия */
+.adm-page .adm-card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 10px;
+}
+
+.adm-page .adm-card-state {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.adm-page .adm-card-state.is-active {
+  color: #0B7A45;
+}
+
+.adm-page .adm-card-state.is-blocked {
+  color: var(--text-muted);
+}
+
+.adm-page .adm-card-actions a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--norwegian-red);
+}
+
+.adm-page .adm-card-actions a:hover {
+  color: var(--norwegian-red-hover);
+  text-decoration: underline;
+}
+
+.adm-page .adm-card-actions a.text-danger {
+  color: var(--norwegian-red);
+}
+
+.adm-page .adm-card-actions a.text-success {
+  color: #0B7A45;
+}
+
+/* Пустое состояние внутри карточки-списка */
+.adm-empty-block {
+  padding: 32px 4px;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.adm-page .category-grid-topbar .title {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   8. ПАГИНАЦИЯ — разметка Bootstrap (.pagination > .page-item > .page-link)
+   в стиле Norwegian Air: квадратные ссылки 4px, активная — красная заливка.
+   Вид для /dashboard/location — resources/views/vendor/pagination/norwegian.blade.php.
+   -------------------------------------------------------------------------- */
+
+.dashboard .pagination,
+.adm-page .pagination {
+  margin-top: 24px;
+}
+
+/* Флекс-ряд только для разметки .page-item/.page-link (сам <ul>), чтобы не
+   задевать легаси-обёртку <div class="pagination"> со списком .pagination-list. */
+.dashboard ul.pagination,
+.adm-page ul.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.dashboard .pagination .page-item,
+.adm-page .pagination .page-item {
+  margin: 0;
+}
+
+.dashboard .pagination .page-link,
+.adm-page .pagination .page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text-dark);
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius) !important;
+  transition: all var(--adm-transition);
+}
+
+.dashboard .pagination .page-link:hover,
+.adm-page .pagination .page-link:hover {
+  color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+  background: var(--bg-white);
+  text-decoration: none;
+}
+
+.dashboard .pagination .page-item.active .page-link,
+.adm-page .pagination .page-item.active .page-link {
+  color: #FFFFFF;
+  background: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+.dashboard .pagination .page-item.disabled .page-link,
+.adm-page .pagination .page-item.disabled .page-link {
+  color: var(--text-muted);
+  background: var(--bg-light);
+  border-color: var(--bg-light);
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   9. ПРОЧЕЕ
+   -------------------------------------------------------------------------- */
+
+/* Заголовки страниц разделов */
+.dashboard .main-content h1,
+.dashboard .main-content h2,
+.dashboard .main-content h3:not(.block-title) {
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+/* Фокус с клавиатуры — видимый контур (a11y, как у Norwegian) */
+.dashboard a:focus-visible,
+.dashboard .btn:focus-visible,
+.dashboard-sidebar .dashboard-menu ul li a:focus-visible {
+  outline: 2px solid var(--norwegian-red);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   10. РАЗМЕТКА 2026: МЕТКА СЕКЦИИ В САЙДБАРЕ И ТАБЫ-ФИЛЬТРЫ (list-nav)
+   -------------------------------------------------------------------------- */
+
+/* Метка секции меню («Администрирование») */
+.dashboard-sidebar .dashboard-menu ul li.dashboard-menu-label {
+  margin: 16px 0 6px;
+  padding: 0 24px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.dashboard-sidebar .dashboard-menu ul li.dashboard-menu-label:first-child {
+  margin-top: 0;
+}
+
+/* Табы-фильтры статусов (mybb / allbb): пилюли в стиле Norwegian —
+   активная залита красным, счётчик — светлый круг. */
+.dashboard .list-nav ul {
+  padding: 0 24px;
+}
+
+.dashboard .list-nav ul li a {
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all var(--adm-transition);
+}
+
+.dashboard .list-nav ul li a span {
+  border: none;
+  border-radius: 10px;
+  background: var(--bg-light);
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.dashboard .list-nav ul li a:hover,
+.dashboard .list-nav ul li.active a {
+  color: #FFFFFF;
+  background: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+.dashboard .list-nav ul li a:hover span,
+.dashboard .list-nav ul li.active a span {
+  color: var(--norwegian-red);
+  background: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   11. РАЗМЕТКА 2026: ШАПКА БЛОКА (.block-head) И СПИСКИ-СТРОКИ (.adm-list)
+
+   Единый «белый блок»: шапка с заголовком слева и действием справа, ниже —
+   список строк («таблица без таблицы»): превью/иконка, название, служебные
+   данные и действие. Легаси-разметка (activity-log, recent-items) описана
+   теми же правилами, поэтому селекторы сгруппированы тройками: базовый +
+   «activity-log» + «recent-items» — так специфичность перебивает main.css.
+   -------------------------------------------------------------------------- */
+
+/* --- Шапка блока --------------------------------------------------------- */
+
+.dashboard-block .block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Внутри шапки заголовок без отступов и линии базового .block-title */
+.dashboard-block .block-head .block-title,
+.dashboard .main-content .activity-log .block-head .block-title,
+.dashboard .main-content .recent-items .block-head .block-title {
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-dark);
+  border-bottom: none;
+}
+
+/* Счётчик записей в шапке блока */
+.dashboard-block .block-head .block-count {
+  flex: 0 0 auto;
+  min-width: 26px;
+  padding: 2px 9px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--norwegian-red);
+  background: rgba(217, 35, 35, 0.08);
+  border-radius: 12px;
+}
+
+/* Кнопка в шапке — компактная, чтобы шапка не «ломалась» на мобильном */
+.dashboard-block .block-actions .btn:not(.alt-btn),
+.dashboard-block .block-actions .btn.alt-btn {
+  padding: 10px 20px;
+  font-size: 13px;
+}
+
+/* --- Контейнер списка ---------------------------------------------------- */
+
+.dashboard .main-content .adm-list,
+.dashboard .main-content .activity-log ul.adm-list,
+.dashboard .main-content .recent-items ul.adm-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* --- Строка списка ------------------------------------------------------- */
+
+.dashboard .main-content .adm-list > li,
+.dashboard .main-content .activity-log ul.adm-list > li,
+.dashboard .main-content .recent-items ul.adm-list > li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 12px 24px 12px 74px;
+  background: transparent;
+  border-bottom: 1px solid var(--border-color);
+  transition: background var(--adm-transition);
+}
+
+.dashboard .main-content .adm-list > li:last-child,
+.dashboard .main-content .activity-log ul.adm-list > li:last-child,
+.dashboard .main-content .recent-items ul.adm-list > li:last-child {
+  border-bottom: none;
+}
+
+.dashboard .main-content .adm-list > li:hover,
+.dashboard .main-content .activity-log ul.adm-list > li:hover,
+.dashboard .main-content .recent-items ul.adm-list > li:hover {
+  background: var(--bg-light);
+}
+
+/* Иконка строки — красная на светло-красной плашке */
+.dashboard .main-content .adm-list > li .log-icon,
+.dashboard .main-content .activity-log ul.adm-list > li .log-icon,
+.dashboard .main-content .recent-items ul.adm-list > li .log-icon {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  margin: 0;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  border: none;
+  border-radius: var(--border-radius);
+  background: rgba(217, 35, 35, 0.08);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.dashboard .main-content .adm-list > li .log-icon i,
+.dashboard .main-content .activity-log ul.adm-list > li .log-icon i,
+.dashboard .main-content .recent-items ul.adm-list > li .log-icon i {
+  font-size: 16px;
+  color: var(--norwegian-red);
+  -webkit-text-fill-color: var(--norwegian-red);
+  background-image: none;
+}
+
+/* Превью объявления (bb.dashboardcard) — на месте иконки */
+.dashboard .main-content .adm-list > li .image a,
+.dashboard .main-content .activity-log ul.adm-list > li .image a,
+.dashboard .main-content .recent-items ul.adm-list > li .image a {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.dashboard .main-content .adm-list > li .image img,
+.dashboard .main-content .activity-log ul.adm-list > li .image img,
+.dashboard .main-content .recent-items ul.adm-list > li .image img {
+  height: 40px;
+  width: 40px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+/* Название строки — занимает всё свободное место */
+.dashboard .main-content .adm-list > li .title,
+.dashboard .main-content .activity-log ul.adm-list > li .title,
+.dashboard .main-content .recent-items ul.adm-list > li .title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.dashboard .main-content .adm-list > li .title:hover,
+.dashboard .main-content .activity-log ul.adm-list > li .title:hover,
+.dashboard .main-content .recent-items ul.adm-list > li .title:hover {
+  color: var(--norwegian-red);
+}
+
+/* Служебные данные строки (дата, статус, ссылки) */
+.dashboard .main-content .adm-list > li .time,
+.dashboard .main-content .activity-log ul.adm-list > li .time,
+.dashboard .main-content .recent-items ul.adm-list > li .time {
+  display: block;
+  flex: 0 0 auto;
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.dashboard .main-content .adm-list > li .time a,
+.dashboard .main-content .activity-log ul.adm-list > li .time a,
+.dashboard .main-content .recent-items ul.adm-list > li .time a {
+  color: var(--text-muted);
+}
+
+.dashboard .main-content .adm-list > li .time a:hover,
+.dashboard .main-content .activity-log ul.adm-list > li .time a:hover,
+.dashboard .main-content .recent-items ul.adm-list > li .time a:hover {
+  color: var(--norwegian-red);
+}
+
+.dashboard .main-content .adm-list > li .time a.text-danger,
+.dashboard .main-content .activity-log ul.adm-list > li .time a.text-danger,
+.dashboard .main-content .recent-items ul.adm-list > li .time a.text-danger {
+  color: var(--norwegian-red);
+  font-weight: 600;
+}
+
+/* --- Аватар в строке списка (пользователи, организации) ------------------ */
+
+.dashboard .main-content .adm-list > li .adm-avatar {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  display: block;
+  height: 40px;
+  width: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--bg-light);
+  transform: translateY(-50%);
+}
+
+.dashboard .main-content .adm-list > li .adm-avatar img,
+.dashboard .main-content .adm-list > li .adm-avatar svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Двухстрочный блок строки: название + пояснение */
+.dashboard .main-content .adm-list > li .adm-row-main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dashboard .main-content .adm-list > li .adm-row-main .title {
+  flex: 0 0 auto;
+}
+
+/* «Активировать» — зелёная ссылка восстановления доступа */
+.dashboard .main-content .adm-list > li .time a.text-success {
+  color: #0B7A45;
+  font-weight: 600;
+}
+
+.dashboard .main-content .adm-list > li .time a.text-success:hover {
+  color: #086138;
+}
+
+/* --- Карточки уведомлений (alerts) --------------------------------------- */
+
+.adm-alert {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border-color);
+  border-left: 3px solid var(--norwegian-red);
+}
+
+.adm-alert:last-child {
+  border-bottom: none;
+}
+
+.adm-alert-read {
+  border-left-color: var(--border-color);
+  background: var(--bg-light);
+}
+
+.adm-alert-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.adm-alert-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.adm-alert-body .card-text {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.adm-alert-body .btn {
+  padding: 9px 18px;
+  font-size: 13px;
+}
+
+
+/* --- Действия и состояния строки ---------------------------------------- */
+
+.dashboard .main-content .adm-list > li .time a.text-danger:hover,
+.dashboard .main-content .activity-log ul.adm-list > li .time a.text-danger:hover,
+.dashboard .main-content .recent-items ul.adm-list > li .time a.text-danger:hover {
+  color: var(--norwegian-red-hover);
+  text-decoration: underline;
+}
+
+/* Кнопка «развернуть уведомление» — компактная, всегда видимая */
+.dashboard .main-content .activity-log ul.adm-list > li .remove,
+.dashboard .main-content .recent-items ul.adm-list > li .remove {
+  display: flex;
+  align-items: center;
+}
+
+.dashboard .main-content .activity-log ul.adm-list > li .remove a,
+.dashboard .main-content .recent-items ul.adm-list > li .remove a {
+  position: static;
+  height: 28px;
+  width: 28px;
+  line-height: 28px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--text-dark);
+  background: var(--bg-light);
+  border-radius: var(--border-radius);
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: none;
+  transform: none;
+}
+
+.dashboard .main-content .activity-log ul.adm-list > li .remove a:hover,
+.dashboard .main-content .recent-items ul.adm-list > li .remove a:hover {
+  color: #FFFFFF;
+  background: var(--norwegian-red);
+}
+
+/* Действие строки — компактная outline-кнопка в цвете бренда */
+.adm-action {
+  flex: 0 0 auto;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--norwegian-red);
+  background: transparent;
+  border: 1px solid var(--norwegian-red);
+  border-radius: var(--border-radius);
+  transition: all var(--adm-transition);
+}
+
+.adm-action:hover {
+  color: #FFFFFF;
+  background: var(--norwegian-red);
+}
+
+/* Приглушённый текст внутри строки (уровень категории, единица измерения) */
+.adm-muted {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Пояснение в формах подтверждения (удаление и т.п.) */
+.adm-note {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+  background: var(--bg-light);
+  border-left: 3px solid var(--norwegian-red);
+  border-radius: var(--border-radius);
+}
+
+
+/* Пустой список */
+.dashboard .main-content .adm-list > li.adm-empty,
+.dashboard .main-content .activity-log ul.adm-list > li.adm-empty,
+.dashboard .main-content .recent-items ul.adm-list > li.adm-empty {
+  justify-content: center;
+  padding: 32px 24px;
+  font-size: 14px;
+  color: var(--text-muted);
+  background: transparent;
+  border-bottom: none;
+}
+
+/* Превью баннера и статистика строки */
+.dashboard .main-content .adm-list > li .adm-thumb {
+  flex: 0 0 auto;
+  height: 60px;
+  width: 130px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--bg-light);
+}
+
+.dashboard .main-content .adm-list > li .adm-stats {
+  flex: 0 0 auto;
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.dashboard .main-content .adm-list > li .adm-stats b {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Список карточек-строк внутри блока (пользователи, организации) */
+.dashboard .adm-cards {
+  padding: 20px 24px 0;
+}
+
+/* --------------------------------------------------------------------------
+   12. СПИСОК ОБЪЯВЛЕНИЙ (mybb / allbb): шапка списка и действия строки.
+   -------------------------------------------------------------------------- */
+
+.dashboard .my-items {
+  padding: 0 24px;
+}
+
+.dashboard .my-items .item-list-title {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard .my-items .item-list-title p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.dashboard .my-items .single-item-list {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+  transition: background var(--adm-transition);
+}
+
+.dashboard .my-items .single-item-list:last-of-type {
+  border-bottom: none;
+}
+
+.dashboard .my-items .single-item-list:hover {
+  background: var(--bg-light);
+}
+
+.dashboard .my-items .single-item-list .item-image .title a {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.dashboard .my-items .single-item-list .item-image .title a:hover {
+  color: var(--norwegian-red);
+}
+
+.dashboard .my-items .single-item-list .item-image .price {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.dashboard .my-items .single-item-list p {
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   13. БЕЙДЖ СТАТУСА ОБЪЯВЛЕНИЯ
+
+   Цвет приходит из БД через inline-переменную --badge (color_badge), поэтому
+   она используется как акцентная плашка слева, а фон — нейтральный серый.
+   -------------------------------------------------------------------------- */
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-dark);
+  background: var(--bg-light);
+  border-left: 3px solid var(--badge, var(--norwegian-red));
+  border-radius: var(--border-radius);
+}
+
+/* --- Адаптив (в конце файла: иначе правила разделов 12–13 его перебивают) - */
+@media (max-width: 767px) {
+  .dashboard-block .block-head {
+    padding: 16px 18px;
+  }
+
+  .adm-list > li {
+    flex-wrap: wrap;
+    row-gap: 4px;
+    padding: 14px 18px 14px 64px;
+  }
+
+  .adm-list > li .log-icon {
+    left: 16px;
+  }
+
+  .adm-list > li .adm-avatar {
+    left: 14px;
+  }
+
+  .adm-list > li .title {
+    flex: 1 1 100%;
+  }
+
+  .adm-list > li .adm-stats,
+  .adm-list > li .status-badge {
+    flex: 0 0 auto;
+  }
+
+  .adm-alert {
+    padding: 16px 18px;
+  }
+
+  .dashboard .my-items {
+    padding: 0 18px;
+  }
+}
+
+/* --- Прочее в разметке 2026 --------------------------------------------- */
+
+/* Пустое состояние списка/сетки */
+.adm-empty {
+  margin: 0;
+  padding: 32px 24px;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Текст уведомления под заголовком строки */
+.adm-alert-text {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.adm-alert-text p {
+  margin-bottom: 6px;
+}
+
+.adm-alert-text a {
+  color: var(--norwegian-red);
+  font-weight: 600;
+}
+
+/* Лайки в избранном: сердце + счётчик */
+.dashboard .adm-like {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dashboard .adm-like li {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.dashboard .adm-like li i,
+.dashboard .adm-like li svg {
+  color: var(--norwegian-red);
+}
+
+/* --------------------------------------------------------------------------
+   14. АДАПТИВНОСТЬ (разметка 2026): на узких экранах шапка блока и строки
+   списка переходят в вертикальный поток, действия — на всю ширину.
+   -------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 767px) {
+  .dashboard-block .block-head {
+    padding: 16px 20px;
+  }
+
+  .dashboard-block .block-actions {
+    width: 100%;
+  }
+
+  .dashboard-block .block-actions .btn,
+  .dashboard-block .block-actions .btn.alt-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .adm-list > li {
+    flex-wrap: wrap;
+    padding: 14px 20px 14px 64px;
+  }
+
+  .adm-list > li .log-icon {
+    left: 20px;
+  }
+
+  .adm-list > li .title {
+    flex: 1 0 100%;
+  }
+
+  .adm-list > li .time {
+    white-space: normal;
+  }
+
+  .adm-list > li .adm-thumb {
+    height: 56px;
+    width: 100px;
+  }
+
+  .dashboard .adm-cards {
+    padding: 16px 20px 0;
+  }
+
+  .dashboard .my-items {
+    padding: 0 20px;
+  }
+
+  .dashboard .category-grid-topbar .title {
+    font-size: 15px;
+  }
+}
+
+/* --- Строка с аватаром (пользователи / организации) ---------------------- */
+/* Вариант списка без иконки-плашки: отступ слева обычный, превью — в потоке */
+.adm-list.adm-list-plain > li {
+  padding-left: 24px;
+}
+
+.adm-list > li .adm-avatar {
+  flex: 0 0 auto;
+  height: 48px;
+  width: 48px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: var(--bg-light);
+}
+
+.adm-list > li .adm-avatar img,
+.adm-list > li .adm-avatar svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Служебная информация строки (организация, число объявлений) */
+.adm-list > li .adm-meta {
+  flex: 0 0 auto;
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.adm-list > li .adm-meta b {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* Метка состояния «активен / неактивен» */
+.adm-state {
+  flex: 0 0 auto;
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  background: var(--bg-light);
+  color: var(--text-muted);
+}
+
+.adm-state.is-active {
+  background: rgba(11, 122, 69, 0.10);
+  color: #0B7A45;
+}
+
+.adm-state.is-blocked {
+  background: rgba(217, 35, 35, 0.08);
+  color: var(--norwegian-red);
+}
+
+/* Мобильная адаптация: строки превращаются в столбик, ссылки — в строку */
+@media (max-width: 767px) {
+  .adm-list > li {
+    flex-wrap: wrap;
+    padding: 16px 20px 16px 60px;
+  }
+
+  .adm-list > li .log-icon {
+    left: 16px;
+  }
+
+  .adm-list.adm-list-plain > li {
+    padding-left: 20px;
+  }
+
+  .adm-list > li .title {
+    flex: 1 1 100%;
+  }
+
+  .dashboard-block .block-head {
+    padding: 16px 20px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   15. ХЛЕБНЫЕ КРОШКИ НА АДМИНКЕ (разметка и стиль — как в публичном каталоге)
+   Классы .catalog-breadcrumbs / .breadcrumb-link / .breadcrumb-sep /
+   .breadcrumb-current те же, что в resources/views/catalog/index.blade.php
+   (стили — public/css/catalog.css, раздел «1. Хлебные крошки»), значения
+   перенесены 1:1. Разметку выводит resources/views/breadcrumbs.blade.php,
+   селекторы скоупим .admin-area (класс ставит layouts/base.blade.php), чтобы
+   не влиять на публичные страницы и перебить легаси .breadcrumbs из main.css
+   (там padding-top: 140px и hover #5830E0).
+   -------------------------------------------------------------------------- */
+
+/* Обёртка .container даёт крошкам общую сетку страницы (1200px, см. секцию 16) */
+.admin-area .admin-breadcrumbs {
+  padding-top: 20px;
+}
+
+.admin-area .catalog-breadcrumbs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.admin-area .breadcrumb-link {
+  color: var(--text-muted);
+  transition: color var(--transition-speed) ease;
+}
+
+.admin-area .breadcrumb-link:hover {
+  color: var(--norwegian-red);
+}
+
+.admin-area .breadcrumb-sep {
+  color: var(--border-color);
+  font-weight: 600;
+}
+
+.admin-area .breadcrumb-current {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   16. ШАПКА ПУБЛИЧНОЙ ЧАСТИ САЙТА (компонент <x-header />) НА СТРАНИЦАХ АДМИНКИ
+   Шапка приходит тем же Blade-компонентом, что и на главной/каталоге
+   (resources/views/components/header.blade.php, подключение в layouts/base).
+   Её собственные стили лежат внутри компонента — здесь только интеграция
+   с административным лэйаутом: шрифт публичной части и геометрия контейнера.
+   Селекторы начинаются с .admin-area, чтобы перебивать style.css/main.css
+   по специфичности (CSS из <head> идёт раньше, чем <style> компонента).
+   -------------------------------------------------------------------------- */
+
+/* 1. Типографика публичной части: Inter вместо Jost (main.css). Иконки
+      LineIcons/FontAwesome не затрагиваются — они задают font-family сами. */
+.admin-area {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+/* 2. Сетка страницы — геометрия публичной вёрстки (style.css, .container:
+      width 100%, max-width 1200px, боковые отступы 1.5rem). Одно правило задаёт
+      и шапку (.site-header__inner), и контент, и футер — все они .container.
+      Без него применяются ширины bootstrap (1140/1320px) и медиазапрос
+      main.css (480–767px → 450px), из-за чего шапка/футер не совпадали бы
+      с публичной частью сайта. */
+.admin-area .container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* 3. Шапка закреплена (в компоненте position: sticky, z-index 100) —
+      поднимаем над карточками, сайдбаром и баром крошек, чтобы при скролле
+      её не перекрывал контент админки. */
+.admin-area .site-header {
+  z-index: 120;
+}
+
+/* --------------------------------------------------------------------------
+   17. ФУТЕР ПУБЛИЧНОЙ ЧАСТИ САЙТА (компонент <x-footer />) НА СТРАНИЦАХ АДМИНКИ
+   Стили 1:1 перенесены из public/css/style.css (раздел «5.2 ФУТЕР»), но со
+   скоупом .admin-area: в админке уже подключён main.css, где .footer тёмный
+   (#081828), а публичный футер — светлый Norwegian Air. Скоуп .admin-area
+   (0,2,0) перебивает .footer (0,1,0) из main.css.
+   -------------------------------------------------------------------------- */
+
+.admin-area .footer {
+  padding-top: 64px;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-white);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.admin-area .footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 40px;
+  padding-bottom: 48px;
+}
+
+.admin-area .footer__brand .logo {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text-dark);
+}
+
+.admin-area .footer__brand .logo .logo__dot {
+  color: var(--norwegian-red);
+}
+
+.admin-area .footer__brand p {
+  max-width: 18rem;
+  margin-top: 16px;
+}
+
+.admin-area .footer h4 {
+  margin-bottom: 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+}
+
+.admin-area .footer__col ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-area .footer__col li {
+  color: var(--text-muted);
+}
+
+.admin-area .footer__col a {
+  color: var(--text-muted);
+  transition: color var(--transition-speed) ease;
+}
+
+.admin-area .footer__col a:hover {
+  color: var(--norwegian-red);
+}
+
+/* --- Нижняя плашка: документы и юридическая информация --- */
+.admin-area .footer__bottom {
+  display: grid;
+  gap: 12px;
+  padding: 32px 0 40px;
+  border-top: 1px solid var(--border-color);
+}
+
+.admin-area .footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+}
+
+.admin-area .footer__legal a {
+  position: relative;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color var(--transition-speed) ease;
+}
+
+/* Плавное подчёркивание при наведении */
+.admin-area .footer__legal a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background-color: var(--norwegian-red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--transition-speed) ease;
+}
+
+.admin-area .footer__legal a:hover {
+  color: var(--norwegian-red);
+}
+
+.admin-area .footer__legal a:hover::after {
+  transform: scaleX(1);
+}
+
+.admin-area .footer__legal-info,
+.admin-area .footer__legal-owner {
+  max-width: 62rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* --- Адаптив футера (значения из style.css) --- */
+@media (max-width: 1024px) {
+  .admin-area .footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-area .footer__grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .admin-area .footer__bottom {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .admin-area .footer__legal {
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   18. СПИСОК ОБЪЯВЛЕНИЙ: ТАБЛИЦА-«БИЛЕТЫ» (mybb / allbb, разметка 2026)
+   Разметка: resources/views/bb/mybb.blade.php и resources/views/bb/allbb.blade.php.
+   Строка = пять ячеек: объявление (фото 70×70 + название + цена), статус
+   (бейдж + даты), город, просмотры, действия. Колонки задаёт <thead> таблицы,
+   поэтому они не разъезжаются от строки к строке; на экранах ≤992px таблица
+   собирается в вертикальные карточки (медиазапрос в конце раздела).
+   -------------------------------------------------------------------------- */
+
+.dashboard .my-items .bb-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* --- Шапка: мелкий капслок, как подписи полей на norwegian.com --- */
+.dashboard .my-items .bb-table thead th {
+  padding: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard .my-items .bb-table thead th:first-child {
+  padding-left: 0;
+}
+
+.dashboard .my-items .bb-table thead th:last-child {
+  padding-right: 0;
+  text-align: right;
+}
+
+/* Ширины колонок: название объявления — главное, действия — фиксированные */
+.dashboard .my-items .bb-table .bb-col-listing {
+  width: 38%;
+}
+
+.dashboard .my-items .bb-table .bb-col-status {
+  width: 20%;
+}
+
+.dashboard .my-items .bb-table .bb-col-city {
+  width: 10%;
+}
+
+.dashboard .my-items .bb-table .bb-col-views {
+  width: 8%;
+}
+
+.dashboard .my-items .bb-table .bb-col-actions {
+  width: 24%;
+}
+
+/* --- Строка: белая полоса с тонкой линией вместо рамки --- */
+.dashboard .my-items .bb-table .bb-row {
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border-color);
+  transition: background var(--adm-transition);
+}
+
+.dashboard .my-items .bb-table tbody .bb-row:last-child {
+  border-bottom: none;
+}
+
+.dashboard .my-items .bb-table .bb-row:hover {
+  background: var(--bg-light);
+}
+
+.dashboard .my-items .bb-table .bb-row > td {
+  padding: 14px 12px;
+  vertical-align: middle;
+}
+
+.dashboard .my-items .bb-table .bb-row > td:first-child {
+  padding-left: 0;
+}
+
+.dashboard .my-items .bb-table .bb-row > td:last-child {
+  padding-right: 0;
+}
+
+/* --- Ячейка «Объявление»: фото + название + цена --- */
+.dashboard .bb-listing {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.dashboard .bb-listing__thumb {
+  flex: 0 0 auto;
+  display: block;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: var(--bg-light);
+}
+
+.dashboard .bb-listing__body {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dashboard .bb-listing__title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-dark);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  transition: color var(--adm-transition);
+}
+
+.dashboard .bb-listing__title:hover {
+  color: var(--norwegian-red);
+}
+
+/* Цена — акцент строки */
+.dashboard .bb-listing__price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--norwegian-red);
+}
+
+/* --- Ячейка «Статус»: владелец (allbb), бейдж из БД и даты --- */
+.dashboard .bb-cell-status .bb-owner {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 6px;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard .bb-cell-status .status-badge {
+  margin-bottom: 8px;
+  white-space: normal;
+}
+
+.dashboard .bb-dates {
+  display: grid;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* --- Ячейки «Город» и «Просмотры» --- */
+.dashboard .bb-cell-city {
+  font-size: 13px;
+  color: var(--text-dark);
+  word-break: break-word;
+}
+
+.dashboard .bb-cell-views {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* --- Ячейка «Действия»: кнопка-контур + ряд иконок --- */
+.dashboard .bb-cell-actions {
+  text-align: right;
+}
+
+.dashboard .bb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.dashboard .bb-btn-edit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dark);
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: color var(--adm-transition), background var(--adm-transition),
+    border-color var(--adm-transition);
+}
+
+.dashboard .bb-btn-edit:hover {
+  color: var(--bg-white);
+  background: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+.dashboard .bb-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: color var(--adm-transition), background var(--adm-transition),
+    border-color var(--adm-transition);
+}
+
+.dashboard .bb-icon:hover {
+  color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+/* «Удалить» — красная плашка при наведении */
+.dashboard .bb-icon--danger:hover {
+  color: var(--bg-white);
+  background: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+.dashboard .bb-btn-edit:focus-visible,
+.dashboard .bb-icon:focus-visible {
+  outline: 2px solid var(--norwegian-red);
+  outline-offset: 2px;
+}
+
+/* Пустое состояние (класс .adm-empty, раздел «Прочее в разметке 2026») */
+.dashboard .bb-table .adm-empty a {
+  font-weight: 600;
+  color: var(--norwegian-red);
+}
+
+/* --------------------------------------------------------------------------
+   Адаптив: ≤992px таблица собирается в вертикальные карточки-«билеты».
+   Шапка таблицы скрывается, город и просмотры подписываются через
+   attr(data-label) — эти атрибуты уже стоят в разметке ячеек (mybb / allbb).
+   -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .dashboard .my-items .bb-table,
+  .dashboard .my-items .bb-table tbody,
+  .dashboard .my-items .bb-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .dashboard .my-items .bb-table thead {
+    display: none;
+  }
+
+  .dashboard .my-items .bb-table .bb-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+  }
+
+  /* Последняя карточка тоже с рамкой (перебивает border-bottom: none выше) */
+  .dashboard .my-items .bb-table tbody .bb-row:last-child {
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .dashboard .my-items .bb-table .bb-row > td {
+    display: block;
+    padding: 0;
+  }
+
+  /* Фото, статус и действия — на всю ширину карточки */
+  .dashboard .my-items .bb-table .bb-cell-listing,
+  .dashboard .my-items .bb-table .bb-cell-status,
+  .dashboard .my-items .bb-table .bb-cell-actions {
+    grid-column: 1 / -1;
+  }
+
+  .dashboard .my-items .bb-table .bb-cell-city {
+    grid-column: 1;
+  }
+
+  .dashboard .my-items .bb-table .bb-cell-views {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  /* Подписи «Город» / «Просмотры» вместо скрытой шапки таблицы */
+  .dashboard .my-items .bb-table .bb-cell-meta::before {
+    content: attr(data-label) ": ";
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* Пустое состояние вместо строки таблицы — обычный блок */
+  .dashboard .my-items .bb-table td.adm-empty {
+    display: block;
+    grid-column: 1 / -1;
+    padding: 16px 0;
+  }
+
+  /* Действия: кнопка «Редактировать» на всю ширину, иконки — ряд под ней */
+  .dashboard .my-items .bb-table .bb-actions {
+    justify-content: flex-start;
+  }
+
+  .dashboard .my-items .bb-table .bb-btn-edit {
+    flex: 1 1 100%;
+  }
+}
+
+/* На самых узких экранах уменьшаем превью, чтобы карточка осталась компактной */
+@media (max-width: 575px) {
+  .dashboard .bb-listing {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .dashboard .bb-listing__thumb {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   19. ГЛАВНАЯ ЛИЧНОГО КАБИНЕТА (/dashboard): приветствие, баланс кредитов,
+       статистика, быстрые действия и «строки-билеты» последних объявлений
+
+   Разметка: resources/views/dashboard/index.blade.php
+   Палитра страницы: белый фон, подложка #F8FAFC, граница #E2E8F0,
+   текст --text-dark (#1A2238), акцент --norwegian-red (#D92323).
+   Локальные токены объявлены на .dash-page, чтобы не менять общие
+   переменные ЛК (--bg-light / --border-color) на других страницах кабинета.
+   -------------------------------------------------------------------------- */
+
+.dashboard .dash-page {
+  --dash-subtle: #F8FAFC;   /* подложка виджета баланса и «быстрых» карточек */
+  --dash-border: #E2E8F0;   /* тонкая граница 1px на белом */
+  --dash-ok: #0B7A43;       /* «Активно» */
+  --dash-ok-bg: #E7F4EC;
+  --dash-warn: #8A5B00;     /* «На модерации» */
+  --dash-warn-bg: #FFF5E0;
+  --dash-fail: #B32020;     /* «Отклонено» */
+  --dash-fail-bg: #FCEAEA;
+  display: grid;
+  gap: 24px;
+}
+
+/* --- Приветствие + кошелёк ------------------------------------------------ */
+
+.dashboard .dash-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 22px 24px;
+  background: var(--bg-white);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--border-radius);
+}
+
+.dashboard .dash-hello {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dashboard .dash-hello__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-dark);
+}
+
+.dashboard .dash-hello__meta {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Виджет баланса: как блок миль у лоукостера — крупная цифра и плоская
+   красная кнопка пополнения. Только фон-подложка, никаких теней и иконок. */
+.dashboard .dash-wallet {
+  display: grid;
+  justify-items: end;
+  align-content: center;
+  gap: 8px;
+  min-width: 240px;
+  padding: 16px 20px;
+  background: var(--dash-subtle);
+  border-radius: var(--border-radius);
+}
+
+.dashboard .dash-wallet__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.dashboard .dash-wallet__value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--text-dark);
+}
+
+.dashboard .dash-wallet__value span {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.dashboard .dash-wallet__cta {
+  display: inline-block;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--bg-white);
+  background: var(--norwegian-red);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  transition: background var(--adm-transition);
+}
+
+.dashboard .dash-wallet__cta:hover {
+  color: var(--bg-white);
+  background: var(--norwegian-red-hover);
+}
+
+/* --- Сетка статистики ----------------------------------------------------- */
+
+.dashboard .stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.dashboard .stat-card {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  background: var(--bg-white);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--border-radius);
+  transition: border-color var(--adm-transition);
+}
+
+.dashboard .stat-card:hover {
+  border-color: var(--text-muted);
+}
+
+.dashboard .stat-card__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.dashboard .stat-card__value {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-dark);
+}
+
+/* --- Быстрые действия ----------------------------------------------------- */
+
+.dashboard .quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.dashboard .quick-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+  background: var(--dash-subtle);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  transition: color var(--adm-transition), background var(--adm-transition),
+    border-color var(--adm-transition);
+}
+
+.dashboard .quick-card i {
+  font-size: 18px;
+  color: var(--text-muted);
+  transition: color var(--adm-transition);
+}
+
+.dashboard .quick-card:hover {
+  color: var(--norwegian-red);
+  background: var(--bg-white);
+  border-color: var(--norwegian-red);
+}
+
+.dashboard .quick-card:hover i {
+  color: var(--norwegian-red);
+}
+
+/* Главное коммерческое действие — единственная залитая цветом карточка */
+.dashboard .quick-card--primary {
+  color: var(--bg-white);
+  background: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+.dashboard .quick-card--primary i {
+  color: var(--bg-white);
+}
+
+.dashboard .quick-card--primary:hover {
+  color: var(--bg-white);
+  background: var(--norwegian-red-hover);
+  border-color: var(--norwegian-red-hover);
+}
+
+/* --- «Строки-билеты» последних объявлений --------------------------------- */
+
+.dashboard .ticket-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dashboard .ticket {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--dash-border);
+}
+
+.dashboard .ticket:last-child {
+  border-bottom: none;
+}
+
+.dashboard .ticket__thumb {
+  flex: 0 0 auto;
+  display: block;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  background: var(--dash-subtle);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--border-radius);
+}
+
+.dashboard .ticket__thumb img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.dashboard .ticket__info {
+  flex: 1 1 auto;
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.dashboard .ticket__title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text-dark);
+  text-decoration: none;
+}
+
+.dashboard .ticket__title:hover {
+  color: var(--norwegian-red);
+}
+
+.dashboard .ticket__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.dashboard .ticket__badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-light);
+  border-radius: var(--border-radius);
+}
+
+.dashboard .ticket__badge.is-active {
+  color: var(--dash-ok);
+  background: var(--dash-ok-bg);
+}
+
+.dashboard .ticket__badge.is-paused {
+  color: var(--text-muted);
+  background: var(--bg-light);
+}
+
+.dashboard .ticket__badge.is-moderation {
+  color: var(--dash-warn);
+  background: var(--dash-warn-bg);
+}
+
+.dashboard .ticket__badge.is-rejected {
+  color: var(--dash-fail);
+  background: var(--dash-fail-bg);
+}
+
+.dashboard .ticket__side {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard .ticket__price {
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--norwegian-red);
+}
+
+.dashboard .ticket__price em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.dashboard .ticket__price--none {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.dashboard .dash-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--norwegian-red);
+  text-decoration: none;
+}
+
+.dashboard .dash-more i {
+  transition: transform var(--adm-transition);
+}
+
+.dashboard .dash-more:hover {
+  color: var(--norwegian-red-hover);
+}
+
+.dashboard .dash-more:hover i {
+  transform: translateX(4px);
+}
+
+/* --- Адаптивность --------------------------------------------------------- */
+
+@media (max-width: 992px) {
+  .dashboard .dash-topbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .dashboard .dash-wallet {
+    justify-items: start;
+    min-width: 0;
+  }
+}
+
+/* Одна вертикальная лента. Порядок: приветствие → кошелёк и «Добавить
+   объявление» → статистика → последние объявления. Обе главные коммерческие
+   кнопки (пополнение баланса и добавление объявления) попадают на первый
+   экран смартфона, меню кабинета уезжает вниз. */
+@media (max-width: 768px) {
+  .dashboard .dash-page {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .dashboard .dash-topbar {
+    order: 1;
+    padding: 18px;
+  }
+
+  .dashboard .quick-actions {
+    order: 2;
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard .stat-grid {
+    order: 3;
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard .dash-page > .row {
+    order: 4;
+  }
+
+  .dashboard .dash-hello__title {
+    font-size: 20px;
+  }
+
+  .dashboard .dash-wallet__value {
+    font-size: 26px;
+  }
+
+  .dashboard .quick-card {
+    padding: 16px 18px;
+  }
+
+  .dashboard .ticket {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .dashboard .ticket__side {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+}
+
+/* На самых узких экранах уменьшаем превью, чтобы строка осталась компактной */
+@media (max-width: 575px) {
+  .dashboard .ticket__thumb,
+  .dashboard .ticket__thumb img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .dashboard .ticket__price {
+    font-size: 15px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   20. МОБИЛЬНАЯ НИЖНЯЯ НАВИГАЦИЯ ЛИЧНОГО КАБИНЕТА (.dashboard-bottom-nav)
+
+   Разметка: resources/views/layouts/dashboard.blade.php
+             (@section('dashboard_bottom_nav') → @yield в layouts/base.blade.php).
+   Идея Norwegian: на телефоне сайдбар .dashboard-sidebar с меню скрыт, а
+   навигация переезжает в фиксированную нижнюю панель с горизонтальным
+   скроллом — как таб-бар в мобильном приложении лоукостера.
+   -------------------------------------------------------------------------- */
+
+/* На десктопе панели нет — работает штатный сайдбар */
+.dashboard-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* 1. Старый сайдбар с меню полностью скрываем: он уходил под объявления,
+        и до навигации приходилось прокручивать всю страницу */
+  .dashboard .dashboard-sidebar {
+    display: none;
+  }
+
+  /* 2. Фиксированная нижняя панель с горизонтальной прокруткой пальцем */
+  .dashboard-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+    overflow-x: auto;      /* включаем горизонтальный скролл */
+    overflow-y: hidden;
+    white-space: nowrap;   /* запрещаем перенос пунктов на новую строку */
+    z-index: 9999;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);  /* лёгкая тень вверх */
+    padding: 0 10px;
+    -webkit-overflow-scrolling: touch;             /* плавный скролл на iOS */
+    scrollbar-width: none;                         /* Firefox: без полосы */
+  }
+
+  /* Скрываем стандартный некрасивый скроллбар */
+  .dashboard-bottom-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 3. Пункты меню: иконка сверху, подпись снизу, строго в одну линию */
+  .dashboard-bottom-nav__item {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;               /* не сжимаемся — панель должна скроллиться */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-width: 72px;
+    height: 100%;
+    padding: 6px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.1;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--adm-transition);
+  }
+
+  .dashboard-bottom-nav__item i {
+    font-size: 17px;
+    color: var(--text-muted);
+    transition: color var(--adm-transition);
+  }
+
+  .dashboard-bottom-nav__item span {
+    white-space: nowrap;
+  }
+
+  .dashboard-bottom-nav__item:hover {
+    color: var(--text-dark);
+  }
+
+  .dashboard-bottom-nav__item:hover i {
+    color: var(--text-dark);
+  }
+
+  /* Активный пункт: жирная подпись, красный акцент и точка под иконкой
+     (вместо вертикальной полосы, которая используется в сайдбаре) */
+  .dashboard-bottom-nav__item.active {
+    font-weight: 700;
+    color: var(--norwegian-red);
+  }
+
+  .dashboard-bottom-nav__item.active i {
+    color: var(--norwegian-red);
+  }
+
+  .dashboard-bottom-nav__item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    background: var(--norwegian-red);
+    border-radius: 50%;
+  }
+
+  /* Счётчик непрочитанных уведомлений на «колокольчике» */
+  .dashboard-bottom-nav__count {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    margin-left: 6px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    color: var(--bg-white);
+    background: var(--norwegian-red);
+    border-radius: 8px;
+  }
+
+  /* «Выход» — последний пункт, отделён тонкой линией
+     (в сайдбаре выход вынесен вниз, поэтому в панели он тоже есть) */
+  .dashboard-bottom-nav__item--logout {
+    margin-left: 6px;
+    padding-left: 14px;
+    border-left: 1px solid #E2E8F0;
+  }
+
+  /* 4. Отступ снизу: панель не перекрывает «Последние объявления» и футер */
+  body.admin-area {
+    padding-bottom: 70px;
+  }
+
+  /* Кнопка «вверх» поднимается над панелью, чтобы не наезжать на неё */
+  body.admin-area .scroll-top {
+    bottom: 78px;
+  }
+
+  /* iPhone с «челкой»/жестовой полосой: учитываем безопасную зону снизу */
+  @supports (padding: env(safe-area-inset-bottom)) {
+    .dashboard-bottom-nav {
+      height: calc(60px + env(safe-area-inset-bottom));
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    body.admin-area {
+      padding-bottom: calc(70px + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   21. ФОРМА ОБЪЯВЛЕНИЯ (bb/add.blade.php, bb/edit.blade.php): пошаговый мастер.
+   Легаси-разметка .post-ad-tab (main.css) с фиолетовым акцентом #5830E0 и
+   тёмно-синими кнопками «Назад» приведена к палитре Norwegian: активный шаг —
+   красная заливка, номер шага — круг с красным акцентом, поля параметров —
+   как .default-form-style, кнопки «Далее/Добавить/Обновить» — фирменные,
+   «Назад» — outline. Разметка: resources/views/bb/{add,edit}.blade.php.
+   -------------------------------------------------------------------------- */
+
+/* Контейнер мастера: собственные отступы вместо легаси 0 30px из main.css */
+.dashboard .post-ad-tab {
+  padding: 0 24px 24px;
+}
+
+/* --- Шаги-табы ----------------------------------------------------------- */
+
+.dashboard .post-ad-tab nav .nav-tabs {
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.dashboard .post-ad-tab nav button {
+  flex: 1 1 0;
+  width: auto;
+  padding: 16px 20px 16px 76px;
+  background: transparent;
+  border: none !important;
+  border-radius: 0 !important;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: left;
+  transition: color var(--adm-transition), background var(--adm-transition);
+}
+
+/* Номер шага — нейтральный круг; у активного/наведённого — красный акцент */
+.dashboard .post-ad-tab nav button .serial {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  left: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  background: var(--bg-white);
+  color: var(--text-muted);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.dashboard .post-ad-tab nav button .sub-title {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.dashboard .post-ad-tab nav button:hover {
+  color: var(--norwegian-red);
+}
+
+.dashboard .post-ad-tab nav button:hover .serial {
+  border-color: var(--norwegian-red);
+  color: var(--norwegian-red);
+}
+
+/* Активный шаг — фирменная красная заливка (вместо фиолетовой #5830E0) */
+.dashboard .post-ad-tab nav button.active {
+  background: var(--norwegian-red) !important;
+  color: #FFFFFF !important;
+}
+
+.dashboard .post-ad-tab nav button.active .serial {
+  border-color: transparent;
+  background: #FFFFFF;
+  color: var(--norwegian-red);
+}
+
+.dashboard .post-ad-tab nav button.active .sub-title {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* --- Поля параметров (характеристики техники: числа, списки, чекбоксы) ---- */
+
+.dashboard .post-ad-tab .input-parameter label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.dashboard .post-ad-tab .input-parameter .form-control,
+.dashboard .post-ad-tab .input-parameter .form-select {
+  height: 48px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  color: var(--text-dark);
+  font-size: 14px;
+  background: var(--bg-white);
+  transition: border-color var(--adm-transition), box-shadow var(--adm-transition);
+}
+
+.dashboard .post-ad-tab .input-parameter textarea.form-control {
+  height: auto;
+  min-height: 120px;
+  padding: 12px 16px;
+}
+
+.dashboard .post-ad-tab .input-parameter .form-control:focus,
+.dashboard .post-ad-tab .input-parameter .form-select:focus {
+  outline: none;
+  border-color: var(--norwegian-red);
+  box-shadow: 0 0 0 3px rgba(217, 35, 35, 0.12);
+}
+
+/* Чекбокс «Да» — крупный, в цвете бренда */
+.dashboard .post-ad-tab .input-parameter .form-check-input {
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.dashboard .post-ad-tab .input-parameter .form-check-input:checked {
+  background-color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+.dashboard .post-ad-tab .input-parameter .form-check-label {
+  margin-left: 6px;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+/* --- Блок загрузки фотографий ------------------------------------------- */
+
+.dashboard .post-ad-tab .form-group.upload-photo {
+  margin-bottom: 28px;
+}
+
+/* --- Кнопки мастера ------------------------------------------------------ */
+
+/* main.css красит .alt-btn в тёмно-синий #081828 и ховер в фиолетовый —
+   перебиваем специфичностью (6 классов против 5). */
+.dashboard .default-form-style .form-group.button .btn.alt-btn {
+  color: var(--text-dark);
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+}
+
+.dashboard .default-form-style .form-group.button .btn.alt-btn:hover {
+  color: var(--norwegian-red);
+  background: var(--bg-white);
+  border-color: var(--norwegian-red);
+}
+
+/* Главная кнопка шага («Далее», «Добавить», «Обновить») */
+.dashboard .default-form-style .form-group.button .btn:not(.alt-btn) {
+  padding: 12px 28px;
+  color: #FFFFFF;
+  background: var(--norwegian-red);
+  border: 1px solid var(--norwegian-red);
+  border-radius: var(--border-radius);
+}
+
+.dashboard .default-form-style .form-group.button .btn:not(.alt-btn):hover {
+  color: #FFFFFF;
+  background: var(--norwegian-red-hover);
+  border-color: var(--norwegian-red-hover);
+}
+
+/* --- Адаптив: на телефоне шаги разворачиваются в столбик ----------------- */
+
+@media (max-width: 767px) {
+  .dashboard .post-ad-tab {
+    padding: 0 8px 16px;
+  }
+
+  .dashboard .post-ad-tab nav button {
+    flex: 1 1 100%;
+    width: 100%;
+    padding: 14px 16px 14px 64px;
+  }
+
+  .dashboard .post-ad-tab nav button .serial {
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+    left: 16px;
+    font-size: 15px;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   22. ПОИСК ПО ГОРОДАМ (/dashboard/location): тулбар над списком
+   ---------------------------------------------------------------------------
+   Разметка resources/views/location/dashboard.blade.php (.adm-toolbar): строка
+   поиска слева и счётчик найденного справа — как строка фильтров в результатах
+   поиска norwegian.com. Список подменяется без перезагрузки
+   (public/js/location-search.js), состояние загрузки — .is-loading.
+   -------------------------------------------------------------------------- */
+
+.dashboard .adm-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard .adm-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 240px;
+  max-width: 420px;
+}
+
+.dashboard .adm-search .lni-search {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.dashboard .adm-search input[type="search"] {
+  width: 100%;
+  height: 42px;
+  padding: 0 40px;
+  font-size: 14px;
+  color: var(--text-dark);
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  transition: border-color var(--adm-transition), box-shadow var(--adm-transition);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Стандартная кнопка крестика браузера прячем — своя, крупнее и аккуратнее */
+.dashboard .adm-search input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.dashboard .adm-search input[type="search"]::placeholder {
+  color: var(--text-muted);
+}
+
+.dashboard .adm-search input[type="search"]:focus {
+  outline: none;
+  border-color: var(--norwegian-red);
+  box-shadow: 0 0 0 3px rgba(217, 35, 35, 0.12);
+}
+
+.dashboard .adm-search-clear {
+  position: absolute;
+  right: 4px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color var(--adm-transition), background var(--adm-transition);
+}
+
+.dashboard .adm-search-clear:hover {
+  color: var(--norwegian-red);
+  background: rgba(217, 35, 35, 0.08);
+}
+
+.dashboard .adm-search-clear[hidden] {
+  display: none;
+}
+
+.dashboard .adm-toolbar-count {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Отступы блока под пагинацией списка */
+.dashboard .adm-list-pages {
+  padding: 0 24px 16px;
+}
+
+/* Пока AJAX не ответил — список приглушён и не принимает клики */
+.dashboard #location-results {
+  transition: opacity var(--adm-transition);
+}
+.dashboard #location-results.is-loading {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+@media only screen and (max-width: 767px) {
+  .dashboard .adm-toolbar {
+    padding: 14px 20px;
+  }
+
+  .dashboard .adm-search {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+
+  .dashboard .adm-toolbar-count {
+    flex: 1 1 100%;
+  }
+}
+
+
+/* -----------------------------------------------------------------------------
+   23. ДЕРЕВО КАТЕГОРИЙ (/dashboard/rubric): сворачивание вложенных строк
+   ---------------------------------------------------------------------------
+   Разметка resources/views/rubric/partials/tree.blade.php: плоский список
+   .adm-list, каждая строка — <li class="adm-tree-row"> с data-depth и data-id.
+   Родители несут кнопку-шеврон .adm-tree-toggle, листья — пустой
+   .adm-tree-spacer той же ширины, чтобы названия начинались на одной линии.
+
+   Скрытые строки получают .adm-tree-hidden (public/js/rubric-tree.js), у
+   свёрнутого родителя появляется бейдж data-hidden — сколько подкатегорий
+   спрятано. Кнопки «Свернуть/Развернуть все» — в шапке блока
+   (.block-actions--tools).
+   -------------------------------------------------------------------------- */
+
+/* --- Кнопка-шеврон и пустой отступ ---------------------------------------- */
+
+.dashboard .main-content .adm-list > li .adm-tree-toggle,
+.dashboard .main-content .adm-list > li .adm-tree-spacer {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard .main-content .adm-list > li .adm-tree-toggle {
+  border: none;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--adm-transition), color var(--adm-transition);
+}
+
+/* Треугольник: развёрнутая строка — «вниз», свёрнутая — «вправо» */
+.dashboard .main-content .adm-list > li .adm-tree-toggle::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid currentColor;
+  transform: rotate(90deg);
+  transition: transform var(--adm-transition);
+}
+
+.dashboard .main-content .adm-list > li .adm-tree-toggle[aria-expanded='false']::before {
+  transform: rotate(0deg);
+}
+
+.dashboard .main-content .adm-list > li .adm-tree-toggle:hover {
+  color: var(--norwegian-red);
+  background: rgba(217, 35, 35, 0.08);
+}
+
+.dashboard .main-content .adm-list > li .adm-tree-toggle:focus-visible {
+  outline: 2px solid var(--norwegian-red);
+  outline-offset: 1px;
+}
+
+/* --- Скрытая строка ------------------------------------------------------- */
+
+.dashboard .main-content .adm-list > li.adm-tree-hidden {
+  display: none;
+}
+
+/* --- Бейдж «сколько подкатегорий спрятано» -------------------------------- */
+
+.dashboard .main-content .adm-list > li.adm-tree-row[data-hidden]::after {
+  content: attr(data-hidden);
+  flex: 0 0 auto;
+  min-width: 22px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* --- Шапка блока: «Свернуть все» / «Развернуть все» ----------------------- */
+
+.dashboard-block .block-actions.block-actions--tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.adm-tree-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.adm-tree-tool {
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: color var(--adm-transition), background var(--adm-transition),
+    border-color var(--adm-transition);
+}
+
+.adm-tree-tool:hover {
+  color: var(--norwegian-red);
+  background: transparent;
+  border-color: var(--norwegian-red);
+}
+
+@media only screen and (max-width: 767px) {
+  .dashboard-block .block-actions.block-actions--tools .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .adm-tree-tools {
+    flex: 1 1 100%;
+  }
+}
+

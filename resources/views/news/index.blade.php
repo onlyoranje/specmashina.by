@@ -18,12 +18,18 @@
    ========================================================================== --}}
 @extends('redesign.layouts.base')
 
-@section('title', 'Новости спецтехники и рынка аренды в Беларуси')
+{{-- SEO: <title> — коммерческий хвост + бренд, <h1> одиночный (без дубля). --}}
+@section('title', 'Новости спецтехники и рынка аренды в Беларуси — новости, обзоры, цены на landi.by')
 @section('description', 'Новости рынка аренды и продажи строительной спецтехники в Беларуси: обзоры машин, цены, законодательство и инструкции для собственников и арендаторов.')
+@section('og_title', 'Новости спецтехники и рынка аренды в Беларуси')
+@section('og_image', (($news->first()->image ?? null) ? Storage::url($news->first()->resizeImage($news->first()->image, 1200, 630)) : asset('images/placeholder/no-image.jpg')))
+@section('og_type', 'website')
 
 @push('styles')
-    {{-- Стили новостного раздела: подключается постранично (как catalog.css) --}}
+    {{-- Стили новостного раздела --}}
     <link rel="stylesheet" href="{{ asset('css/news.css') }}">
+    {{-- Стили пагинации каталога: квадратные кнопки, красная активная страница, .catalog-pagination --}}
+    <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
 @endpush
 
 @section('content')
@@ -56,60 +62,59 @@
 
         {{-- ---------- ЛЕВАЯ КОЛОНКА: ЛЕНТА НОВОСТЕЙ ---------- --}}
         <div class="news-feed">
-          @forelse ($news as $post)
-            @if ($loop->first)
-              {{-- ГЛАВНАЯ НОВОСТЬ: крупный горизонтальный блок --}}
-              <a class="news-featured" href="{{ route('news.show', $post) }}">
-                <div class="news-featured__media">
-                  @if ($post->image)
-                    <img src="{{ Storage::url($post->resizeImage($post->image, 900, 600)) }}"
-                         alt="{{ $post->title }}">
-                  @else
-                    <div class="news-media-empty">{!! $empty_media !!}</div>
-                  @endif
-                </div>
-                <div class="news-featured__body">
-                  <div class="news-featured__meta">
-                    @if ($post->category)<span class="news-featured__category">{{ $post->category }}</span>@endif
-                    <span class="news-featured__date">{{ $post->created_at->format('d.m.Y') }}</span>
-                  </div>
-                  <h2 class="news-featured__title">{{ $post->title }}</h2>
-                  <div class="news-featured__preview">{{ $post->preview_text ?: Str::limit(strip_tags((string) $post->content), 180) }}</div>
-                </div>
-              </a>
-
-              <div class="news-grid">
-            @else
-              {{-- КАРТОЧКА НОВОСТИ --}}
-              <a class="news-card" href="{{ route('news.show', $post) }}">
-                <div class="news-card__media">
-                  @if ($post->image)
-                    <img src="{{ Storage::url($post->resizeImage($post->image, 600, 400)) }}"
-                         alt="{{ $post->title }}" loading="lazy">
-                  @else
-                    <div class="news-media-empty">{!! $empty_media !!}</div>
-                  @endif
-                </div>
-                <div class="news-card__body">
-                  @if ($post->category)<span class="news-card__category">{{ $post->category }}</span>@endif
-                  <h3 class="news-card__title">{{ $post->title }}</h3>
-                  <span class="news-card__date">{{ $post->created_at->format('d.m.Y') }}</span>
-                  @php
-                      // tags хранятся строкой «экскаваторы, Минск» — до 3 тегов на карточку
-                      $cardTags = array_slice(array_filter(array_map('trim', explode(',', (string) $post->tags))), 0, 3);
-                  @endphp
-                  @if ($cardTags)
-                    <div class="news-card__tags">
-                      @foreach ($cardTags as $tag)<span class="news-card__tag">#{{ $tag }}</span>@endforeach
-                    </div>
-                  @endif
-                </div>
-              </a>
-            @endif
-            @if ($loop->last)</div>@endif
-          @empty
+          @if ($news->isEmpty())
             <p class="news-empty">В этом разделе пока нет публикаций.</p>
-          @endforelse
+          @else
+            {{-- Единая CSS Grid: на десктопе 2 колонки; первая карточка 1-й
+                 страницы тянется на всю ширину (span 2), остальные — в 1 колонку. --}}
+            <div class="news-grid">
+              @foreach ($news as $article)
+                @if ($news->onFirstPage() && $loop->first)
+                  {{-- ===== ГЛАВНАЯ НОВОСТЬ 1-й страницы: фон-фото + текст поверх ===== --}}
+                  <a class="news-card news-card--featured" href="{{ route('news.show', $article) }}"
+                     @if ($article->image) style="background-image:url('{{ Storage::url($article->resizeImage($article->image, 1600, 900)) }}');" @endif>
+                    {{-- Реальное фото: скрыто на десктопе (фон задаёт background-image),
+                         показывается на мобильных, где карточка перестраивается вертикально. --}}
+                    @if ($article->image)
+                      <img class="news-card--featured__photo"
+                           src="{{ Storage::url($article->resizeImage($article->image, 800, 500)) }}"
+                           alt="{{ $article->title }}" loading="lazy">
+                    @endif
+                    <span class="news-card--featured__body">
+                      <span class="news-card__meta">
+                        <span class="news-card__date">{{ $article->created_at->format('d.m.Y') }}</span>
+                        @if ($article->category)<span class="news-card__category">{{ $article->category }}</span>@endif
+                      </span>
+                      <h2 class="news-card--featured__title">{{ $article->title }}</h2>
+                      <span class="news-card--featured__preview">{{ $article->preview_text ?: Str::limit(strip_tags((string) $article->content), 180) }}</span>
+                    </span>
+                  </a>
+                @else
+                  {{-- ===== СТАНДАРТНАЯ КАРТОЧКА: фото сверху + белая плашка снизу ===== --}}
+                  <a class="news-card news-card--standard" href="{{ route('news.show', $article) }}">
+                    <span class="news-card__media">
+                      @if ($article->image)
+                        <img src="{{ Storage::url($article->resizeImage($article->image, 600, 400)) }}"
+                             alt="{{ $article->title }} — фото новости"
+                             title="{{ $article->title }} — новость о аренде и продаже спецтехники на landi.by"
+                             loading="lazy">
+                      @else
+                        <span class="news-media-empty">{!! $empty_media !!}</span>
+                      @endif
+                    </span>
+                    <span class="news-card__body">
+                      <span class="news-card__meta">
+                        <span class="news-card__date">{{ $article->created_at->format('d.m.Y') }}</span>
+                        @if ($article->category)<span class="news-card__category">{{ $article->category }}</span>@endif
+                      </span>
+                      <h3 class="news-card__title">{{ $article->title }}</h3>
+                      <span class="news-card__preview">{{ $article->preview_text ?: Str::limit(strip_tags((string) $article->content), 140) }}</span>
+                    </span>
+                  </a>
+                @endif
+              @endforeach
+            </div>
+          @endif
         </div>
 
         {{-- ---------- САЙДБАР ---------- --}}
@@ -145,8 +150,10 @@
       </div>
 
       {{-- ================= ПАГИНАЦИЯ ================= --}}
+      {{-- Стандартный вывод Laravel (Paginator::useBootstrap → .pagination/.page-item/.page-link),
+           стилизован под Norwegian в /css/news.css. Фильтр ?category/?tag сохраняется. --}}
       @if ($news->hasPages())
-        <nav class="news-pagination" aria-label="Страницы новостей">
+        <nav class="news-pagination" aria-label="Навигация по страницам новостей">
           {{ $news->links() }}
         </nav>
       @endif

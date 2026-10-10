@@ -20,8 +20,12 @@
    ========================================================================== --}}
 @extends('redesign.layouts.base')
 
-@section('title', 'Строительная техника в г. ' . ($city->name ?? ($city->title ?? '')) . ' — аренда и продажа')
-@section('description', 'Найдено ' . (int) ($listings->total() ?? 0) . ' объявлений об аренде и продаже строительной спецтехники в г. ' . ($city->name ?? ($city->title ?? '')) . ' и пригороде.')
+{{-- SEO: <title> — коммерческий + счётчик, <h1> — лаконичный ($cityName).
+     Между собой не дублируются дословно. --}}
+@section('title', 'Строительная техника в г. ' . ($city->name ?? ($city->title ?? '')) . ' — аренда и продажа, ' . (int) ($listings->total() ?? 0) . ' объявлений на landi.by')
+@section('description', 'Найдено ' . (int) ($listings->total() ?? 0) . ' объявлений об аренде и продаже строительной спецтехники в г. ' . ($city->name ?? ($city->title ?? '')) . ' и пригороде. Сравните цены и свяжитесь с владельцами напрямую.')
+@section('og_type', 'website')
+@section('og_image', (($listings->first()->image ?? null) ? Storage::url($listings->first()->resizeImage($listings->first()->image, 1200, 630)) : (($city->image ?? null) ? Storage::url($city->resizeImage($city->image, 1200, 630)) : asset('images/placeholder/no-image.jpg'))))
 
 @push('styles')
   <link rel="stylesheet" href="{{ asset('css/location.css') }}">
@@ -39,12 +43,14 @@
     $baseQuery  = $listQuery ?? [];
 
     // Ссылка на текущий URL с переопределением параметров (null → параметр убирается).
+    // Путь — от корня сайта: не зависит от схемы/хоста (request()->url()
+    // при проксировании даёт http://<LAN-IP>/… → Mixed Content).
     $linkTo = function (array $overrides = []) use ($baseQuery) {
         $query = array_filter(
             array_merge($baseQuery, $overrides),
             fn ($value) => $value !== null && $value !== ''
         );
-        return $query ? request()->url() . '?' . http_build_query($query) : request()->url();
+        return $query ? current_path() . '?' . http_build_query($query) : current_path();
     };
 @endphp
 
@@ -126,8 +132,9 @@
 
     </aside>
 
-    {{-- ---------------- ПРАВАЯ КОЛОНКА: лента объявлений города ---------------- --}}
-    <main class="location-main" id="location-main">
+    {{-- ---------------- ПРАВАЯ КОЛОНКА: лента объявлений города ----------------
+         Не <main> — семантический <main> уже есть в базовом лаяуте. --}}
+    <section class="location-main" id="location-main" aria-label="Объявления в локации">
 
       {{-- Панель быстрого переключения вида (Сетка / Список) и сортировки цен --}}
       <div class="location-toolbar">
@@ -184,13 +191,22 @@
                     : null;
                 $dealType = $rootRubricId === 118 ? 'Продажа' : 'Аренда';
 
-                // Фото: image | первая загруженная картинка | placeholder
-                $image = $item->image ?? null;
-                if (! $image && method_exists($item, 'images')) {
+                // Фото: image | первая загруженная картинка | placeholder.
+                // Вывод — через глобальный хелпер resizeImage($url, W, H) → готовый src.
+                $imageUrl = null;
+                if ($item->image ?? null) {
+                    $imageUrl = resizeImage($item->image, 480, 360);
+                } elseif (method_exists($item, 'images')) {
                     $file = $item->images()->first();
-                    $image = $file ? Storage::url($file->resize(600, 400)) : null;
+                    if ($file) {
+                        $imageUrl = resizeImage($file->url, 480, 360);
+                    }
                 }
-                $image = $image ?? asset('images/placeholder/no-image.svg');
+                $imageUrl = $imageUrl ?: asset('images/placeholder/no-image.svg');
+
+                // alt и title — динамические и уникальные, из названия и города.
+                $alt   = $cardTitle . ' в г. ' . $cityName . ' — фото';
+                $title = $cardTitle . ' — ' . ($dealType === 'Продажа' ? 'продажа' : 'аренда') . ' в г. ' . $cityName;
 
                 $href = $item->url ?? ($item->id ? route('listings.show', $item->id) : '#');
             @endphp
@@ -200,7 +216,7 @@
 
                 {{-- Зона 1 (лево): фото + бэйдж владельца --}}
                 <div class="lt__media">
-                  <img class="lt__img" src="{{ $image }}" alt="{{ $cardTitle }}" loading="lazy">
+                  <img class="lt__img" src="{{ $imageUrl }}" alt="{{ $alt }}" title="{{ $title }}" loading="lazy">
                   <span class="lt__owner-badge">{{ $isPrivate ? 'Частное' : 'Компания' }}</span>
                 </div>
 
@@ -241,7 +257,7 @@
         </div>
       @endif
 
-    </main>
+    </section>
   </div>
 
   {{-- ==================== 3. ИНТЕРАКТИВНАЯ КАРТА РЕГИОНА (на всю ширину) ====================

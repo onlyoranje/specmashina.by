@@ -68,6 +68,7 @@ class NewsController extends Controller
             'categories' => $this->categories(),
             'popular'    => $popular,
             'tags'       => $this->tags(),
+            'request'    => $request,
         ]);
     }
 

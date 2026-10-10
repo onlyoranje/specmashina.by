@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Моя организация/ИП')
 
 @section('main')
 
@@ -19,7 +19,12 @@
                         <!-- Start Profile Settings Area -->
 
                         <div class="dashboard-block mt-0 profile-settings-block">
-                            <h3 class="block-title">Моя организация/ИП</h3>
+                            <div class="block-head">
+                                <h3 class="block-title">Моя организация/ИП</h3>
+                                <div class="block-actions">
+                                    <a class="btn alt-btn" href="{{route('my_organization')}}">Моя организация</a>
+                                </div>
+                            </div>
                             <div class="inner-block">
 
 
@@ -107,7 +112,6 @@
 
                 </div>
             </div>
-        </div>
         </div>
     </section>
 

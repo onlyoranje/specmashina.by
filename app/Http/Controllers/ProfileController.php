@@ -379,9 +379,19 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
             BbParameters::where('bb_id', $bb->id)->whereIn('parameter_id', array_diff($parameters_old,$parameters_new))->delete();
         }
 
-            $bb->fill(['organization_id'=>Auth::user()->organization->id]);
-            $search_text[] = Auth::user()->organization->title;
-            $bb->save();
+        // Организация: НЕ перезаписываем на организацию текущего пользователя.
+        // Раньше здесь стояло Auth::user()->organization->id — при правке чужого
+        // объявления админом это ломало страницу (у админа нет организации)
+        // и незаметно «перетягивало» объявление в организацию админа.
+        // Сохраняем организацию владельца объявления, а поисковый текст
+        // дополняем её названием, если организация задана.
+        if ($bb->organization_id) {
+            $org_title = optional($bb->organization)->title;
+            if ($org_title) {
+                $search_text[] = $org_title;
+            }
+        }
+        $bb->save();
 
         $bb->bbprice->fill(['price'=>$request->price,'price_type_id'=>$request->price_type]);
         $bb->bbprice->save();
@@ -389,6 +399,10 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         $bb->fill(['search_text'=>implode(' ',$search_text)]);
         $bb->save();
 
+        // Админа возвращаем в общий список «Все объявления», владельца — в «Мои объявления».
+        if (Auth::user()->isAdmin()) {
+            return redirect()->route('allbb');
+        }
         return redirect()->route('mybb');
     }
     public function deleteBb(Bb $bb){
@@ -516,7 +530,7 @@ if (count($old_files_)>0){$for_delete = array_diff($fida,$old_files_);} else {$f
         return view('dashboard',['bbs'=>$bbs,'bbs_active'=>$bbs_active,'bbs_moderation'=>$bbs_moderation,'bbs_popular'=>$bbs_popular, 'bbs_moderation_fail'=>$bbs_moderation_fail,'notifications'=>$notifications ]);
     }
     public function dashboard(){
-        if (!isset(Auth::user()->credit->credits)) Auth::user()->addCredits(30);
+        // if (!isset(Auth::user()->credit->credits)) Auth::user()->addCredits(30);
         if (!isset(Auth::user()->realname)) {
             Auth::user()->fill(['realname'=> Auth::user()->name]);
             Auth::user()->save();

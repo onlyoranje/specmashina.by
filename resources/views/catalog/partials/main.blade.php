@@ -18,19 +18,23 @@
     $baseQuery = $listQuery ?? [];
 
     // Ссылка на текущий URL с переопределением параметров (null → параметр убирается).
+    // Путь — от корня сайта: не зависит от схемы/хоста (request()->url()
+    // при проксировании даёт http://<LAN-IP>/… → Mixed Content).
     $linkTo = function (array $overrides = []) use ($baseQuery) {
         $query = array_filter(
             array_merge($baseQuery, $overrides),
             fn ($value) => $value !== null && $value !== ''
         );
-        return $query ? request()->url() . '?' . http_build_query($query) : request()->url();
+        return $query ? current_path() . '?' . http_build_query($query) : current_path();
     };
 
     $sortActive = $sort ?? 'date';
     $viewActive = $view ?? 'list';
 @endphp
 
-      <main class="catalog-main" id="catalog-main">
+      {{-- Колонка результатов. ВНИМАНИЕ: не <main> — семантический <main> уже
+           есть в базовом лаяуте (redesign/layouts/base). Здесь — секция контента. --}}
+      <section class="catalog-main" id="catalog-main" aria-label="Результаты поиска">
 
         {{-- ---------- Верхняя панель: сортировка + переключатель вида ---------- --}}
         <div class="catalog-toolbar">
@@ -88,4 +92,4 @@
           </div>
         @endif
 
-      </main>
+      </section>

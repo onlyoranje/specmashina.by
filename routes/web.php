@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CreditController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -128,8 +127,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/dashboard/credits', [CreditController::class, 'index'])->name('credit.dashboard');
 });
 
 
@@ -151,6 +148,7 @@ Route::get('/dashboard/allusers',[App\Http\Controllers\ProfileController::class,
 Route::get('/dashboard/allorganizations',[App\Http\Controllers\ProfileController::class, 'allorganizations'])->name('allorganizations')->middleware('isadmin');;
 Route::get('/dashboard/user/{user}',[App\Http\Controllers\ProfileController::class, 'user'])->name('user')->middleware('isadmin');;
 Route::get('/dashboard/user/{user}/{status}',[App\Http\Controllers\ProfileController::class, 'changeUserStatus'])->name('change_user_status')->middleware('isadmin');;
+Route::get('/admin/user/{user}/edit',[App\Http\Controllers\ProfileController::class, 'adminUserEdit'])->name('admin_user_edit')->middleware('isadmin');;
 Route::get('/dashboard/organization/{organization}/{status}',[App\Http\Controllers\ProfileController::class, 'changeOrganizationStatus'])->name('change_organization_status')->middleware('isadmin');;
 Route::get('/dashboard/mybb/add', [App\Http\Controllers\ProfileController::class, 'addForm'])->name('addForm');
 Route::post('/dashboard/mybb', [App\Http\Controllers\ProfileController::class, 'addBb'])->name('addBbToDB');
@@ -161,7 +159,7 @@ Route::patch('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::cla
 Route::get('/dashboard/mybb/{bb}/delete',[App\Http\Controllers\ProfileController::class, 'deleteBb'])->name('bb_delete')->middleware('can:destroy,bb');
 Route::delete('/dashboard/mybb/{bb}',[App\Http\Controllers\ProfileController::class, 'destroyBb'])->name('bb_destroy')->middleware('can:destroy,bb');
 Route::get('/dashboard/favorite',[App\Http\Controllers\ProfileController::class, 'favorite'])->name('favorite');
-Route::get('/dashboard/mybb/{bb}/up_credit',[App\Http\Controllers\BbsController::class, 'upBb_credit'])->name('bb_up_credit');
+Route::get('/dashboard/mybb/{bb}/up',[App\Http\Controllers\BbsController::class, 'upBb'])->name('bb_up');
 
 Route::get('/dashboard/alerts',[App\Http\Controllers\ProfileController::class, 'alerts'])->name('alerts');
 Route::patch('/read_alert', [App\Http\Controllers\ProfileController::class, 'read_alert'])->middleware(['auth', 'verified'])->name('read_alert');
@@ -181,6 +179,9 @@ Route::get('/location/{location}', [App\Http\Controllers\LocationCatalogControll
 Route::get('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'locations'])->name('location_dashboard')->middleware('isadmin');
 Route::post('/dashboard/location', [App\Http\Controllers\LocationsController::class, 'addLocation'])->name('addLocationToDB')->middleware('isadmin');
 Route::get('/dashboard/location/add', [App\Http\Controllers\LocationsController::class, 'addLocationForm'])->name('location_dashboard_add')->middleware('isadmin');
+// AJAX-поиск по названию города. Обязательно ДО /dashboard/location/{location},
+// иначе «search» будет пойман как модель Location и отдаст 404.
+Route::get('/dashboard/location/search', [App\Http\Controllers\LocationsController::class, 'search'])->name('location_dashboard_search')->middleware('isadmin');
 Route::get('/dashboard/location/{location}', [App\Http\Controllers\LocationsController::class, 'detail'])->name('location_dashboard_edit')->middleware('isadmin');
 Route::patch('/dashboard/location/{location}', [App\Http\Controllers\LocationsController::class, 'editLocation'])->name('editLocationToDB')->middleware('isadmin');
 Route::get('/dashboard/location/{location}/delete', [App\Http\Controllers\LocationsController::class, 'delete'])->name('location_dashboard_delete')->middleware('isadmin');
@@ -278,7 +279,7 @@ Route::patch('/item/{bb}/reject', [BbsController::class, 'reject'])->name('rejec
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.dashboard');
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'search_result'])->name('search');
 
 Route::get('/messages', [App\Http\Controllers\ImsController::class, 'index'])->middleware(['auth', 'verified'])->name('messages');

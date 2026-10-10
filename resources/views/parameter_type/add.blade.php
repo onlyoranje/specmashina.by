@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Добавление типа параметра')
 
 @section('main')
 
@@ -19,7 +19,12 @@
                             <div class="col-12">
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
-                                    <h3 class="block-title">Добавление типа параметра</h3>
+                                    <div class="block-head">
+                                        <h3 class="block-title">Добавление типа параметра</h3>
+                                        <div class="block-actions">
+                                            <a class="btn alt-btn" href="{{route('parameter_type_dashboard')}}">К списку типов</a>
+                                        </div>
+                                    </div>
                                     <form class="default-form-style" action="{{route('addTypeToDB')}}" method="post" enctype="multipart/form-data">
                                         @csrf
 

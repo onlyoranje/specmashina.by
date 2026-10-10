@@ -16,7 +16,12 @@
                 <div class="col-lg-9 col-md-12 col-12">
                     <div class="main-content">
                         <div class="dashboard-block mt-0">
-                            <h3 class="block-title">Мои объявления</h3>
+                            <div class="block-head d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                <h3 class="block-title mb-0 border-0 pb-0">Мои объявления</h3>
+                                <div class="block-actions pe-3">
+                                    <a href="{{route('addForm')}}" class="btn">+ Добавить объявление</a>
+                                </div>
+                            </div>
                             <nav class="list-nav">
                                 <ul>
                                     <li class="{{ $request->status_id ? '':'active' }}"><a href="{{route('mybb')}}">Все <span>{{$bbs_count}}</span></a></li>
@@ -30,28 +35,17 @@
 
                             <!-- Start Items Area -->
                             <div class="my-items">
-                                <!-- Start Item List Title -->
-                                <div class="item-list-title">
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-4 col-md-5 col-12">
-                                            <p>Объявление</p>
-                                        </div>
-
-                                        <div class="col-lg-2 col-md-2 col-12">
-                                            <p>Статус</p>
-                                        </div>
-                                        <div class="col-lg-2 col-md-2 col-12">
-                                            <p>Город</p>
-                                        </div>
-                                        <div class="col-lg-1 col-md-2 col-12">
-                                            <p>Просмотры</p>
-                                        </div>
-                                        <div class="col-lg-2 col-md-3 col-12 align-right">
-                                            <p></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End List Title -->
+                                <table class="bb-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="bb-col-listing">Объявление</th>
+                                            <th scope="col" class="bb-col-status">Статус</th>
+                                            <th scope="col" class="bb-col-city">Город</th>
+                                            <th scope="col" class="bb-col-views">Просмотры</th>
+                                            <th scope="col" class="bb-col-actions">Действия</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                             @if (count($bbs) > 0)
                                 @foreach ($bbs as $bb)
 
@@ -61,73 +55,72 @@
                                         $subparent_rubric = $parent_rubrics[1];
                                     @endphp
                                 <!-- Start Single List -->
-                                <div class="single-item-list">
-                                    <div class="row align-items-center" style="border-left: 8px solid #{{$bb->status_bb->color_badge}};">
-                                        <div class="col-lg-4 col-md-5 col-12 " >
-                                            <div class="item-image">
-                                                @if (count($bb->userfile)> 0)
-                                                    <img   src="{{Storage::url($bb->userfile[0]->resize(100, 100))}}" alt="{{ $bb->title }}" >
-                                                @else
-                                                    <img   src="http://placehold.it/100x100&text={{ $bb->title }}" alt="{{ $bb->title }}">
-                                                @endif
-                                               <div class="content">
-                                                    <h3 class="title"><a href="javascript:void(0)">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{$bb->vendor->name}} {{ $bb->title }}</a></h3>
-                                                   <span class="price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span>
-                                                </div>
+                                <tr class="bb-row">
+                                    <td class="bb-cell-listing">
+                                        <div class="bb-listing">
+                                            @if (count($bb->userfile)> 0)
+                                                <img class="bb-listing__thumb" src="{{Storage::url($bb->userfile[0]->resize(100, 100))}}" alt="{{ $bb->title }}" width="70" height="70" loading="lazy">
+                                            @else
+                                                <img class="bb-listing__thumb" src="http://placehold.it/100x100&text={{ $bb->title }}" alt="{{ $bb->title }}" width="70" height="70">
+                                            @endif
+                                            <div class="bb-listing__body">
+                                                <a class="bb-listing__title" href="{{route('bb',['bb'=>$bb->id])}}">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{$bb->vendor->name}} {{ $bb->title }}</a>
+                                                <span class="bb-listing__price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span>
                                             </div>
                                         </div>
+                                    </td>
 
-                                        <div class="col-lg-3 col-md-2 col-12">
-                                            <p>{{$bb->status_bb->name}}</p>
-                                            <p>Создано: {{date('d.m.Y H:i:s',strtotime($bb->created_at))}}</p>
+                                    <td class="bb-cell-status">
+                                        <span class="status-badge" style="--badge: {{$bb->status_bb->color_badge ? '#' . $bb->status_bb->color_badge : '#D92323'}}">{{$bb->status_bb->name}}</span>
+                                        <div class="bb-dates">
+                                            <span class="bb-dates__line">Создано: {{date('d.m.Y H:i',strtotime($bb->created_at))}}</span>
                                             @if ($bb->created_at!=$bb->updated_at)
-                                                <p>Обновлено: {{date('d.m.Y H:i:s',strtotime($bb->updated_at))}}</p>
-                                                @endif
-
-                                           @if ($bb->lifted_at)
-                                                <p>Поднято: {{date('d.m.Y H:i:s',strtotime($bb->lifted_at))}}</p>
-                                               @endif
+                                                <span class="bb-dates__line">Обновлено: {{date('d.m.Y H:i',strtotime($bb->updated_at))}}</span>
+                                            @endif
+                                            @if ($bb->lifted_at)
+                                                <span class="bb-dates__line">Поднято: {{date('d.m.Y H:i',strtotime($bb->lifted_at))}}</span>
+                                            @endif
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-12">
-                                            <p>{{$bb->location->title}}</p>
-                                        </div>
-                                        <div class="col-lg-1 col-md-2 col-12">
-                                            <p>{{$bb->count_views()}}</p>
-                                        </div>
-                                        <div class="col-lg-2 col-md-3 col-12 align-right">
-                                            {{--<ul class="action-btn">
-                                                <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}"><i class="lni lni-pencil"></i></a></li>
-                                                <li><a href="{{route('bb',['bb'=>$bb->id])}}" target="_blank"><i class="lni lni-eye"></i></a></li>
-                                                <li><a href="{{route('bb_delete', ['bb'=>$bb->id]) }}"><i class="lni lni-trash"></i></a></li>
-                                            </ul>--}}
-                                            <ul>
-                                                @if ($bb->active=='Y')
-                                                    <li><a href="{{route('bb',['bb'=>$bb->id])}}" target="_blank">Просмотреть</a></li>
+                                    </td>
 
-                                                @endif
-                                                @if ($bb->status_bb->status=='P')
-                                                    <li><a href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>$bb->previus_status])}}{{url_parameters($request)}}">Снять с паузы</a></li>
-                                                @endif
+                                    <td class="bb-cell-meta bb-cell-city" data-label="Город">{{$bb->location->title}}</td>
+                                    <td class="bb-cell-meta bb-cell-views" data-label="Просмотры">{{$bb->count_views()}}</td>
 
-                                                @if ($bb->status_bb->active=='Y')
-                                                    <li><a href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>'P'])}}{{url_parameters($request)}}">Пауза</a></li>
-                                                @endif
-                                                @if ($bb->user->credit->credits>0 and $bb->active=='Y')
-                                                    <li><a href="{{route('bb_up_credit',['bb'=>$bb->id])}}{{url_parameters($request)}}">Поднять за кредит</a></li>
-                                                @endif
-                                                <li><a href="{{route('bb_edit', ['bb'=>$bb->id]) }}">Редактировать</a></li>
-                                                <li><a href="{{route('bb_delete', ['bb'=>$bb->id]) }}{{url_parameters($request)}}">Удалить</a></li>
-
-                                            </ul>
+                                    <td class="bb-cell-actions">
+                                        <div class="bb-actions">
+                                            <a class="bb-btn-edit" href="{{route('bb_edit', ['bb'=>$bb->id]) }}">Редактировать</a>
+                                            @if ($bb->active=='Y')
+                                                <a class="bb-icon bb-icon--view" href="{{route('bb',['bb'=>$bb->id])}}" target="_blank" rel="noopener" title="Просмотреть" aria-label="Просмотреть"><i class="fa-solid fa-eye" aria-hidden="true"></i></a>
+                                            @endif
+                                            @if ($bb->status_bb->status=='P')
+                                                <a class="bb-icon bb-icon--play" href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>$bb->previus_status ?: 'S'])}}{{url_parameters($request)}}" title="Снять с паузы" aria-label="Снять с паузы"><i class="fa-solid fa-play" aria-hidden="true"></i></a>
+                                            @endif
+                                            @if ($bb->status_bb->active=='Y')
+                                                <a class="bb-icon bb-icon--pause" href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>'P'])}}{{url_parameters($request)}}" title="Пауза" aria-label="Поставить объявление на паузу"><i class="fa-solid fa-pause" aria-hidden="true"></i></a>
+                                            @endif
+                                            @if ($bb->active=='Y')
+                                                <a class="bb-icon bb-icon--lift" href="{{route('bb_up',['bb'=>$bb->id])}}{{url_parameters($request)}}" title="Поднять объявление" aria-label="Поднять объявление"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></a>
+                                            @endif
+                                            <a class="bb-icon bb-icon--danger" href="{{route('bb_delete', ['bb'=>$bb->id]) }}{{url_parameters($request)}}" title="Удалить" aria-label="Удалить объявление"><i class="fa-solid fa-trash" aria-hidden="true"></i></a>
                                         </div>
-                                    </div>
-                                </div>
+                                    </td>
+                                </tr>
 
                                 <!-- End Single List -->
                                 @endforeach
+                            @else
+                                <tr>
+                                    <td class="adm-empty" colspan="5">Объявлений пока нет. <a href="{{route('addForm')}}">Добавить объявление</a></td>
+                                </tr>
                             @endif
+                                </tbody>
+                                </table>
                                 <!-- Pagination -->
-                            {{ $bbs->onEachSide(1)->links() }}
+                                @if ($bbs->hasPages())
+                                    <div class="adm-list-pages">
+                                        {{ $bbs->links('pagination::norwegian') }}
+                                    </div>
+                                @endif
                                 <!--/ End Pagination -->
                             </div>
                             <!-- End Items Area -->

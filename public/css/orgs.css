@@ -277,13 +277,14 @@
 .orgs-pagination { margin-top: 48px; }
 
 .orgs-pagination .pagination {
-  display: flex;
-  flex-wrap: wrap;
+  display: flex !important;
+  flex-wrap: nowrap;
   justify-content: center;
   gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
+  white-space: nowrap;
 }
 .orgs-pagination .page-link {
   display: inline-flex;

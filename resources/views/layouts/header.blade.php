@@ -188,5 +188,3 @@
     </div> <!-- container -->
 </header>
 
-@extends('breadcrumbs')
-

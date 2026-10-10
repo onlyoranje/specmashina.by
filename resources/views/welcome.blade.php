@@ -16,7 +16,7 @@
                             @endforeach
                         @endif
                     </div>
-                    {{ $bbs->onEachSide(1)->links() }}
+                    {{ $bbs->links() }}
                 </div>
                 <div class="col-lg-3 col-md-4 col-12">
                     @if(Auth::user())

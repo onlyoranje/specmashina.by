@@ -1,6 +1,11 @@
 @extends('redesign.layouts.base')
 
 @section('title', config('site.name') . ' — аренда и продажа строительной техники в Беларуси')
+@section('og_type', 'website')
+{{-- SEO: og:image — 1-я картинка популярного объявления (1200×630) или плейсхолдер.
+     Используем resize() модели UserFile (как в карточках), без хелпера resizeImage
+     — тот для внешних URL из Storage; здесь файл уже в storage. --}}
+@section('og_image', (($popular->first()?->images()->first()) ? Storage::url($popular->first()->images()->first()->resize(1200, 630)) : asset('images/placeholder/no-image.jpg')))
 
 @push('styles')
   <link rel="stylesheet" href="{{ asset('css/home.css') }}">
@@ -215,7 +220,7 @@
   </section>
 
   {{-- ================= НОВОСТИ =================
-       Последние активные публикации (Post). Подробная страница — route('post'). --}}
+       Последние активные публикации (Post). Подробная страница — route('news.show'). --}}
   <section class="section" id="news">
     <div class="container">
       <div class="section__head">
@@ -239,7 +244,7 @@
                 : asset('images/placeholder/no-image.svg');
           @endphp
           <article class="news-card">
-            <a class="news-card__media" href="{{ route('post', $post->id) }}" tabindex="-1" aria-hidden="true">
+            <a class="news-card__media" href="{{ route('news.show', $post) }}" tabindex="-1" aria-hidden="true">
               <img class="news-card__img"
                    src="{{ $newsSrc }}"
                    alt="{{ $post->title }}" loading="lazy">
@@ -248,7 +253,7 @@
               @if ($post->category)
                 <span class="news-card__category">{{ $post->category }}</span>
               @endif
-              <h3 class="news-card__title"><a href="{{ route('post', $post->id) }}">{{ $post->title }}</a></h3>
+              <h3 class="news-card__title"><a href="{{ route('news.show', $post) }}">{{ $post->title }}</a></h3>
               @if ($post->preview_text)
                 <p class="news-card__text">{{ $post->preview_text }}</p>
               @endif

@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Добавление типа цены')
 
 @section('main')
 
@@ -18,7 +18,12 @@
                             <div class="col-12">
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
-                                    <h3 class="block-title">Добавление типа цены </h3>
+                                    <div class="block-head">
+                                        <h3 class="block-title">Добавление типа цены </h3>
+                                        <div class="block-actions">
+                                            <a class="btn alt-btn" href="{{route('price_type_dashboard')}}">К списку видов цен</a>
+                                        </div>
+                                    </div>
                                     <form class="profile-setting-form" action="{{route('addPriceTypeToDB')}}"method="post">
 
                                         @csrf

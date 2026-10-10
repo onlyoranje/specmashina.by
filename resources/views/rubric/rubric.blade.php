@@ -89,7 +89,7 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <!-- Pagination -->
-                                            {{ $bbs1->onEachSide(1)->links() }}
+                                            {{ $bbs1->links() }}
                                                 <!--/ End Pagination -->
                                             </div>
                                         </div>
@@ -106,7 +106,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <!-- Pagination -->
-                                                {{ $bbs2->onEachSide(1)->links() }}
+                                                {{ $bbs2->links() }}
                                                 <!--/ End Pagination -->
                                                 </div>
                                             </div>

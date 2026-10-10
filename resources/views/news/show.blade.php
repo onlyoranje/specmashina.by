@@ -19,8 +19,13 @@
    ========================================================================== --}}
 @extends('redesign.layouts.base')
 
-@section('title', $article->title)
+{{-- SEO: <title> — описание статьи + бренд, <h1> одиночный.
+     Обязателен коммерческий хвост, иначе title = h1 (дубль). --}}
+@section('title', $article->title . ' — новости рынка аренды спецтехники в Беларуси')
 @section('description', Str::limit(trim(strip_tags($article->preview_text ?: (string) $article->content)), 160))
+@section('og_title', $article->title)
+@section('og_image', $article->image ? Storage::url($article->resizeImage($article->image, 1200, 630)) : asset('images/placeholder/no-image.jpg'))
+@section('og_type', 'article')
 
 @push('styles')
     {{-- Стили новостного раздела: подключается постранично (как catalog.css) --}}
@@ -91,7 +96,9 @@
           <figure class="article-figure">
             <img class="article-image"
                  src="{{ Storage::url($article->resizeImage($article->image, 1200, null)) }}"
-                 alt="{{ $article->title }}">
+                 alt="{{ $article->title }} — фото статьи о рынке аренды спецтехники"
+                 title="{{ $article->title }} — полная статья о рынке аренды и продажи спецтехники на landi.by"
+                 loading="lazy">
           </figure>
         @endif
 

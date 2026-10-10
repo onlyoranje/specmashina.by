@@ -31,7 +31,7 @@
 
                 <div class="col-12">
                     <!-- Pagination -->
-                {{ $bbs->onEachSide(1)->links() }}
+                {{ $bbs->links() }}
                 <!--/ End Pagination -->
                 </div>
 

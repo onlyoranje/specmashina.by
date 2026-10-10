@@ -10,7 +10,9 @@
                 <div class="main-content">
                     <!-- Start Profile Settings Area -->
                     <div class="dashboard-block mt-0 profile-settings-block">
-                        <h3 class="block-title">{{$title}}</h3>
+                        <div class="block-head">
+                            <h3 class="block-title">{{$title}}</h3>
+                        </div>
                         <div class="inner-block">
                             @if (count($errors_form)>0)
                                 @foreach ($errors_form as $error)
@@ -19,14 +21,15 @@
                                     </div>
                                 @endforeach
                             @else
+                                <p class="adm-note">Действие нельзя отменить — запись будет удалена безвозвратно.</p>
                                 <form class="form-ad" action="{{route($route, $id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <div class="row">
-
-                                        <div class="col-6">
+                                        <div class="col-12">
                                             <div class="form-group button mb-0">
                                                 <button type="submit" class="btn">Удалить</button>
+                                                <a href="javascript:history.back()" class="btn alt-btn">Отмена</a>
                                             </div>
                                         </div>
 
@@ -44,6 +47,5 @@
 
             </div>
         </div>
-    </div>
     </div>
 </section>

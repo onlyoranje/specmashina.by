@@ -30,8 +30,12 @@
    ========================================================================== --}}
 @extends('redesign.layouts.base')
 
-@section('title', $pageTitle ?? 'Аренда спецтехники в Беларуси')
-@section('description', ($currentCategoryName ?? 'Аренда строительной техники') . ' в Беларуси — ' . (int) $equipments->total() . ' объявлений. Аренда и продажа строительной спецтехники.')
+{{-- SEO: <title> — коммерческий хвост + бренд, <h1> — лаконичный ($currentCategoryName).
+     Так они не дублируют друг друга дословно. --}}
+@section('title', ($pageTitle ?? 'Аренда спецтехники') . ' — цены, каталог объявлений на landi.by')
+@section('description', ($currentCategoryName ?? 'Аренда строительной техники') . ' в Беларуси — ' . (int) $equipments->total() . ' объявлений. Аренда и продажа строительной спецтехники от собственников и организаций.')
+@section('og_type', 'website')
+@section('og_image', $ogImage)
 
 @push('styles')
   <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">

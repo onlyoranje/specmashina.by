@@ -6,8 +6,6 @@ use App\Events\NewMessageNotification;
 use App\Models\Bb;
 use App\Models\BbAdminComments;
 use App\Models\BbStatistic;
-use App\Models\Credit_price;
-use App\Models\Credits_log;
 use App\Models\Im;
 use App\Models\Location;
 use App\Models\Notification;
@@ -63,13 +61,32 @@ class BbsController extends Controller
 
         $bb->search_index();
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
+
+        // H1 — лаконичный и понятный пользователю: «{рубрика} {модель} в {городе}».
         $title = $parent_rubric->title." ".$bb->rubric->title_r." ".$bb->vendor->name." ".$bb->title." в ".$bb->location->title_r;
+
+        // <title> — расширенный коммерческий SEO-интент: к H1 добавляем цену,
+        // единицу тарифа и призыв. Не дублирует H1 дословно (требование Яндекс/Google).
+        $price    = $bb->bbprice;
+        $unitType = $price?->pricetype?->type;                 // «руб/час», «руб/день», «руб»
+        $isSale   = ! $price || ! $unitType || $unitType === 'руб';
+        $dealWord = $isSale ? 'Купить' : 'Аренда';
+        $priceBit = $price ? ' — цена '.number_format((float) $price->price, 0, '', ' ').' '.$unitType : '';
+        $seoTitle = $dealWord.': '.$title.$priceBit.' на landi.by';
+
+        // Open Graph image — первое фото объявления (для превью в соцсетях).
+        $ogImage = null;
+        $firstFile = UserFile::where('bb_id', $bb->id)->orderBy('sort')->first();
+        if ($firstFile) {
+            $ogImage = \Storage::disk('public')->url($firstFile->resize(1200, 630));
+        }
+
         $images = UserFile::where('bb_id',$bb->id)->orderBy('sort')->get();
         $breadcrumbs['route']= 'rubric';
         $breadcrumbs['list']= Rubric::ancestorsAndSelf($bb->rubric_id);
 
 
-        return view('listings.show', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title, 'reasons'=>$reasons,'breadcrumbs'=>$breadcrumbs]);
+        return view('listings.show', ['bb' => $bb,'images'=>$images,'parent_rubric'=>$parent_rubric,'title'=>$title, 'seoTitle'=>$seoTitle, 'ogImage'=>$ogImage, 'reasons'=>$reasons,'breadcrumbs'=>$breadcrumbs]);
     }
     public function approve(Bb $bb,Request $request){
         $parent_rubric = Rubric::whereAncestorOrSelf($bb->rubric_id)->orderBy('level')->get()->first();
@@ -104,18 +121,15 @@ class BbsController extends Controller
         Notification::create(['type'=>'new_message','user_id'=>$bb->user->id,'data'=>$msg->text]);
         return redirect()->route('admin_dashboard');
     }
- public function upBb_credit(Bb $bb, Request $request){
-        $credit = Credit_price::where('code','up')->get()->first();
-        if ($bb->user->credit->credits>0){
-            $bb->fill(['lifted_at'=>date('Y-m-d H:i:s')]);
-            if ($bb->save()) {
-                $bb->user->addCredits($credit);
+    /* Поднять объявление в списке: обновляем lifted_at — колонка участвует
+       в сортировке блоков «популярные/актуальные» на главной.
+       Раньше действие стоило 1 кредит (credit_prices.code = 'up'); кредиты
+       убраны, поднятие стало бесплатным и доступно любому активному
+       объявлению. */
+    public function upBb(Bb $bb, Request $request){
+        $bb->fill(['lifted_at'=>date('Y-m-d H:i:s')]);
+        $bb->save();
 
-
-            }
-        }
-
-        //dd($request);
-     return redirect()->route('mybb',['status_id'=>$request['status_id'],'page'=>$request->page]);
- }
+        return redirect()->route('mybb',['status_id'=>$request['status_id'],'page'=>$request->page]);
+    }
 }

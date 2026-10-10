@@ -81,7 +81,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <!-- Pagination -->
-                                        {{ $locations->onEachSide(1)->appends(request()->input())->links() }}
+                                        {{ $locations->appends(request()->input())->links() }}
                                         <!--/ End Pagination -->
                                         </div>
                                     </div>

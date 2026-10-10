@@ -6,6 +6,7 @@ use App\Models\Bb;
 use App\Models\Location;
 use App\Models\Rubric;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CatalogController extends Controller
 {
@@ -45,7 +46,9 @@ class CatalogController extends Controller
                 'heading' => $data['currentCategoryName'],
                 'counter' => 'Найдено: ' . $data['equipments']->total(),
                 'total'   => $data['equipments']->total(),
-                'url'     => $request->fullUrl(),
+                // Путь с query без схемы/хоста: history.pushState() в
+                // catalog-filters.js принимает относительные URL.
+                'url'     => current_url(),
             ]);
         }
 
@@ -152,12 +155,27 @@ class CatalogController extends Controller
         $currentRubricTitle = $rubricModel->title;
 
         // --- Заголовки страницы ---
+        // H1 — лаконичный: «Продажа дорожно-строительной техники» (+ «в г. …»).
+        // TITLE (шаблон добавляет хвост «— цены, каталог объявлений на landi.by»):
+        //   корень секции — generic «Продажа строительной техники»;
+        //   подрубрика    — её название, чтобы у каждой категории был уникальный title.
         $pageTitle = $isSale ? 'Продажа строительной техники' : 'Аренда строительной техники';
         $currentCategoryName = $rubricModel->title();       // умеет «Аренда/Продажа + категория»
         if ($request->city_id && ($city = Location::find($request->city_id))) {
-            $pageTitle          .= ' — ' . $city->title;
+            $pageTitle           .= ' в ' . $city->title_r;
             $currentCategoryName .= ' в ' . $city->title_r;
         }
+
+        // Открыта конкретная подрубрика (не корень секции /rent|/sale):
+        // title берём её название — иначе все категории секции имели бы
+        // дублирующийся generic-заголовок «Продажа/Аренда строительной техники».
+        if ($rubricModel->id !== $rootId) {
+            $pageTitle = $currentCategoryName;
+        }
+
+        // SEO: картинка Open Graph. Для каталога — 1-я загруженная картинка
+        //       первого объявления; иначе placeholder 1200×630.
+        $ogImage = $this->seoImage($request->city_id, $equipments);
 
         // --- Полный набор переменных для шаблонов ---------------------------
         // $view / $sort — активные состояния панели (partials/main.blade.php);
@@ -179,7 +197,8 @@ class CatalogController extends Controller
             'rootId',
             'sort',
             'view',
-            'listQuery'
+            'listQuery',
+            'ogImage',
         );
     }
 
@@ -226,5 +245,42 @@ class CatalogController extends Controller
             'pageTitle'  => 'Все объявления',
             'equipments' => $equipments,
         ]);
+    }
+
+    /**
+     * SEO: Open Graph для страницы каталога/локации — 1200×630.
+     *
+     * Приоритет источника: картинка локации (города) → первая картинка
+     * первого объявления → placeholder.
+     *
+     * @param  int|string|null  $cityId  id локации (null для корневого каталога)
+     * @param  mixed  $listings  пагинатор/коллекция объявлений страницы
+     */
+    private function seoImage($cityId, $listings): string
+    {
+        $city = $cityId ? Location::find($cityId) : null;
+
+        if ($city && $city->image) {
+            return (string) Storage::url($city->resizeImage($city->image, 1200, 630));
+        }
+
+        if ($listings && method_exists($listings, 'isNotEmpty') && $listings->isNotEmpty()) {
+            $first = $listings->first();
+
+            if ($first->image) {
+                return (string) Storage::url($first->resizeImage($first->image, 1200, 630));
+            }
+
+            if (method_exists($first, 'images') && ($img = $first->images()->first())) {
+                return (string) Storage::url($img->resize(1200, 630));
+            }
+        }
+
+        // Fallback: картинка первого города (для корневого каталога).
+        if (! $city && ($fallback = Location::where('level', 1)->first()) && $fallback->image) {
+            return (string) Storage::url($fallback->resizeImage($fallback->image, 1200, 630));
+        }
+
+        return asset('images/placeholder/no-image.jpg');
     }
 }

@@ -29,7 +29,7 @@
         <details class="filter-block" open>
           <summary class="filter-summary">Города</summary>
           <div class="filter-body">
-            <form method="get" action="{{ url()->current() }}" class="city-filter-form">
+            <form method="get" action="{{ current_path() }}" class="city-filter-form">
               <label class="city-filter-label" for="city_id">Город подачи</label>
               {{-- Выбор города обрабатывает public/js/catalog-filters.js (событие change,
                    без перезагрузки). Инлайнового onchange нет намеренно: form.submit()

@@ -1,5 +1,19 @@
 <!doctype html>
 <html lang="ru">
+@php
+    /* Признак страниц админки и личного кабинета. На них:
+         — подключается public/css/admin.css (стиль Norwegian Air);
+         — выводится публичная шапка сайта <x-header /> (та же, что на главной),
+           вместо легаси-шапки layouts.header;
+         — на <body> ставится класс admin-area для стилей уровнем ниже.
+       Все разделы администратора живут под /dashboard (см. routes/web.php),
+       пользовательские — /profile и переписка /messages, /chats (im/im.blade.php).
+       Важно: префиксы post*, page* не используются — по этим URL открываются
+       публичные страницы (/post/{id}, /posts, /page/{id}) с легаси-шапкой. */
+    $isAdminArea = request()->is('dashboard*')
+        || request()->is('profile*')
+        || request()->routeIs('messages', 'chat', 'chats');
+@endphp
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,10 +84,16 @@
     <link href="/assets/css/solid.css" rel="stylesheet" />
     <link href="/css/share-buttons.css" rel="stylesheet">
     <link href="/css/custom.css" rel="stylesheet">
-   <!-- @vite(['resources/js/app.js'])-->
+@if ($isAdminArea)
+    <!-- Админ-панель / личный кабинет: стиль Norwegian Air (norwegian.com).
+         Подключается после main.css и переопределяет легаси-акценты #5830E0
+         на фирменную палитру --norwegian-red #D92323. -->
+    <link href="/css/admin.css" rel="stylesheet">
+@endif
+<!-- @vite(['resources/js/app.js'])-->
     <link rel="stylesheet" type="text/css" href="{{asset("vendor/cookie-consent/css/cookie-consent.css")}}">
 </head>
-<body>
+<body class="{{ $isAdminArea ? 'admin-area' : '' }}">
 <!-- Google tag (gtag.js) -->
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-S960LS3E82"></script>
@@ -84,12 +104,38 @@
 
     gtag('config', 'G-S960LS3E82');
 </script>
-@include('layouts.header')
+@if ($isAdminArea)
+    {{-- Шапка админки = шапка публичной части сайта: Blade-компонент
+         resources/views/components/header.blade.php (тот же <x-header />, что и на
+         главной / каталоге). Выпадающие списки категорий «Аренда»/«Продажа»
+         наполняет View::composer('components.header') из AppServiceProvider. --}}
+    <x-header />
+@else
+    @include('layouts.header')
+@endif
+
+{{-- Хлебные крошки — одинаково на главной и во всех разделах (админка, ЛК).
+     Файл resources/views/breadcrumbs.blade.php выводит бар .breadcrumbs,
+     в котором «Главная» — ссылка на /, а последняя колонка — @yield('title'). --}}
+@include('breadcrumbs')
+
 <main>
 
 
     @yield('main')
 </main>
+@if ($isAdminArea)
+    {{-- Футер админки = футер публичной части сайта: Blade-компонент
+         resources/views/components/footer.blade.php (<x-footer />), как на главной.
+         Легаси-футер (ниже, в блоке @else) работает на остальных страницах. --}}
+    <x-footer />
+
+    {{-- Нижняя панель навигации ЛК (только мобильные). Разметка объявлена
+         в layouts/dashboard.blade.php (@section('dashboard_bottom_nav')),
+         поэтому на публичных страницах этот @yield пустой.
+         Стили: public/css/admin.css, раздел 20. --}}
+    @yield('dashboard_bottom_nav')
+@else
 <footer class="footer">
     <!-- Start Footer Top -->
     <div class="footer-top">
@@ -219,6 +265,7 @@
     </div>
     <!-- End Footer Middle -->
 </footer>
+@endif
 <!-- ========================= scroll-top ========================= -->
 <a href="#" class="scroll-top btn-hover">
     <i class="lni lni-chevron-up"></i>

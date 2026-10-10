@@ -10,7 +10,7 @@
 
   Соответствие данным реальной модели Bb (в таблице bbs нет колонок
   image/city/capacity/price_*):
-    - фото   -> images()   : UserFile, вывод через Storage::url(resize(600,400))
+    - фото   -> images()   : UserFile, вывод через хелпер resizeImage($url, 480, 360)
     - город  -> location->title
     - дата   -> created_at (дата публикации)
     - теги   -> BbParameters (до 4 шт.: «Масса: 20 т», «Ковш: 1.1 м³» …)
@@ -50,8 +50,10 @@
         <a class="eq-card__media-link" href="{{ $url }}" tabindex="-1" aria-hidden="true">
             @if ($file)
                 <img class="card-img"
-                     src="{{ Storage::url($file->resize(600, 400)) }}"
-                     alt="{{ $bb->title() }}" loading="lazy">
+                     src="{{ resizeImage($file->url, 480, 360) }}"
+                     alt="{{ $bb->title() }}"
+                     title="{{ $bb->title() . ' — ' . ($price?->price ?? '') . ($unit ? ' ' . $unit : '') . ' в Беларуси' }}"
+                     loading="lazy">
             @else
                 <img class="card-img card-img--placeholder"
                      src="{{ asset('images/placeholder/no-image.svg') }}"

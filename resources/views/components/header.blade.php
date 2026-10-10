@@ -7,6 +7,9 @@
   в resources/css/app.css (секция «Шапка») и убрать <style> отсюда.
 =========================================================================== --}}
 <header class="site-header">
+  {{-- Красный кружок новых уведомлений: считаем один раз на всю шапку —
+       он нужен и в панели бургера (мобильная версия), и в .site-actions (десктоп) --}}
+  @php($unreadAlerts = Auth::check() ? Auth::user()->countAlerts() : 0)
   <div class="site-header__inner container">
 
     {{-- Управление мобильным меню: чистый CSS, без JS --}}
@@ -61,18 +64,55 @@
 
       <a @class(['site-nav__link', 'active' => request()->routeIs('news.*')])
          href="{{ route('news.index') }}">Новости</a>
+
+      {{-- Вход / личный кабинет. На десктопе этот блок скрыт (он живёт в
+           .site-actions), на мобильных он последним пунктом появляется в
+           выпадающей панели бургера — см. @media (max-width: 960px) ниже. --}}
+      <div class="site-nav__auth">
+        @guest
+          <a class="site-nav__auth-link" href="{{ route('login') }}">Вход / Регистрация</a>
+        @endguest
+
+        @auth
+          <span class="site-nav__user">
+            <a class="site-nav__auth-link" href="{{ route('dashboard') }}" title="Личный кабинет">
+              {{ Auth::user()->name }}
+            </a>
+            {{-- Красный кружок новых уведомлений — справа вверху от логина --}}
+            @if ($unreadAlerts > 0)
+              <a class="site-alerts-counter" href="{{ route('alerts') }}"
+                 title="Новые уведомления: {{ $unreadAlerts }}"
+                 aria-label="Новые уведомления: {{ $unreadAlerts }}">
+                {{ $unreadAlerts > 99 ? '99+' : $unreadAlerts }}
+              </a>
+            @endif
+          </span>
+        @endauth
+      </div>
     </nav>
 
-    {{-- 3. Правая панель: авторизация + главная CTA --}}
+    {{-- 3. Правая панель: авторизация + главная CTA.
+         На мобильных (≤960px) блок авторизации отсюда убирается и
+         переезжает в панель бургера (см. .site-nav__auth выше). --}}
     <div class="site-actions">
       @guest
         <a class="site-actions__auth" href="{{ route('login') }}">Вход / Регистрация</a>
       @endguest
 
       @auth
-        <a class="site-actions__auth" href="{{ route('dashboard') }}" title="Личный кабинет">
-          {{ Auth::user()->name }}
-        </a>
+        <span class="site-actions__user">
+          <a class="site-actions__auth" href="{{ route('dashboard') }}" title="Личный кабинет">
+            {{ Auth::user()->name }}
+          </a>
+          {{-- Красный кружок новых уведомлений — справа вверху от логина --}}
+          @if ($unreadAlerts > 0)
+            <a class="site-alerts-counter" href="{{ route('alerts') }}"
+               title="Новые уведомления: {{ $unreadAlerts }}"
+               aria-label="Новые уведомления: {{ $unreadAlerts }}">
+              {{ $unreadAlerts > 99 ? '99+' : $unreadAlerts }}
+            </a>
+          @endif
+        </span>
       @endauth
 
       <a class="site-btn" href="{{ route('addForm') }}">
@@ -260,6 +300,31 @@
       background-color: var(--norwegian-red);
     }
 
+    /* --- 2б. Вход/личный кабинет в панели бургера (только мобильные).
+           На десктопе этот блок скрыт: там авторизация живёт в .site-actions. --- */
+    .site-nav__auth {
+      display: none;
+    }
+
+    .site-nav__auth-link {
+      display: block;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      transition: color var(--transition-speed) ease;
+    }
+
+    .site-nav__auth-link:hover {
+      color: var(--norwegian-red);
+    }
+
+    /* Обёртка «логин + счётчик уведомлений» в панели — якорь для красного кружка */
+    .site-nav__user {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
     /* --- 3. Правая панель: авторизация + CTA --- */
     .site-actions {
       display: flex;
@@ -277,6 +342,40 @@
 
     .site-actions__auth:hover {
       color: var(--norwegian-red);
+    }
+
+    /* Обёртка «логин + счётчик уведомлений» — якорь для красного кружка */
+    .site-actions__user {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Красный кружок новых уведомлений: справа вверху от логина */
+    .site-alerts-counter {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(45%, -50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 14px;
+      height: 14px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background-color: var(--norwegian-red);
+      color: var(--bg-white);
+      font-size: 0.5625rem;   /* 9px */
+      font-weight: 700;
+      line-height: 1;
+      box-shadow: 0 0 0 2px var(--bg-white); /* белая окантовка поверх шапки */
+      transition: background-color var(--transition-speed) ease;
+    }
+
+    .site-alerts-counter:hover {
+      background-color: var(--norwegian-red-hover);
+      color: var(--bg-white);
     }
 
     /* Главная кнопка — сплошной фирменный красный, белый текст */
@@ -375,6 +474,20 @@
         border-top: 1px solid var(--border-color);
       }
 
+      /* Блок входа/авторизации убираем из шапки — он переезжает
+         в панель бургера (см. .site-nav__auth ниже) */
+      .site-actions__auth,
+      .site-actions__user {
+        display: none;
+      }
+
+      /* …и появляется последним пунктом самой панели бургера */
+      .site-nav__auth {
+        display: block;
+        padding: 16px 24px;
+        border-top: 1px solid var(--border-color);
+      }
+
       /* В мобильной панели обёртка пункта с подменю и её ссылка ведут себя
          как обычные пункты: блочная строка на всю ширину с рамкой сверху */
       .site-nav__item {
@@ -414,12 +527,10 @@
       }
     }
 
-    /* Узкие экраны: прячем ссылку входа/имени — остаётся бургер и CTA */
+    /* Узкие экраны: уменьшаем CTA-кнопку. Блок входа/имени здесь уже не
+       участвует — на мобильных он вынесен в панель бургера
+       (см. @media (max-width: 960px)) */
     @media (max-width: 560px) {
-      .site-actions__auth {
-        display: none;
-      }
-
       .site-btn {
         padding: 0.5rem 0.875rem;
         font-size: 0.8125rem;

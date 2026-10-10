@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Уведомления')
 
 @section('main')
     <section class="dashboard section">
@@ -13,38 +13,50 @@
                 <div class="col-lg-9 col-md-12 col-12">
                     <div class="main-content">
 
-                        <div class="row">
-                            <div class="col-12">
-                                @if (count($alerts)>0)
-
-
-                                    @foreach ($alerts as $alert)
-                                <div class="card card-alert">
-                                    <div class="card-header">
-                                        {{date('H:i:s d.m.Y', strtotime($alert->created_at))}}
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{$alert->title}}</h5>
-                                        <p class="card-text">{!! $alert->comment!!}</p>
+                        <!-- Start Activity Log -->
+                        <div class="dashboard-block mt-0">
+                            <div class="block-head">
+                                <h3 class="block-title">Уведомления</h3>
+                                <span class="block-count">{{count($alerts)}}</span>
+                            </div>
+                            <ul class="adm-list">
+                                @forelse ($alerts as $alert)
+                                    <li id="alert_{{$alert->id}}">
+                                        <div class="log-icon">
+                                            <i class="{{($alert->read_at)?'fa-regular':'fa-solid'}} fa-bell"></i>
+                                        </div>
+                                        <div class="title">
+                                            {{$alert->title}}
+                                            <div class="adm-muted">{!! $alert->comment !!}</div>
+                                        </div>
+                                        <span class="time">{{date('H:i:s d.m.Y', strtotime($alert->created_at))}}</span>
                                         @if (!$alert->read_at)
-                                        <a  class="btn btn-primary  btn-sm" id="alert_{{$alert->id}}" onclick="read_alert({{$alert->id}})">Пометить прочитанным</a>
+                                            <span class="time">
+                                                <a href="javascript:void(0)" id="alert_btn_{{$alert->id}}"
+                                                   onclick="read_alert({{$alert->id}})">Пометить прочитанным</a>
+                                            </span>
+                                        @else
+                                            <span class="time">Прочитано</span>
                                         @endif
-                                    </div>
-                                </div>
+                                    </li>
+                                @empty
+                                    <li class="adm-empty">Уведомлений пока нет</li>
+                                @endforelse
+                            </ul>
 
-                            @endforeach
+                            {{-- Пагинация в стиле Norwegian Air — как в разделах
+                                 городов / производителей / новостей. --}}
+                            @if ($alerts->hasPages())
+                                <div class="adm-list-pages">
+                                    {{ $alerts->links('pagination::norwegian') }}
+                                </div>
                             @endif
                         </div>
+                        <!-- End Activity Log -->
+
                     </div>
-
-                    {{ $alerts->onEachSide(1)->links() }}
-
                 </div>
             </div>
         </div>
-        </div>
     </section>
-
-
-
 @endsection

@@ -20,7 +20,9 @@ class BbPolicy
         //
     }
     public function update(User $user, Bb $bb) {
-        return $bb->user->id === $user->id;
+        // Владелец объявления ИЛИ администратор могут редактировать.
+        // $bb->user_id читаем из столбца — безопаснее, чем связь $bb->user->id.
+        return $user->isAdmin() || $bb->user_id === $user->id;
     }
     public function destroy(User $user, Bb $bb) {
         return $this->update($user, $bb);

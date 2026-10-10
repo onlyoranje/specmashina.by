@@ -16,7 +16,10 @@
                 <div class="col-lg-9 col-md-12 col-12">
                     <div class="main-content">
                         <div class="dashboard-block mt-0">
-                            <h3 class="block-title">{{$title}}</h3>
+                            <div class="block-head">
+                                <h3 class="block-title">{{$title}}</h3>
+                                <span class="block-count">{{count($bbs)}}</span>
+                            </div>
 
 
                             <!-- Start Items Area -->
@@ -71,7 +74,7 @@
 
                                                 <div class="col-lg-2 col-md-3 col-12 align-right">
 
-                                                    <ul>
+                                                    <ul class="adm-like">
 
                                                         <li>{{$bb->like()}}</li>
 
@@ -81,9 +84,15 @@
                                         </div>
                                         <!-- End Single List -->
                                 @endforeach
+                            @else
+                                <p class="adm-empty">В избранном пока пусто</p>
                             @endif
                             <!-- Pagination -->
-                            {{ $bbs->onEachSide(1)->links() }}
+                            @if ($bbs->hasPages())
+                                <div class="adm-list-pages">
+                                    {{ $bbs->links('pagination::norwegian') }}
+                                </div>
+                            @endif
                             <!--/ End Pagination -->
                             </div>
                             <!-- End Items Area -->

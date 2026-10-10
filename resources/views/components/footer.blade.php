@@ -30,11 +30,13 @@
 
       <nav class="footer__col" aria-label="Техника">
         <h4>Техника</h4>
+        {{-- SEO: ссылки ведут на реальные рубрики каталога (а не на якорь
+            на главной), чтобы поисковики индексировали страницы категорий. --}}
         <ul>
-          <li><a href="{{ url('/#catalog') }}">Экскаваторы</a></li>
-          <li><a href="{{ url('/#catalog') }}">Погрузчики</a></li>
-          <li><a href="{{ url('/#catalog') }}">Автокраны</a></li>
-          <li><a href="{{ url('/#catalog') }}">Самосвалы</a></li>
+          <li><a href="{{ route('rent.index', 9) }}">Экскаваторы</a></li>
+          <li><a href="{{ route('rent.index', 4) }}">Погрузчики</a></li>
+          <li><a href="{{ route('rent.index', 46) }}">Автокраны</a></li>
+          <li><a href="{{ route('rent.index', 6) }}">Самосвалы</a></li>
         </ul>
       </nav>
 

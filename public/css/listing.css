@@ -547,30 +547,58 @@
   height: 14px;
 }
 
-/* --- Характеристики: строки, разделённые тончайшими линиями --- */
+/* --- Характеристики: чистая воздушная сетка параметров (Norwegian-стиль).
+       Перенесены из сайдбара в основную колонку. Никаких плашек — только
+       сетка CSS Grid, ультра-тонкие светлые разделители и «воздух».
+       Каждый параметр: мелкое строгое серое название (--text-muted) сверху и
+       жирное тёмно-синее значение (#1A2238 / var(--text-dark)) под ним. --- */
 .listing-specs {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));   /* 2 колонки на десктопе */
+  column-gap: 48px;                                   /* «воздух» между колонками */
   margin: 0;
   padding: 0;
-  font-size: 0.875rem;
+  font-size: 0.875rem;                                /* компактнее базовый кегль */
 }
 .listing-specs__row {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border-color);
+  flex-direction: column;             /* название над значением — «воздушнее» */
+  gap: 6px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);  /* ультра-тонкий светлый разделитель */
 }
-.listing-specs__row:first-child { padding-top: 0; }
-.listing-specs__row:last-child { padding-bottom: 0; border-bottom: none; }
-.listing-specs__dt { color: var(--text-muted); }
+.listing-specs__dt {
+  font-size: 0.6875rem;              /* мелкое, строгое название */
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-muted);           /* серый #6C7A93 */
+}
 .listing-specs__dd {
   margin: 0;
-  font-weight: 600;
-  color: var(--text-dark);
-  text-align: right;
+  font-size: 0.9375rem;               /* значение на размер меньше прежнего */
+  font-weight: 700;                   /* жирное значение */
+  color: var(--text-dark);            /* тёмно-синий #1A2238 */
   overflow-wrap: anywhere;
+}
+
+/* Планшет: уменьшаем воздух между колонками (по-прежнему 2 колонки) */
+@media (max-width: 991.98px) {
+  .listing-specs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+}
+
+/* Мобильные: сетка аккуратно перестраивается в одну колонку (вертикальный список) */
+@media (max-width: 768px) {
+  .listing-specs {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+  }
+  .listing-specs__row {
+    padding: 14px 0;
+  }
 }
 
 /* --- Тонкий разделитель внутри виджета --- */

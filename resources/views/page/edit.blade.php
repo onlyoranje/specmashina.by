@@ -16,7 +16,12 @@
                             <div class="col-12">
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
-                                    <h3 class="block-title">{{$title}}</h3>
+                                    <div class="block-head">
+                                        <h3 class="block-title">{{$title}}</h3>
+                                        <div class="block-actions">
+                                            <a class="btn alt-btn" href="{{route('pages_dashboard')}}">К списку страниц</a>
+                                        </div>
+                                    </div>
                                     <form class="default-form-style" action="{{route('edit_page',['page'=>$page->id])}}" method="post" enctype="multipart/form-data">
                                         @csrf
                                         @method('PATCH')

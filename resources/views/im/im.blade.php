@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Сообщения')
 
 @section('main')
     <section class="dashboard section">
@@ -14,7 +14,9 @@
                     <div class="main-content">
 
                         <div class="dashboard-block mt-0 pb-0 all_chats">
-
+                            <div class="block-head">
+                                <h3 class="block-title">Сообщения</h3>
+                            </div>
                         </div>
                     </div>
 
@@ -23,7 +25,6 @@
                 </div>
             </div>
         </div>
-        </div>
     </section>
 
     <script>
@@ -31,4 +32,3 @@
         </script>
 
 @endsection
-

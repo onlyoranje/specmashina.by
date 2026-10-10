@@ -13,76 +13,48 @@
                 <div class="col-lg-9 col-md-12 col-12">
                     <div class="main-content">
 
-                        <div class="row">
-                            <div class="col-12">
-                                <!-- Start Activity Log -->
-                                <ul class="activity-log dashboard-block mt-0">
-                                    <h3 class="block-title">Баннеры</h3>
-
-
-
-
-                                    <ul>
-                                        <li>
-                                            <div class="form-group button mb-0 mt-0"><a href="{{route('banner_add')}}" class="btn ">Добавить баннер</a></div>
-                                        </li>
-                                        @if (count($banners)>0)
-
-
-                                            @foreach ($banners as $banner)
-
-
-
-                                                <li>
-                                                    <div class="row">
-
-                                                        <div class="col-2">
-                                                            <div class="log-icon">
-
-                                                                <a href="" class="title">{{$banner->title}}</a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <img src="{{Storage::url($banner->image)}}" class="img-thumbnail"alt="" style="max-height: 150px">
-                                                        </div>
-                                                        <div class="col-3">
-                                                            Показов: {{$banner->views}}<br>
-                                                            Кликов: {{$banner->clicks}}<br>
-                                                            @if($banner->views>0)
-                                                            CTR: {{round($banner->clicks/$banner->views*100,2)}}%
-                                                            @endif
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <span class="time"><a href='{{route('edit_banner', ['banner' => $banner->id])}}'>Редактировать </a></span>
-                                                            <span class="time"><a href='{{route('delete_banner', ['banner' => $banner->id])}}'>Удалить </a></span>
-                                                        </div>
-                                                    </div>
-
-
-
-
-
-
-                                                </li>
-
-                                            @endforeach
-                                        @endif
-                                    </ul>
+                        <!-- Start Activity Log -->
+                        <div class="dashboard-block mt-0">
+                            <div class="block-head">
+                                <h3 class="block-title">Баннеры</h3>
+                                <div class="block-actions">
+                                    <a href="{{route('banner_add')}}" class="btn">+ Добавить баннер</a>
+                                </div>
                             </div>
+                            <ul class="adm-list">
+                                @forelse ($banners as $banner)
+                                    <li>
+                                        <img src="{{Storage::url($banner->image)}}" alt="{{$banner->title}}" class="adm-thumb">
+                                        <a href="{{route('banner_dashboard', ['banner' => $banner->id])}}" class="title">{{$banner->title}}</a>
+                                        <span class="adm-stats">
+                                            Показов: <b>{{$banner->views}}</b><br>
+                                            Кликов: <b>{{$banner->clicks}}</b>
+                                            @if ($banner->views > 0)
+                                                <br>CTR: <b>{{round($banner->clicks / $banner->views * 100, 2)}}%</b>
+                                            @endif
+                                        </span>
+                                        <span class="time"><a href="{{route('banner_dashboard', ['banner' => $banner->id])}}">Редактировать</a></span>
+                                        <span class="time"><a href="{{route('delete_banner', ['banner' => $banner->id])}}" class="text-danger">Удалить</a></span>
+                                    </li>
+                                @empty
+                                    <li class="adm-empty">Пока нет ни одного баннера</li>
+                                @endforelse
+                            </ul>
 
-                            <!-- End Activity Log -->
+                            {{-- Пагинация в стиле Norwegian Air — как в разделах
+                                 городов / производителей / новостей. --}}
+                            @if ($banners->hasPages())
+                                <div class="adm-list-pages">
+                                    {{ $banners->links('pagination::norwegian') }}
+                                </div>
+                            @endif
                         </div>
+                        <!-- End Activity Log -->
 
                     </div>
-
-                    {{ $banners->onEachSide(1)->links() }}
 
                 </div>
             </div>
         </div>
-        </div>
     </section>
-
-
-
 @endsection

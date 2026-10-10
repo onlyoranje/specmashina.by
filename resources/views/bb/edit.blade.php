@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Редактирование объявления')
 @section('main')
 
 
@@ -15,7 +15,16 @@
                     <div class="main-content">
                         <!-- Start Post Ad Block Area -->
                         <div class="dashboard-block mt-0">
-                            <h3 class="block-title">Редактирование объявления</h3>
+                            <div class="block-head">
+                                <h3 class="block-title">Редактирование объявления</h3>
+                                <div class="block-actions">
+                                    @if (Auth::user() && Auth::user()->isAdmin())
+                                        <a class="btn alt-btn" href="{{ route('allbb') }}">Ко всем объявлениям</a>
+                                    @else
+                                        <a class="btn alt-btn" href="{{ route('mybb') }}">К моим объявлениям</a>
+                                    @endif
+                                </div>
+                            </div>
                             <form  action="{{route('bb_update',['bb'=>$bb->id])}}" enctype="multipart/form-data" method="POST" >
                                 @csrf
                                 @method('PATCH')

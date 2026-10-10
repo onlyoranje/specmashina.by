@@ -17,7 +17,12 @@
                             <div class="col-12">
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
-                                    <h3 class="block-title">Обновление категории</h3>
+                                    <div class="block-head">
+                                        <h3 class="block-title">Обновление категории</h3>
+                                        <div class="block-actions">
+                                            <a class="btn alt-btn" href="{{route('rubric_dashboard')}}">К списку категорий</a>
+                                        </div>
+                                    </div>
                                     <form class="default-form-style" action="{{route('editRubricToDB',['rubric'=>$rubric->id])}}" method="post">
                                         @csrf
                                         @method('PATCH')

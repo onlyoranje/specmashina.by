@@ -35,13 +35,22 @@
     }
 
     // Фото: $item->image | 1-я загруженная картинка | placeholder.
-    $image = $item->image ?? null;
-    if (! $image && method_exists($item, 'images')) {
+    // Вывод — через глобальный хелпер resizeImage($url, W, H) → готовый src.
+    $imageUrl = null;
+    if ($item->image ?? null) {
+        $imageUrl = resizeImage($item->image, 480, 360);
+    } elseif (method_exists($item, 'images')) {
         $file = $item->images()->first();
-        $image = $file ? Storage::url($file->resize(600, 400)) : null;
+        if ($file) {
+            $imageUrl = resizeImage($file->url, 480, 360);
+        }
     }
-    $image = $image ?? asset('images/placeholder/no-image.svg');
-    $alt   = $cardTitle;
+    $imageUrl = $imageUrl ?: asset('images/placeholder/no-image.svg');
+
+    // alt и title — динамические и уникальные, построены из названия и города.
+    $cityForAlt = $city ?? null;
+    $alt   = $cardTitle . ($cityForAlt ? ' в г. ' . $cityForAlt : '') . ' — фото';
+    $title = $cardTitle . ($cityForAlt ? ' — аренда и продажа в г. ' . $cityForAlt : ' — аренда и продажа в Беларуси');
 
     $href  = $item->url ?? ($item->id ? route('listings.show', $item->id) : '#');
 @endphp
@@ -52,7 +61,7 @@
 
     {{-- Зона 1 (лево): фотография техники --}}
     <div class="ct__media">
-      <img class="ct__img" src="{{ $image }}" alt="{{ $alt }}" loading="lazy">
+      <img class="ct__img" src="{{ $imageUrl }}" alt="{{ $alt }}" title="{{ $title }}" loading="lazy">
     </div>
 
     {{-- Зона 2 (центр): название + гео + дата --}}

@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Новое объявление')
 @section('main')
 
     <section class="dashboard section">
@@ -14,7 +14,12 @@
                     <div class="main-content">
                         <!-- Start Post Ad Block Area -->
                         <div class="dashboard-block mt-0">
-                            <h3 class="block-title">Новое объявление</h3>
+                            <div class="block-head">
+                                <h3 class="block-title">Новое объявление</h3>
+                                <div class="block-actions">
+                                    <a class="btn alt-btn" href="{{route('mybb')}}">К моим объявлениям</a>
+                                </div>
+                            </div>
                             <form  action="{{route('addBbToDB')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                             <div class="inner-block">
@@ -136,7 +141,7 @@
                                                     <div class="row">
                                                         @if (count($parameters)>0)
                                                             @foreach($parameters as $parameter)
-                                                                @if ($parameter->type == 'option')
+                                                                @if ($parameter->type == 'options')
                                                                     <div class="col-6" style="display:none">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                             <label  class="form-label">{{$parameter->name}}<?php if ($parameter->measure) echo ', '.$parameter->measure?>
@@ -183,7 +188,7 @@
                                                                         </div>
                                                                     </div>
                                                                 @else
-                                                                    <div class="col-6">
+                                                                    <div class="col-6" style="display:none">
                                                                         <div class="mb-3 input-parameter" id="parameter_{{$parameter->id}}">
                                                                             <label class="form-label">{{$parameter->name}} <?php if ($parameter->measure) {echo ', '.$parameter->measure;}?>
                                                                             </label>
@@ -195,8 +200,11 @@
                                                         @endif
 
 <div class="col-12">
-    <input type="file" name="file">
-</div>
+                                                            <div class="form-group upload-photo">
+                                                                <label>Фотографии</label>
+                                                                <input type="file" name="file" accept="image/*">
+                                                            </div>
+                                                        </div>
 
 
                                                         <div class="col-12">

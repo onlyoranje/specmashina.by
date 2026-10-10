@@ -1,6 +1,6 @@
 
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Личный кабинет')
 
 @section('main')
 
@@ -63,9 +63,14 @@
 
                             <div class="col-lg-6 col-md-12 col-12">
                                 <div class="activity-log dashboard-block">
-                                    <h3 class="block-title">Новые уведомления</h3>
+                                    <div class="block-head">
+                                        <h3 class="block-title">Новые уведомления</h3>
+                                        <div class="block-actions">
+                                            <a class="btn alt-btn" href="{{route('alerts')}}">Все уведомления</a>
+                                        </div>
+                                    </div>
 
-                                    <ul>
+                                    <ul class="adm-list">
                                         @if (isset($notifications) and count($notifications)>0)
                                             @foreach ($notifications as $notification)
                                         <li>
@@ -80,11 +85,10 @@
                                         </li>
 
                                                 @endforeach
+                                            @else
+                                                <li class="adm-empty">Уведомлений пока нет</li>
                                             @endif
                                     </ul>
-                                    <div class="button">
-                                        <a class="btn" href="{{route('alerts')}}">Все уведомления</a>
-                                    </div>
                                 </div>
 
                                 <!-- End Activity Log -->
@@ -92,8 +96,11 @@
                             <div class="col-lg-6 col-md-12 col-12">
                                 @if (count($bbs_moderation)>0)
                                 <div class="recent-items dashboard-block">
-                                    <h3 class="block-title">На модерации</h3>
-                                    <ul>
+                                    <div class="block-head">
+                                        <h3 class="block-title">На модерации</h3>
+                                        <span class="block-count">{{count($bbs_moderation)}}</span>
+                                    </div>
+                                    <ul class="adm-list">
                                         @foreach($bbs_moderation as $bb)
                                             <li>
                                                 @include('bb.dashboardcard')
@@ -106,8 +113,11 @@
                             @endif
                                     @if (count($bbs_moderation_fail)>0)
                                         <div class="recent-items dashboard-block">
-                                            <h3 class="block-title">Не прошло модерацию</h3>
-                                            <ul>
+                                            <div class="block-head">
+                                                <h3 class="block-title">Не прошло модерацию</h3>
+                                                <span class="block-count">{{count($bbs_moderation_fail)}}</span>
+                                            </div>
+                                            <ul class="adm-list">
                                                 @foreach($bbs_moderation_fail as $bb)
                                                     <li>
                                                         @include('bb.dashboardcard')
@@ -120,15 +130,20 @@
                                 @endif
                                 <!-- Start Recent Items -->
                                 <div class="recent-items dashboard-block">
-                                    <h3 class="block-title">Популярные</h3>
-                                    <ul>
-                                        @foreach($bbs_popular as $bb)
+                                    <div class="block-head">
+                                        <h3 class="block-title">Популярные</h3>
+                                        <span class="block-count">{{count($bbs_popular)}}</span>
+                                    </div>
+                                    <ul class="adm-list">
+                                        @forelse($bbs_popular as $bb)
 
                                         <li>
 @include('bb.dashboardcard')
 
                                         </li>
-                                        @endforeach
+                                        @empty
+                                            <li class="adm-empty">Объявлений пока нет</li>
+                                        @endforelse
                                     </ul>
                                 </div>
                                 <!-- End Recent Items -->

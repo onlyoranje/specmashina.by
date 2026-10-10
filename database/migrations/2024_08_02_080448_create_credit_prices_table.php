@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('credit_prices', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('code');
-            $table->integer('price')->nullable();
-            $table->timestamps();
-        });
-
-        \App\Models\Credit_price::create(['name' => 'Разовое поднятие', 'code' => 'up', 'price' => 1]);
+        // Schema::create('credit_prices', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('name');
+        //     $table->string('code');
+        //     $table->integer('price')->nullable();
+        //     $table->timestamps();
+        // });
     }
 
     /**
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('credit_prices');
+        // Schema::dropIfExists('credit_prices');
     }
 };

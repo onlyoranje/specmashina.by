@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Удаление статуса')
 @section('main')
     @php
         $title= "Удалить статус ".$status->name;

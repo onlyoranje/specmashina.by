@@ -64,7 +64,7 @@
                     <div class="row">
                         <div class="col-12">
                             <!-- Pagination -->
-                        {{ $organizations->onEachSide(1)->links() }}
+                        {{ $organizations->links() }}
                         <!--/ End Pagination -->
                         </div>
                     </div>

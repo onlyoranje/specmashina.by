@@ -278,3 +278,80 @@
     });
 </script>
 @endsection('main')
+
+{{-- ==========================================================================
+     НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ ЛИЧНОГО КАБИНЕТА (мобильные экраны)
+
+     Объявлена здесь, в макете кабинета, и выводится в layouts/base.blade.php
+     через @yield('dashboard_bottom_nav') — так разметка одна для всех страниц
+     /dashboard* и /profile, а на публичных страницах панели нет.
+
+     Раскладка:
+       — десктоп: панель скрыта (display:none), работает сайдбар
+                  layouts/dashboard_profile.blade.php;
+       — ≤768px:  сайдбар скрывается, а навигация переезжает в фиксированную
+                  нижнюю панель с горизонтальным скроллом.
+     CSS: public/css/admin.css, раздел 20.
+     ========================================================================== --}}
+@section('dashboard_bottom_nav')
+    @auth
+        @php
+            /* Пункты панели: [маршрут, подпись, иконка, активные маршруты].
+               Порядок = порядок на экране: сначала пользовательские разделы,
+               затем (у админа) администрирование, в конце — выход. */
+            $bottom_nav_items = [
+                ['dashboard',        'Дашборд',     'fa-gauge',         ['dashboard']],
+                ['mybb',             'Объявления',  'fa-clone',         ['mybb', 'bb_edit']],
+                ['addForm',          'Добавить',    'fa-plus',          ['addForm']],
+                ['profile.edit',     'Профиль',     'fa-user',          ['profile.edit']],
+                ['alerts',           'Уведомления', 'fa-bell',          ['alerts']],
+                ['my_organization',  'Организация', 'fa-building',      ['my_organization']],
+                ['favorite',         'Закладки',    'fa-bookmark',      ['favorite']],
+            ];
+
+            /* На мобильных сайдбар скрыт, поэтому разделы администрирования
+               дублируются в той же прокручиваемой полосе — иначе к ним не
+               было бы доступа с телефона. */
+            if (Auth::user()->isAdmin()) {
+                $bottom_nav_items = array_merge($bottom_nav_items, [
+                    ['admin_dashboard',         'Админ',      'fa-gauge-high',    ['admin_dashboard']],
+                    ['allbb',                   'Все объяв.', 'fa-clone',         ['allbb']],
+                    ['allusers',                'Пользователи', 'fa-users',      ['allusers']],
+                    ['allorganizations',        'Организации', 'fa-building',    ['allorganizations']],
+                    ['location_dashboard',      'Города',     'fa-mountain-city', ['location_dashboard']],
+                    ['rubric_dashboard',        'Категории',  'fa-folder-tree',  ['rubric_dashboard']],
+                    ['parameter_dashboard',     'Параметры',  'fa-list',         ['parameter_dashboard']],
+                    ['parameter_type_dashboard','Типы парам.', 'fa-list-check',  ['parameter_type_dashboard']],
+                    ['vendor_dashboard',        'Бренды',     'fa-copyright',    ['vendor_dashboard']],
+                    ['price_type_dashboard',    'Виды цен',   'fa-tag',          ['price_type_dashboard']],
+                    ['contact_type_dashboard',  'Контакты',   'fa-id-badge',     ['contact_type_dashboard']],
+                    ['status_dashboard',        'Статусы',    'fa-star',         ['status_dashboard']],
+                    ['posts_dashboard',         'Новости',    'fa-newspaper',    ['posts_dashboard']],
+                    ['pages_dashboard',         'Страницы',   'fa-file-lines',   ['pages_dashboard']],
+                    ['banners_dashboard',       'Баннеры',    'fa-rectangle-ad', ['banners_dashboard']],
+                ]);
+            }
+
+            $bottom_nav_unread = Auth::user()->countAlerts();
+        @endphp
+
+        <nav class="dashboard-bottom-nav" aria-label="Навигация личного кабинета">
+            @foreach ($bottom_nav_items as [$nav_route, $nav_label, $nav_icon, $nav_active])
+                <a class="dashboard-bottom-nav__item {{ Request::routeIs($nav_active) ? 'active' : '' }}"
+                   href="{{ route($nav_route) }}">
+                    <i class="fa-solid {{ $nav_icon }}" aria-hidden="true"></i>
+                    <span>{{ $nav_label }}</span>
+                    @if ($nav_route === 'alerts' and $bottom_nav_unread > 0)
+                        <span class="dashboard-bottom-nav__count">{{ $bottom_nav_unread }}</span>
+                    @endif
+                </a>
+            @endforeach
+
+            <a class="dashboard-bottom-nav__item dashboard-bottom-nav__item--logout" href="{{ route('logout') }}">
+                <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                <span>Выход</span>
+            </a>
+        </nav>
+    @endauth
+@endsection
+

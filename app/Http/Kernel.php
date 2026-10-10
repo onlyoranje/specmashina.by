@@ -31,6 +31,9 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
+            // Канонический публичный адрес для запросов от прокси-роутера
+            // (см. App\Http\Middleware\ForcePublicUrl) — до всех, кто генерирует URL
+            \App\Http\Middleware\ForcePublicUrl::class,
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,

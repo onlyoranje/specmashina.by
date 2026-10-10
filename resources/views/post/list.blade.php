@@ -42,7 +42,7 @@
                     <!-- Pagination -->
                         <div class="col-12">
                             <!-- Pagination -->
-                        {{ $posts->onEachSide(1)->appends(request()->input())->links() }}
+                        {{ $posts->appends(request()->input())->links() }}
                         <!--/ End Pagination -->
                         </div>
                     @endif

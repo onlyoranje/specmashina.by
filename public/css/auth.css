@@ -1,0 +1,588 @@
+/* ==========================================================================
+   LANDI.BY — страницы авторизации (вход и регистрация)
+   Стиль: скандинавский минимализм (референс — norwegian.com)
+   --------------------------------------------------------------------------
+   Подключается постранично через @push('styles') в
+   resources/views/auth/login.blade.php и resources/views/auth/register.blade.php.
+   Дизайн-токены берутся из глобального style.css (resources/css/app.css):
+   --norwegian-red, --norwegian-red-hover, --text-dark, --text-muted,
+   --bg-light, --bg-white, --border-color, --border-radius,
+   --transition-speed, --shadow-soft.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   0. ЛОКАЛЬНЫЕ ТОКЕНЫ — только то, чего нет в глобальной палитре
+   -------------------------------------------------------------------------- */
+
+:root {
+  --border-input: #E2E8F0;        /* рамка инпутов по макету */
+  --border-input-hover: #C7D0DE;  /* рамка инпутов при наведении */
+  --focus-ring: 0 0 0 3px rgba(217, 35, 35, 0.12); /* мягкий красный ореол фокуса */
+  --auth-error: var(--norwegian-red); /* цвет ошибок = фирменный красный */
+}
+
+
+/* --------------------------------------------------------------------------
+   1. СЦЕНА — чистый белый фон, форма строго по центру экрана
+   -------------------------------------------------------------------------- */
+
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100dvh - 240px); /* вертикальный центр с учётом шапки и футера */
+  padding: clamp(2.5rem, 7vh, 4.5rem) 1.5rem;
+  background-color: var(--bg-white);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. КОНТЕЙНЕР ФОРМЫ — лаконичная карточка 440px
+   -------------------------------------------------------------------------- */
+
+.auth-container {
+  width: 100%;
+  max-width: 440px;
+  padding: 48px 44px;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-soft);
+}
+
+
+/* --------------------------------------------------------------------------
+   3. ЛОГОТИП И ЗАГОЛОВОК
+   -------------------------------------------------------------------------- */
+
+.auth-logo {
+  display: inline-block;
+  margin-bottom: 28px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--text-dark);
+  text-decoration: none;
+  transition: color var(--transition-speed) ease;
+}
+
+/* Глобальный a:hover красит ссылку в красный — логотипу оставляем фирменный акцент только в .BY */
+.auth-logo:hover {
+  color: var(--text-dark);
+}
+
+.auth-logo__accent {
+  color: var(--norwegian-red);
+}
+
+.auth-title {
+  margin-bottom: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. ФОРМА И ПОЛЯ ВВОДА
+   -------------------------------------------------------------------------- */
+
+.auth-form {
+  margin-top: 28px;
+}
+
+.auth-field {
+  margin-bottom: 20px;
+}
+
+/* Мелкий строгий лейбл строго над инпутом */
+.auth-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.auth-label__note {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* Плоский инпут: тонкая светло-серая рамка, минимальное скругление */
+.auth-input {
+  width: 100%;
+  padding: 13px 16px;
+  font-size: 1rem;
+  color: var(--text-dark);
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-input);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+.auth-input::placeholder {
+  color: #AAB4C5;
+}
+
+.auth-input:hover {
+  border-color: var(--border-input-hover);
+}
+
+/* Фокус: плавная красная рамка вместо грубой синей обводки браузера */
+.auth-input:focus {
+  outline: none;
+  border-color: var(--norwegian-red);
+  box-shadow: var(--focus-ring);
+}
+
+/* Автозаполнение Chrome: убираем жёлтую заливку — остаётся чистый белый */
+.auth-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 40px var(--bg-white) inset;
+  -webkit-text-fill-color: var(--text-dark);
+}
+
+
+/* --------------------------------------------------------------------------
+   6. ЧЕКБОКСЫ — плоский квадрат с фирменной заливкой
+   -------------------------------------------------------------------------- */
+
+/* Скрытый, но доступный с клавиатуры нативный инпут (чекбоксы и радио) */
+.auth-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
+}
+
+.auth-check {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-check__box {
+  position: relative;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-input-hover);
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+
+.auth-check:hover .auth-check__box {
+  border-color: var(--norwegian-red);
+}
+
+/* Галочка — повёрнутые рамки, плавно «вырастает» при выборе */
+.auth-check__box::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--bg-white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  transform-origin: center;
+  transition: transform 0.15s ease;
+}
+
+.auth-check__input:checked + .auth-check__box {
+  background-color: var(--norwegian-red);
+  border-color: var(--norwegian-red);
+}
+
+.auth-check__input:checked + .auth-check__box::after {
+  transform: rotate(45deg) scale(1);
+}
+
+/* Красный ореол фокуса вместо стандартной обводки */
+.auth-check__input:focus-visible + .auth-check__box {
+  border-color: var(--norwegian-red);
+  box-shadow: var(--focus-ring);
+}
+
+.auth-check__text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-dark);
+}
+
+
+/* --------------------------------------------------------------------------
+   7. РЯД «ЗАПОМНИТЬ МЕНЯ / ЗАБЫЛИ ПАРОЛЬ»
+   -------------------------------------------------------------------------- */
+
+.auth-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  margin: 4px 0 28px;
+}
+
+/* Серая ссылка: плавно краснеет и подчёркивается при наведении */
+.auth-link {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: color var(--transition-speed) ease,
+              text-decoration-color var(--transition-speed) ease;
+}
+
+.auth-link:hover {
+  color: var(--norwegian-red);
+  text-decoration-color: currentColor;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. ГЛАВНАЯ CTA — огромная красная кнопка во всю ширину
+   -------------------------------------------------------------------------- */
+
+.btn-auth {
+  display: block;
+  width: 100%;
+  padding: 17px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--bg-white);
+  background-color: var(--norwegian-red);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              transform var(--transition-speed) ease;
+}
+
+/* Глубокий бордовый при наведении (токен --norwegian-red-hover) */
+.btn-auth:hover {
+  background-color: var(--norwegian-red-hover);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn-auth:active {
+  transform: translateY(1px);
+}
+
+.btn-auth:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+
+/* --------------------------------------------------------------------------
+   9. РАЗДЕЛИТЕЛЬ И КНОПКИ АЛЬТЕРНАТИВНОГО ВХОДА
+   -------------------------------------------------------------------------- */
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 28px 0 16px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+.auth-divider span {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Плоские белые прямоугольники с тонкими рамками и логотипами сервисов */
+.auth-social {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.auth-social__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-input);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+}
+
+.auth-social__btn:hover {
+  color: var(--text-dark);
+  border-color: var(--border-input-hover);
+  box-shadow: var(--shadow-soft);
+}
+
+.auth-social__btn:focus-visible {
+  outline: none;
+  border-color: var(--norwegian-red);
+  box-shadow: var(--focus-ring);
+}
+
+.auth-social__icon {
+  flex: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   10. ТАБЫ ТИПА АККАУНТА (регистрация) — «тарифы» в стиле Norwegian
+   -------------------------------------------------------------------------- */
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.auth-tabs__label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-input);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+.auth-tabs__label:hover {
+  border-color: var(--border-input-hover);
+}
+
+/* Выбранный «тариф»: фирменная красная рамка + мягкий ореол */
+.auth-tabs__input:checked + .auth-tabs__label {
+  border-color: var(--norwegian-red);
+  box-shadow: var(--focus-ring);
+}
+
+.auth-tabs__input:checked + .auth-tabs__label .auth-tabs__title {
+  color: var(--norwegian-red);
+}
+
+/* Красный ореол при фокусе с клавиатуры */
+.auth-tabs__input:focus-visible + .auth-tabs__label {
+  border-color: var(--norwegian-red);
+  box-shadow: var(--focus-ring);
+}
+
+.auth-tabs__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-dark);
+}
+
+.auth-tabs__hint {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+
+/* --------------------------------------------------------------------------
+   11. ЮРИДИЧЕСКИЙ ЧЕКБОКС (регистрация)
+   -------------------------------------------------------------------------- */
+
+.auth-field--legal {
+  margin-bottom: 24px;
+}
+
+.auth-check__text--legal {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.auth-check__text--legal a {
+  color: var(--text-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-speed) ease;
+}
+
+.auth-check__text--legal a:hover {
+  color: var(--norwegian-red);
+}
+
+
+/* --------------------------------------------------------------------------
+   12. НИЖНИЙ БЛОК — переключение «вход ↔ регистрация»
+   -------------------------------------------------------------------------- */
+
+.auth-footer {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.auth-footer__link {
+  color: var(--norwegian-red);
+  font-weight: 600;
+  text-decoration: none;
+  text-underline-offset: 3px;
+  transition: color var(--transition-speed) ease;
+}
+
+.auth-footer__link:hover {
+  color: var(--norwegian-red-hover);
+  text-decoration: underline;
+}
+
+
+/* --------------------------------------------------------------------------
+   13. ФЛЕШ-СООБЩЕНИЕ (например, «Вы вышли из аккаунта»)
+   -------------------------------------------------------------------------- */
+
+.auth-status {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  font-size: 0.875rem;
+  color: var(--text-dark);
+  background-color: var(--bg-light);
+  border-left: 3px solid var(--norwegian-red);
+  border-radius: var(--border-radius);
+}
+
+
+/* --------------------------------------------------------------------------
+   14. МОБИЛЬНЫЕ ЭКРАНЫ — форма на всю ширину, без лишних теней и рамок
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+  .auth-page {
+    align-items: flex-start;
+    padding: 32px 16px 40px;
+  }
+
+  .auth-container {
+    max-width: 100%;
+    padding: 32px 20px;
+    border: none;
+    box-shadow: none;
+  }
+
+  .auth-logo {
+    margin-bottom: 20px;
+    font-size: 1.375rem;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
+
+  .auth-form {
+    margin-top: 24px;
+  }
+
+  /* Чекбокс и ссылка удобно «палцем»: каждый на своей строке */
+  .auth-row {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  /* Табы и соцкнопки — в один столбец, крупнее для тапа */
+  .auth-tabs,
+  .auth-social {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   15. ДОСТУПНОСТЬ — уважаем системную настройку «меньше анимации»
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-error {
+    animation: none;
+  }
+
+  .auth-input,
+  .btn-auth,
+  .auth-link,
+  .auth-logo,
+  .auth-check__box,
+  .auth-check__box::after,
+  .auth-tabs__label,
+  .auth-social__btn,
+  .auth-footer__link,
+  .auth-check__text--legal a {
+    transition: none;
+  }
+}
+
+
+
+
+/* --------------------------------------------------------------------------
+   5. ОШИБКИ ВАЛИДАЦИИ — красная рамка инпута + плавное появление текста
+   -------------------------------------------------------------------------- */
+
+.auth-input--error,
+.auth-input--error:hover {
+  border-color: var(--auth-error);
+}
+
+.auth-input--error:focus {
+  border-color: var(--auth-error);
+  box-shadow: var(--focus-ring);
+}
+
+.auth-error {
+  margin: 8px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--auth-error);
+  animation: auth-error-in 0.25s ease both;
+}
+
+@keyframes auth-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

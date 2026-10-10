@@ -2,7 +2,7 @@
 @section('title', $title)
 @section('main')
 
-    <section class="category-page section">
+    <section class="dashboard section">
         <div class="container">
             <div class="row">
 
@@ -11,78 +11,59 @@
                 @include('layouts.dashboard_profile')
                 <!-- Start Dashboard Sidebar -->
                 </div>
-                <div class="col-lg-9 col-md-8 col-12">
-                    <div class="category-grid-list">
+                <div class="col-lg-9 col-md-12 col-12">
+                    <div class="main-content">
 
-                        <div class="row">
-
-                            <div class="col-12">
-                                <div class="category-grid-topbar">
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-6 col-md-6 col-12">
-                                            <h3 class="title">Показано {{$users->firstItem()}}-{{$users->lastItem()}} из {{$users->total()}} пользователей</h3>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="col-lg-12 col-md-12 col-12">
-
-                                    @foreach ($users as $user)
-
-                                        <div class="single-item-grid">
-                                            <div class="row align-items-center">
-
-
-                                                <div class="col-lg-3 col-md-7 col-12">
-                                                    <div class="image">
-                                                        <a href="{{route('user',$user->id)}}">
-                                                            @if (isset($user->avatar))
-                                                                <img src="{{Storage::url($user->resizeImage($user->avatar,150, 150))}}" alt="#">
-                                                            @else
-                                                                {!! Avatar::create($user->realname)->toSvg() !!}
-                                                            @endif
-                                                        </a>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-9 col-md-5 col-12">
-                                                    <div class="content">
-
-                                                        <h3 class="title title-organization">
-                                                            <a href="{{route('user',$user->id)}}">{{$user->realname}}</a>
-                                                        </h3>
-                                                        <a class="tag">Организация: {{$user->organization->title ?? 'нет'}}</a>
-                                                        <br>
-                                                        <a href="{{route('user',$user->id)}}" class="tag">Объявлений: {{$user->organization ? $user->organization->count_bbs() : 'нет'}}</a>
-                                                        <br>
-                                                        @if ($user->active == 'Y')
-                                                        <a  class="tag">Активен</a> / <a href="{{route('change_user_status',['user'=>$user->id,'status'=>'N'])}}" class="tag text-danger">Заблокировать</a>
-                                                        @else
-                                                            <a  class="tag">Неактивен</a> / <a href="{{route('change_user_status',['user'=>$user->id,'status'=>'Y'])}}" class="tag text-success">Активировать</a>
-                                                        @endif
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <!-- Pagination -->
-                                        {{ $users->onEachSide(1)->appends(request()->input())->links() }}
-                                        <!--/ End Pagination -->
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- Start Activity Log -->
+                        <div class="dashboard-block mt-0">
+                            <div class="block-head">
+                                <h3 class="block-title">Пользователи</h3>
+                                <span class="block-count">Показано {{$users->firstItem()}}-{{$users->lastItem()}} из {{$users->total()}}</span>
                             </div>
+                            <ul class="adm-list adm-list-plain">
+                                @forelse ($users as $user)
+                                    <li>
+                                        <a href="{{route('user',$user->id)}}" class="adm-avatar">
+                                            @if (isset($user->avatar))
+                                                <img src="{{Storage::url($user->resizeImage($user->avatar,150, 150))}}" alt="{{$user->realname}}">
+                                            @else
+                                                {!! Avatar::create($user->realname)->toSvg() !!}
+                                            @endif
+                                        </a>
+                                        <a href="{{route('user',$user->id)}}" class="title">{{$user->realname}}</a>
+                                        <span class="adm-meta">
+                                            {{$user->organization->title ?? 'нет организации'}}<br>
+                                            Объявлений: <b>{{$user->organization ? $user->organization->count_bbs() : 'нет'}}</b>
+                                        </span>
+                                        @if ($user->active == 'Y')
+                                            <span class="adm-state is-active">Активен</span>
+                                            <span class="time"><a href="{{route('change_user_status',['user'=>$user->id,'status'=>'N'])}}" class="text-danger">Заблокировать</a></span>
+                                            <span class="time"><a href="{{route('admin_user_edit',['user'=>$user->id])}}" class="text-primary">Редактировать</a></span>
+                                        @else
+                                            <span class="adm-state is-blocked">Неактивен</span>
+                                            <span class="time"><a href="{{route('change_user_status',['user'=>$user->id,'status'=>'Y'])}}">Активировать</a></span>
+                                            <span class="time"><a href="{{route('admin_user_edit',['user'=>$user->id])}}" class="text-primary">Редактировать</a></span>
+                                        @endif
+                                    </li>
+                                @empty
+                                    <li class="adm-empty">Пользователей пока нет</li>
+                                @endforelse
+                            </ul>
+
+                        <!-- Pagination -->
+                        @if ($users->hasPages())
+                            <div class="adm-list-pages">
+                                {{ $users->appends(request()->input())->links('pagination::norwegian') }}
+                            </div>
+                        @endif
+                        <!--/ End Pagination -->
                         </div>
+                        <!-- End Activity Log -->
+
                     </div>
                 </div>
             </div>
         </div>
-
     </section>
 
 @endsection

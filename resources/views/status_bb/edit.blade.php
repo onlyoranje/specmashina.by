@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Изменение статуса')
 
 @section('main')
 
@@ -18,7 +18,12 @@
                             <div class="col-12">
                                 <!-- Start Activity Log -->
                                 <div class="profile-settings-block dashboard-block mt-0">
-                                    <h3 class="block-title">Изменение статуса {{$status->name}}</h3>
+                                    <div class="block-head">
+                                        <h3 class="block-title">Изменение статуса {{$status->name}}</h3>
+                                        <div class="block-actions">
+                                            <a class="btn alt-btn" href="{{route('status_dashboard')}}">К списку статусов</a>
+                                        </div>
+                                    </div>
                                     <form class="default-form-style" action="{{route('editStatusToDB', ['status' => $status->id])}}" method="post">
                                         @csrf
                                         @method('PATCH')

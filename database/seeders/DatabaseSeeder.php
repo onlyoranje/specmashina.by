@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         // ]);
        //$this->call([LocationSeeder::class]);
        // $this->call([RubricSeeder::class]);
+        $this->call([ParameterSeeder::class]);
+        $this->call([DemoListingsSeeder::class]);
     }
 }

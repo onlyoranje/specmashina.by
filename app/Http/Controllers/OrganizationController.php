@@ -48,6 +48,7 @@ class OrganizationController extends Controller
         return view('organizations.index', [
             'organizations' => $organizations,
             'cities'        => $cities,
+            'request'       => $request,
         ]);
     }
 public function organization_site_redirect($id){

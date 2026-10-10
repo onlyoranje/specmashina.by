@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Категории')
 
 @section('main')
     <section class="dashboard section">
@@ -15,62 +15,41 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <!-- Start Activity Log -->
-                                <ul class="activity-log dashboard-block mt-0">
-                                    <h3 class="block-title">Категории</h3>
+                                <div class="dashboard-block mt-0">
+                                    <div class="block-head">
+                                        <h3 class="block-title">Категории</h3>
+                                        <div class="block-actions block-actions--tools">
+                                            <div class="adm-tree-tools">
+                                                <button type="button" class="adm-tree-tool" id="rubric-collapse-all">Свернуть все</button>
+                                                <button type="button" class="adm-tree-tool" id="rubric-expand-all">Развернуть все</button>
+                                            </div>
+                                            <a href="{{route('rubric_dashboard_add')}}" class="btn">+ Добавить категорию</a>
+                                        </div>
+                                    </div>
 
-                                    @if (count($rubrics)>0)
-                                        <?php
-                                        $traverse = function ($rubrics, $prefix = '&emsp;') use (&$traverse) {
-                                        foreach ($rubrics as $rubric){
-                                        ?>
-                                    <ul>
-
-                                                <li>
-                                                    <div class="log-icon">
-                                                        <i class="lni lni-flag-alt"></i>
-                                                    </div>
-                                                    <a href="" class="title">{!! $prefix !!} {{$rubric->title}} (уровень: {{$rubric->level}})</a>
-                                                    <span class="time"><a href='{{route('rubric_dashboard_edit', ['rubric' => $rubric->id])}}'>Редактировать </a></span>
-                                                    <span class="time"><a href='{{route('rubric_dashboard_delete', ['rubric' => $rubric->id])}}'>Удалить </a></span>
-
-
-                                                </li>
-
-
-                                    </ul>
-
-
-                                <?php
-
-
-
-                                $traverse($rubric->children, $prefix.'-');
-                                }
-                                };
-
-                                $traverse($rubrics);
-                                ?>
-                                @endif
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group button mb-0 mt-5">
-                                    <a href="{{route('rubric_dashboard_add')}}" class="btn ">Добавить категорию</a>
+                                    {{-- Дерево: плоский список строк, сворачивание вложенных
+                                         категорий — public/js/rubric-tree.js (кнопки-шевроны
+                                         в строках + «Свернуть/Развернуть все» выше),
+                                         состояние хранится в localStorage. --}}
+                                    @if (count($rubrics) > 0)
+                                        <ul class="adm-list" id="rubric-tree">
+                                            @include('rubric.partials.tree', ['rubrics' => $rubrics, 'prefix' => '', 'depth' => 0])
+                                        </ul>
+                                    @else
+                                        <ul class="adm-list" id="rubric-tree">
+                                            <li class="adm-empty">Пока нет ни одной категории</li>
+                                        </ul>
+                                    @endif
                                 </div>
                             </div>
-                            <!-- End Activity Log -->
                         </div>
 
                     </div>
-
-
-
                 </div>
             </div>
         </div>
-        </div>
     </section>
 
-
+    <script src="{{ asset('js/rubric-tree.js') }}" defer></script>
 
 @endsection

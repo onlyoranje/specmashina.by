@@ -47,12 +47,75 @@ class LocationsController extends Controller
         return view('location.location', ['location'=>$location,'Locations'=>$locations,'breadcrumbs'=>$breadcrumbs,'announcements'=>$announcements]);
 
     }
-    public function locations(){
+    /**
+     * Список городов: пагинация (10 на страницу) + поиск по названию (?q=...).
+     *
+     * Поиск работает и без JS — обычная GET-форма в location/dashboard.blade.php —
+     * и через AJAX: та же выборка отдаётся LocationsController::search() как
+     * HTML-фрагмент списка вместе с пагинацией.
+     */
+    public function locations(Request $request)
+    {
+        $locations = $this->locationsQuery($request)->paginate(10)->withQueryString();
 
-        //$locations = Location::orderBy('sort')->simplePaginate(15)->toTree();
-        $locations = Location::orderBy('title')->paginate(10);
-        return view('location.dashboard',compact('locations'));
+        return view('location.dashboard', [
+            'locations' => $locations,
+            'q'         => $this->searchTerm($request),
+        ]);
+    }
 
+    /**
+     * AJAX-поиск по названию города (/dashboard/location/search?q=...&page=N).
+     *
+     * Отдаём JSON с готовым HTML-фрагментом «список + пагинация» и общим
+     * количеством найденного — public/js/location-search.js просто подменяет
+     * содержимое #location-results, не перезагружая страницу.
+     */
+    public function search(Request $request)
+    {
+        $locations = $this->locationsQuery($request)->paginate(10)->withQueryString();
+
+        return response()->json([
+            'html'  => view('location.partials.list', [
+                'locations' => $locations,
+                'q'         => $this->searchTerm($request),
+            ])->render(),
+            'total' => $locations->total(),
+        ]);
+    }
+
+    /**
+     * Поисковая строка из ?q=. Принимается только строка: параметр вида
+     * ?q[]=… (массив) считается пустым запросом и не попадает ни в шаблон,
+     * ни в SQL.
+     */
+    private function searchTerm(Request $request): string
+    {
+        $q = $request->query('q', '');
+
+        return is_string($q) ? trim($q) : '';
+    }
+
+    /**
+     * Общий запрос списка городов: сортировка по названию и опциональный
+     * фильтр по title («Минск») либо по title_r — форме названия для заголовков
+     * («Минской области», «Минске»), чтобы находили и склонения.
+     * Символы-шаблоны LIKE (%, _, \) экранируются, чтобы запрос не «ломал» выборку.
+     */
+    private function locationsQuery(Request $request): Builder
+    {
+        $q = $this->searchTerm($request);
+
+        return Location::query()
+            ->when($q !== '', function (Builder $query) use ($q) {
+                $pattern = '%' . addcslashes($q, '%_\\') . '%';
+
+                $query->where(function (Builder $nested) use ($pattern) {
+                    $nested->where('title', 'LIKE', $pattern)
+                        ->orWhere('title_r', 'LIKE', $pattern);
+                });
+            })
+            ->orderBy('title');
     }
     public function addLocationForm(){
         $locations = Location::orderBy('sort')->get()->toTree();

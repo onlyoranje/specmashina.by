@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Моя организация')
 
 @section('main')
     <section class="dashboard section">
@@ -14,7 +14,12 @@
                     <div class="main-content">
                         <!-- Start Profile Settings Area -->
                         <div class="dashboard-block mt-0 profile-settings-block">
-                            <h3 class="block-title">Моя организация</h3>
+                            <div class="block-head">
+                                <h3 class="block-title">Моя организация</h3>
+                                @if ($organization)
+                                    <a class="btn alt-btn" href="{{route('organization',$organization->id)}}" target="_blank">Открыть публичную страницу</a>
+                                @endif
+                            </div>
                             <div class="inner-block">
                                 @if ($organization)
                                 <div class="image">
@@ -140,7 +145,6 @@
 
                 </div>
             </div>
-        </div>
         </div>
     </section>
 

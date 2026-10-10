@@ -104,7 +104,7 @@
       {{-- ================= ПАГИНАЦИЯ ================= --}}
       @if ($organizations->hasPages())
         <nav class="orgs-pagination" aria-label="Страницы каталога">
-          {{ $organizations->links() }}
+          {{ $organizations->appends($request->query())->links('organizations.partials.pagination') }}
         </nav>
       @endif
 

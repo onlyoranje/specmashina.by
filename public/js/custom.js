@@ -81,7 +81,7 @@ window.CheckRubrics = function (parent_id, id) {
 }
 
 window.Parameter_Rubric = function (rubric_id) {
-    //$(".input-parameter").parent().hide();
+    $(".input-parameter").parent().hide();
 
 
     $.each(json_parameter_rubric, function (key, data) {
@@ -216,9 +216,9 @@ $(document).ready(function () {
                 '<a href="${file}" class="fileuploader-action fileuploader-action-download" title="${captions.download}" download><i class="fileuploader-icon-download"></i></a>' +
                 '<div type="button" class="fileuploader-action fileuploader-action-remove" title="${captions.remove}"><i class="fileuploader-icon-remove"></i></div>' +
                 '</div>' +
-                '<div class="thumbnail-holder" style="background: url(' +
+                '<div class="thumbnail-holder" style="background-image: url(' +
                 '${data.thumbnail}' +
-                ');background-size: contain;"><span class="fileuploader-action-popup"></span>' +
+                ');background-size: cover;background-repeat: no-repeat;background-position: center center;"><span class="fileuploader-action-popup"></span>' +
                 '</div>' +
                 '<div class="content-holder"><h5 title="${name}">${name}</h5><span>${size2}</span></div>' +
                 '<div class="progress-holder">${progressBar}</div>' +

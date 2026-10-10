@@ -1,7 +1,9 @@
 @extends('redesign.layouts.base')
 
-@section('title', $title)
-@section('description', $title.". ".($bb->user->organization?->title ?? '').". ".($bb->bbprice?->price ?? '')." ".($bb->bbprice?->pricetype?->type ?? ''))
+@section('title', $seoTitle ?? $title)
+@section('description', $title.'. '.($bb->bbprice?->price ? 'Цена '.number_format((float) $bb->bbprice->price, 0, '', ' ').' '.($bb->bbprice?->pricetype?->type ?? 'BYN').'. ' : '').($bb->user->organization?->title ?? '').' Контакты, фото и характеристики на landi.by.')
+@section('og_type', 'product')
+@section('og_image', $ogImage)
 
 @push('styles')
     {{-- Стили страницы: подключается постранично (как catalog.css в catalog/index) --}}
@@ -99,19 +101,22 @@
         {{-- ================== ДВУХКОЛОНОЧНЫЙ МАКЕТ: 65% · 35% ================== --}}
         <div class="listing-layout">
 
-            {{-- ---------- ЛЕВАЯ КОЛОНКА: основной контент ---------- --}}
-            <div class="listing-main">
+            {{-- ---------- ЛЕВАЯ КОЛОНКА: основной контент (одно объявление = <article>) ---------- --}}
+            <article class="listing-main">
 
                 {{-- Галерея: слайды переключаются opacity, стрелки + счётчик + миниатюры --}}
                 @if (count($images))
                     <div class="lg">
                         <div class="lg__stage">
                             @foreach ($images as $img)
-                                {{-- data-full — версия для лайтбокса: высота 1080px, ширина по пропорции (без кропа 3:2) --}}
+                                {{-- Главный кадр: 800×500 под сетку. data-full — версия для лайтбокса:
+                                     высота 1080px, ширина по пропорции (без кропа 3:2).
+                                     alt+title уникальны и построены из названия объявления. --}}
                                 <img class="lg__img @if ($loop->first) is-active @endif"
-                                     src="{{ Storage::url($img->resize(900, 560)) }}"
-                                     data-full="{{ Storage::url($img->resize(null, 1080)) }}"
-                                     alt="{{ $title }} — фото {{ $loop->iteration }}">
+                                     src="{{ resizeImage($img->url, 800, 500) }}"
+                                     data-full="{{ resizeImage($img->url, null, 1080) }}"
+                                     alt="{{ $title }} — фото {{ $loop->iteration }}"
+                                     title="{{ $title }} — фото {{ $loop->iteration }}">
                             @endforeach
 
                             @if (count($images) > 1)
@@ -132,7 +137,8 @@
                                     <button class="lg__thumb @if ($loop->first) is-active @endif"
                                             type="button" data-index="{{ $loop->index }}"
                                             aria-label="Показать фото {{ $loop->iteration }}">
-                                        <img src="{{ Storage::url($img->resize(160, 120)) }}" alt="">
+                                        <img src="{{ resizeImage($img->url, 160, 120) }}"
+                                             alt="{{ $title }} — фото {{ $loop->iteration }}" title="">
                                     </button>
                                 @endforeach
                             </div>
@@ -148,7 +154,7 @@
                             <svg viewBox="0 0 256 512" fill="currentColor" aria-hidden="true"><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>
                         </button>
                         <figure class="lb__figure">
-                            <img class="lb__img" alt="">
+                            <img class="lb__img" alt="{{ $title }}" title="{{ $title }}">
                         </figure>
                         <button class="lb__nav lb__nav--next" type="button" aria-label="Следующее фото">
                             <svg viewBox="0 0 256 512" fill="currentColor" aria-hidden="true"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg>
@@ -161,6 +167,36 @@
                         <svg class="lg-empty__icon" viewBox="0 0 640 512" fill="currentColor" aria-hidden="true"><path d="M528 336c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 112c-13.23 0-24-10.77-24-24s10.77-24 24-24 24 10.77 24 24-10.77 24-24 24zm80-288h-64v-40.2c0-14.12 4.7-27.76 13.15-38.84 4.42-5.8 3.55-14.06-1.32-19.49L534.2 37.3c-6.66-7.45-18.32-6.92-24.7.78C490.58 60.9 480 89.81 480 119.8V160H377.67L321.58 29.14A47.914 47.914 0 0 0 277.45 0H144c-26.47 0-48 21.53-48 48v146.52c-8.63-6.73-20.96-6.46-28.89 1.47L36 227.1c-8.59 8.59-8.59 22.52 0 31.11l5.06 5.06c-4.99 9.26-8.96 18.82-11.91 28.72H22c-12.15 0-22 9.85-22 22v44c0 12.15 9.85 22 22 22h7.14c2.96 9.91 6.92 19.46 11.91 28.73l-5.06 5.06c-8.59 8.59-8.59 22.52 0 31.11L67.1 476c8.59 8.59 22.52 8.59 31.11 0l5.06-5.06c9.26 4.99 18.82 8.96 28.72 11.91V490c0 12.15 9.85 22 22 22h44c12.15 0 22-9.85 22-22v-7.14c9.9-2.95 19.46-6.92 28.72-11.91l5.06 5.06c8.59 8.59 22.52 8.59 31.11 0l31.11-31.11c8.59-8.59 8.59-22.52 0-31.11l-5.06-5.06c4.99-9.26 8.96-18.82 11.91-28.72H330c12.15 0 22-9.85 22-22v-6h80.54c21.91-28.99 56.32-48 95.46-48 18.64 0 36.07 4.61 51.8 12.2l50.82-50.82c6-6 9.37-14.14 9.37-22.63V192c.01-17.67-14.32-32-31.99-32zM176 416c-44.18 0-80-35.82-80-80s35.82-80 80-80 80 35.82 80 80-35.82 80-80 80zm22-256h-38V64h106.89l41.15 96H198z"/></svg>
                         <p class="lg-empty__text">Фото пока не добавлены</p>
                     </div>
+                @endif
+
+
+                {{-- Характеристики техники: чистая воздушная сетка параметров.
+                     Перенесено из правого сайдбара — теперь строго под галереей
+                     и над описанием. Сетка (2–3 колонки) стилизуется в listing.css. --}}
+                @if ($bb->vendor || $bb->BbParameters->isNotEmpty())
+                    <section class="listing-block listing-specs-block">
+                        <h2 class="listing-block__title">Характеристики</h2>
+                        <dl class="listing-specs">
+                            @if ($bb->vendor)
+                                <div class="listing-specs__row">
+                                    <dt class="listing-specs__dt">Производитель</dt>
+                                    <dd class="listing-specs__dd">{{ $bb->vendor->name }}</dd>
+                                </div>
+                            @endif
+                            <div class="listing-specs__row">
+                                <dt class="listing-specs__dt">Модель</dt>
+                                <dd class="listing-specs__dd">{{ $bb->title }}</dd>
+                            </div>
+                            @foreach ($bb->BbParameters as $parameter)
+                                @if ($parameter->parameters)
+                                    <div class="listing-specs__row">
+                                        <dt class="listing-specs__dt">{{ $parameter->parameters->name }}@if ($parameter->parameters->measure), {{ $parameter->parameters->measure }}@endif</dt>
+                                        <dd class="listing-specs__dd">{{ $parameter->value }}</dd>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </dl>
+                    </section>
                 @endif
 
 
@@ -185,8 +221,10 @@
                                 <a class="listing-card" href="{{ route('listings.show', $near->id) }}">
                                     <span class="listing-card__media">
                                         @if ($near_img)
-                                            <img src="{{ Storage::url($near_img->resize(600, 400)) }}"
-                                                 alt="{{ $near->title() }}" loading="lazy">
+                                            <img src="{{ resizeImage($near_img->url, 480, 360) }}"
+                                                 alt="{{ $near->title() }} в г. {{ $near->location?->title ?? 'Беларусь' }} — фото"
+                                                 title="{{ $near->title() }} — аренда в {{ $near->location?->title ?? 'Беларуси' }}"
+                                                 loading="lazy">
                                         @else
                                             <span class="listing-card__ph">
                                                 <svg viewBox="0 0 640 512" fill="currentColor" aria-hidden="true"><path d="M528 336c-48.6 0-88 39.4-88 88s39.4 88 88 88 88-39.4 88-88-39.4-88-88-88zm0 112c-13.23 0-24-10.77-24-24s10.77-24 24-24 24 10.77 24 24-10.77 24-24 24zm80-288h-64v-40.2c0-14.12 4.7-27.76 13.15-38.84 4.42-5.8 3.55-14.06-1.32-19.49L534.2 37.3c-6.66-7.45-18.32-6.92-24.7.78C490.58 60.9 480 89.81 480 119.8V160H377.67L321.58 29.14A47.914 47.914 0 0 0 277.45 0H144c-26.47 0-48 21.53-48 48v146.52c-8.63-6.73-20.96-6.46-28.89 1.47L36 227.1c-8.59 8.59-8.59 22.52 0 31.11l5.06 5.06c-4.99 9.26-8.96 18.82-11.91 28.72H22c-12.15 0-22 9.85-22 22v44c0 12.15 9.85 22 22 22h7.14c2.96 9.91 6.92 19.46 11.91 28.73l-5.06 5.06c-8.59 8.59-8.59 22.52 0 31.11L67.1 476c8.59 8.59 22.52 8.59 31.11 0l5.06-5.06c9.26 4.99 18.82 8.96 28.72 11.91V490c0 12.15 9.85 22 22 22h44c12.15 0 22-9.85 22-22v-7.14c9.9-2.95 19.46-6.92 28.72-11.91l5.06 5.06c8.59 8.59 22.52 8.59 31.11 0l31.11-31.11c8.59-8.59 8.59-22.52 0-31.11l-5.06-5.06c4.99-9.26 8.96-18.82 11.91-28.72H330c12.15 0 22-9.85 22-22v-6h80.54c21.91-28.99 56.32-48 95.46-48 18.64 0 36.07 4.61 51.8 12.2l50.82-50.82c6-6 9.37-14.14 9.37-22.63V192c.01-17.67-14.32-32-31.99-32zM176 416c-44.18 0-80-35.82-80-80s35.82-80 80-80 80 35.82 80 80-35.82 80-80 80zm22-256h-38V64h106.89l41.15 96H198z"/></svg>
@@ -211,7 +249,7 @@
                 @endif
 
 
-            </div>{{-- /listing-main --}}
+            </article>{{-- /listing-main --}}
 
             {{-- ---------- ПРАВАЯ КОЛОНКА: «виджет покупки билета» ---------- --}}
             <aside class="listing-aside">
@@ -228,31 +266,6 @@
                             <div class="listing-price listing-price--ask">Цена по запросу</div>
                         @endif
                     </div>
-
-                    {{-- Характеристики: строки с тончайшими разделителями --}}
-                    @if ($bb->vendor || $bb->BbParameters->isNotEmpty())
-                        <dl class="listing-specs">
-                            @if ($bb->vendor)
-                                <div class="listing-specs__row">
-                                    <dt class="listing-specs__dt">Производитель</dt>
-                                    <dd class="listing-specs__dd">{{ $bb->vendor->name }}</dd>
-                                </div>
-                            @endif
-                            <div class="listing-specs__row">
-                                <dt class="listing-specs__dt">Модель</dt>
-                                <dd class="listing-specs__dd">{{ $bb->title }}</dd>
-                            </div>
-                            @foreach ($bb->BbParameters as $parameter)
-                                @if ($parameter->parameters)
-                                    <div class="listing-specs__row">
-                                        <dt class="listing-specs__dt">{{ $parameter->parameters->name }}@if ($parameter->parameters->measure), {{ $parameter->parameters->measure }}@endif</dt>
-                                        <dd class="listing-specs__dd">{{ $parameter->value }}</dd>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </dl>
-                    @endif
-
 
                     {{-- Главный CTA: телефон сразу или «Показать телефон» --}}
                     @if ($phone)
@@ -283,7 +296,7 @@
                     <hr class="listing-widget__divider">
 
 
-                    {{-- Организация --}}
+                    {{-- Организация: данные в блоке контактов финального «таба» --}}
                     @if ($bb->organization_id && $bb->user->organization)
                         @php
                             $org = $bb->user->organization;
@@ -304,32 +317,6 @@
                                 </span>
                                 <a class="listing-widget__org-link" href="{{ $org_url }}">Все объявления организации</a>
                             </span>
-                        </div>
-                    @endif
-
-                    {{-- Карта: координаты города, иначе адрес организации --}}
-                    @php
-                        $lat = $bb->location->lat;
-                        $lng = $bb->location->lng;
-                        $org_addr = ($bb->organization_id && isset($org) && $org->address) ? $org->address.', '.$org->location->title : null;
-                    @endphp
-                    @if (($lat && $lng) || $org_addr)
-                        <div class="listing-map">
-                            <div class="listing-map__frame">
-                                @if ($lat && $lng)
-                                    <iframe src="https://yandex.ru/map-widget/v1/?ll={{ $lng }}%2C{{ $lat }}&z=14&pt={{ $lng }}%2C{{ $lat }}%2Cpm2rdm"
-                                            loading="lazy" title="Расположение техники на карте"></iframe>
-                                    @php $maps_url = 'https://yandex.ru/maps/?pt='.$lng.'%2C'.$lat.'&z=16'; @endphp
-                                @else
-                                    <iframe src="https://maps.google.com/maps?q={{ urlencode($org_addr) }}&z=13&output=embed"
-                                            loading="lazy" title="Расположение организации на карте"></iframe>
-                                    @php $maps_url = 'https://maps.google.com/?q='.urlencode($org_addr); @endphp
-                                @endif
-                            </div>
-                            <a class="listing-map__link" href="{{ $maps_url }}" target="_blank" rel="nofollow noopener">
-                                Открыть в Картах
-                                <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"/></svg>
-                            </a>
                         </div>
                     @endif
                 </div>{{-- /listing-widget --}}

@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Главная')
+@section('title', 'Профиль')
 
 @section('main')
 <section class="dashboard section">
@@ -23,7 +23,10 @@
 
                         <!-- Start Profile Settings Area -->
                         <div class="dashboard-block mt-0 profile-settings-block">
-                            <h3 class="block-title">Настройки профиля</h3>
+                            <div class="block-head">
+                                <h3 class="block-title">Настройки профиля</h3>
+                                <a class="btn alt-btn" href="{{route('user', Auth::id())}}" target="_blank">Публичный профиль</a>
+                            </div>
                             <div class="inner-block">
 
                                 <form class="profile-setting-form" method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
@@ -168,7 +171,9 @@
                             </div>--}}
                         <!-- Start Password Change Area -->
                         <div class="dashboard-block password-change-block">
-                            <h3 class="block-title">Изменить пароль</h3>
+                            <div class="block-head">
+                                <h3 class="block-title">Изменить пароль</h3>
+                            </div>
                             <div class="inner-block">
                                 <form class="default-form-style" method="post" action="{{ route('password.update') }}">
                                     @csrf
@@ -209,7 +214,6 @@
 
             </div>
         </div>
-    </div>
     </div>
 </section>
 

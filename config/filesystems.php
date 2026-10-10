@@ -39,7 +39,12 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            // Без 'url' Laravel генерирует ОТНОСИТЕЛЬНЫЕ пути /storage/... —
+            // они корректны и при прямом доступе по LAN, и через HTTPS-прокси
+            // роутера (иначе URL получались бы http://<LAN-IP>/storage/... →
+            // Mixed Content). Задайте STORAGE_URL (например, CDN), если нужен
+            // абсолютный адрес.
+            'url' => env('STORAGE_URL'),
             'visibility' => 'public',
             'throw' => false,
         ],
