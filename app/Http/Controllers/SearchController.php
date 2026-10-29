@@ -97,8 +97,8 @@ class SearchController extends Controller
      * категории — так выбор категории из другой секции не даёт пустой
      * выдачи, а вкладка виджета влияет только когда категория не выбрана.
      * Корневые рубрики секций — те же, что использует CatalogController:
-     *   id 1   → «Аренда»  (/rent)
-     *   id 118 → «Продажа» (/sale)
+     *   id 1000 → «Аренда»  (/rent)
+     *   id 2000 → «Продажа» (/sale)
      *
      * Город из виджета (name="city") маппится в city_id — параметр фильтра
      * каталога, он попадёт и в список, и в выбранный <select> сайдбара.
@@ -115,13 +115,13 @@ class SearchController extends Controller
                 $rubricParam = $rubric->id;
 
                 // Поднимаемся по дереву до корневой рубрики секции
-                // (уровень 0): «Аренда» (id 1) или «Продажа» (id 118).
+                // (уровень 0): «Аренда» (id 1000) или «Продажа» (id 2000).
                 $root = $rubric;
                 while ($root->parent_id) {
                     $root = $root->parent;
                 }
 
-                $section = ((int) $root->id === 118) ? 'sale' : 'rent';
+                $section = ((int) $root->id === 2000) ? 'sale' : 'rent';
             }
         }
 

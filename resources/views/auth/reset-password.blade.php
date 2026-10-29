@@ -1,104 +1,96 @@
-@extends('layouts.base')
+{{-- ==========================================================================
+  Восстановление пароля — установка нового пароля по токену из письма. landi.by.
+  Дизайн: скандинавский минимализм (референс — norwegian.com).
+  База: редизайн-лейаут (шапка/футер/токены), стили — public/css/auth.css.
+=========================================================================== --}}
+@extends('redesign.layouts.base')
 
-@section('title', 'Восстановление пароля')
-@section('main')
+@section('title', 'Новый пароль — ' . config('site.name', 'LANDI.BY'))
 
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endpush
 
+@section('content')
 
-    <section class="login section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12">
-                    <div class="form-head">
-                        <h4 class="title">Восстановление пароля</h4>
-                        <form method="POST" action="{{ route('password.store') }}">
-                            @csrf
-                            <input type="hidden" name="token" value="{{ $request->route('token') }}">
-                            <div class="form-group">
-                                <label>E-mail</label>
-                                <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email', $request->email)}}" required autocomplete="email" autofocus>
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                                <div class="form-group">
-                                    <label>Пароль</label>
-                                    <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+  <section class="auth-page">
+    <div class="auth-container">
 
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Повторите пароль</label>
-                                    <input id="password_confirmation" type="password" class="@error('password') is-invalid @enderror"  name="password_confirmation" required >
+      {{-- Логотип — ссылка на главную --}}
+      <a class="auth-logo" href="{{ url('/') }}" aria-label="LANDI.BY — на главную">
+        LANDI<span class="auth-logo__accent">.BY</span>
+      </a>
 
-                                    @error('password_confirmation')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
+      <h1 class="auth-title">Новый пароль</h1>
+      <p class="auth-subtitle">Придумайте новый пароль для вашего аккаунта.</p>
 
-
-
-                            <div class="button">
-                                <button type="submit" class="btn"> Отправить</button>
-                            </div>
-
-
-                            <p class="outer-link">Вспомнили пароль? <a href="{{route('login')}}"> Войти</a>
-                            </p>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-{{--    <x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
+      <form method="POST" action="{{ route('password.store') }}" class="auth-form">
         @csrf
 
-        <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- Электронная почта --}}
+        <div class="auth-field">
+          <label class="auth-label" for="email">Электронная почта</label>
+          <input id="email"
+                 type="email"
+                 name="email"
+                 class="auth-input @error('email') auth-input--error @enderror"
+                 value="{{ old('email', $request->email) }}"
+                 placeholder="you@example.com"
+                 required
+                 autocomplete="email"
+                 autofocus
+                 @error('email') aria-invalid="true" aria-describedby="email-error" @enderror>
+          @error('email')
+            <p class="auth-error" id="email-error" role="alert">{{ $message }}</p>
+          @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        {{-- Новый пароль --}}
+        <div class="auth-field">
+          <label class="auth-label" for="password">Пароль <span class="auth-label__note">(минимум 8 символов)</span></label>
+          <input id="password"
+                 type="password"
+                 name="password"
+                 class="auth-input @error('password') auth-input--error @enderror"
+                 placeholder="••••••••"
+                 required
+                 minlength="8"
+                 autocomplete="new-password"
+                 @error('password') aria-invalid="true" aria-describedby="password-error" @enderror>
+          @error('password')
+            <p class="auth-error" id="password-error" role="alert">{{ $message }}</p>
+          @enderror
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        {{-- Подтверждение пароля --}}
+        <div class="auth-field">
+          <label class="auth-label" for="password-confirm">Подтверждение пароля</label>
+          <input id="password-confirm"
+                 type="password"
+                 name="password_confirmation"
+                 class="auth-input @error('password_confirmation') auth-input--error @enderror"
+                 placeholder="••••••••"
+                 required
+                 autocomplete="new-password"
+                 @error('password_confirmation') aria-invalid="true" aria-describedby="password-confirm-error" @enderror>
+          @error('password_confirmation')
+            <p class="auth-error" id="password-confirm-error" role="alert">{{ $message }}</p>
+          @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>--}}
+        {{-- Главная CTA --}}
+        <button type="submit" class="btn-auth">Сохранить пароль</button>
+      </form>
+
+      {{-- Переход на вход --}}
+      <p class="auth-footer">
+        Вспомнили пароль?
+        <a class="auth-footer__link" href="{{ route('login') }}">Войти</a>
+      </p>
+
+    </div>
+  </section>
+
 @endsection

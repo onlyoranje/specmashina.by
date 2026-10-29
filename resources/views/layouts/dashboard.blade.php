@@ -329,6 +329,9 @@
                     ['posts_dashboard',         'Новости',    'fa-newspaper',    ['posts_dashboard']],
                     ['pages_dashboard',         'Страницы',   'fa-file-lines',   ['pages_dashboard']],
                     ['banners_dashboard',       'Баннеры',    'fa-rectangle-ad', ['banners_dashboard']],
+                    ['settings.mail',           'Почта',      'fa-envelope',     ['settings.mail']],
+                    ['settings.site',           'Сайт',       'fa-sliders',      ['settings.site']],
+                    ['settings.seo',            'SEO',        'fa-search',       ['settings.seo']],
                 ]);
             }
 

@@ -83,11 +83,7 @@
                                                             <span class="arrow"><i class="lni lni-chevron-down"></i></span>
 
 
-                                                            <select name="icon"  class="user-chosen-select">
-                                                                @foreach ($icons as $icon)
-                                                                <option value="{{$icon}}">{{$icon}}</option>
-                                                                    @endforeach
-                                                            </select>
+                                                            <textarea name="icon" class="form-control" rows="3">{{ old('icon', $rubric->icon) }}</textarea>
                                                         </div>
                                                     </div>
                                                 </div>

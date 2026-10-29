@@ -19,18 +19,19 @@
    ========================================================================== --}}
 @extends('redesign.layouts.base')
 
-{{-- SEO: <title> — описание статьи + бренд, <h1> одиночный.
-     Обязателен коммерческий хвост, иначе title = h1 (дубль). --}}
-@section('title', $article->title . ' — новости рынка аренды спецтехники в Беларуси')
+@section('title', $article->title . ' — novosti rynka rentirovaniya spectechniki v Belorusii')
+@section('keywords', 'спецтехники, аренда техники, продажа техники, експлуатамент, техника для строительства, LANDI.BY')
 @section('description', Str::limit(trim(strip_tags($article->preview_text ?: (string) $article->content)), 160))
 @section('og_title', $article->title)
 @section('og_image', $article->image ? Storage::url($article->resizeImage($article->image, 1200, 630)) : asset('images/placeholder/no-image.jpg'))
 @section('og_type', 'article')
 
 @push('styles')
-    {{-- Стили новостного раздела: подключается постранично (как catalog.css) --}}
     <link rel="stylesheet" href="{{ asset('css/news.css') }}">
 @endpush
+
+{{-- SEO meta: keywords, title, description, og_* --}}
+@include('redesign.components.seo-meta')
 
 @section('content')
 

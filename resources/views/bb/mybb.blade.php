@@ -65,13 +65,15 @@
                                             @endif
                                             <div class="bb-listing__body">
                                                 <a class="bb-listing__title" href="{{route('bb',['bb'=>$bb->id])}}">{{$parent_rubric->title}} {{$bb->rubric->title_r}} {{$bb->vendor->name}} {{ $bb->title }}</a>
-                                                <span class="bb-listing__price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span>
+                                                @if ($bb->bbprice)
+                                                    <span class="bb-listing__price">{{$bb->bbprice->price}} {{$bb->bbprice->pricetype->type}}</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
 
                                     <td class="bb-cell-status">
-                                        <span class="status-badge" style="--badge: {{$bb->status_bb->color_badge ? '#' . $bb->status_bb->color_badge : '#D92323'}}">{{$bb->status_bb->name}}</span>
+                                        <span class="status-badge" style="--badge: {{ optional($bb->status_bb)->color_badge ? '#' . optional($bb->status_bb)->color_badge : '#D92323' }}">{{ optional($bb->status_bb)->name }}</span>
                                         <div class="bb-dates">
                                             <span class="bb-dates__line">Создано: {{date('d.m.Y H:i',strtotime($bb->created_at))}}</span>
                                             @if ($bb->created_at!=$bb->updated_at)
@@ -92,10 +94,10 @@
                                             @if ($bb->active=='Y')
                                                 <a class="bb-icon bb-icon--view" href="{{route('bb',['bb'=>$bb->id])}}" target="_blank" rel="noopener" title="Просмотреть" aria-label="Просмотреть"><i class="fa-solid fa-eye" aria-hidden="true"></i></a>
                                             @endif
-                                            @if ($bb->status_bb->status=='P')
+                                            @if (optional($bb->status_bb)->status=='P')
                                                 <a class="bb-icon bb-icon--play" href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>$bb->previus_status ?: 'S'])}}{{url_parameters($request)}}" title="Снять с паузы" aria-label="Снять с паузы"><i class="fa-solid fa-play" aria-hidden="true"></i></a>
                                             @endif
-                                            @if ($bb->status_bb->active=='Y')
+                                            @if (optional($bb->status_bb)->active=='Y')
                                                 <a class="bb-icon bb-icon--pause" href="{{route('bb_edit_status',['bb'=>$bb->id,'status'=>'P'])}}{{url_parameters($request)}}" title="Пауза" aria-label="Поставить объявление на паузу"><i class="fa-solid fa-pause" aria-hidden="true"></i></a>
                                             @endif
                                             @if ($bb->active=='Y')

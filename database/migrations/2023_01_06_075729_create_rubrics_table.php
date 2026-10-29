@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title',100);
             $table->string('title_r',100)->nullable();
             $table->string('icon')->nullable();
+            //$table->string('icon_svg')->nullable();
             $table->tinyText('description')->nullable();
             //$table->unsignedBigInteger('parent_id')->nullable();
             //$table->foreign('parent_id')->references('id')->on('rubrics')->onDelete('restrict');
@@ -27,244 +28,227 @@ return new class extends Migration
             $table->unsignedBigInteger('level')->nullable();
             $table->timestamps();
         });
-        //Rubric::create(['title' => 'Продажа','level' => 0]);
-        //Rubric::create(['title' => 'Аренда','level' => 0]);
-        $id_0 = Rubric::create(['id'=>0,'title' => 'Аренда','level' => 0]);
-        $id_1 = Rubric::create(['id'=>1,'title' => 'Дорожно-строительная техника','title_r' => 'дорожно-строительной техники','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_2 = Rubric::create(['id'=>2,'title' => 'Кран','title_r' => 'крана','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_3 = Rubric::create(['id'=>3,'title' => 'Погрузчик','title_r' => 'погрузчика','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_4 = Rubric::create(['id'=>4,'title' => 'Подъемник','title_r' => 'подъемника','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_5 = Rubric::create(['id'=>5,'title' => 'Самосвал','title_r' => 'самосвала','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_6 = Rubric::create(['id'=>6,'title' => 'Техника для бетона','title_r' => 'техники для бетона','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_7 = Rubric::create(['id'=>7,'title' => 'Транспортировка','title_r' => 'техники транспортировки','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_8 = Rubric::create(['id'=>8,'title' => 'Экскаватор','title_r' => 'экскаватора','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_9 = Rubric::create(['id'=>9,'title' => 'Другое','title_r' => '','parent_id' => $id_0->id,'sort'=> 999,'level' => 1]);
-        $id_10 = Rubric::create(['id'=>10,'title' => 'Бетонозавод','title_r' => 'бетонозавода','parent_id' => $id_6->id,'sort'=> 100,'level' => 2]);
-        $id_11 = Rubric::create(['id'=>11,'title' => 'Бетононасос','title_r' => 'бетононасоса','parent_id' => $id_6->id,'sort'=> 100,'level' => 2]);
-        $id_12 = Rubric::create(['id'=>12,'title' => 'Бетононасос стационарный','title_r' => 'бетононасоса стационарного','parent_id' => $id_6->id,'sort'=> 100,'level' => 2]);
-        $id_13 = Rubric::create(['id'=>13,'title' => 'Бетоносмеситель','title_r' => 'бетоносмесителя','parent_id' => $id_6->id,'sort'=> 100,'level' => 2]);
-        $id_14 = Rubric::create(['id'=>14,'title' => 'Бетоносмеситель полуприцеп','title_r' => 'бетоносмесителя полуприцепа','parent_id' => $id_6->id,'sort'=> 100,'level' => 2]);
-        $id_15 = Rubric::create(['id'=>15,'title' => 'Бетоноукладчик','title_r' => 'бетоноукладчика','parent_id' => $id_6->id,'sort'=> 100,'level' => 2]);
-        $id_16 = Rubric::create(['id'=>16,'title' => 'Другое','title_r' => '','parent_id' => $id_6->id,'sort'=> 999,'level' => 2]);
-        $id_17 = Rubric::create(['id'=>17,'title' => 'Автовышка','title_r' => 'автовышки','parent_id' => $id_4->id,'sort'=> 100,'level' => 2]);
-        $id_18 = Rubric::create(['id'=>18,'title' => 'Подъемник коленчатый','title_r' => 'подъемника коленчатого','parent_id' => $id_4->id,'sort'=> 100,'level' => 2]);
-        $id_19 = Rubric::create(['id'=>19,'title' => 'Подъемник мачтовый','title_r' => 'подъемника мачтового','parent_id' => $id_4->id,'sort'=> 100,'level' => 2]);
-        $id_20 = Rubric::create(['id'=>20,'title' => 'Подъемник ножничный','title_r' => 'подъемника ножничного','parent_id' => $id_4->id,'sort'=> 100,'level' => 2]);
-        $id_21 = Rubric::create(['id'=>21,'title' => 'Подъемник телескопический','title_r' => 'подъемника телескопического','parent_id' => $id_4->id,'sort'=> 100,'level' => 2]);
-        $id_22 = Rubric::create(['id'=>22,'title' => 'Подъемник фасадный','title_r' => 'подъемника фасадного','parent_id' => $id_4->id,'sort'=> 100,'level' => 2]);
-        $id_23 = Rubric::create(['id'=>23,'title' => 'Другое','title_r' => '','parent_id' => $id_4->id,'sort'=> 999,'level' => 2]);
-        $id_24 = Rubric::create(['id'=>24,'title' => 'Автогудронатор','title_r' => 'автогудронатора','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_25 = Rubric::create(['id'=>25,'title' => 'Асфальтный завод','title_r' => 'асфальтного завода','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_26 = Rubric::create(['id'=>26,'title' => 'Асфальтоукладчик гусеничный','title_r' => 'гусеничного асфальтаукладчика','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_27 = Rubric::create(['id'=>27,'title' => 'Асфальтоукладчик колесный','title_r' => 'колесного асфальтаукладчика','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_28 = Rubric::create(['id'=>28,'title' => 'Бульдозер','title_r' => 'бульдозера','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_29 = Rubric::create(['id'=>29,'title' => 'Виброплита','title_r' => 'виброплиты','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_30 = Rubric::create(['id'=>30,'title' => 'Грейдер','title_r' => 'грейдера','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_31 = Rubric::create(['id'=>31,'title' => 'Дорожная фреза','title_r' => 'дорожной фрезы','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_32 = Rubric::create(['id'=>32,'title' => 'Дорожный каток','title_r' => 'дорожного катка','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_33 = Rubric::create(['id'=>33,'title' => 'Каток грунтовый','title_r' => 'грунтового катка','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_34 = Rubric::create(['id'=>34,'title' => 'Каток прицепной','title_r' => 'прицепного катка','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_35 = Rubric::create(['id'=>35,'title' => 'Каток тротуарный','title_r' => 'тротуарного катка','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_36 = Rubric::create(['id'=>36,'title' => 'Компактор','title_r' => 'компактора','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_37 = Rubric::create(['id'=>37,'title' => 'Машина для укладки тротуарной плитки','title_r' => 'машины для укладки тротуарной плитки','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_38 = Rubric::create(['id'=>38,'title' => 'Пневмоколесный каток','title_r' => 'пневмоколесоного катка','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_39 = Rubric::create(['id'=>39,'title' => 'Разметочная машина','title_r' => 'разметочной машины','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_40 = Rubric::create(['id'=>40,'title' => 'Резчик швов','title_r' => 'резчика швов','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_41 = Rubric::create(['id'=>41,'title' => 'Ресайклер','title_r' => 'ресайклера','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_42 = Rubric::create(['id'=>42,'title' => 'Скрепер','title_r' => 'скрепера','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_43 = Rubric::create(['id'=>43,'title' => 'Трамбовщик','title_r' => 'трамбовщика','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_44 = Rubric::create(['id'=>44,'title' => 'Другое','title_r' => '','parent_id' => $id_1->id,'sort'=> 999,'level' => 2]);
-        $id_45 = Rubric::create(['id'=>45,'title' => 'Автокран','title_r' => 'автокрана','parent_id' => $id_2->id,'sort'=> 100,'level' => 2]);
-        $id_46 = Rubric::create(['id'=>46,'title' => 'Башенный кран','title_r' => 'башенного крана','parent_id' => $id_2->id,'sort'=> 100,'level' => 2]);
-        $id_47 = Rubric::create(['id'=>47,'title' => 'Гусеничный кран','title_r' => 'гусенечного крана','parent_id' => $id_2->id,'sort'=> 100,'level' => 2]);
-        $id_48 = Rubric::create(['id'=>48,'title' => 'Козловой кран','title_r' => 'козлового крана','parent_id' => $id_2->id,'sort'=> 100,'level' => 2]);
-        $id_49 = Rubric::create(['id'=>49,'title' => 'Мини кран','title_r' => 'мини-крана','parent_id' => $id_2->id,'sort'=> 100,'level' => 2]);
-        $id_50 = Rubric::create(['id'=>50,'title' => 'Другое','title_r' => '','parent_id' => $id_2->id,'sort'=> 999,'level' => 2]);
-        $id_51 = Rubric::create(['id'=>51,'title' => 'Минипогрузчик','title_r' => 'минипогрузчика','parent_id' => $id_3->id,'sort'=> 100,'level' => 2]);
-        $id_52 = Rubric::create(['id'=>52,'title' => 'Минипогрузчик гусеничный','title_r' => 'гусеничного минипогрузчика','parent_id' => $id_3->id,'sort'=> 100,'level' => 2]);
-        $id_53 = Rubric::create(['id'=>53,'title' => 'Погрузчик гусеничный','title_r' => 'гусеничного погрузчика','parent_id' => $id_3->id,'sort'=> 100,'level' => 2]);
-        $id_54 = Rubric::create(['id'=>54,'title' => 'Погрузчик телескопический','title_r' => 'телескопического погрузчика','parent_id' => $id_3->id,'sort'=> 100,'level' => 2]);
-        $id_55 = Rubric::create(['id'=>55,'title' => 'Фронтальный погрузчик','title_r' => 'фронтального погрузчика','parent_id' => $id_3->id,'sort'=> 100,'level' => 2]);
-        $id_56 = Rubric::create(['id'=>56,'title' => 'Другое','title_r' => '','parent_id' => $id_3->id,'sort'=> 999,'level' => 2]);
-        $id_57 = Rubric::create(['id'=>57,'title' => 'Гусеничный самосвал','title_r' => 'гусеничного самосвала','parent_id' => $id_5->id,'sort'=> 100,'level' => 2]);
-        $id_58 = Rubric::create(['id'=>58,'title' => 'Карьерный самосвал','title_r' => 'карьерного самосвала','parent_id' => $id_5->id,'sort'=> 100,'level' => 2]);
-        $id_59 = Rubric::create(['id'=>59,'title' => 'Мини-самосвал','title_r' => 'мини-самосвала','parent_id' => $id_5->id,'sort'=> 100,'level' => 2]);
-        $id_60 = Rubric::create(['id'=>60,'title' => 'Самосвал','title_r' => 'самосвала','parent_id' => $id_5->id,'sort'=> 100,'level' => 2]);
-        $id_61 = Rubric::create(['id'=>61,'title' => 'Шарнирный самосвал','title_r' => 'шарнирного самосвала','parent_id' => $id_5->id,'sort'=> 100,'level' => 2]);
-        $id_62 = Rubric::create(['id'=>62,'title' => 'Другое','title_r' => '','parent_id' => $id_5->id,'sort'=> 999,'level' => 2]);
-        $id_63 = Rubric::create(['id'=>63,'title' => 'Полуприцеп низкорамная платформа','title_r' => 'низкорамной платформы-полуприцепа','parent_id' => $id_7->id,'sort'=> 100,'level' => 2]);
-        $id_64 = Rubric::create(['id'=>64,'title' => 'Портовый тягач','title_r' => 'портового тягача','parent_id' => $id_7->id,'sort'=> 100,'level' => 2]);
-        $id_65 = Rubric::create(['id'=>65,'title' => 'Прицеп низкорамная платформа','title_r' => 'низкорамной платформы-прицепа','parent_id' => $id_7->id,'sort'=> 100,'level' => 2]);
-        $id_66 = Rubric::create(['id'=>66,'title' => 'Специальный тягач','title_r' => 'специального тягача','parent_id' => $id_7->id,'sort'=> 100,'level' => 2]);
-        $id_67 = Rubric::create(['id'=>67,'title' => 'Другое','title_r' => '','parent_id' => $id_7->id,'sort'=> 999,'level' => 2]);
-        $id_68 = Rubric::create(['id'=>68,'title' => 'Гусеничный экскаватор','title_r' => 'гусеничного экскаватора','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_69 = Rubric::create(['id'=>69,'title' => 'Драглайн','title_r' => 'драглайна','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_70 = Rubric::create(['id'=>70,'title' => 'Земснаряд','title_r' => 'земснаряда','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_71 = Rubric::create(['id'=>71,'title' => 'Колесный экскаватор','title_r' => 'колесного экскаватора','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_72 = Rubric::create(['id'=>72,'title' => 'Мини-экскаватор','title_r' => 'мини-экскаватора','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_73 = Rubric::create(['id'=>73,'title' => 'Многоковшовый экскаватор','title_r' => 'многоковшового экскаватора','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_74 = Rubric::create(['id'=>74,'title' => 'Траншеекопатель','title_r' => 'траншеекопателя','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_75 = Rubric::create(['id'=>75,'title' => 'Шагающий экскаватор','title_r' => 'шагающего экскаватора','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_76 = Rubric::create(['id'=>76,'title' => 'Экскаватор для перевалки','title_r' => 'экскаватора для перевалки','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_77 = Rubric::create(['id'=>77,'title' => 'Экскаватор для разрушения','title_r' => 'экскаватора для разрушения','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_78 = Rubric::create(['id'=>78,'title' => 'Экскаватор на рельсовом ходу','title_r' => 'экскаватора на рельсовом ходу','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_79 = Rubric::create(['id'=>79,'title' => 'Экскаватор-планировщик','title_r' => 'экскаватора-планировщика','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_80 = Rubric::create(['id'=>80,'title' => 'Экскаватор-погрузчик','title_r' => 'экскаватора-погрузчика','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_81 = Rubric::create(['id'=>81,'title' => 'Экскаватор с прямой лопатой','title_r' => 'экскаватора с прямой лопатой','parent_id' => $id_8->id,'sort'=> 100,'level' => 2]);
-        $id_82 = Rubric::create(['id'=>82,'title' => 'Другое','title_r' => '','parent_id' => $id_8->id,'sort'=> 999,'level' => 2]);
-        $id_83 = Rubric::create(['id'=>83,'title' => 'Другое','title_r' => '','parent_id' => $id_9->id,'sort'=> 999,'level' => 2]);
-        $id_84 = Rubric::create(['id'=>84,'title' => 'Вилочный погрузчик','title_r' => 'вилочного погрузчика','parent_id' => $id_3->id,'sort'=> 100,'level' => 2]);
-        $id_85 = Rubric::create(['id'=>85,'title' => 'Инструмент','title_r' => 'инструмента','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_86 = Rubric::create(['id'=>86,'title' => 'Ручной инструмент','title_r' => 'ручного инструмента','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_87 = Rubric::create(['id'=>87,'title' => 'Тепловые пушки','title_r' => 'тепловых пушек','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_88 = Rubric::create(['id'=>88,'title' => 'Электрогенераторы','title_r' => 'электрогенератора','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_89 = Rubric::create(['id'=>89,'title' => 'Дизельный электрогенератор','title_r' => 'дизельного электрогенератора','parent_id' => $id_88->id,'sort'=> 100,'level' => 2]);
-        $id_93 = Rubric::create(['id'=>93,'title' => 'Штроборез','title_r' => 'штробореза','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_92 = Rubric::create(['id'=>92,'title' => 'Мотобур','title_r' => 'мотобура','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_94 = Rubric::create(['id'=>94,'title' => 'Рубанок','title_r' => 'рубанка','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_95 = Rubric::create(['id'=>95,'title' => 'Вибратор','title_r' => 'вибратора','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_96 = Rubric::create(['id'=>96,'title' => 'Мусоропровод','title_r' => 'мусоропровода','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_97 = Rubric::create(['id'=>97,'title' => 'Паркетошлифовальная машина','title_r' => 'паркетошлифовальной машины','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_98 = Rubric::create(['id'=>98,'title' => 'Пылесос строительный','title_r' => 'пылесоса строительного','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_99 = Rubric::create(['id'=>99,'title' => 'Захват бордюрный','title_r' => 'захвата бордюрного','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_100 = Rubric::create(['id'=>100,'title' => 'Пила','title_r' => 'пилы','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_101 = Rubric::create(['id'=>101,'title' => 'Шуруповёрт','title_r' => 'шуруповёрта','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_102 = Rubric::create(['id'=>102,'title' => 'Шлифмашинка','title_r' => 'шлифмашинки','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_103 = Rubric::create(['id'=>103,'title' => 'Тепловентилятор','title_r' => 'тепловентилятора','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_104 = Rubric::create(['id'=>104,'title' => 'Затирочная машина ','title_r' => 'затирочной машины','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_105 = Rubric::create(['id'=>105,'title' => 'Мойка высокого давления','title_r' => 'мойки высокого давления','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_106 = Rubric::create(['id'=>106,'title' => 'Лестница','title_r' => 'лестиницы','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_107 = Rubric::create(['id'=>107,'title' => 'Перфоратор','title_r' => 'перфоратора','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_108 = Rubric::create(['id'=>108,'title' => 'Отвал','title_r' => 'отвала','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_110 = Rubric::create(['id'=>110,'title' => 'Бензиновый генератор','title_r' => 'бензинового генератора','parent_id' => $id_88->id,'sort'=> 100,'level' => 2]);
-        $id_111 = Rubric::create(['id'=>111,'title' => 'Бензорез','title_r' => 'бензореза','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_112 = Rubric::create(['id'=>112,'title' => 'Илосос','title_r' => 'илососа','parent_id' => $id_1->id,'sort'=> 100,'level' => 2]);
-        $id_113 = Rubric::create(['id'=>113,'title' => 'Консольный кран','title_r' => 'консольного крана','parent_id' => $id_2->id,'sort'=> 100,'level' => 2]);
-        $id_114 = Rubric::create(['id'=>114,'title' => 'Сварочный инструмент','title_r' => 'сварочного инструмента','parent_id' => $id_85->id,'sort'=> 100,'level' => 2]);
-        $id_115 = Rubric::create(['id'=>115,'title' => 'Гидроманипулятор','title_r' => 'гидроманипулятора','parent_id' => $id_7->id,'sort'=> 100,'level' => 2]);
-        $id_117 = Rubric::create(['id'=>117,'title' => 'Электротранспорт','title_r' => 'электротранспорта','parent_id' => $id_0->id,'sort'=> 100,'level' => 1]);
-        $id_118 = Rubric::create(['id'=>118,'title' => 'Грузовые трициклы','title_r' => 'грузового трицикла','parent_id' => $id_117->id,'sort'=> 100,'level' => 2]);
-        $id_119 = Rubric::create(['id'=>119,'title' => 'Складкая техника','title_r' => 'складской техники','parent_id' => $id_117->id,'sort'=> 100,'level' => 2]);
-        $id_120 = Rubric::create(['id'=>120,'title' => 'Строительная техника','title_r' => 'строительной техники','parent_id' => $id_117->id,'sort'=> 100,'level' => 2]);
-        $idp_0 = Rubric::create(['id'=>0,'title' => 'Продажа','level' => 0]);
-        $idp_1 = Rubric::create(['id'=>1,'title' => 'Дорожно-строительная техника','title_r' => 'дорожно-строительной техники','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_2 = Rubric::create(['id'=>2,'title' => 'Кран','title_r' => 'крана','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_3 = Rubric::create(['id'=>3,'title' => 'Погрузчик','title_r' => 'погрузчика','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_4 = Rubric::create(['id'=>4,'title' => 'Подъемник','title_r' => 'подъемника','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_5 = Rubric::create(['id'=>5,'title' => 'Самосвал','title_r' => 'самосвала','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_6 = Rubric::create(['id'=>6,'title' => 'Техника для бетона','title_r' => 'техники для бетона','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_7 = Rubric::create(['id'=>7,'title' => 'Транспортировка','title_r' => 'техники транспортировки','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_8 = Rubric::create(['id'=>8,'title' => 'Экскаватор','title_r' => 'экскаватора','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_9 = Rubric::create(['id'=>9,'title' => 'Другое','title_r' => '','parent_id' => $idp_0->id,'sort'=> 999,'level' => 1]);
-        $idp_10 = Rubric::create(['id'=>10,'title' => 'Бетонозавод','title_r' => 'бетонозавода','parent_id' => $idp_6->id,'sort'=> 100,'level' => 2]);
-        $idp_11 = Rubric::create(['id'=>11,'title' => 'Бетононасос','title_r' => 'бетононасоса','parent_id' => $idp_6->id,'sort'=> 100,'level' => 2]);
-        $idp_12 = Rubric::create(['id'=>12,'title' => 'Бетононасос стационарный','title_r' => 'бетононасоса стационарного','parent_id' => $idp_6->id,'sort'=> 100,'level' => 2]);
-        $idp_13 = Rubric::create(['id'=>13,'title' => 'Бетоносмеситель','title_r' => 'бетоносмесителя','parent_id' => $idp_6->id,'sort'=> 100,'level' => 2]);
-        $idp_14 = Rubric::create(['id'=>14,'title' => 'Бетоносмеситель полуприцеп','title_r' => 'бетоносмесителя полуприцепа','parent_id' => $idp_6->id,'sort'=> 100,'level' => 2]);
-        $idp_15 = Rubric::create(['id'=>15,'title' => 'Бетоноукладчик','title_r' => 'бетоноукладчика','parent_id' => $idp_6->id,'sort'=> 100,'level' => 2]);
-        $idp_16 = Rubric::create(['id'=>16,'title' => 'Другое','title_r' => '','parent_id' => $idp_6->id,'sort'=> 999,'level' => 2]);
-        $idp_17 = Rubric::create(['id'=>17,'title' => 'Автовышка','title_r' => 'автовышки','parent_id' => $idp_4->id,'sort'=> 100,'level' => 2]);
-        $idp_18 = Rubric::create(['id'=>18,'title' => 'Подъемник коленчатый','title_r' => 'подъемника коленчатого','parent_id' => $idp_4->id,'sort'=> 100,'level' => 2]);
-        $idp_19 = Rubric::create(['id'=>19,'title' => 'Подъемник мачтовый','title_r' => 'подъемника мачтового','parent_id' => $idp_4->id,'sort'=> 100,'level' => 2]);
-        $idp_20 = Rubric::create(['id'=>20,'title' => 'Подъемник ножничный','title_r' => 'подъемника ножничного','parent_id' => $idp_4->id,'sort'=> 100,'level' => 2]);
-        $idp_21 = Rubric::create(['id'=>21,'title' => 'Подъемник телескопический','title_r' => 'подъемника телескопического','parent_id' => $idp_4->id,'sort'=> 100,'level' => 2]);
-        $idp_22 = Rubric::create(['id'=>22,'title' => 'Подъемник фасадный','title_r' => 'подъемника фасадного','parent_id' => $idp_4->id,'sort'=> 100,'level' => 2]);
-        $idp_23 = Rubric::create(['id'=>23,'title' => 'Другое','title_r' => '','parent_id' => $idp_4->id,'sort'=> 999,'level' => 2]);
-        $idp_24 = Rubric::create(['id'=>24,'title' => 'Автогудронатор','title_r' => 'автогудронатора','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_25 = Rubric::create(['id'=>25,'title' => 'Асфальтный завод','title_r' => 'асфальтного завода','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_26 = Rubric::create(['id'=>26,'title' => 'Асфальтоукладчик гусеничный','title_r' => 'гусеничного асфальтаукладчика','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_27 = Rubric::create(['id'=>27,'title' => 'Асфальтоукладчик колесный','title_r' => 'колесного асфальтаукладчика','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_28 = Rubric::create(['id'=>28,'title' => 'Бульдозер','title_r' => 'бульдозера','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_29 = Rubric::create(['id'=>29,'title' => 'Виброплита','title_r' => 'виброплиты','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_30 = Rubric::create(['id'=>30,'title' => 'Грейдер','title_r' => 'грейдера','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_31 = Rubric::create(['id'=>31,'title' => 'Дорожная фреза','title_r' => 'дорожной фрезы','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_32 = Rubric::create(['id'=>32,'title' => 'Дорожный каток','title_r' => 'дорожного катка','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_33 = Rubric::create(['id'=>33,'title' => 'Каток грунтовый','title_r' => 'грунтового катка','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_34 = Rubric::create(['id'=>34,'title' => 'Каток прицепной','title_r' => 'прицепного катка','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_35 = Rubric::create(['id'=>35,'title' => 'Каток тротуарный','title_r' => 'тротуарного катка','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_36 = Rubric::create(['id'=>36,'title' => 'Компактор','title_r' => 'компактора','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_37 = Rubric::create(['id'=>37,'title' => 'Машина для укладки тротуарной плитки','title_r' => 'машины для укладки тротуарной плитки','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_38 = Rubric::create(['id'=>38,'title' => 'Пневмоколесный каток','title_r' => 'пневмоколесоного катка','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_39 = Rubric::create(['id'=>39,'title' => 'Разметочная машина','title_r' => 'разметочной машины','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_40 = Rubric::create(['id'=>40,'title' => 'Резчик швов','title_r' => 'резчика швов','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_41 = Rubric::create(['id'=>41,'title' => 'Ресайклер','title_r' => 'ресайклера','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_42 = Rubric::create(['id'=>42,'title' => 'Скрепер','title_r' => 'скрепера','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_43 = Rubric::create(['id'=>43,'title' => 'Трамбовщик','title_r' => 'трамбовщика','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_44 = Rubric::create(['id'=>44,'title' => 'Другое','title_r' => '','parent_id' => $idp_1->id,'sort'=> 999,'level' => 2]);
-        $idp_45 = Rubric::create(['id'=>45,'title' => 'Автокран','title_r' => 'автокрана','parent_id' => $idp_2->id,'sort'=> 100,'level' => 2]);
-        $idp_46 = Rubric::create(['id'=>46,'title' => 'Башенный кран','title_r' => 'башенного крана','parent_id' => $idp_2->id,'sort'=> 100,'level' => 2]);
-        $idp_47 = Rubric::create(['id'=>47,'title' => 'Гусеничный кран','title_r' => 'гусенечного крана','parent_id' => $idp_2->id,'sort'=> 100,'level' => 2]);
-        $idp_48 = Rubric::create(['id'=>48,'title' => 'Козловой кран','title_r' => 'козлового крана','parent_id' => $idp_2->id,'sort'=> 100,'level' => 2]);
-        $idp_49 = Rubric::create(['id'=>49,'title' => 'Мини кран','title_r' => 'мини-крана','parent_id' => $idp_2->id,'sort'=> 100,'level' => 2]);
-        $idp_50 = Rubric::create(['id'=>50,'title' => 'Другое','title_r' => '','parent_id' => $idp_2->id,'sort'=> 999,'level' => 2]);
-        $idp_51 = Rubric::create(['id'=>51,'title' => 'Минипогрузчик','title_r' => 'минипогрузчика','parent_id' => $idp_3->id,'sort'=> 100,'level' => 2]);
-        $idp_52 = Rubric::create(['id'=>52,'title' => 'Минипогрузчик гусеничный','title_r' => 'гусеничного минипогрузчика','parent_id' => $idp_3->id,'sort'=> 100,'level' => 2]);
-        $idp_53 = Rubric::create(['id'=>53,'title' => 'Погрузчик гусеничный','title_r' => 'гусеничного погрузчика','parent_id' => $idp_3->id,'sort'=> 100,'level' => 2]);
-        $idp_54 = Rubric::create(['id'=>54,'title' => 'Погрузчик телескопический','title_r' => 'телескопического погрузчика','parent_id' => $idp_3->id,'sort'=> 100,'level' => 2]);
-        $idp_55 = Rubric::create(['id'=>55,'title' => 'Фронтальный погрузчик','title_r' => 'фронтального погрузчика','parent_id' => $idp_3->id,'sort'=> 100,'level' => 2]);
-        $idp_56 = Rubric::create(['id'=>56,'title' => 'Другое','title_r' => '','parent_id' => $idp_3->id,'sort'=> 999,'level' => 2]);
-        $idp_57 = Rubric::create(['id'=>57,'title' => 'Гусеничный самосвал','title_r' => 'гусеничного самосвала','parent_id' => $idp_5->id,'sort'=> 100,'level' => 2]);
-        $idp_58 = Rubric::create(['id'=>58,'title' => 'Карьерный самосвал','title_r' => 'карьерного самосвала','parent_id' => $idp_5->id,'sort'=> 100,'level' => 2]);
-        $idp_59 = Rubric::create(['id'=>59,'title' => 'Мини-самосвал','title_r' => 'мини-самосвала','parent_id' => $idp_5->id,'sort'=> 100,'level' => 2]);
-        $idp_60 = Rubric::create(['id'=>60,'title' => 'Самосвал','title_r' => 'самосвала','parent_id' => $idp_5->id,'sort'=> 100,'level' => 2]);
-        $idp_61 = Rubric::create(['id'=>61,'title' => 'Шарнирный самосвал','title_r' => 'шарнирного самосвала','parent_id' => $idp_5->id,'sort'=> 100,'level' => 2]);
-        $idp_62 = Rubric::create(['id'=>62,'title' => 'Другое','title_r' => '','parent_id' => $idp_5->id,'sort'=> 999,'level' => 2]);
-        $idp_63 = Rubric::create(['id'=>63,'title' => 'Полуприцеп низкорамная платформа','title_r' => 'низкорамной платформы-полуприцепа','parent_id' => $idp_7->id,'sort'=> 100,'level' => 2]);
-        $idp_64 = Rubric::create(['id'=>64,'title' => 'Портовый тягач','title_r' => 'портового тягача','parent_id' => $idp_7->id,'sort'=> 100,'level' => 2]);
-        $idp_65 = Rubric::create(['id'=>65,'title' => 'Прицеп низкорамная платформа','title_r' => 'низкорамной платформы-прицепа','parent_id' => $idp_7->id,'sort'=> 100,'level' => 2]);
-        $idp_66 = Rubric::create(['id'=>66,'title' => 'Специальный тягач','title_r' => 'специального тягача','parent_id' => $idp_7->id,'sort'=> 100,'level' => 2]);
-        $idp_67 = Rubric::create(['id'=>67,'title' => 'Другое','title_r' => '','parent_id' => $idp_7->id,'sort'=> 999,'level' => 2]);
-        $idp_68 = Rubric::create(['id'=>68,'title' => 'Гусеничный экскаватор','title_r' => 'гусеничного экскаватора','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_69 = Rubric::create(['id'=>69,'title' => 'Драглайн','title_r' => 'драглайна','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_70 = Rubric::create(['id'=>70,'title' => 'Земснаряд','title_r' => 'земснаряда','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_71 = Rubric::create(['id'=>71,'title' => 'Колесный экскаватор','title_r' => 'колесного экскаватора','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_72 = Rubric::create(['id'=>72,'title' => 'Мини-экскаватор','title_r' => 'мини-экскаватора','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_73 = Rubric::create(['id'=>73,'title' => 'Многоковшовый экскаватор','title_r' => 'многоковшового экскаватора','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_74 = Rubric::create(['id'=>74,'title' => 'Траншеекопатель','title_r' => 'траншеекопателя','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_75 = Rubric::create(['id'=>75,'title' => 'Шагающий экскаватор','title_r' => 'шагающего экскаватора','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_76 = Rubric::create(['id'=>76,'title' => 'Экскаватор для перевалки','title_r' => 'экскаватора для перевалки','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_77 = Rubric::create(['id'=>77,'title' => 'Экскаватор для разрушения','title_r' => 'экскаватора для разрушения','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_78 = Rubric::create(['id'=>78,'title' => 'Экскаватор на рельсовом ходу','title_r' => 'экскаватора на рельсовом ходу','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_79 = Rubric::create(['id'=>79,'title' => 'Экскаватор-планировщик','title_r' => 'экскаватора-планировщика','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_80 = Rubric::create(['id'=>80,'title' => 'Экскаватор-погрузчик','title_r' => 'экскаватора-погрузчика','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_81 = Rubric::create(['id'=>81,'title' => 'Экскаватор с прямой лопатой','title_r' => 'экскаватора с прямой лопатой','parent_id' => $idp_8->id,'sort'=> 100,'level' => 2]);
-        $idp_82 = Rubric::create(['id'=>82,'title' => 'Другое','title_r' => '','parent_id' => $idp_8->id,'sort'=> 999,'level' => 2]);
-        $idp_83 = Rubric::create(['id'=>83,'title' => 'Другое','title_r' => '','parent_id' => $idp_9->id,'sort'=> 999,'level' => 2]);
-        $idp_84 = Rubric::create(['id'=>84,'title' => 'Вилочный погрузчик','title_r' => 'вилочного погрузчика','parent_id' => $idp_3->id,'sort'=> 100,'level' => 2]);
-        $idp_85 = Rubric::create(['id'=>85,'title' => 'Инструмент','title_r' => 'инструмента','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_86 = Rubric::create(['id'=>86,'title' => 'Ручной инструмент','title_r' => 'ручного инструмента','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_87 = Rubric::create(['id'=>87,'title' => 'Тепловые пушки','title_r' => 'тепловых пушек','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_88 = Rubric::create(['id'=>88,'title' => 'Электрогенераторы','title_r' => 'электрогенератора','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_89 = Rubric::create(['id'=>89,'title' => 'Дизельный электрогенератор','title_r' => 'дизельного электрогенератора','parent_id' => $idp_88->id,'sort'=> 100,'level' => 2]);
-        $idp_93 = Rubric::create(['id'=>93,'title' => 'Штроборез','title_r' => 'штробореза','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_92 = Rubric::create(['id'=>92,'title' => 'Мотобур','title_r' => 'мотобура','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_94 = Rubric::create(['id'=>94,'title' => 'Рубанок','title_r' => 'рубанка','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_95 = Rubric::create(['id'=>95,'title' => 'Вибратор','title_r' => 'вибратора','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_96 = Rubric::create(['id'=>96,'title' => 'Мусоропровод','title_r' => 'мусоропровода','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_97 = Rubric::create(['id'=>97,'title' => 'Паркетошлифовальная машина','title_r' => 'паркетошлифовальной машины','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_98 = Rubric::create(['id'=>98,'title' => 'Пылесос строительный','title_r' => 'пылесоса строительного','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_99 = Rubric::create(['id'=>99,'title' => 'Захват бордюрный','title_r' => 'захвата бордюрного','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_100 = Rubric::create(['id'=>100,'title' => 'Пила','title_r' => 'пилы','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_101 = Rubric::create(['id'=>101,'title' => 'Шуруповёрт','title_r' => 'шуруповёрта','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_102 = Rubric::create(['id'=>102,'title' => 'Шлифмашинка','title_r' => 'шлифмашинки','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_103 = Rubric::create(['id'=>103,'title' => 'Тепловентилятор','title_r' => 'тепловентилятора','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_104 = Rubric::create(['id'=>104,'title' => 'Затирочная машина ','title_r' => 'затирочной машины','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_105 = Rubric::create(['id'=>105,'title' => 'Мойка высокого давления','title_r' => 'мойки высокого давления','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_106 = Rubric::create(['id'=>106,'title' => 'Лестница','title_r' => 'лестиницы','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_107 = Rubric::create(['id'=>107,'title' => 'Перфоратор','title_r' => 'перфоратора','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_108 = Rubric::create(['id'=>108,'title' => 'Отвал','title_r' => 'отвала','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_110 = Rubric::create(['id'=>110,'title' => 'Бензиновый генератор','title_r' => 'бензинового генератора','parent_id' => $idp_88->id,'sort'=> 100,'level' => 2]);
-        $idp_111 = Rubric::create(['id'=>111,'title' => 'Бензорез','title_r' => 'бензореза','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_112 = Rubric::create(['id'=>112,'title' => 'Илосос','title_r' => 'илососа','parent_id' => $idp_1->id,'sort'=> 100,'level' => 2]);
-        $idp_113 = Rubric::create(['id'=>113,'title' => 'Консольный кран','title_r' => 'консольного крана','parent_id' => $idp_2->id,'sort'=> 100,'level' => 2]);
-        $idp_114 = Rubric::create(['id'=>114,'title' => 'Сварочный инструмент','title_r' => 'сварочного инструмента','parent_id' => $idp_85->id,'sort'=> 100,'level' => 2]);
-        $idp_115 = Rubric::create(['id'=>115,'title' => 'Гидроманипулятор','title_r' => 'гидроманипулятора','parent_id' => $idp_7->id,'sort'=> 100,'level' => 2]);
-        $idp_117 = Rubric::create(['id'=>117,'title' => 'Электротранспорт','title_r' => 'электротранспорта','parent_id' => $idp_0->id,'sort'=> 100,'level' => 1]);
-        $idp_118 = Rubric::create(['id'=>118,'title' => 'Грузовые трициклы','title_r' => 'грузового трицикла','parent_id' => $idp_117->id,'sort'=> 100,'level' => 2]);
-        $idp_119 = Rubric::create(['id'=>119,'title' => 'Складкая техника','title_r' => 'складской техники','parent_id' => $idp_117->id,'sort'=> 100,'level' => 2]);
-        $idp_120 = Rubric::create(['id'=>120,'title' => 'Строительная техника','title_r' => 'строительной техники','parent_id' => $idp_117->id,'sort'=> 100,'level' => 2]);
+      
+         //Seed data creation removed - IDs auto-incremented by database
+// Отключаем защиту на время миграции
+        Rubric::unguard();
 
+        // ==========================================
+        // 1. АРЕНДА (ID от 1000 до 1167)
+        // ==========================================
+        $rent = [
+            [1000, null, 0, 'Аренда', null],
+            [1001, 1000, 1, 'Дорожно-строительная техника', 'дорожно-строительной техники'],
+            [1002, 1000, 1, 'Кран', 'крана'],
+            [1003, 1000, 1, 'Погрузчик', 'погрузчика'],
+            [1004, 1000, 1, 'Подъемник', 'подъемника'],
+            [1005, 1000, 1, 'Самосвал', 'самосвала'],
+            [1006, 1000, 1, 'Техника для бетона', 'техники для бетона'],
+            [1007, 1000, 1, 'Транспортировка', 'техники транспортировки'],
+            [1008, 1000, 1, 'Экскаватор', 'экскаватора'],
+            [1009, 1000, 1, 'Другое', null],
+            [1010, 1006, 2, 'Бетонозавод', 'бетонозавода'],
+            [1011, 1006, 2, 'Бетононасос', 'бетононасоса'],
+            [1012, 1006, 2, 'Бетононасос стационарный', 'бетононасоса стационарного'],
+            [1013, 1006, 2, 'Бетоносмеситель', 'бетоносмесителя'],
+            [1014, 1006, 2, 'Бетоносмеситель полуприцеп', 'бетоносмесителя полуприцепа'],
+            [1015, 1006, 2, 'Бетоноукладчик', 'бетоноукладчика'],
+            [1016, 1006, 2, 'Другое', null],
+            [1017, 1004, 2, 'Автовышка', 'автовышки'],
+            [1018, 1004, 2, 'Подъемник коленчатый', 'подъемника коленчатого'],
+            [1019, 1004, 2, 'Подъемник мачтовый', 'подъемника мачтового'],
+            [1020, 1004, 2, 'Подъемник ножничный', 'подъемника ножничного'],
+            [1021, 1004, 2, 'Подъемник телескопический', 'подъемника телескопического'],
+            [1022, 1004, 2, 'Подъемник фасадный', 'подъемника фасадного'],
+            [1023, 1004, 2, 'Другое', null],
+            [1024, 1001, 2, 'Автогудронатор', 'автогудронатора'],
+            [1025, 1001, 2, 'Асфальтный завод', 'асфальтного завода'],
+            [1026, 1001, 2, 'Асфальтоукладчик гусеничный', 'гусеничного асфальтоукладчика'],
+            [1027, 1001, 2, 'Асфальтоукладчик колёсный', 'колёсного асфальтоукладчика'],
+            [1028, 1001, 2, 'Бульдозер', 'бульдозера'],
+            [1029, 1001, 2, 'Виброплита', 'виброплиты'],
+            [1030, 1001, 2, 'Автогрейдер', 'автогрейдера'],
+            [1031, 1001, 2, 'Дорожная фреза', 'дорожной фрезы'],
+            [1032, 1001, 2, 'Дорожный каток', 'дорожного катка'],
+            [1033, 1001, 2, 'Каток грунтовый', 'грунтового катка'],
+            [1034, 1001, 2, 'Каток прицепной', 'прицепного катка'],
+            [1035, 1001, 2, 'Каток тротуарный', 'тротуарного катка'],
+            [1036, 1001, 2, 'Компактор', 'компактора'],
+            [1037, 1001, 2, 'Машина для укладки тротуарной плитки', 'машины для укладки тротуарной плитки'],
+            [1038, 1001, 2, 'Пневмоколёсный каток', 'пневмоколёсного катка'],
+            [1039, 1001, 2, 'Разметочная машина', 'разметочной машины'],
+            [1040, 1001, 2, 'Резчик швов', 'резчика швов'],
+            [1042, 1001, 2, 'Скрепер', 'скрепера'],
+            [1043, 1001, 2, 'Трамбовщик', 'трамбовщика'],
+            [1044, 1001, 2, 'Другое', null],
+            [1045, 1002, 2, 'Автокран', 'автокрана'],
+            [1046, 1002, 2, 'Башенный кран', 'башенного крана'],
+            [1047, 1002, 2, 'Гусеничный кран', 'гусеничного крана'],
+            [1048, 1002, 2, 'Козловой кран', 'козлового крана'],
+            [1049, 1002, 2, 'Мини-кран', 'мини-крана'],
+            [1050, 1002, 2, 'Другое', null],
+            [1051, 1003, 2, 'Минипогрузчик', 'минипогрузчика'],
+            [1052, 1003, 2, 'Минипогрузчик гусеничный', 'гусеничного минипогрузчика'],
+            [1053, 1003, 2, 'Погрузчик гусеничный', 'гусеничного погрузчика'],
+            [1054, 1003, 2, 'Погрузчик телескопический', 'телескопического погрузчика'],
+            [1055, 1003, 2, 'Фронтальный погрузчик', 'фронтального погрузчика'],
+            [1056, 1003, 2, 'Другое', null],
+            [1057, 1005, 2, 'Гусеничный самосвал', 'гусеничного самосвала'],
+            [1058, 1005, 2, 'Карьерный самосвал', 'карьерного самосвала'],
+            [1059, 1005, 2, 'Мини-самосвал', 'мини-самосвала'],
+            [1060, 1005, 2, 'Самосвал общего назначения', 'самосвала общего назначения'],
+            [1061, 1005, 2, 'Шарнирный самосвал', 'шарнирного самосвала'],
+            [1062, 1005, 2, 'Другое', null],
+            [1063, 1007, 2, 'Полуприцеп низкорамная платформа', 'низкорамной платформы-полуприцепа'],
+            [1064, 1007, 2, 'Портовый тягач', 'портового тягача'],
+            [1065, 1007, 2, 'Прицеп низкорамная платформа', 'низкорамной платформы-прицепа'],
+            [1066, 1007, 2, 'Специальный тягач', 'специального тягача'],
+            [1067, 1007, 2, 'Другое', null],
+            [1068, 1008, 2, 'Гусеничный экскаватор', 'гусеничного экскаватора'],
+            [1069, 1008, 2, 'Драглайн', 'драглайна'],
+            [1070, 1008, 2, 'Земснаряд', 'земснаряда'],
+            [1071, 1008, 2, 'Колёсный экскаватор', 'колёсного экскаватора'],
+            [1072, 1008, 2, 'Мини-экскаватор', 'мини-экскаватора'],
+            [1073, 1008, 2, 'Многоковшовый экскаватор', 'многоковшового экскаватора'],
+            [1074, 1008, 2, 'Траншеекопатель', 'траншеекопателя'],
+            [1075, 1008, 2, 'Шагающий экскаватор', 'шагающего экскаватора'],
+            [1076, 1008, 2, 'Экскаватор для перевалки', 'экскаватора для перевалки'],
+            [1077, 1008, 2, 'Экскаватор для разрушения', 'экскаватора для разрушения'],
+            [1078, 1008, 2, 'Экскаватор на рельсовом ходу', 'экскаватора на рельсовом ходу'],
+            [1079, 1008, 2, 'Экскаватор-планировщик', 'экскаватора-планировщика'],
+            [1080, 1008, 2, 'Экскаватор-погрузчик', 'экскаватора-погрузчика'],
+            [1081, 1008, 2, 'Экскаватор с прямой лопатой', 'экскаватора с прямой лопатой'],
+            [1082, 1008, 2, 'Другое', null],
+            [1083, 1009, 2, 'Другое', null],
+            [1084, 1003, 2, 'Вилочный погрузчик', 'вилочного погрузчика'],
+            [1085, 1000, 1, 'Инструмент и оборудование', 'инструмента и оборудования'],
+            [1086, 1085, 2, 'Ручной инструмент', 'ручного инструмента'],
+            [1087, 1085, 2, 'Тепловые пушки', 'тепловых пушек'],
+            [1088, 1000, 1, 'Электрогенераторы', 'электрогенератора'],
+            [1089, 1088, 2, 'Дизельный электрогенератор', 'дизельного электрогенератора'],
+            [1092, 1085, 2, 'Мотобур', 'мотобура'],
+            [1093, 1085, 2, 'Штроборез', 'штробореза'],
+            [1094, 1085, 2, 'Рубанок', 'рубанка'],
+            [1095, 1085, 2, 'Вибратор', 'вибратора'],
+            [1096, 1085, 2, 'Мусоропровод', 'мусоропровода'],
+            [1097, 1085, 2, 'Паркетошлифовальная машина', 'паркетошлифовальной машины'],
+            [1098, 1085, 2, 'Пылесос строительный', 'пылесоса строительного'],
+            [1099, 1085, 2, 'Захват бордюрный', 'захвата бордюрного'],
+            [1100, 1085, 2, 'Пила', 'пилы'],
+            [1101, 1085, 2, 'Шуруповёрт', 'шуруповёрта'],
+            [1102, 1085, 2, 'Шлифмашинка', 'шлифмашинки'],
+            [1103, 1085, 2, 'Тепловентилятор', 'тепловентилятора'],
+            [1104, 1085, 2, 'Затирочная машина', 'затирочной машины'],
+            [1105, 1085, 2, 'Мойка высокого давления', 'мойки высокого давления'],
+            [1106, 1085, 2, 'Лестница', 'лестницы'],
+            [1107, 1085, 2, 'Перфоратор', 'перфоратора'],
+            [1108, 1001, 2, 'Отвал', 'отвала'],
+            [1110, 1088, 2, 'Бензиновый генератор', 'бензинового генератора'],
+            [1111, 1085, 2, 'Бензорез', 'бензореза'],
+            [1112, 1001, 2, 'Илосос', 'илососа'],
+            [1113, 1002, 2, 'Консольный кран', 'консольного крана'],
+            [1114, 1085, 2, 'Сварочный инструмент', 'сварочного инструмента'],
+            [1115, 1007, 2, 'Гидроманипулятор', 'гидроманипулятора'],
+            [1117, 1000, 1, 'Электротранспорт', 'электротранспорта'],
+            [1118, 1117, 2, 'Грузовые трициклы', 'грузового трицикла'],
+            [1119, 1117, 2, 'Складская техника', 'складской техники'],
+            [1120, 1117, 2, 'Строительная техника', 'строительной техники'],
+            [1121, 1001, 2, 'Дорожная щётка', 'дорожной щётки'],
+            [1122, 1001, 2, 'Поливомоечная машина', 'поливомоечной машины'],
+            [1123, 1001, 2, 'Машина ямочного ремонта', 'машины ямочного ремонта'],
+            [1124, 1002, 2, 'Кран-манипулятор', 'крана-манипулятора'],
+            [1125, 1004, 2, 'Вышка-тура', 'вышки-туры'],
+            [1126, 1004, 2, 'Строительные леса', 'строительных лесов'],
+            [1127, 1006, 2, 'Виброрейка', 'виброрейки'],
+            [1128, 1006, 2, 'Затирочная машина по бетону', 'затирочной машины по бетону'],
+            [1129, 1007, 2, 'Седельный тягач', 'седельного тягача'],
+            [1130, 1007, 2, 'Бортовой прицеп / площадка', 'бортового прицепа / площадки'],
+            [1131, 1008, 2, 'Экскаватор с обратной лопатой', 'экскаватора с обратной лопатой'],
+            [1132, 1008, 2, 'Мини-экскаватор гусеничный', 'мини-экскаватора гусеничного'],
+            [1133, 1008, 2, 'Мини-экскаватор колёсный', 'мини-экскаватора колёсного'],
+            [1134, 1085, 2, 'Отбойный молоток / бетонолом', 'отбойного молота / бетонолома'],
+            [1135, 1085, 2, 'Станок для гибки арматуры', 'станка для гибки арматуры'],
+            [1136, 1085, 2, 'Виброрейка ручная', 'виброрейки ручной'],
+            [1137, 1088, 2, 'Сварочный генератор', 'сварочного генератора'],
+            [1138, 1000, 1, 'Свайные работы', 'свайных работ'],
+            [1139, 1138, 2, 'Копёр', 'копёра'],
+            [1140, 1138, 2, 'Свайный молот', 'свайного молота'],
+            [1141, 1138, 2, 'Вибропогружатель', 'вибропогружателя'],
+            [1142, 1138, 2, 'Сваебойная установка', 'сваебойной установки'],
+            [1143, 1138, 2, 'Другое', null],
+            [1144, 1000, 1, 'Буровые установки', 'буровых установок'],
+            [1145, 1144, 2, 'Установка ГНБ', 'установки ГНБ'],
+            [1146, 1144, 2, 'Шнековое бурение', 'шнекового бурения'],
+            [1147, 1144, 2, 'Буровая установка на базе', 'буровой установки на базе'],
+            [1148, 1144, 2, 'Другое', null],
+            [1149, 1000, 1, 'Компрессоры', 'компрессоров'],
+            [1150, 1149, 2, 'Винтовой компрессор', 'винтового компрессора'],
+            [1151, 1149, 2, 'Дизельный компрессор', 'дизельного компрессора'],
+            [1152, 1149, 2, 'Другое', null],
+            [1153, 1000, 1, 'Насосы и водоотлив', 'насосов и водоотлива'],
+            [1154, 1153, 2, 'Дренажный насос', 'дренажного насоса'],
+            [1155, 1153, 2, 'Фекальный насос', 'фекального насоса'],
+            [1156, 1153, 2, 'Мотопомпа', 'мотопомпы'],
+            [1157, 1153, 2, 'Другое', null],
+            [1158, 1000, 1, 'Освещение и энергоснабжение', 'освещения и энергоснабжения'],
+            [1159, 1158, 2, 'Мачта освещения', 'мачты освещения'],
+            [1160, 1158, 2, 'Прожектор строительный', 'прожектора строительного'],
+            [1161, 1158, 2, 'Другое', null],
+            [1162, 1000, 1, 'Запчасти и навесное оборудование', 'запчастей и навесного оборудования'],
+            [1163, 1162, 2, 'Гидромолот', 'гидромолота'],
+            [1164, 1162, 2, 'Ковши и быстроразъём', 'ковшей и быстроразъёма'],
+            [1165, 1162, 2, 'Гусеницы и ходовая', 'гусениц и ходовой'],
+            [1166, 1162, 2, 'Гидравлика и запчасти', 'гидравлики и запчастей'],
+            [1167, 1162, 2, 'Другое', null],
+        ];
 
+        // ==========================================
+        // 2. ПРОДАЖА (ID от 2000 до 2167)
+        // ==========================================
+        // Генерируем автоматически, просто прибавляя +1000 к ID Аренды (1000 -> 2000)
+        $sale = [];
+        foreach ($rent as $r) {
+            $saleId = $r[0] + 1000;
+            $saleParent = $r[1] === null ? null : $r[1] + 1000;
+            $sale[] = [$saleId, $saleParent, $r[2], $r[3] === 'Аренда' ? 'Продажа' : $r[3], $r[4]];
+        }
+
+        // Проходим по обоим массивам и создаем записи
+        foreach ([$rent, $sale] as $group) {
+            // Сортируем: сначала корни (level 0), затем категории (level 1), затем подкатегории (level 2)
+            $sorted = $group;
+            usort($sorted, function ($a, $b) {
+                if ($a[2] !== $b[2]) {
+                    return $a[2] <=> $b[2];
+                }
+                return $a[0] <=> $b[0];
+            });
+
+            foreach ($sorted as $r) {
+                [$id, $parentId, $level, $title, $titleR] = $r;
+                
+                // Создаем запись
+                $node = Rubric::create([
+                    'id' => $id,
+                    'title' => $title,
+                    'title_r' => $titleR,
+                    'level' => $level,
+                    'sort' => 100,
+                    'parent_id' => $parentId, // Передаем ID родителя
+                ]);
+
+                // Привязываем к родителю через NodeTrait, если это не корень
+                if ($parentId !== null) {
+                    $parent = Rubric::findOrFail($parentId);
+                    $node->appendToNode($parent)->save();
+                }
+            }
+        }
+
+        Rubric::reguard();
+
+        // Пересчитываем дерево (lft, rgt) на всякий случай, чтобы гарантировать 100% точность
+        Rubric::fixTree();
 
     }
 

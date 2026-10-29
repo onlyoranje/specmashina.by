@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Tracking\TrackingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -16,7 +17,11 @@ use App\Http\Controllers\NewsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
+// Маршруты аутентификации регистрируются в routes/auth.php (подключается ниже
+// через require). Здесь намеренно НЕ вызываем Auth::routes() — стандартный
+// набор laravel/ui дублировал имена (login/register/password.*) и перекрывал
+// редизайн-маршруты, из-за чего восстановление пароля открывалось по старым
+// Bootstrap-шаблонам.
 
 // Новая главная (редизайн 2026): blade-шаблоны resources/views/redesign.
 // В hero-виджет передаём категории ВЕРХНЕГО уровня (рубрики level 1,
@@ -258,6 +263,12 @@ Route::patch('/dashboard/banner/{banner}', [App\Http\Controllers\BannersControll
 Route::get('/dashboard/banner/{banner}/delete', [App\Http\Controllers\BannersController::class, 'delete_banner'])->name('delete_banner')->middleware('isadmin');
 Route::get('/dashboard/banner/{banner}', [App\Http\Controllers\BannersController::class, 'banner_dashboard'])->name('banner_dashboard')->middleware('isadmin');
 require __DIR__.'/auth.php';
+
+// Обратная совместимость: старые URL восстановления пароля из laravel/ui ведём
+// на новые редизайн-маршруты (чтобы закладки и старые письма не давали 404).
+Route::redirect('/password/reset', '/forgot-password', 301);
+Route::redirect('/password/email', '/forgot-password', 301);
+
 Route::get('/item/{bb}', [BbsController::class, 'detail'])->name('bb');
 
 // Псевдоним для нового фронтенда (редизайн 2026): карточки объявлений
@@ -277,7 +288,14 @@ Route::view('/legal/offer', 'redesign.placeholder', ['section' => 'Публич�
 Route::get('/item/{bb}/approve', [BbsController::class, 'approve'])->name('approve')->middleware('isadmin');
 Route::patch('/item/{bb}/reject', [BbsController::class, 'reject'])->name('reject')->middleware('isadmin');
 
-Auth::routes();
+// Маршруты аутентификации уже зарегистрированы в routes/auth.php (require выше).
+// Дублирующий Auth::routes() из laravel/ui здесь убран: он регистрировался
+// ПОСЛЕ routes/auth.php и перекрывал имена (login, logout, password.update,
+// password.confirm, password.request, password.reset) старыми Bootstrap-
+// маршрутами — из-за этого восстановление пароля и смена пароля в профиле
+// работали по старым шаблонам/контроллерам.
+
+// GET-выход оставлен для старых кнопок-ссылок в профиле (POST-выход — в routes/auth.php).
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home.dashboard');
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'search_result'])->name('search');
@@ -310,4 +328,18 @@ Route::delete('/dashboard/page/{page}', [App\Http\Controllers\StaticPageControll
 Route::get('/pages/', [App\Http\Controllers\StaticPageController::class, 'pages'])->name('pages');
 
 
-//Route::get('sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
+Route::get('sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
+# Настройки (доступно только администраторам)
+Route::get('/dashboard/settings/mail', [App\Http\Controllers\SettingsController::class, 'mailSettings'])->name('settings.mail')->middleware('isadmin');
+Route::post('/dashboard/settings/mail', [App\Http\Controllers\SettingsController::class, 'mailSettingsSave'])->middleware('isadmin');
+Route::post('/dashboard/settings/mail/test', [App\Http\Controllers\SettingsController::class, 'mailTest'])->name('settings.mail.test')->middleware('isadmin');
+Route::get('/dashboard/settings/site', [App\Http\Controllers\SettingsController::class, 'siteSettings'])->name('settings.site')->middleware('isadmin');
+Route::post('/dashboard/settings/site', [App\Http\Controllers\SettingsController::class, 'siteSettingsSave'])->middleware('isadmin');
+Route::get('/dashboard/settings/seo', [App\Http\Controllers\SettingsController::class, 'seoSettings'])->name('settings.seo')->middleware('isadmin');
+Route::post('/dashboard/settings/seo', [App\Http\Controllers\SettingsController::class, 'seoSettingsSave'])->middleware('isadmin');
+
+# Cookie consent & tracking
+Route::post('/consent/revoke', [TrackingController::class, 'revoke'])->name('consent.revoke');
+
+Route::post('/collect', [TrackingController::class, 'store'])->name('tracking.collect')->middleware('throttle:60,1');

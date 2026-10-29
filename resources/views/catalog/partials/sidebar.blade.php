@@ -9,7 +9,7 @@
      $filterCities        → города: id + title (для <select name="city_id">)
      $categories          → рубрики: id + title + ads_count
      $isSale              → секция «Продажа» (иначе «Аренда»)
-     $rootId              → id корневой рубрики секции (1 / 118)
+     $rootId              → id корневой рубрики секции (1000 / 2000)
      $currentRubricId     → id открытой рубрики (подсветка is-active)
      $currentRubricTitle  → её название
      $listQuery           → непустые фильтры (city_id/sort/view) для ссылок
@@ -21,12 +21,19 @@
 
       <aside class="catalog-sidebar" id="catalog-sidebar" aria-label="Фильтры поиска">
 
+        @php
+          // Мобильная версия: блоки-фильтры свёрнуты (<details> без [open]);
+          // на десктопе раскрыты. Определение серверное через mobile-detect —
+          // тот же механизм, что в остальных шаблонах сайта.
+          $isMobile = app('mobile-detect')->isMobile();
+        @endphp
+
         {{-- Блок «Города»: стилизованный select для быстрой фильтрации.
              На мобильных — скрываемая/раскрываемая плашка (<details>).
              Форма нужна как fallback без JS; JS перехватывает submit и
              подгружает результаты AJAX-ом. Скрытые sort/view сохраняют
              соседние фильтры при обычной отправке формы. --}}
-        <details class="filter-block" open>
+        <details class="filter-block" @unless($isMobile) open @endunless>
           <summary class="filter-summary">Города</summary>
           <div class="filter-body">
             <form method="get" action="{{ current_path() }}" class="city-filter-form">
@@ -75,7 +82,7 @@
         </details>
 
         {{-- Блок «Категории»: кликабельные строки, счётчик — только для непустых --}}
-        <details class="filter-block" open>
+        <details class="filter-block" @unless($isMobile) open @endunless>
           <summary class="filter-summary">Категории</summary>
           <ul class="catalog-categories">
             {{-- Возврат к полному списку секции + индикатор открытой категории.

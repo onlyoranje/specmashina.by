@@ -52,7 +52,7 @@
               <option value="">Любая категория</option>
               @foreach($categories->groupBy('root_title') as $rootTitle => $rootCategories)
                 @php
-                  $section = $rootCategories->first()->root_id === 118 ? 'sale' : 'rent';
+                  $section = $rootCategories->first()->root_id === 2000 ? 'sale' : 'rent';
                 @endphp
                 <optgroup label="{{ $rootTitle }}" data-section="{{ $section }}" @if($section !== 'rent') hidden disabled @endif>
                   @foreach($rootCategories as $category)
@@ -158,7 +158,7 @@
 
       <div class="cats">
         @forelse($cats as $cat)
-          <a class="cat-card" href="{{ $cat->parent_id === 118 ? route('sale.index', $cat->id) : route('rent.index', $cat->id) }}">
+          <a class="cat-card" href="{{ $cat->parent_id === 2000 ? route('sale.index', $cat->id) : route('rent.index', $cat->id) }}">
             <x-cat-icon :title="$cat->title" :icon="$cat->icon" />
             {{-- cardTitle(): «Аренда погрузчика» — первое слово из родительской
                  категории + название рубрики в родительном падеже (title_r). --}}

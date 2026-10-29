@@ -199,7 +199,7 @@ class RubricSeeder extends Seeder
             180 => 'разная техника',
         );
         foreach ($array as $key=>$value){
-            Rubric::updateOrCreate(['id'=>$key,'title'=>ucfirst($value),'parent_id'=>null,'level'=>0,'sort'=>1]);
+            Rubric::updateOrCreate(['title'=>ucfirst($value),'parent_id'=>null,'level'=>0,'sort'=>1]);
         }
     }
 }

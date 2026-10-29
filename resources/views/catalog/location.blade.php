@@ -185,11 +185,11 @@
                 // Район / адрес стоянки: локация объявления (+ область)
                 $district = $item->location?->title;
 
-                // Статус сделки: корневая рубрика — 1 «Аренда», 118 «Продажа»
+                // Статус сделки: корневая рубрика — 1000 «Аренда», 2000 «Продажа»
                 $rootRubricId = method_exists($item, 'parent_rubric')
                     ? ($item->parent_rubric()->id ?? null)
                     : null;
-                $dealType = $rootRubricId === 118 ? 'Продажа' : 'Аренда';
+                $dealType = $rootRubricId === 2000 ? 'Продажа' : 'Аренда';
 
                 // Фото: image | первая загруженная картинка | placeholder.
                 // Вывод — через глобальный хелпер resizeImage($url, W, H) → готовый src.

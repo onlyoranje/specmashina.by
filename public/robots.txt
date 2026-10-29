@@ -1,4 +1,34 @@
 User-agent: *
+Allow: /
 
-Disallow: /*location?page=
-Disallow: /*location?letter=
+# Технические страницы
+Allow: /robots.txt
+Allow: /sitemap.xml
+Allow: /favicon.ico
+
+# Формы и фильтры (не индексировать)
+Disallow: /*?*
+Disallow: /*page=*
+Disallow: /*letter=*
+Disallow: /*search=*
+Disallow: /*filter=*
+Disallow: /*sort=*
+Disallow: /*category_id=*
+Disallow: /*type=*
+Disallow: /*rubric_id=*
+Disallow: /*location_id=*
+Disallow: /*vendor_id=*
+
+# Страницы авторизации и личного кабинета
+Disallow: /login
+Disallow: /register
+Disallow: /password/reset
+Disallow: /dashboard
+
+# Раздел администрирования
+Disallow: /admin
+Disallow: /cp
+Disallow: /backup
+
+# Карта сайта
+Sitemap: https://specmashina.by/sitemap.xml

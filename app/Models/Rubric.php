@@ -11,7 +11,10 @@ class Rubric extends Model
 {
     use HasFactory;
     use NodeTrait;
-    protected $fillable=['title','title_r','parent_id','description', 'level','sort','icon'];
+    protected $fillable = [
+    'id', 'title', 'title_r', 'icon_svg', 'icon', 'description',
+    'parent_id', 'level', 'sort',
+];
     public function bbs() {
         return $this->hasMany(Bb::class);
     }

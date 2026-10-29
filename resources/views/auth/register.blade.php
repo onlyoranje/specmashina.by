@@ -33,14 +33,14 @@
         <div class="auth-field">
           <span class="auth-label" id="account-type-label">Тип аккаунта</span>
           <div class="auth-tabs" role="radiogroup" aria-labelledby="account-type-label">
-            <input class="auth-visually-hidden" type="radio" id="type-customer" name="account_type" value="customer"
+            <input class="auth-visually-hidden auth-check__input" type="radio" id="type-customer" name="account_type" value="customer"
                    @checked(old('account_type', 'customer') === 'customer')>
             <label class="auth-tabs__label" for="type-customer">
               <span class="auth-tabs__title">Я ищу технику</span>
               <span class="auth-tabs__hint">Заказчик</span>
             </label>
 
-            <input class="auth-visually-hidden" type="radio" id="type-owner" name="account_type" value="owner"
+            <input class="auth-visually-hidden auth-check__input" type="radio" id="type-owner" name="account_type" value="owner"
                    @checked(old('account_type') === 'owner')>
             <label class="auth-tabs__label" for="type-owner">
               <span class="auth-tabs__title">У меня свой парк</span>
@@ -142,7 +142,7 @@
         {{-- Юридическое согласие (обязательно для РБ) --}}
         <div class="auth-field auth-field--legal">
           <label class="auth-check auth-check--legal" for="agreement">
-            <input class="auth-visually-hidden" type="checkbox" id="agreement" name="agreement" value="1"
+            <input class="auth-visually-hidden auth-check__input" type="checkbox" id="agreement" name="agreement" value="1"
                    required
                    @checked(old('agreement'))>
             <span class="auth-check__box" aria-hidden="true"></span>

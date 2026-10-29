@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\URL;
 
 use Illuminate\Support\Facades\View;
 
+use Illuminate\Support\Facades\Mail;
 use App\Models\Location;
 use App\Models\Post;
 use App\Models\Rubric;
@@ -46,6 +47,32 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Почта / восстановление пароля.
+        //
+        // Symfony Mailer бросает исключение "An email must have a \"From\" or a
+        // \"Sender\" header.", если глобальный адрес отправителя пуст. Страхуем
+        // это на уровне приложения, даже если config('mail.from.address') пуст.
+        $fromAddress = config('mail.from.address') ?: 'no-reply@specmashina.by';
+        $fromName = config('mail.from.name') ?: config('app.name', 'SpecMashina.by');
+
+        config(['mail.from.address' => $fromAddress, 'mail.from.name' => $fromName]);
+        Mail::alwaysFrom($fromAddress, $fromName);
+
+        // Если SMTP не заполнен (пустые host/username/password — типично для
+        // локальной разработки/LAN), реальная отправка письма невозможна и
+        // приводла бы к ошибке транспорта. В этом случае пишем письма (в т.ч.
+        // ссылки восстановления пароля) в лог вместо попытки отправки.
+        if (config('mail.default') === 'smtp') {
+            $smtp = config('mail.mailers.smtp', []);
+            $host = trim((string) ($smtp['host'] ?? ''));
+            $username = trim((string) ($smtp['username'] ?? ''));
+            $password = trim((string) ($smtp['password'] ?? ''));
+
+            if ($host === '' || $username === '' || $password === '') {
+                config(['mail.default' => 'log']);
+            }
+        }
+
         //
         Paginator::useBootstrap();
 
@@ -59,19 +86,19 @@ class AppServiceProvider extends ServiceProvider
 
         // Шапка сайта: пункты меню «Аренда» и «Продажа» получают выпадающие
         // списки категорий 1-го уровня. Это дети корневых рубрик
-        // «Аренда» (id 1) и «Продажа» (id 118) — корни совпадают
+        // «Аренда» (id 1000) и «Продажа» (id 2000) — корни совпадают
         // с CatalogController::index().
         View::composer('components.header', function ($view) {
             $menuCategories = Rubric::query()
                 ->where('level', 1)
-                ->whereIn('parent_id', [1, 118])
+                ->whereIn('parent_id', [1000, 2000])
                 ->orderBy('sort')
                 ->orderBy('title')
                 ->get(['id', 'title', 'parent_id']);
 
             $view->with([
-                'rentMenuCategories' => $menuCategories->where('parent_id', 1)->values(),
-                'saleMenuCategories' => $menuCategories->where('parent_id', 118)->values(),
+                'rentMenuCategories' => $menuCategories->where('parent_id', 1000)->values(),
+                'saleMenuCategories' => $menuCategories->where('parent_id', 2000)->values(),
             ]);
         });
     }

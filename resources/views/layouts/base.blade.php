@@ -92,8 +92,13 @@
 @endif
 <!-- @vite(['resources/js/app.js'])-->
     <link rel="stylesheet" type="text/css" href="{{asset("vendor/cookie-consent/css/cookie-consent.css")}}">
+    @vite('resources/js/tracking/collector.js')
 </head>
+@php
+    $cookieRefused = isset($_COOKIE[config('cookie-consent.cookie_refuse_name')]) && $_COOKIE[config('cookie-consent.cookie_refuse_name')] == '1';
+@endphp
 <body class="{{ $isAdminArea ? 'admin-area' : '' }}">
+@if (!$cookieRefused)
 <!-- Google tag (gtag.js) -->
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-S960LS3E82"></script>
@@ -104,6 +109,7 @@
 
     gtag('config', 'G-S960LS3E82');
 </script>
+@endif
 @if ($isAdminArea)
     {{-- Шапка админки = шапка публичной части сайта: Blade-компонент
          resources/views/components/header.blade.php (тот же <x-header />, что и на
@@ -209,8 +215,8 @@
                     <div class="single-footer f-link">
                         <h3>Популярное</h3>
                         <ul>
-                            <li><a href="{{route('rubric',1)}}">Аренда техники</a></li>
-                            <li><a href="{{route('rubric',118)}}">Продажа техники</a></li>
+                            <li><a href="{{route('rubric',1000)}}">Аренда техники</a></li>
+                            <li><a href="{{route('rubric',2000)}}">Продажа техники</a></li>
                             <li><a href="{{route('organizations')}}">Организации</a></li>
                             <li><a href="{{route('posts')}}">Новости</a></li>
                             <li><a href="{{route('dashboard')}}">Регистрация</a></li>
@@ -247,6 +253,7 @@
                                 <li><a href="javascript:void(0)">Публичная оферта</a></li>
                                 <li><a href="javascript:void(0)">Карта сайта</a></li>
                                 <li><a href="javascript:void(0)">О нас</a></li>
+                                <li><a href="javascript:void(0)" class="cookie-settings-link" onclick="return false;">Настройки куки</a></li>
                             </ul>
                             <p class="copyright-text"><a href="/">Landi.by - Портал объявлений об аренде и продаже строительной техники и инструмента</a>
                             </p>
@@ -272,7 +279,6 @@
 </a>
 <div class="toast-container"></div>
 
-@include('cookie-consent::index')
 </body>
 @if (Request::routeIs(['post_add','post_dashboard','page_add','page_dashboard']))
 <script src="/assets/vendor/ckeditor5/build/ckeditor.js"></script>
@@ -326,6 +332,7 @@
 </script>
 
 <!-- Yandex.Metrika counter -->
+@if (!$cookieRefused)
 <script type="text/javascript" >
     (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();
@@ -343,6 +350,7 @@
 
 <noscript><div><img src="https://mc.yandex.ru/watch/98791848" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+@endif
     @endif
 
 </html>

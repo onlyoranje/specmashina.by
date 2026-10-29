@@ -27,6 +27,7 @@ export default defineConfig({
             'resources/sass/app.scss', // легаси-монолит старого сайта (Bootstrap и пр.)
             'resources/css/app.css',   // глобальные стили редизайна 2026 (source of truth)
             'resources/js/app.js',
+            'resources/js/tracking/collector.js', // трекер посетителей (куки, аналитика)
         ]),
     ],
 });

@@ -15,9 +15,10 @@
     - дата   -> created_at (дата публикации)
     - теги   -> BbParameters (до 4 шт.: «Масса: 20 т», «Ковш: 1.1 м³» …)
     - цена   -> bbprice: price + pricetype->type
-                 «руб/час»  -> бэйдж «Аренда»,  «Цена от X BYN / час»
-                 «руб/день» -> бэйдж «Аренда»,  «Цена от X BYN / смена»
-                 «руб»/нет  -> бэйдж «Продажа», «Цена X BYN»
+                 «руб/час»/«руб/день» -> «Цена от X BYN / час|смена» (есть период)
+                 «руб»/нет             -> «Цена X BYN» (без периода)
+    - плашка -> тип сделки задаёт РАЗДЕЛ (корневая рубрика): id 2000 «Продажа»,
+               иначе (id 1000) «Аренда». НЕ по единице цены — см. $isSale ниже.
     - ссылка -> route('listings.show', $listing->id)
 =========================================================================== --}}
 @props(['listing' => null, 'equipment' => null])
@@ -29,13 +30,26 @@
     $file  = $bb->images()->first();
     $price = $bb->bbprice;
     $unit  = $price?->pricetype?->type;               // «руб/час», «руб/день», «руб»
-    $isSale = ! $price || ! $unit || $unit === 'руб'; // продажа: цена без периода
 
-    // Период тарифа: «/ час» или «/ смена» (из «руб/час», «руб/день», «руб/…»)
+    // Тип сделки (плашка «Аренда»/«Продажа») задаёт РАЗДЕЛ — корневая рубрика
+    // объявления: id 2000 «Продажа», id 1000 «Аренда». Раньше плашка определялась
+    // по единице цены (type === 'руб' → «Продажа»), но в данных все цены имеют
+    // тип «руб» (нет «руб/час»/«руб/день»), из-за чего арендные объявления тоже
+    // получали плашку «Продажа». Логика согласована с CatalogController
+    // (rootId 2000/1000) и catalog/location.blade.php.
+    $rootRubricId = method_exists($bb, 'parent_rubric')
+        ? ($bb->parent_rubric()->id ?? null)
+        : null;
+    $isSale = $rootRubricId === 2000;
+
+    // Есть ли у цены период тарификации («руб/час», «руб/день») — от этого
+    // зависит ФОРМАТ цены («/ час», «/ смена»), а НЕ тип сделки. Тип «руб»
+    // (или отсутствие цены) — цена без периода.
+    $hasPeriod = (bool) $unit && $unit !== 'руб';
     $unitShort = 'час';
     if ($unit && str_contains($unit, 'день')) {
         $unitShort = 'смена';
-    } elseif ($unit) {
+    } elseif ($hasPeriod) {
         $unitShort = str_replace('руб/', '', $unit);
     }
 
@@ -92,13 +106,13 @@
     <div class="eq-card__action">
         <p class="eq-card__price-label">{{ $isSale ? 'Цена' : 'Цена от' }}</p>
 
-        @if ($isSale)
+        @if ($hasPeriod)
             <p class="eq-card__price">
-                {{ number_format($price?->price ?? 0, 0, '', ' ') }} <span>BYN</span>
+                от {{ number_format((float) $price->price, 0, '', ' ') }} <span>BYN / {{ $unitShort }}</span>
             </p>
         @else
             <p class="eq-card__price">
-                от {{ number_format((float) $price->price, 0, '', ' ') }} <span>BYN / {{ $unitShort }}</span>
+                {{ number_format($price?->price ?? 0, 0, '', ' ') }} <span>BYN</span>
             </p>
         @endif
 

@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Scout\Searchable;
 use App\Models\User;
 use Maize\Markable\Markable;
 use Maize\Markable\Models\Bookmark;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Bb extends Model
 {
-    use Searchable;
     use Markable;
 
     protected $fillable = ['title', 'content','search_text', 'rubric_id','location_id', 'vendor_id','organization_id','user_id','status_bb_id','previus_status','previous_status_bb_id','active','lifted_at'];
@@ -51,10 +49,6 @@ class Bb extends Model
     public function bbstatistic(){
         return $this->hasMany(BbStatistic::class);
     }
-    public function searchableAs(): string
-    {
-        return 'bbs_index';
-    }
     public function status_bb() {
         return $this->belongsTo(Status_bb::class);
     }
@@ -74,21 +68,13 @@ class Bb extends Model
        return $views;
     }
 
-    public function toSearchableArray(): array
-    {
-        $array = $this->toArray();
-
-        // Customize the data array...
-
-        return $array;
-    }
     public function admin_comment(){
         return $this->hasMany(BbAdminComments::class);
     }
-public function title(){
-    $title =$this->parent_rubric()->title." ".$this->rubric->title_r." ".$this->vendor->name." ".$this->title;
-    return $title;
-}
+    public function title(){
+        $title =$this->parent_rubric()->title." ".$this->rubric->title_r." ".$this->vendor->name." ".$this->title;
+        return $title;
+    }
 public function parent_rubric(){
     $parent_rubrics = Rubric::whereAncestorOrSelf($this->rubric_id)->orderBy('level')->get();
     $parent_rubric = $parent_rubrics[0];
@@ -154,7 +140,9 @@ public function parent_rubric(){
         {
             $text[] = $location->title;
         }
-        $text[] = $this->organization->title;
+        if ($this->organization_id) {
+            $text[] = optional($this->organization)->title;
+        }
         $this->fill(['search_text'=>implode(' ',$text)]);
         //dd($text);
         $this->save();

@@ -19,8 +19,8 @@ class CatalogController extends Controller
      * обе страницы: различаются $priceUnit (руб/час ↔ руб/смена) и $isSale.
      *
      * Корневые рубрики секций совпадают с RubricsController::location():
-     *   id 1   → «Аренда»
-     *   id 118 → «Продажа»
+     *   id 1000 → «Аренда»
+     *   id 2000 → «Продажа»
      *
      * ВСЕ фильтры (город, категория, сортировка, вид списка, пагинация)
      * работают без перезагрузки: тот же роут отвечает JSON с готовыми
@@ -66,7 +66,7 @@ class CatalogController extends Controller
     {
         // --- Секция: rent / sale (из первого сегмента URL) ---
         $isSale = ($request->segment(1) === 'sale');
-        $rootId = $isSale ? 118 : 1;
+        $rootId = $isSale ? 2000 : 1000;
 
         // Конкретная категория или корень секции.
         $rubricModel = $rubric
@@ -219,8 +219,8 @@ class CatalogController extends Controller
 
         return view('catalog.categories', [
             'pageTitle'      => 'Все категории спецтехники',
-            'rentCategories' => $cats->where('parent_id', 1)->values(),
-            'saleCategories' => $cats->where('parent_id', 118)->values(),
+            'rentCategories' => $cats->where('parent_id', 1000)->values(),
+            'saleCategories' => $cats->where('parent_id', 2000)->values(),
         ]);
     }
 

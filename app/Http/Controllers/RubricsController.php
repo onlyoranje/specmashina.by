@@ -108,11 +108,11 @@ redirect()->route('rubric',$id);
         $title = "Спецтехника в ".$location->title_r;
         if ($rubric){
             switch ($rubric->id) {
-                case 1:
+                case 1000:
                     $title  = "Аренда спецтехники в ".$location->title_r;
                     break;
 
-                case 118:
+                case 2000:
                     $title  = "Продажа спецтехники в ".$location->title_r;
                     break;
 
@@ -147,7 +147,9 @@ redirect()->route('rubric',$id);
             $level = (Rubric::find($request->parent_id)->level)+1;
         else
             $level=0;
-        Rubric::create(['title'=>$validated['title'],'title_r'=>$validated['title_r'],'icon'=>$request->icon,'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description]);
+        // Convert empty parent_id to null for root categories
+        $parentId = $request->parent_id ? $request->parent_id : null;
+        Rubric::create($request->only(['title', 'title_r', 'icon', 'parent_id', 'level', 'description']));
         return redirect()->route('rubric_dashboard');
     }
     public function editRubric(Request $request, Rubric $rubric){
@@ -156,7 +158,9 @@ redirect()->route('rubric',$id);
             $level = (Rubric::find($request->parent_id)->level)+1;
         else
             $level=0;
-        $rubric->fill(['title'=>$validated['title'],'icon'=>$request->icon, 'title_r'=>$request->title_r,'parent_id'=>$request->parent_id,'level'=>$level,'description'=>$request->description,'sort'=>$request->sort]);
+        // Convert empty parent_id to null for root categories
+        $parentId = $request->parent_id ? $request->parent_id : null;
+        $rubric->fill(['title'=>$validated['title'],'icon'=>$request->icon, 'title_r'=>$request->title_r,'parent_id'=>$parentId,'level'=>$level,'description'=>$request->description,'sort'=>$request->sort]);
         $rubric->save();
         return redirect()->route('rubric_dashboard');
     }

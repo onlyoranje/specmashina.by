@@ -1,66 +1,69 @@
-@extends('layouts.base')
+{{-- ==========================================================================
+  Восстановление пароля — запрос ссылки на сброс. landi.by.
+  Дизайн: скандинавский минимализм (референс — norwegian.com).
+  База: редизайн-лейаут (шапка/футер/токены), стили — public/css/auth.css.
+=========================================================================== --}}
+@extends('redesign.layouts.base')
 
-@section('title', 'Восстановление пароля')
-@section('main')
+@section('title', 'Восстановление пароля — ' . config('site.name', 'LANDI.BY'))
 
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endpush
 
-    <section class="login section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12">
-                    <div class="form-head">
-                        <h4 class="title">Восстановление пароля</h4>
-                        <form method="POST" action="{{ route('password.email') }}">
-                            @csrf
-                            <div class="form-group">
-                                <label>E-mail</label>
-                                <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>@error('email')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+@section('content')
 
+  <section class="auth-page">
+    <div class="auth-container">
 
-                            <div class="button">
-                                <button type="submit" class="btn"> Отправить</button>
-                            </div>
+      {{-- Логотип — ссылка на главную --}}
+      <a class="auth-logo" href="{{ url('/') }}" aria-label="LANDI.BY — на главную">
+        LANDI<span class="auth-logo__accent">.BY</span>
+      </a>
 
+      <h1 class="auth-title">Восстановление пароля</h1>
+      <p class="auth-subtitle">
+        Укажите электронную почту, на которую зарегистрирован аккаунт.
+        Мы отправим ссылку для создания нового пароля.
+      </p>
 
-                            <p class="outer-link">Вспомнили пароль? <a href="{{route('login')}}"> Войти</a>
-                            </p>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      {{-- Флеш-статус (например, «Ссылка для сброса пароля отправлена») --}}
+      @if (session('status'))
+        <p class="auth-status" role="status">{{ session('status') }}</p>
+      @endif
 
-
-{{--
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-    </div>
-
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('password.email') }}">
+      <form method="POST" action="{{ route('password.email') }}" class="auth-form">
         @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        {{-- Электронная почта --}}
+        <div class="auth-field">
+          <label class="auth-label" for="email">Электронная почта</label>
+          <input id="email"
+                 type="email"
+                 name="email"
+                 class="auth-input @error('email') auth-input--error @enderror"
+                 value="{{ old('email') }}"
+                 placeholder="you@example.com"
+                 required
+                 autocomplete="email"
+                 autofocus
+                 @error('email') aria-invalid="true" aria-describedby="email-error" @enderror>
+          @error('email')
+            <p class="auth-error" id="email-error" role="alert">{{ $message }}</p>
+          @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>--}}
+        {{-- Главная CTA --}}
+        <button type="submit" class="btn-auth">Отправить ссылку</button>
+      </form>
+
+      {{-- Переход на вход --}}
+      <p class="auth-footer">
+        Вспомнили пароль?
+        <a class="auth-footer__link" href="{{ route('login') }}">Войти</a>
+      </p>
+
+    </div>
+  </section>
+
 @endsection

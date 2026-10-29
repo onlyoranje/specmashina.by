@@ -212,7 +212,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Riverskies\Laravel\MobileDetect\MobileDetectServiceProvider::class,
-        Kudashevs\ShareButtons\Providers\ShareButtonsServiceProvider::class
+        Kudashevs\ShareButtons\Providers\ShareButtonsServiceProvider::class,
+        Spatie\CookieConsent\CookieConsentServiceProvider::class,
     ],
 
     /*

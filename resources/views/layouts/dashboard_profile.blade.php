@@ -47,6 +47,9 @@ $user = Auth::user();
                 <li><a class="{{ Request::routeIs('posts_dashboard') ? 'active' : null }}"  href="{{route('posts_dashboard')}}"><i class="fa-solid fa-newspaper"></i> Новости</a></li>
                 <li><a class="{{ Request::routeIs('pages_dashboard') ? 'active' : null }}"  href="{{route('pages_dashboard')}}"><i class="fa-solid fa-file-lines"></i> Статические страницы</a></li>
                 <li><a class="{{ Request::routeIs('banners_dashboard') ? 'active' : null }}"  href="{{route('banners_dashboard')}}"><i class="fa-solid fa-rectangle-ad"></i> Баннеры</a></li>
+                <li><a class="{{ Request::routeIs('settings.mail') ? 'active' : null }}" href="{{route('settings.mail')}}"><i class="fa-solid fa-envelope"></i> Настройки почты</a></li>
+                <li><a class="{{ Request::routeIs('settings.site') ? 'active' : null }}" href="{{route('settings.site')}}"><i class="fa-solid fa-sliders"></i> Настройка сайта</a></li>
+                <li><a class="{{ Request::routeIs('settings.seo') ? 'active' : null }}" href="{{route('settings.seo')}}"><i class="fa-solid fa-search"></i> Настройка SEO</a></li>
             @endif
         </ul>
         <div class="button">

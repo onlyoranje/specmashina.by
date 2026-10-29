@@ -32,7 +32,7 @@ return new class extends Migration
         $faker = Faker\Factory::create('en_US');
         $cats = array("Новинки","Выставки","Обзоры","Интервью","Рынок труда","Технологии");
         $tags = $faker->words(30,false);
-        for ($i = 1; $i < 150; $i++) {
+        for ($i = 1; $i < 5; $i++) {
 //$cat  = array_rand($cats,1);
 
 $tag = implode(',',$faker->words(10,false));
